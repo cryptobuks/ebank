@@ -113,12 +113,6 @@
           </stereotypeInstance>
         </appliedStereotypesInternal>
         <elementDefinition Id="acda8c8b-c6ca-400b-8589-8d45da121eb8" />
-        <suppliersInternal>
-          <dependency Id="b52f4ecc-66b1-4165-815e-6c46330d6bf3">
-            <enumerationMoniker Id="7c7e7bb1-6013-429c-9a5c-ca74da4824e9" LastKnownName="LoanPurpose" />
-            <elementDefinition Id="fe0f985f-d567-44d6-890a-f0e656cf4e17" />
-          </dependency>
-        </suppliersInternal>
         <targetEnds>
           <association Id="85a42f23-70f5-4d1b-b849-1eb200c85295" isDerived="false" sourceEndRoleName="Application" targetEndRoleName="Tariff" isLeaf="false" isAbstract="false">
             <classMoniker Id="6af765da-5ecb-48be-bea2-dbeab0edcea8" LastKnownName="Tariff" />
@@ -145,6 +139,22 @@
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="74d9f0ac-d7d7-454c-946c-d582f8e79530" />
+          </association>
+          <association Id="9c42ec47-e86e-4038-be87-5a71afc95dcc" isDerived="false" sourceEndRoleName="Application" targetEndRoleName="LoanPurpose" isLeaf="false" isAbstract="false">
+            <enumerationMoniker Id="7c7e7bb1-6013-429c-9a5c-ca74da4824e9" LastKnownName="LoanPurpose" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="410b053b-1cd7-4d0f-b0b6-f422a4a52308" name="Application" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="2e8f4f61-b297-479e-99f1-36ca4bc433a5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8f6e6567-efc6-4f90-8365-01214f95b6be" name="LoanPurpose" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="053994b4-fb7c-4a98-992d-312d8a03c47a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="40b59dca-7695-49c7-ba23-c80d956ad483" />
           </association>
         </targetEnds>
         <ownedAttributesInternal>

@@ -162,15 +162,6 @@
             </propertyInstances>
           </stereotypeInstance>
         </appliedStereotypesInternal>
-        <suppliersInternal>
-          <dependency
-            Id="fe0f985f-d567-44d6-890a-f0e656cf4e17">
-            <enumerationMoniker
-              Id="44d553fa-c166-4d7e-aff8-a2bc09bf34e0"
-              LastKnownName="LoanPurpose"
-              LastKnownLocation="ModelingProject.uml" />
-          </dependency>
-        </suppliersInternal>
         <targetEnds>
           <association
             Id="74d9f0ac-d7d7-454c-946c-d582f8e79530"
@@ -214,6 +205,45 @@
                 <memberEnd
                   Id="f50c0de7-7750-4335-9d80-859f61a14685"
                   name="Tariff"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="40b59dca-7695-49c7-ba23-c80d956ad483"
+            isDerived="false"
+            sourceEndRoleName="Application"
+            targetEndRoleName="LoanPurpose"
+            isLeaf="false"
+            isAbstract="false">
+            <enumerationMoniker
+              Id="44d553fa-c166-4d7e-aff8-a2bc09bf34e0"
+              LastKnownName="LoanPurpose"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="2e8f4f61-b297-479e-99f1-36ca4bc433a5"
+                  name="Application"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="053994b4-fb7c-4a98-992d-312d8a03c47a"
+                  name="LoanPurpose"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
