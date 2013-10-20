@@ -9,10 +9,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public enum CreditPurpose : int
+public class AccountOperation
 {
-	Common,
-	Car,
-	Education,
-	Housing,
+	public virtual object Amount
+	{
+		get;
+		set;
+	}
+
+	public virtual object Time
+	{
+		get;
+		set;
+	}
+
+	public virtual Account To
+	{
+		get;
+		set;
+	}
+
 }
+

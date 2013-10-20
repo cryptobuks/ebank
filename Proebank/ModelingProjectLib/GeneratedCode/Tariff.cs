@@ -89,13 +89,13 @@ public class Tariff
 		set;
 	}
 
-	public virtual object Purpose
+	public virtual object IsSecondaryDocumentNeeded
 	{
 		get;
 		set;
 	}
 
-	public virtual object Citizenship
+	public virtual LoanPurpose LoanPurpose
 	{
 		get;
 		set;

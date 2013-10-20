@@ -5,6 +5,8 @@ Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject", "Modeling
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelingProjectLib", "ModelingProjectLib\ModelingProjectLib.csproj", "{C502CD79-7192-4DFB-97E5-ED33D71611AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{3C96989A-EE4F-4564-9538-E764AA143CB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{C502CD79-7192-4DFB-97E5-ED33D71611AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C502CD79-7192-4DFB-97E5-ED33D71611AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C502CD79-7192-4DFB-97E5-ED33D71611AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C96989A-EE4F-4564-9538-E764AA143CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C96989A-EE4F-4564-9538-E764AA143CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C96989A-EE4F-4564-9538-E764AA143CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C96989A-EE4F-4564-9538-E764AA143CB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

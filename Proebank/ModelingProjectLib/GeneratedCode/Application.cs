@@ -11,12 +11,18 @@ using System.Text;
 
 public class Application
 {
-	public virtual object Id
+	/// <summary>
+	/// Application identity
+	/// </summary>
+	public virtual int Id
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Запрашиваемый размер кредита
+	/// </summary>
 	public virtual object LoanAmount
 	{
 		get;
@@ -29,6 +35,9 @@ public class Application
 		set;
 	}
 
+	/// <summary>
+	/// Срок, на который запрашивается кредит
+	/// </summary>
 	public virtual object Term
 	{
 		get;
@@ -36,12 +45,6 @@ public class Application
 	}
 
 	public virtual Tariff Tariff
-	{
-		get;
-		set;
-	}
-
-	public virtual CreditPurpose CreditPurpose
 	{
 		get;
 		set;
