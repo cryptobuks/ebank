@@ -35,5 +35,11 @@ public class Loan
 		set;
 	}
 
+	public virtual Account Future
+	{
+		get;
+		set;
+	}
+
 }
 

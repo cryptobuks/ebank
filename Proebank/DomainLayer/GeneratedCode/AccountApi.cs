@@ -26,5 +26,15 @@ public class AccountApi
 		throw new System.NotImplementedException();
 	}
 
+	public virtual void CreateAccount()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public virtual void CloseAccount()
+	{
+		throw new System.NotImplementedException();
+	}
+
 }
 

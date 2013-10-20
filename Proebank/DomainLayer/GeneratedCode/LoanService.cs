@@ -21,5 +21,10 @@ public class LoanService
 		throw new System.NotImplementedException();
 	}
 
+	public virtual void RegisterPayment()
+	{
+		throw new System.NotImplementedException();
+	}
+
 }
 
