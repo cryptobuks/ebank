@@ -50,5 +50,11 @@ public class Application
 		set;
 	}
 
+	public virtual LoanPurpose LoanPurpose
+	{
+		get;
+		set;
+	}
+
 }
 

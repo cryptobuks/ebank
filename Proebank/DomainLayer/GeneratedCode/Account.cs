@@ -17,7 +17,7 @@ public class Account
 		set;
 	}
 
-	public virtual object Id
+	public virtual object Balance
 	{
 		get;
 		set;
@@ -29,25 +29,7 @@ public class Account
 		set;
 	}
 
-	public virtual object Balance
-	{
-		get;
-		set;
-	}
-
 	public virtual Employee Employee
-	{
-		get;
-		set;
-	}
-
-	public virtual AccountType AccountType
-	{
-		get;
-		set;
-	}
-
-	public virtual AccountHistory AccountHistory
 	{
 		get;
 		set;

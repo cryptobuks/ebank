@@ -11,55 +11,25 @@ using System.Text;
 
 public class Loan
 {
-	public virtual object ContractSignedDate
-	{
-		get;
-		set;
-	}
-
-	public virtual object IssuanceDate
-	{
-		get;
-		set;
-	}
-
 	public virtual Application Application
 	{
 		get;
 		set;
 	}
 
-	public virtual IEnumerable<Payment> Payments
+	public virtual Account Accumulator3819
 	{
 		get;
 		set;
 	}
 
-	public virtual LoanAccountList CreditAccountList
+	public virtual Account Percentages
 	{
 		get;
 		set;
 	}
 
-	public virtual LoanAccountList DebitAccountList
-	{
-		get;
-		set;
-	}
-
-	public virtual Account GeneralDebtAccount
-	{
-		get;
-		set;
-	}
-
-	public virtual Account PercentagesAccount
-	{
-		get;
-		set;
-	}
-
-	public virtual Account AccumulatorAccount
+	public virtual Account GeneralDebt
 	{
 		get;
 		set;

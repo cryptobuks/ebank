@@ -9,42 +9,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Transaction
+public class LoanService
 {
-	public virtual object Id
+	public virtual void CreateLoanContract()
 	{
-		get;
-		set;
+		throw new System.NotImplementedException();
 	}
 
-	public virtual object Time
+	public virtual void CloseLoanContract()
 	{
-		get;
-		set;
-	}
-
-	public virtual object Amount
-	{
-		get;
-		set;
-	}
-
-	public virtual Account From
-	{
-		get;
-		set;
-	}
-
-	public virtual Account To
-	{
-		get;
-		set;
-	}
-
-	public virtual Employee CommitedBy
-	{
-		get;
-		set;
+		throw new System.NotImplementedException();
 	}
 
 }

@@ -11,10 +11,15 @@ using System.Text;
 
 public class ProcessingService
 {
-	public virtual LoanManager LoanManager
+	public virtual LoanService LoanManager
 	{
 		get;
 		set;
+	}
+
+	public virtual void CloseBankingDay()
+	{
+		throw new System.NotImplementedException();
 	}
 
 }

@@ -11,5 +11,20 @@ using System.Text;
 
 public class AccountApi
 {
+	public virtual void CommitTransaction()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public virtual void FindTransactionById()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public virtual void FindTransactionsBy()
+	{
+		throw new System.NotImplementedException();
+	}
+
 }
 
