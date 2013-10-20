@@ -9,21 +9,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Document
+public class Transaction : Transaction
 {
-	public virtual object Id
+	public override object Amount
 	{
 		get;
 		set;
 	}
 
-	public virtual object Number
+	public override object Time
 	{
 		get;
 		set;
 	}
 
-	public virtual Customer Person
+	public virtual Employee Employee
+	{
+		get;
+		set;
+	}
+
+	public virtual Account From
+	{
+		get;
+		set;
+	}
+
+	public virtual Account Account
 	{
 		get;
 		set;
