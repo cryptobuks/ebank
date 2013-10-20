@@ -4643,6 +4643,15 @@
             </propertyInstances>
           </stereotypeInstance>
         </appliedStereotypesInternal>
+        <suppliersInternal>
+          <dependency
+            Id="b4598672-89c5-4840-9182-0789309dbf4e">
+            <classMoniker
+              Id="750a6260-93b6-4af2-8342-7f338817f050"
+              LastKnownName="AccountApi"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+        </suppliersInternal>
         <targetEnds>
           <association
             Id="b33a1247-64ae-4b61-86f1-ef2f6d185687"

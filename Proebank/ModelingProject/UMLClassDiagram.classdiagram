@@ -3101,6 +3101,12 @@
           </stereotypeInstance>
         </appliedStereotypesInternal>
         <elementDefinition Id="da315c72-a105-48f4-8134-a55a6985c0f2" />
+        <suppliersInternal>
+          <dependency Id="6d771041-784f-469c-afe6-63ccdca52aa6">
+            <classMoniker Id="ed4c2212-9249-42e2-8d5c-e87fe0d58ef6" LastKnownName="AccountApi" />
+            <elementDefinition Id="b4598672-89c5-4840-9182-0789309dbf4e" />
+          </dependency>
+        </suppliersInternal>
         <targetEnds>
           <association Id="cd76887a-12f9-44e5-ab3f-66601983c301" isDerived="false" sourceEndRoleName="Transfer" targetEndRoleName="To" isLeaf="false" isAbstract="false">
             <classMoniker Id="c03048c2-3bae-4d6d-8227-d9aac1096798" LastKnownName="Account" />
