@@ -115,7 +115,7 @@
     <packageHasNamedElement>
       <class
         Id="acda8c8b-c6ca-400b-8589-8d45da121eb8"
-        name="Application"
+        name="LoanApplication"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -251,6 +251,58 @@
                   isDerivedUnion="false"
                   aggregation="None"
                   isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="befbd57f-3c9c-4315-bc91-25aed311f4c8"
+            isDerived="false"
+            sourceEndRoleName="LoanApplication"
+            targetEndRoleName="Documents"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="13c8a852-ae8d-4a79-a3bf-f8c17178e001"
+              LastKnownName="Document"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="25517610-a77b-4951-a29a-d91f20d7af44"
+                  name="LoanApplication"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="9807a984-804d-4732-8f04-c0179f54aa68"
+                  name="Documents"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="819c9ed0-c308-42e1-bb75-997b530039c5"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="2f8bca9b-d085-4b9b-99ce-c96bcddb57b9"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
@@ -2139,7 +2191,7 @@
             isAbstract="false">
             <classMoniker
               Id="acda8c8b-c6ca-400b-8589-8d45da121eb8"
-              LastKnownName="Application"
+              LastKnownName="LoanApplication"
               LastKnownLocation="ModelingProject.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -2889,7 +2941,7 @@
             isAbstract="false">
             <classMoniker
               Id="acda8c8b-c6ca-400b-8589-8d45da121eb8"
-              LastKnownName="Application"
+              LastKnownName="LoanApplication"
               LastKnownLocation="ModelingProject.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -3777,15 +3829,47 @@
             </propertyInstances>
           </stereotypeInstance>
         </appliedStereotypesInternal>
-        <suppliersInternal>
-          <dependency
-            Id="4e346a67-f0c1-4082-b445-1b7fda38a788">
+        <targetEnds>
+          <association
+            Id="71aaf315-196b-42dd-a2f8-ad323dc8ecad"
+            isDerived="false"
+            sourceEndRoleName="Employee"
+            targetEndRoleName="EmployeeRole"
+            isLeaf="false"
+            isAbstract="false">
             <enumerationMoniker
               Id="12fe7220-071b-48a6-9080-e7c2fccf657c"
               LastKnownName="EmployeeRole"
               LastKnownLocation="ModelingProject.uml" />
-          </dependency>
-        </suppliersInternal>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3c871ba1-4ad8-4b3e-90e9-1b2ef35f4b30"
+                  name="Employee"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="97197337-67df-430a-b5fc-4c0f630039ba"
+                  name="EmployeeRole"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
         <ownedAttributesInternal>
           <property
             Id="bd501fc3-9195-401f-a27d-bf363f3442cd"
@@ -5113,169 +5197,6 @@
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
-        Id="77f34f51-b3ed-436c-bc7a-64346e112e57"
-        name="ProcessingService"
-        isAbstract="false"
-        isLeaf="false"
-        isActiveClass="false">
-        <appliedStereotypesInternal>
-          <stereotypeInstance
-            Id="e2ad68f9-3a6d-4722-970d-2bbd78ba589a"
-            name="class"
-            profile="CSharpProfile">
-            <propertyInstances>
-              <stereotypeInstanceHasPropertyInstances
-                Id="d6695176-f80e-4361-989d-8b0c787401f3">
-                <propertyInstance
-                  Id="0d0bf56c-52ae-4c5f-9963-5c6d43872b4b"
-                  name="ClrAttributes" />
-              </stereotypeInstanceHasPropertyInstances>
-              <stereotypeInstanceHasPropertyInstances
-                Id="82767a6c-1340-4f60-bf11-fe74f6966d9e">
-                <propertyInstance
-                  Id="7d7b51ca-c4b3-4050-8beb-b57641767bb6"
-                  name="IsPartial"
-                  value="false" />
-              </stereotypeInstanceHasPropertyInstances>
-              <stereotypeInstanceHasPropertyInstances
-                Id="55f700ec-a953-468e-9666-33bed1df76ec">
-                <propertyInstance
-                  Id="87b623fd-0ae9-4c38-8944-e1bc38b8f52f"
-                  name="IsStatic"
-                  value="false" />
-              </stereotypeInstanceHasPropertyInstances>
-              <stereotypeInstanceHasPropertyInstances
-                Id="f24c2fd0-baba-46fe-9c92-c2c61b7cad03">
-                <propertyInstance
-                  Id="90e71c2b-81e1-4e3b-b2e5-07a7124b7072"
-                  name="IsUnsafe"
-                  value="false" />
-              </stereotypeInstanceHasPropertyInstances>
-              <stereotypeInstanceHasPropertyInstances
-                Id="de3c4567-73db-411f-82e3-21b02693f990">
-                <propertyInstance
-                  Id="33a3ada6-5d9d-47d5-a6cf-0fa8cd7b3801"
-                  name="PackageVisibility"
-                  value="internal" />
-              </stereotypeInstanceHasPropertyInstances>
-            </propertyInstances>
-          </stereotypeInstance>
-        </appliedStereotypesInternal>
-        <suppliersInternal>
-          <dependency
-            Id="34d66f1d-3d5b-4b42-bae3-5fcd52d7a1c7">
-            <classMoniker
-              Id="750a6260-93b6-4af2-8342-7f338817f050"
-              LastKnownName="AccountApi"
-              LastKnownLocation="ModelingProject.uml" />
-          </dependency>
-        </suppliersInternal>
-        <targetEnds>
-          <association
-            Id="0fd9e07f-4acd-4c74-a9ba-ff62493a6445"
-            isDerived="false"
-            sourceEndRoleName="ProcessingService"
-            targetEndRoleName="LoanManager"
-            isLeaf="false"
-            isAbstract="false">
-            <classMoniker
-              Id="95d4263c-907b-467e-8da1-166f34b041bc"
-              LastKnownName="LoanService"
-              LastKnownLocation="ModelingProject.uml" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="993a7033-55d8-4b61-ad50-c2795fb44048"
-                  name="ProcessingService"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="Composite"
-                  isComposite="false"
-                  isNavigableOwned="false" />
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="8d0063d3-7ae1-418d-8b1a-dd1de6bf90c7"
-                  name="LoanManager"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="true" />
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-          </association>
-        </targetEnds>
-        <ownedOperationsInternal>
-          <operation
-            Id="fcb347be-5546-4224-9026-3e35e51c4bae"
-            name="CloseBankingDay"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <appliedStereotypesInternal>
-              <stereotypeInstance
-                Id="3a34b15b-1bc2-410c-914a-352213d96fd6"
-                name="method"
-                profile="CSharpProfile">
-                <propertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="3a5a18a5-e1e3-4e3a-9920-55cd8c14a56e">
-                    <propertyInstance
-                      Id="a8afc2bf-4ca1-4ed2-a9a1-60d7a46fa696"
-                      name="ClrAttributes" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="f5a51728-67d5-49dc-ace6-b2fe17e5947c">
-                    <propertyInstance
-                      Id="a60e7c29-59eb-4cdc-a228-bd3096f6e539"
-                      name="IsPartial"
-                      value="false" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="b74dee59-3a1f-4ad5-a042-282e278c624e">
-                    <propertyInstance
-                      Id="c3ae2d79-ba56-4df3-81c8-7f8d2c2277ef"
-                      name="IsUnsafe"
-                      value="false" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="bba93cea-54d9-41bb-8344-4c89c3a1ddef">
-                    <propertyInstance
-                      Id="28b5074a-5872-48a3-a654-274a715e3a75"
-                      name="Inheritance"
-                      value="none" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="f7bc9d6d-3c26-43fa-8b6a-a4172bf5b3f7">
-                    <propertyInstance
-                      Id="7f30871a-577a-4de8-982e-5c950e3e4d92"
-                      name="PackageVisibility"
-                      value="internal" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="b6916e21-5136-4327-8822-7bbb65fadacb">
-                    <propertyInstance
-                      Id="fcc80187-36fe-468e-ba52-5057861ddf7e"
-                      name="params"
-                      value="false" />
-                  </stereotypeInstanceHasPropertyInstances>
-                </propertyInstances>
-              </stereotypeInstance>
-            </appliedStereotypesInternal>
-          </operation>
-        </ownedOperationsInternal>
-      </class>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <class
         Id="750a6260-93b6-4af2-8342-7f338817f050"
         name="AccountApi"
         isAbstract="false"
@@ -6362,7 +6283,7 @@
             isAbstract="false">
             <classMoniker
               Id="acda8c8b-c6ca-400b-8589-8d45da121eb8"
-              LastKnownName="Application"
+              LastKnownName="LoanApplication"
               LastKnownLocation="ModelingProject.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -6852,6 +6773,12 @@
           </property>
         </ownedAttributesInternal>
       </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="74d266d1-794c-4c26-9fa5-020729d2dd61"
+        LastKnownName="BankApi"
+        LastKnownLocation="Package_2147.uml" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

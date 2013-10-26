@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="74d266d1-794c-4c26-9fa5-020729d2dd61"
+  name="BankApi" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="77f34f51-b3ed-436c-bc7a-64346e112e57"
+        name="ProcessingService"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="e2ad68f9-3a6d-4722-970d-2bbd78ba589a"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="d6695176-f80e-4361-989d-8b0c787401f3">
+                <propertyInstance
+                  Id="0d0bf56c-52ae-4c5f-9963-5c6d43872b4b"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="82767a6c-1340-4f60-bf11-fe74f6966d9e">
+                <propertyInstance
+                  Id="7d7b51ca-c4b3-4050-8beb-b57641767bb6"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="55f700ec-a953-468e-9666-33bed1df76ec">
+                <propertyInstance
+                  Id="87b623fd-0ae9-4c38-8944-e1bc38b8f52f"
+                  name="IsStatic"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="f24c2fd0-baba-46fe-9c92-c2c61b7cad03">
+                <propertyInstance
+                  Id="90e71c2b-81e1-4e3b-b2e5-07a7124b7072"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="de3c4567-73db-411f-82e3-21b02693f990">
+                <propertyInstance
+                  Id="33a3ada6-5d9d-47d5-a6cf-0fa8cd7b3801"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <dependency
+            Id="34d66f1d-3d5b-4b42-bae3-5fcd52d7a1c7">
+            <classMoniker
+              Id="750a6260-93b6-4af2-8342-7f338817f050"
+              LastKnownName="AccountApi"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+        </suppliersInternal>
+        <targetEnds>
+          <association
+            Id="0fd9e07f-4acd-4c74-a9ba-ff62493a6445"
+            isDerived="false"
+            sourceEndRoleName="ProcessingService"
+            targetEndRoleName="LoanManager"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="95d4263c-907b-467e-8da1-166f34b041bc"
+              LastKnownName="LoanService"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="993a7033-55d8-4b61-ad50-c2795fb44048"
+                  name="ProcessingService"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8d0063d3-7ae1-418d-8b1a-dd1de6bf90c7"
+                  name="LoanManager"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedOperationsInternal>
+          <operation
+            Id="fcb347be-5546-4224-9026-3e35e51c4bae"
+            name="CloseBankingDay"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="3a34b15b-1bc2-410c-914a-352213d96fd6"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3a5a18a5-e1e3-4e3a-9920-55cd8c14a56e">
+                    <propertyInstance
+                      Id="a8afc2bf-4ca1-4ed2-a9a1-60d7a46fa696"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f5a51728-67d5-49dc-ace6-b2fe17e5947c">
+                    <propertyInstance
+                      Id="a60e7c29-59eb-4cdc-a228-bd3096f6e539"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b74dee59-3a1f-4ad5-a042-282e278c624e">
+                    <propertyInstance
+                      Id="c3ae2d79-ba56-4df3-81c8-7f8d2c2277ef"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="bba93cea-54d9-41bb-8344-4c89c3a1ddef">
+                    <propertyInstance
+                      Id="28b5074a-5872-48a3-a654-274a715e3a75"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f7bc9d6d-3c26-43fa-8b6a-a4172bf5b3f7">
+                    <propertyInstance
+                      Id="7f30871a-577a-4de8-982e-5c950e3e4d92"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b6916e21-5136-4327-8822-7bbb65fadacb">
+                    <propertyInstance
+                      Id="fcc80187-36fe-468e-ba52-5057861ddf7e"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

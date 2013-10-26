@@ -6,9 +6,9 @@ namespace UnitTests
     [TestClass]
     public class AccountApiUnitTest
     {
-        //[TestMethod]
-        //public void TestMethod1()
-        //{
-        //}
+        [TestMethod]
+        public void TestMethod1()
+        {
+        }
     }
 }
