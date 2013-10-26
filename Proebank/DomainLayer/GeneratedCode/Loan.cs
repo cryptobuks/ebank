@@ -11,31 +11,19 @@ using System.Text;
 
 public class Loan
 {
-	public virtual Application Application
+	public virtual LoanApplication Application
 	{
 		get;
 		set;
 	}
 
-	public virtual Account Accumulator3819
+	public virtual IEnumerable<Account> Accounts
 	{
 		get;
 		set;
 	}
 
-	public virtual Account Percentages
-	{
-		get;
-		set;
-	}
-
-	public virtual Account GeneralDebt
-	{
-		get;
-		set;
-	}
-
-	public virtual Account Future
+	public virtual PaymentCalendar PaymentCalendar
 	{
 		get;
 		set;

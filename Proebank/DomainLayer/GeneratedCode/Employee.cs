@@ -47,5 +47,11 @@ public class Employee
 		set;
 	}
 
+	public virtual EmployeeRole EmployeeRole
+	{
+		get;
+		set;
+	}
+
 }
 

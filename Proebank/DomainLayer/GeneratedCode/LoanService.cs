@@ -11,6 +11,12 @@ using System.Text;
 
 public class LoanService
 {
+	public virtual IEnumerable<Loan> Loans
+	{
+		get;
+		set;
+	}
+
 	public virtual void CreateLoanContract()
 	{
 		throw new System.NotImplementedException();

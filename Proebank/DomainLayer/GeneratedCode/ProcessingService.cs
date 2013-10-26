@@ -11,15 +11,16 @@ using System.Text;
 
 public class ProcessingService
 {
-	public virtual LoanService LoanManager
+	public virtual LoanService LoanService
 	{
 		get;
 		set;
 	}
 
-	public virtual void CloseBankingDay()
+	public virtual AccountApi AccountApi
 	{
-		throw new System.NotImplementedException();
+		get;
+		set;
 	}
 
 }

@@ -46,7 +46,7 @@
           <propertyInstance
             Id="902fa805-af10-4623-b914-510b00334d45"
             name="TemplateFilePath"
-            value="ClassTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4|EnumTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4|InterfaceTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\InterfaceTemplate.t4|StructTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+            value="ClassTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4|EnumTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4|InterfaceTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\InterfaceTemplate.t4|StructTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
         </stereotypeInstanceHasPropertyInstances>
         <stereotypeInstanceHasPropertyInstances
           Id="54c6a9ea-5d08-4973-ada8-7d3cf33546c2">
@@ -5610,6 +5610,60 @@
             </propertyInstances>
           </stereotypeInstance>
         </appliedStereotypesInternal>
+        <targetEnds>
+          <association
+            Id="8ed1dec1-cf3c-48b2-8710-4a10fbe4c160"
+            isDerived="false"
+            sourceEndRoleName="LoanService"
+            targetEndRoleName="Loans"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="3f0ea11b-7e87-434d-bca5-d9e98661e42c"
+              LastKnownName="Loan"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e6eb1827-a9bb-4a93-806b-be52b180d64e"
+                  name="LoanService"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="faa9a5cf-7fd3-44f1-8584-6309a78e1dfd"
+                  name="Loans"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="0ba8db2f-f908-4127-9295-76eb649a0e1a"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="ce7fd419-44cd-4a36-9cfe-33ca658d1eeb"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
         <ownedOperationsInternal>
           <operation
             Id="8cb19cd5-1e5f-4930-8bb6-1f73b4abb959"
@@ -6314,10 +6368,10 @@
             </relationshipOwnedElementsInternal>
           </association>
           <association
-            Id="7042d638-1dba-4039-bb6e-bfc56ab6d04e"
+            Id="f7fd7cc1-5e20-4c83-a080-92f3d45ad24b"
             isDerived="false"
             sourceEndRoleName="Loan"
-            targetEndRoleName="Accumulator3819"
+            targetEndRoleName="Accounts"
             isLeaf="false"
             isAbstract="false">
             <classMoniker
@@ -6327,7 +6381,7 @@
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="426ab82c-d677-480a-8042-14ca1ab6f04f"
+                  Id="a66c1867-3873-4afb-abb0-2a2bae483385"
                   name="Loan"
                   isLeaf="false"
                   isStatic="false"
@@ -6340,33 +6394,46 @@
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="f4221905-97b0-4b5f-87a7-bcce021b0106"
-                  name="Accumulator3819"
+                  Id="7b63678b-08e6-42d2-b036-cf1a39565bdd"
+                  name="Accounts"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
                   isDerived="false"
                   isDerivedUnion="false"
                   aggregation="None"
-                  isComposite="true" />
+                  isComposite="true">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="217a6f90-6ceb-4fb7-9cc7-5d771a8ea04e"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="19c28668-e788-42d1-b329-b38baffbd783"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
           <association
-            Id="3ba42e84-f5c9-487c-8d20-ea166a4a87f8"
+            Id="190c5299-60e9-4ecf-86f8-7620d72ef114"
             isDerived="false"
             sourceEndRoleName="Loan"
-            targetEndRoleName="Percentages"
+            targetEndRoleName="PaymentCalendar"
             isLeaf="false"
             isAbstract="false">
             <classMoniker
-              Id="87c51583-82de-424b-a7bb-ec22f907e98d"
-              LastKnownName="Account"
+              Id="f862e409-7a59-4412-85f7-0e4756e18880"
+              LastKnownName="PaymentCalendar"
               LastKnownLocation="ModelingProject.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="c57fd440-bab7-4d64-990e-016f518ddf15"
+                  Id="5a1a9b15-27d5-4ba3-b51c-356912ad1baf"
                   name="Loan"
                   isLeaf="false"
                   isStatic="false"
@@ -6379,86 +6446,8 @@
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="8f72c700-8ad7-48b9-ab2b-a5439a15c67c"
-                  name="Percentages"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="true" />
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-          </association>
-          <association
-            Id="95aeac9e-29f0-45f4-bd7f-652b3ab678e7"
-            isDerived="false"
-            sourceEndRoleName="Loan"
-            targetEndRoleName="GeneralDebt"
-            isLeaf="false"
-            isAbstract="false">
-            <classMoniker
-              Id="87c51583-82de-424b-a7bb-ec22f907e98d"
-              LastKnownName="Account"
-              LastKnownLocation="ModelingProject.uml" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="f9c6637c-85a0-4187-819d-c949609006d9"
-                  name="Loan"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="Composite"
-                  isComposite="false"
-                  isNavigableOwned="false" />
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="15a2385b-7fc1-4bc1-90b6-449a4112f7f8"
-                  name="GeneralDebt"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="true" />
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-          </association>
-          <association
-            Id="15bd3325-6847-4d09-ab47-2a82ba9fc0cd"
-            isDerived="false"
-            sourceEndRoleName="Loan"
-            targetEndRoleName="Future"
-            isLeaf="false"
-            isAbstract="false">
-            <classMoniker
-              Id="87c51583-82de-424b-a7bb-ec22f907e98d"
-              LastKnownName="Account"
-              LastKnownLocation="ModelingProject.uml" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="5f947463-d871-40e0-82dd-c850689d5cb7"
-                  name="Loan"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="Composite"
-                  isComposite="false"
-                  isNavigableOwned="false" />
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="39cf61a5-c597-43bf-89f5-0249769db957"
-                  name="Future"
+                  Id="7160c0c1-1c60-498b-9188-40a6efabd2a9"
+                  name="PaymentCalendar"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -6779,6 +6768,190 @@
         Id="74d266d1-794c-4c26-9fa5-020729d2dd61"
         LastKnownName="BankApi"
         LastKnownLocation="Package_2147.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="5250fa8e-bad4-496c-bbeb-33566c6061ba"
+        name="ProcessingService"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="723d9221-c709-4c61-8177-93eee18213c8"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="9b511653-3de9-4ef6-be94-d7f2658d5f12">
+                <propertyInstance
+                  Id="49ec2b90-7b04-4d64-a805-e1a1fd9eae2f"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="7f3da932-85ef-4650-8d87-c1cae4b916d3">
+                <propertyInstance
+                  Id="13f7dffd-e24a-4051-90c5-46fe9d0bc217"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a7fd49d3-b1f3-4501-9636-864f2e880682">
+                <propertyInstance
+                  Id="811ae57d-f366-4c06-ae85-1b6c23f4e5e6"
+                  name="IsStatic"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="96d7f7f3-5120-4ce8-9b08-e0f30293842a">
+                <propertyInstance
+                  Id="e3e45d2f-efce-4a1c-bcc5-37956c27cdd8"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="d964f4cc-2e39-4442-bb74-7d35c23ef472">
+                <propertyInstance
+                  Id="40af4aa2-5217-4269-b5a2-6c5293e8c40a"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <targetEnds>
+          <association
+            Id="3f3c743c-67d5-4d06-850d-52600009abde"
+            isDerived="false"
+            sourceEndRoleName="ProcService"
+            targetEndRoleName="LoanService"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="95d4263c-907b-467e-8da1-166f34b041bc"
+              LastKnownName="LoanService"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="96979498-be72-409e-9195-972ea05c6ccd"
+                  name="ProcService"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1ea339a8-a097-4cc7-b318-7b8ad06f2427"
+                  name="LoanService"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="bfb389b1-7a39-4b4e-87d6-22507ab962e6"
+            isDerived="false"
+            sourceEndRoleName="ProcService"
+            targetEndRoleName="AccountApi"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="750a6260-93b6-4af2-8342-7f338817f050"
+              LastKnownName="AccountApi"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b2f7d0e3-c5ba-470e-a78e-1981127e3281"
+                  name="ProcService"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="a363bc61-3857-455f-8ef6-24865fc9070a"
+                  name="AccountApi"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="f862e409-7a59-4412-85f7-0e4756e18880"
+        name="PaymentCalendar"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="8936b386-0980-40f0-b68e-22069b08932e"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="7b2ff2e5-269e-4116-ad2f-77f9ac94aab1">
+                <propertyInstance
+                  Id="72ac6ffa-f6f8-4fd8-8aff-d849f197eeef"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="6c02abb5-6101-4399-8395-bd8a2fccfd6f">
+                <propertyInstance
+                  Id="97e389da-a0b6-4d68-a6c6-96955b4ff53e"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="12149e93-147f-4c7b-8447-a7a795476f97">
+                <propertyInstance
+                  Id="2ef6006c-6aa0-492c-be11-1e6ca4ba33de"
+                  name="IsStatic"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="180b6def-7aad-42ed-b3ff-75f8ef5de91d">
+                <propertyInstance
+                  Id="34de95bd-3937-41f2-8088-9fdd6456e06a"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0683f8ac-46ae-492c-948d-5c5822229659">
+                <propertyInstance
+                  Id="5318d961-d085-47ae-9a17-ad1f17097345"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </class>
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

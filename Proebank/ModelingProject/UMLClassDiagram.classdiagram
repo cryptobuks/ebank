@@ -2765,6 +2765,34 @@
           </stereotypeInstance>
         </appliedStereotypesInternal>
         <elementDefinition Id="95d4263c-907b-467e-8da1-166f34b041bc" />
+        <targetEnds>
+          <association Id="6fa924bf-e518-4427-8c66-066e39def51f" isDerived="false" sourceEndRoleName="LoanService" targetEndRoleName="Loans" isLeaf="false" isAbstract="false">
+            <classMoniker Id="c488ee68-cdbb-4302-aca6-7088385638ed" LastKnownName="Loan" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e02c08fb-44f7-48e3-a181-2a877dee0b06" name="LoanService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="e6eb1827-a9bb-4a93-806b-be52b180d64e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0004a2c4-3d0b-4987-8476-3422b600687f" name="Loans" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="be9eecd3-c99d-42ed-8112-74e4e166abd9" name="Lower" value="*">
+                      <elementDefinition Id="0ba8db2f-f908-4127-9295-76eb649a0e1a" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="e6a87d20-1cd6-4510-aa2a-c09a961dc5c8" name="Upper" value="*">
+                      <elementDefinition Id="ce7fd419-44cd-4a36-9cfe-33ca658d1eeb" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="faa9a5cf-7fd3-44f1-8584-6309a78e1dfd" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="8ed1dec1-cf3c-48b2-8710-4a10fbe4c160" />
+          </association>
+        </targetEnds>
         <ownedOperationsInternal>
           <operation Id="3d9363d4-546c-4d7b-8363-2761142decf5" name="CreateLoanContract" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <appliedStereotypesInternal>
@@ -3214,69 +3242,47 @@
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="a51ff6d8-261d-458a-b4ac-27500fcf7188" />
           </association>
-          <association Id="24898bfc-ef7e-49b3-9050-d9deeb320a15" isDerived="false" sourceEndRoleName="Loan" targetEndRoleName="Accumulator3819" isLeaf="false" isAbstract="false">
+          <association Id="8e068fcd-d7b3-4cf9-a2b8-dfa8483bf87d" isDerived="false" sourceEndRoleName="Loan" targetEndRoleName="Accounts" isLeaf="false" isAbstract="false">
             <classMoniker Id="afd8a9ef-4313-403b-abbe-4d0460f427f6" LastKnownName="Account" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
-                <memberEnd Id="a18c97a0-1c16-4bee-9aba-1c09efbe5c85" name="Loan" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="426ab82c-d677-480a-8042-14ca1ab6f04f" />
+                <memberEnd Id="57907691-7fda-475c-9e1c-57512370b7ca" name="Loan" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="a66c1867-3873-4afb-abb0-2a2bae483385" />
                 </memberEnd>
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
-                <memberEnd Id="364d0273-0789-42f8-808c-533294d180a1" name="Accumulator3819" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
-                  <elementDefinition Id="f4221905-97b0-4b5f-87a7-bcce021b0106" />
+                <memberEnd Id="b82ce490-5b5a-4b25-8436-223e965e11c0" name="Accounts" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <lowerValueInternal>
+                    <literalString Id="3ed5f037-96d2-409a-9769-dfe99e387a6e" name="Lower" value="*">
+                      <elementDefinition Id="217a6f90-6ceb-4fb7-9cc7-5d771a8ea04e" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="1381eb5e-e64a-4b00-bbaf-475069e2319f" name="Upper" value="*">
+                      <elementDefinition Id="19c28668-e788-42d1-b329-b38baffbd783" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="7b63678b-08e6-42d2-b036-cf1a39565bdd" />
                 </memberEnd>
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
-            <elementDefinition Id="7042d638-1dba-4039-bb6e-bfc56ab6d04e" />
+            <elementDefinition Id="f7fd7cc1-5e20-4c83-a080-92f3d45ad24b" />
           </association>
-          <association Id="a467c437-156c-4799-8756-d1658c67016e" isDerived="false" sourceEndRoleName="Loan" targetEndRoleName="Percentages" isLeaf="false" isAbstract="false">
-            <classMoniker Id="afd8a9ef-4313-403b-abbe-4d0460f427f6" LastKnownName="Account" />
+          <association Id="68ea6e63-5aa4-43e6-8e6e-dd75d659a9f3" isDerived="false" sourceEndRoleName="Loan" targetEndRoleName="PaymentCalendar" isLeaf="false" isAbstract="false">
+            <classMoniker Id="07ce288d-b487-474c-9073-cdc6e9adada7" LastKnownName="PaymentCalendar" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
-                <memberEnd Id="b02906a8-611c-43fd-8d23-87bab0227e7c" name="Loan" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="c57fd440-bab7-4d64-990e-016f518ddf15" />
+                <memberEnd Id="bee253d3-75da-4d1a-8e2b-83d54e8350f4" name="Loan" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="5a1a9b15-27d5-4ba3-b51c-356912ad1baf" />
                 </memberEnd>
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
-                <memberEnd Id="b5cad263-8c79-4893-b089-4773912c1351" name="Percentages" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
-                  <elementDefinition Id="8f72c700-8ad7-48b9-ab2b-a5439a15c67c" />
+                <memberEnd Id="77cf2be1-e68e-43f4-b713-a208caffbb5f" name="PaymentCalendar" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="7160c0c1-1c60-498b-9188-40a6efabd2a9" />
                 </memberEnd>
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
-            <elementDefinition Id="3ba42e84-f5c9-487c-8d20-ea166a4a87f8" />
-          </association>
-          <association Id="45a7fc83-ebf2-400e-b646-6a16fbc7ee64" isDerived="false" sourceEndRoleName="Loan" targetEndRoleName="GeneralDebt" isLeaf="false" isAbstract="false">
-            <classMoniker Id="afd8a9ef-4313-403b-abbe-4d0460f427f6" LastKnownName="Account" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="3a448af3-124c-4b20-9cd7-a3eb9992b071" name="Loan" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="f9c6637c-85a0-4187-819d-c949609006d9" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="508047c6-6b86-4f4a-a94f-d8a89aea2907" name="GeneralDebt" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
-                  <elementDefinition Id="15a2385b-7fc1-4bc1-90b6-449a4112f7f8" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="95aeac9e-29f0-45f4-bd7f-652b3ab678e7" />
-          </association>
-          <association Id="7cd2946b-82f1-48dc-a477-1dc40ff8b683" isDerived="false" sourceEndRoleName="Loan" targetEndRoleName="Future" isLeaf="false" isAbstract="false">
-            <classMoniker Id="afd8a9ef-4313-403b-abbe-4d0460f427f6" LastKnownName="Account" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="ad0db3c2-99af-47ab-aee2-3b4fa0fde0d8" name="Loan" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="5f947463-d871-40e0-82dd-c850689d5cb7" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="7f0b8553-03d0-457c-8527-f27bd3775a83" name="Future" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
-                  <elementDefinition Id="39cf61a5-c597-43bf-89f5-0249769db957" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="15bd3325-6847-4d09-ab47-2a82ba9fc0cd" />
+            <elementDefinition Id="190c5299-60e9-4ecf-86f8-7620d72ef114" />
           </association>
         </targetEnds>
       </class>
@@ -3499,127 +3505,124 @@
         </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasPackages>
-      <package Id="76ec5f75-3654-4e33-9c94-2c0b078c3d63" name="BankApi">
-        <elementDefinition Id="74d266d1-794c-4c26-9fa5-020729d2dd61" />
-        <packagedElements>
-          <packageHasNamedElement>
-            <class Id="23b6adf7-c2f0-47b4-99ad-c30abdafb4a3" name="ProcessingService" isAbstract="false" isLeaf="false" isActiveClass="false">
-              <appliedStereotypesInternal>
-                <stereotypeInstance Id="974da8ea-7657-48b5-ac83-921c96b83062" name="class" profile="CSharpProfile">
-                  <elementDefinition Id="e2ad68f9-3a6d-4722-970d-2bbd78ba589a" />
-                  <propertyInstances>
-                    <stereotypeInstanceHasPropertyInstances Id="9c930e43-6f79-4638-9323-b26e6c828539">
-                      <propertyInstance Id="f777555e-5b34-4065-9096-f5ca1ea16e3d" name="ClrAttributes">
-                        <elementDefinition Id="0d0bf56c-52ae-4c5f-9963-5c6d43872b4b" />
-                      </propertyInstance>
-                      <elementDefinition Id="d6695176-f80e-4361-989d-8b0c787401f3" />
-                    </stereotypeInstanceHasPropertyInstances>
-                    <stereotypeInstanceHasPropertyInstances Id="c6f521c3-dee1-482b-b3e4-731098e57e34">
-                      <propertyInstance Id="5a719786-a5f8-49e2-b86b-c34f70ce9e42" name="IsPartial" value="false">
-                        <elementDefinition Id="7d7b51ca-c4b3-4050-8beb-b57641767bb6" />
-                      </propertyInstance>
-                      <elementDefinition Id="82767a6c-1340-4f60-bf11-fe74f6966d9e" />
-                    </stereotypeInstanceHasPropertyInstances>
-                    <stereotypeInstanceHasPropertyInstances Id="e47c8987-9e46-42ec-b2b6-fb484325cd68">
-                      <propertyInstance Id="634626aa-a02f-406b-87a0-2d4e6a9f475f" name="IsStatic" value="false">
-                        <elementDefinition Id="87b623fd-0ae9-4c38-8944-e1bc38b8f52f" />
-                      </propertyInstance>
-                      <elementDefinition Id="55f700ec-a953-468e-9666-33bed1df76ec" />
-                    </stereotypeInstanceHasPropertyInstances>
-                    <stereotypeInstanceHasPropertyInstances Id="8c3bbc4a-0663-4989-b882-d422870560e1">
-                      <propertyInstance Id="e29eae4a-ff27-403b-8621-429df4b00dd0" name="IsUnsafe" value="false">
-                        <elementDefinition Id="90e71c2b-81e1-4e3b-b2e5-07a7124b7072" />
-                      </propertyInstance>
-                      <elementDefinition Id="f24c2fd0-baba-46fe-9c92-c2c61b7cad03" />
-                    </stereotypeInstanceHasPropertyInstances>
-                    <stereotypeInstanceHasPropertyInstances Id="57746321-1179-4ef7-970a-d4895655ce78">
-                      <propertyInstance Id="78da3d07-2671-406d-a39b-53e167c012cb" name="PackageVisibility" value="internal">
-                        <elementDefinition Id="33a3ada6-5d9d-47d5-a6cf-0fa8cd7b3801" />
-                      </propertyInstance>
-                      <elementDefinition Id="de3c4567-73db-411f-82e3-21b02693f990" />
-                    </stereotypeInstanceHasPropertyInstances>
-                  </propertyInstances>
-                </stereotypeInstance>
-              </appliedStereotypesInternal>
-              <elementDefinition Id="77f34f51-b3ed-436c-bc7a-64346e112e57" />
-              <suppliersInternal>
-                <dependency Id="1a643693-e3cb-4388-8a2b-ac2fa7ffc7d2">
-                  <classMoniker Id="ed4c2212-9249-42e2-8d5c-e87fe0d58ef6" LastKnownName="AccountApi" />
-                  <elementDefinition Id="34d66f1d-3d5b-4b42-bae3-5fcd52d7a1c7" />
-                </dependency>
-              </suppliersInternal>
-              <targetEnds>
-                <association Id="d77202f1-74c4-441b-a51d-5485256b5727" isDerived="false" sourceEndRoleName="ProcessingService" targetEndRoleName="LoanManager" isLeaf="false" isAbstract="false">
-                  <classMoniker Id="e764bf03-d636-43b0-8a82-ed8990d63867" LastKnownName="LoanService" />
-                  <relationshipOwnedElementsInternal>
-                    <associationHasOwnedEnds>
-                      <memberEnd Id="318d76fe-dde8-4d13-9b95-cd0a922895cf" name="ProcessingService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
-                        <elementDefinition Id="993a7033-55d8-4b61-ad50-c2795fb44048" />
-                      </memberEnd>
-                    </associationHasOwnedEnds>
-                    <associationHasOwnedEnds>
-                      <memberEnd Id="c2d72d4c-9bf1-4d70-9a74-d86b6c92bbfe" name="LoanManager" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
-                        <elementDefinition Id="8d0063d3-7ae1-418d-8b1a-dd1de6bf90c7" />
-                      </memberEnd>
-                    </associationHasOwnedEnds>
-                  </relationshipOwnedElementsInternal>
-                  <elementDefinition Id="0fd9e07f-4acd-4c74-a9ba-ff62493a6445" />
-                </association>
-              </targetEnds>
-              <ownedOperationsInternal>
-                <operation Id="e779a515-805d-41cd-a38b-01f841384855" name="CloseBankingDay" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-                  <appliedStereotypesInternal>
-                    <stereotypeInstance Id="6f6af674-fc2b-433c-bbf4-93a8527f05db" name="method" profile="CSharpProfile">
-                      <elementDefinition Id="3a34b15b-1bc2-410c-914a-352213d96fd6" />
-                      <propertyInstances>
-                        <stereotypeInstanceHasPropertyInstances Id="39783aff-8e35-4cd3-b8a8-41530f193960">
-                          <propertyInstance Id="c022cb07-3460-4459-bbd6-98202dc78121" name="ClrAttributes">
-                            <elementDefinition Id="a8afc2bf-4ca1-4ed2-a9a1-60d7a46fa696" />
-                          </propertyInstance>
-                          <elementDefinition Id="3a5a18a5-e1e3-4e3a-9920-55cd8c14a56e" />
-                        </stereotypeInstanceHasPropertyInstances>
-                        <stereotypeInstanceHasPropertyInstances Id="366da2c6-143d-4d6c-970e-5ca69e617bc7">
-                          <propertyInstance Id="2b115cc9-939a-4033-bdf1-3ec2b5b70719" name="IsPartial" value="false">
-                            <elementDefinition Id="a60e7c29-59eb-4cdc-a228-bd3096f6e539" />
-                          </propertyInstance>
-                          <elementDefinition Id="f5a51728-67d5-49dc-ace6-b2fe17e5947c" />
-                        </stereotypeInstanceHasPropertyInstances>
-                        <stereotypeInstanceHasPropertyInstances Id="bbbd0bd9-f9e9-454e-96ca-8c9a6d9c7145">
-                          <propertyInstance Id="74b6eaaa-a469-474b-9f63-a3fa5012e501" name="IsUnsafe" value="false">
-                            <elementDefinition Id="c3ae2d79-ba56-4df3-81c8-7f8d2c2277ef" />
-                          </propertyInstance>
-                          <elementDefinition Id="b74dee59-3a1f-4ad5-a042-282e278c624e" />
-                        </stereotypeInstanceHasPropertyInstances>
-                        <stereotypeInstanceHasPropertyInstances Id="8d7f9dd5-fabe-40ff-92f9-5c2f66316a80">
-                          <propertyInstance Id="e5e58e48-535a-426e-8a90-4cdc39572c4c" name="Inheritance" value="none">
-                            <elementDefinition Id="28b5074a-5872-48a3-a654-274a715e3a75" />
-                          </propertyInstance>
-                          <elementDefinition Id="bba93cea-54d9-41bb-8344-4c89c3a1ddef" />
-                        </stereotypeInstanceHasPropertyInstances>
-                        <stereotypeInstanceHasPropertyInstances Id="0d7c0771-8ff1-4a73-bb95-5d09db8f29af">
-                          <propertyInstance Id="b54db027-8e97-4f08-b20d-e2882e97da69" name="PackageVisibility" value="internal">
-                            <elementDefinition Id="7f30871a-577a-4de8-982e-5c950e3e4d92" />
-                          </propertyInstance>
-                          <elementDefinition Id="f7bc9d6d-3c26-43fa-8b6a-a4172bf5b3f7" />
-                        </stereotypeInstanceHasPropertyInstances>
-                        <stereotypeInstanceHasPropertyInstances Id="407bca86-bc71-4355-a834-967955022404">
-                          <propertyInstance Id="1ac52868-dbf3-41fe-be3d-4a2bb08ac898" name="params" value="false">
-                            <elementDefinition Id="fcc80187-36fe-468e-ba52-5057861ddf7e" />
-                          </propertyInstance>
-                          <elementDefinition Id="b6916e21-5136-4327-8822-7bbb65fadacb" />
-                        </stereotypeInstanceHasPropertyInstances>
-                      </propertyInstances>
-                    </stereotypeInstance>
-                  </appliedStereotypesInternal>
-                  <elementDefinition Id="fcb347be-5546-4224-9026-3e35e51c4bae" />
-                </operation>
-              </ownedOperationsInternal>
-            </class>
-          </packageHasNamedElement>
-        </packagedElements>
-      </package>
-    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="3f02ad2d-8fb6-4cc7-a3fb-a87147df367e" name="ProcessingService" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance Id="80a6be89-8b4a-43e5-9521-371c31adc340" name="class" profile="CSharpProfile">
+            <elementDefinition Id="723d9221-c709-4c61-8177-93eee18213c8" />
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="c8164bfe-3dd8-4507-96be-775f89643192">
+                <propertyInstance Id="a932f7f3-96f8-4e44-b7bb-426b928948be" name="ClrAttributes">
+                  <elementDefinition Id="49ec2b90-7b04-4d64-a805-e1a1fd9eae2f" />
+                </propertyInstance>
+                <elementDefinition Id="9b511653-3de9-4ef6-be94-d7f2658d5f12" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="e9bdc27a-8647-4c65-9e5a-00c385c1636b">
+                <propertyInstance Id="4f050d58-1196-4e13-bb8e-636c90cf9328" name="IsPartial" value="false">
+                  <elementDefinition Id="13f7dffd-e24a-4051-90c5-46fe9d0bc217" />
+                </propertyInstance>
+                <elementDefinition Id="7f3da932-85ef-4650-8d87-c1cae4b916d3" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="4e374a91-9b00-4891-a01f-5d05f1a00e25">
+                <propertyInstance Id="d06c5429-30df-447a-b53b-4da1ff9feff2" name="IsStatic" value="false">
+                  <elementDefinition Id="811ae57d-f366-4c06-ae85-1b6c23f4e5e6" />
+                </propertyInstance>
+                <elementDefinition Id="a7fd49d3-b1f3-4501-9636-864f2e880682" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="306c7a3d-8739-44dd-851d-c44ed259cb28">
+                <propertyInstance Id="70347bfb-b138-40f0-acc5-9252c3fd1e2b" name="IsUnsafe" value="false">
+                  <elementDefinition Id="e3e45d2f-efce-4a1c-bcc5-37956c27cdd8" />
+                </propertyInstance>
+                <elementDefinition Id="96d7f7f3-5120-4ce8-9b08-e0f30293842a" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="53faf097-98cf-4a08-9f79-b832f331468f">
+                <propertyInstance Id="0b312ca1-2112-4436-b649-acc863d36776" name="PackageVisibility" value="internal">
+                  <elementDefinition Id="40af4aa2-5217-4269-b5a2-6c5293e8c40a" />
+                </propertyInstance>
+                <elementDefinition Id="d964f4cc-2e39-4442-bb74-7d35c23ef472" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <elementDefinition Id="5250fa8e-bad4-496c-bbeb-33566c6061ba" />
+        <targetEnds>
+          <association Id="d612c1ff-ee80-47f1-916d-c4941a6d142f" isDerived="false" sourceEndRoleName="ProcService" targetEndRoleName="LoanService" isLeaf="false" isAbstract="false">
+            <classMoniker Id="e764bf03-d636-43b0-8a82-ed8990d63867" LastKnownName="LoanService" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5d01401a-3e6f-42aa-b31f-f9382b59429c" name="ProcService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="96979498-be72-409e-9195-972ea05c6ccd" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="c683205c-2a42-45ca-8256-f47994ab19fd" name="LoanService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="1ea339a8-a097-4cc7-b318-7b8ad06f2427" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="3f3c743c-67d5-4d06-850d-52600009abde" />
+          </association>
+          <association Id="1976e966-692e-42ef-b4f7-390bc9d09ee6" isDerived="false" sourceEndRoleName="ProcService" targetEndRoleName="AccountApi" isLeaf="false" isAbstract="false">
+            <classMoniker Id="ed4c2212-9249-42e2-8d5c-e87fe0d58ef6" LastKnownName="AccountApi" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="db8bd9f4-12a7-4d70-98f6-9fab26c7c59c" name="ProcService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="b2f7d0e3-c5ba-470e-a78e-1981127e3281" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3fb57f92-271e-4348-8d7b-e830a7825536" name="AccountApi" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a363bc61-3857-455f-8ef6-24865fc9070a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="bfb389b1-7a39-4b4e-87d6-22507ab962e6" />
+          </association>
+        </targetEnds>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="07ce288d-b487-474c-9073-cdc6e9adada7" name="PaymentCalendar" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance Id="174ffd68-516e-4aeb-922b-f4f048bf2235" name="class" profile="CSharpProfile">
+            <elementDefinition Id="8936b386-0980-40f0-b68e-22069b08932e" />
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="df4e4c97-e329-483a-b1b8-c2c47f1ee447">
+                <propertyInstance Id="a6d7d18d-8a78-445d-bdd6-fb9ecf1870b6" name="ClrAttributes">
+                  <elementDefinition Id="72ac6ffa-f6f8-4fd8-8aff-d849f197eeef" />
+                </propertyInstance>
+                <elementDefinition Id="7b2ff2e5-269e-4116-ad2f-77f9ac94aab1" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="0fd241f7-4b81-4279-ba37-349c220ec081">
+                <propertyInstance Id="94d08ca0-99f0-4202-ac0b-38d7c30b0761" name="IsPartial" value="false">
+                  <elementDefinition Id="97e389da-a0b6-4d68-a6c6-96955b4ff53e" />
+                </propertyInstance>
+                <elementDefinition Id="6c02abb5-6101-4399-8395-bd8a2fccfd6f" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="0764d1b9-7c76-4cf7-b52d-aecae784761c">
+                <propertyInstance Id="1c2b90aa-3478-46a8-96ed-d45d1465722e" name="IsStatic" value="false">
+                  <elementDefinition Id="2ef6006c-6aa0-492c-be11-1e6ca4ba33de" />
+                </propertyInstance>
+                <elementDefinition Id="12149e93-147f-4c7b-8447-a7a795476f97" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="26b7da0e-e799-4c9d-8a9c-0e5511e9dee1">
+                <propertyInstance Id="adbcb2ac-04a7-498d-92f8-0557e5991aba" name="IsUnsafe" value="false">
+                  <elementDefinition Id="34de95bd-3937-41f2-8088-9fdd6456e06a" />
+                </propertyInstance>
+                <elementDefinition Id="180b6def-7aad-42ed-b3ff-75f8ef5de91d" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="4bbc7f06-d96c-45a7-8884-a6b169d33cf1">
+                <propertyInstance Id="f6b79bbc-111c-4922-b9eb-d03b8cd9f4a1" name="PackageVisibility" value="internal">
+                  <elementDefinition Id="5318d961-d085-47ae-9a17-ad1f17097345" />
+                </propertyInstance>
+                <elementDefinition Id="0683f8ac-46ae-492c-948d-5c5822229659" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <elementDefinition Id="f862e409-7a59-4412-85f7-0e4756e18880" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="180b479a-083d-4a43-a87f-7ce86bf8bba7" name="ModelingProject">
     <elementDefinition Id="ea48387c-c0f1-4f55-9061-732115c8cd0a" />
