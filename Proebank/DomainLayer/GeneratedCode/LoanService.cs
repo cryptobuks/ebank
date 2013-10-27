@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class LoanService
+internal class LoanService
 {
 	public virtual IEnumerable<Loan> Loans
 	{

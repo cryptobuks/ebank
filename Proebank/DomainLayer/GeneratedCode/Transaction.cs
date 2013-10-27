@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Transaction
+internal class Transaction
 {
 	public virtual object Id
 	{

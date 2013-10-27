@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class ProcessingService
+internal class ProcessingService
 {
 	public virtual LoanService LoanService
 	{
@@ -17,7 +17,7 @@ public class ProcessingService
 		set;
 	}
 
-	public virtual AccountApi AccountApi
+	public virtual AccountService AccountService
 	{
 		get;
 		set;

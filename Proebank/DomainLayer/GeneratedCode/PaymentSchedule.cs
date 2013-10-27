@@ -9,24 +9,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class AccountOperation
+internal class PaymentSchedule
 {
-	public virtual object Amount
+	public virtual object Id
 	{
 		get;
 		set;
 	}
 
-	public virtual object Time
+	public virtual IEnumerable<Payment> Payments
 	{
 		get;
 		set;
 	}
 
-	public virtual Account To
+	public virtual void AddPayment()
 	{
-		get;
-		set;
+		throw new System.NotImplementedException();
 	}
 
 }

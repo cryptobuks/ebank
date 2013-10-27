@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Customer
+internal class Customer
 {
 	public virtual object IdentificationNumber
 	{

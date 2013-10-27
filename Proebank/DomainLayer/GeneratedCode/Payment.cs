@@ -9,15 +9,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Payment : AccountOperation
+internal class Payment
 {
-	public virtual Employee Employee
+	public virtual object Date
 	{
 		get;
 		set;
 	}
 
-	public virtual Account From
+	public virtual object Id
+	{
+		get;
+		set;
+	}
+
+	public virtual PaymentType PaymentType
 	{
 		get;
 		set;

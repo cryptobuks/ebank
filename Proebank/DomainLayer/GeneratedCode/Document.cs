@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Document
+internal class Document
 {
 	public virtual object Id
 	{

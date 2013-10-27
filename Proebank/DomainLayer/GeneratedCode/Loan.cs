@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Loan
+internal class Loan
 {
 	public virtual LoanApplication Application
 	{
@@ -23,7 +23,7 @@ public class Loan
 		set;
 	}
 
-	public virtual PaymentCalendar PaymentCalendar
+	public virtual PaymentSchedule PaymentSchedule
 	{
 		get;
 		set;

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class LoanApplication
+internal class LoanApplication
 {
 	/// <summary>
 	/// Application identity

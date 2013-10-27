@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class Tariff
+internal class Tariff
 {
 	public virtual object Id
 	{
