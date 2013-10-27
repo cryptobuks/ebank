@@ -8,7 +8,7 @@ namespace CrossCutting.Interfaces
 {
     public interface IAccount
     {
-        Guid Id { get; set; }
+        Guid Id { get; }
         
         string Number { get; set; }
 

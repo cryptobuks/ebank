@@ -33,10 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -68,6 +68,10 @@
     <ProjectReference Include="..\..\CrossCuttingLayer\CrossCutting\CrossCutting.csproj">
       <Project>{067bb171-f6de-4407-b48f-263731ade0a5}</Project>
       <Name>CrossCutting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DomainLayer\RepositoriesContracts\RepositoriesContracts.csproj">
+      <Project>{f9570d05-868d-4dd5-955f-b99cd568b644}</Project>
+      <Name>RepositoriesContracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

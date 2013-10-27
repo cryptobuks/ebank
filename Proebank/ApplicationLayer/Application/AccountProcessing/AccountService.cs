@@ -1,5 +1,6 @@
-﻿using DomainLayer.Models;
-using DomainLayer.RepositoriesContracts;
+﻿using CrossCutting.Interfaces;
+using DomainLayer.Models;
+using RepositoriesContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,14 @@ using System.Threading.Tasks;
 
 namespace ApplicationLayer.AccountProcessing
 {
-    class AccountService
+    public class AccountService
     {
         private readonly IAccountRepository _repository;
+
+        public AccountService(IAccountRepository accountRepository)
+        {
+            _repository = accountRepository;
+        }
 
         public void CommitTransaction(TransactionModel transaction)
         {
@@ -29,7 +35,11 @@ namespace ApplicationLayer.AccountProcessing
 
         public AccountModel CreateAccount()
         {
-            throw new System.NotImplementedException();
+            // TODO: Полная чушь, надо переписать
+            var iAcc = _repository.Build("3819xxx", null);
+            var acc = new AccountModel(iAcc);
+            var savedEntity = _repository.SaveOrUpdate(acc.Entity);
+            return savedEntity != null ? acc: null;
         }
 
         public void CloseAccount()

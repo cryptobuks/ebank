@@ -73,9 +73,6 @@
     <Compile Include="Models\TariffModel.cs" />
     <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoriesContracts\IAccountRepository.cs" />
-    <Compile Include="RepositoriesContracts\ILoanRepository.cs" />
-    <Compile Include="RepositoriesContracts\IRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrossCuttingLayer\CrossCutting\CrossCutting.csproj">

@@ -55,6 +55,10 @@
       <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\DomainLayer\RepositoriesContracts\RepositoriesContracts.csproj">
+      <Project>{f9570d05-868d-4dd5-955f-b99cd568b644}</Project>
+      <Name>RepositoriesContracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
