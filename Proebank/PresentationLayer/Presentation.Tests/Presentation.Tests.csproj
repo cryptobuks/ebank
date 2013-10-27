@@ -101,17 +101,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ApplicationLayer\ApplicationLayer.csproj">
+    <ProjectReference Include="..\..\ApplicationLayer\Application\Application.csproj">
       <Project>{a7714003-3a01-40cb-9177-9612fbacf735}</Project>
-      <Name>ApplicationLayer</Name>
+      <Name>Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DomainLayer\DomainLayer.csproj">
+    <ProjectReference Include="..\..\DomainLayer\Domain\Domain.csproj">
       <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
-      <Name>DomainLayer</Name>
+      <Name>Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PresentationLayer\PresentationLayer.csproj">
-      <Project>{CC9336C4-426C-43E6-8E49-D16D583A16F3}</Project>
-      <Name>PresentationLayer</Name>
+    <ProjectReference Include="..\Presentation\Presentation.csproj">
+      <Project>{c22713d0-c493-412b-9680-7b18ec7327d6}</Project>
+      <Name>Presentation</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

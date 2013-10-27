@@ -65,9 +65,9 @@
     <Compile Include="LoanTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DomainLayer\DomainLayer.csproj">
+    <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
-      <Name>DomainLayer</Name>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

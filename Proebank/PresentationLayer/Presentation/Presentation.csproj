@@ -253,13 +253,13 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ApplicationLayer\ApplicationLayer.csproj">
+    <ProjectReference Include="..\..\ApplicationLayer\Application\Application.csproj">
       <Project>{a7714003-3a01-40cb-9177-9612fbacf735}</Project>
-      <Name>ApplicationLayer</Name>
+      <Name>Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DomainLayer\DomainLayer.csproj">
+    <ProjectReference Include="..\..\DomainLayer\Domain\Domain.csproj">
       <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
-      <Name>DomainLayer</Name>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

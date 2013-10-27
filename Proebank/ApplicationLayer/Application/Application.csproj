@@ -47,17 +47,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossCutting\CrossCutting.csproj">
+    <ProjectReference Include="..\..\CrossCuttingLayer\CrossCutting\CrossCutting.csproj">
       <Project>{067bb171-f6de-4407-b48f-263731ade0a5}</Project>
       <Name>CrossCutting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DomainLayer\DomainLayer.csproj">
+    <ProjectReference Include="..\..\DomainLayer\Domain\Domain.csproj">
       <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
-      <Name>DomainLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\InfrastructureLayer\InfrastructureLayer.csproj">
-      <Project>{ba1096a4-e462-4097-863c-917c15dede21}</Project>
-      <Name>InfrastructureLayer</Name>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

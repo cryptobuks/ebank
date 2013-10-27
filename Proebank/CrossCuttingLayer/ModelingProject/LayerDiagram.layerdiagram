@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="b0f9820b-88ff-4d75-9d0c-a3d9146c35bb" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="c8b481e9-970f-48a2-8fa8-3b605c4ef8b7" name="ApplicationLayer">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="a312de97-49bb-448e-bb73-fce5224f139c" direction="Forward">
+          <layerMoniker Id="cd0ed716-9e4a-4fcf-a9a1-e76400f733dd" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="8b218c6a-701e-467b-b783-f82682b6cece" direction="Forward">
+          <layerMoniker Id="9fd7410d-b5e0-47b6-bf67-229c056ae2c6" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+      <references>
+        <reference Id="49e95f27-d174-4d99-a221-283cfa029217" name="ApplicationLayer">
+          <ArtifactNode Label="ApplicationLayer" Category="CodeSchema_Project" Id="(Assembly=../../ApplicationLayer)">
+            <Category Ref="SolutionFolder" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=ApplicationLayer)" Label="ApplicationLayer.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+      </references>
+    </layer>
+    <layer Id="9fd7410d-b5e0-47b6-bf67-229c056ae2c6" name="CrossCuttingLayer">
+      <references>
+        <reference Id="d20f626b-cc5d-4d77-8b1a-35ba1c0a3a7b" name="CrossCuttingLayer">
+          <ArtifactNode Label="CrossCuttingLayer" Category="CodeSchema_Project" Id="(Assembly=../../CrossCuttingLayer)">
+            <Category Ref="SolutionFolder" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=CrossCutting)" Label="CrossCutting.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+      </references>
+    </layer>
+    <layer Id="cd0ed716-9e4a-4fcf-a9a1-e76400f733dd" name="DomainLayer">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="2d49f82e-3be3-419f-9e2e-34ba0bcaf0bf" direction="Forward">
+          <layerMoniker Id="9fd7410d-b5e0-47b6-bf67-229c056ae2c6" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+      <references>
+        <reference Id="1fe66dbb-9525-41a0-8cf7-814598f26659" name="DomainLayer">
+          <ArtifactNode Label="DomainLayer" Category="CodeSchema_Project" Id="(Assembly=../../DomainLayer)">
+            <Category Ref="SolutionFolder" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=DomainLayer.Tests)" Label="DomainLayer.Tests.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+          <ExpandedNode Id="(Assembly=RepositoriesContracts)" Label="RepositoriesContracts.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+          <ExpandedNode Id="(Assembly=DomainLayer)" Label="DomainLayer.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+      </references>
+    </layer>
+    <layer Id="26e4cc02-802f-4c71-b33b-134370840819" name="InfrastructureLayer">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="af8e30bd-7feb-4aa8-b86d-aea66598b6ac" direction="Forward">
+          <layerMoniker Id="9fd7410d-b5e0-47b6-bf67-229c056ae2c6" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+      <references>
+        <reference Id="e24f251b-3f8d-49d6-831d-3625c6e534e4" name="InfrastructureLayer">
+          <ArtifactNode Label="InfrastructureLayer" Category="CodeSchema_Project" Id="(Assembly=../../InfrastructureLayer)">
+            <Category Ref="SolutionFolder" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=InfrastructureLayer)" Label="InfrastructureLayer.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+      </references>
+    </layer>
+    <layer Id="292bc707-578c-4027-ae1d-77fa43a407ff" name="PresentationLayer">
+      <references>
+        <reference Id="3aab38b6-e6c9-46e3-a4d9-923cf92693f7" name="PresentationLayer">
+          <ArtifactNode Label="PresentationLayer" Category="CodeSchema_Project" Id="(Assembly=../../PresentationLayer)">
+            <Category Ref="SolutionFolder" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=PresentationLayer.Tests)" Label="PresentationLayer.Tests.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+          <ExpandedNode Id="(Assembly=PresentationLayer)" Label="PresentationLayer.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+      </references>
+    </layer>
+  </layers>
+</layerModel>
