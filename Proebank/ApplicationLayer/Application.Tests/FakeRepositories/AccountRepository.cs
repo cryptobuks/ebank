@@ -60,12 +60,5 @@ namespace Application.Tests.FakeRepositories
         {
             _accounts.Remove(entity);
         }
-
-        // TODO: улучшить модель - добавить класс для выбора номера счёта и остальные TODO писать на английском. Или не писать :)
-        // TODO: убрать этот метод или изменить сигнатуру, в т.ч. и создание гуида снаружи
-        public IAccount Build(string number, IEmployee employee)
-        {
-            return new Account(Guid.NewGuid()) {Balance = 0, CreationDate = DateTime.Now, Employee = employee, Number = number};
-        }
     }
 }

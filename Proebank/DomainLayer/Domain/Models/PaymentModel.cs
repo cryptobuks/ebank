@@ -7,8 +7,42 @@ using System.Threading.Tasks;
 
 namespace DomainLayer.Models
 {
-    public class PaymentModel
+    public class PaymentModel : IPayment
     {
-        private IPayment _payment;
+        public Guid Id
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public DateTime Date
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public PaymentType PaymentType
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

@@ -36,9 +36,8 @@ namespace ApplicationLayer.AccountProcessing
         public AccountModel CreateAccount()
         {
             // TODO: Полная чушь, надо переписать
-            var iAcc = _repository.Build("3819xxx", null);
-            var acc = new AccountModel(iAcc);
-            var savedEntity = _repository.SaveOrUpdate(acc.Entity);
+            var acc = new AccountModel { Id = Guid.NewGuid(), Number = "3819xxx" };
+            var savedEntity = _repository.SaveOrUpdate(acc);
             return savedEntity != null ? acc: null;
         }
 

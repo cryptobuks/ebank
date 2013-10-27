@@ -7,8 +7,59 @@ using System.Threading.Tasks;
 
 namespace DomainLayer.Models
 {
-    public class TransactionModel
+    public class TransactionModel : IAccount
     {
-        private ITransaction _transaction;
+        public Guid Id
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string Number
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public decimal Balance
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public DateTime CreationDate
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IEmployee Employee
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

@@ -7,16 +7,14 @@ using System.Threading.Tasks;
 
 namespace DomainLayer.Models
 {
-    public class LoanModel
+    public class LoanModel : ILoan
     {
-        private ILoan _loan;
-
         public Guid Id { get; set; }
 
-        public LoanApplicationModel Application { get; set; }
+        public ILoanApplication Application { get; set; }
 
-        public IEnumerable<AccountModel> Accounts { get; set; }
+        public IEnumerable<IAccount> Accounts { get; set; }
 
-        public PaymentScheduleModel PaymentSchedule { get; set; }
+        public IPaymentSchedule PaymentSchedule { get; set; }
     }
 }

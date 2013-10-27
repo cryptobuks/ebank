@@ -7,8 +7,35 @@ using System.Threading.Tasks;
 
 namespace DomainLayer.Models
 {
-    public class PaymentScheduleModel
+    public class PaymentScheduleModel : IPaymentSchedule
     {
-        private IPaymentSchedule _schedule;
+        public long Id
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IEnumerable<IPayment> Payments
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Guid AddPayment()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

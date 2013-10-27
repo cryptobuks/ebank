@@ -1,4 +1,4 @@
-﻿using InfrastructureLayer.Entities;
+﻿using CrossCutting.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,9 +10,9 @@ namespace InfrastructureLayer
 {
     class DataContext : DbContext
     {
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<IAccount> Accounts { get; set; }
 
-        public DbSet<Loan> Loans { get; set; }
+        public DbSet<ILoan> Loans { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

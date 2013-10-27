@@ -1,30 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CrossCutting.Interfaces;
-using InfrastructureLayer.Entities;
 using RepositoriesContracts;
 
 namespace InfrastructureLayer.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-
-        public IAccount Build(string number, IEmployee employee)
-        {
-            IAccount acc = new Account
-            {
-                Balance = 0,
-                CreationDate = DateTime.Now,
-                Employee = employee,
-                Id = Guid.NewGuid(),
-                Number = number // TODO: replace with converter from account type to number
-            };
-            return acc;
-        }
-
         public IAccount Get(Guid id)
         {
             using (var ctx = new DataContext())
