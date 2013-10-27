@@ -26,6 +26,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainLayer.Tests", "Domain
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossCutting", "CrossCutting\CrossCutting.csproj", "{067BB171-F6DE-4407-B48F-263731ADE0A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoriesContracts", "RepositoriesContracts\RepositoriesContracts.csproj", "{F9570D05-868D-4DD5-955F-B99CD568B644}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{200F8818-A8D3-4CBE-968D-E32D0F0BED6D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{FBC30485-5FB1-45C4-B24B-4B76962E34E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{5EDDDF88-2B18-48FD-9B7F-E80AD91A2AEA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{E347736B-30BC-400E-8B2A-4648A63057B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrossCuttingLayer", "CrossCuttingLayer", "{928B876A-D2F5-4B57-B6E5-D0E2F18BA568}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +76,10 @@ Global
 		{067BB171-F6DE-4407-B48F-263731ADE0A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{067BB171-F6DE-4407-B48F-263731ADE0A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{067BB171-F6DE-4407-B48F-263731ADE0A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9570D05-868D-4DD5-955F-B99CD568B644}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9570D05-868D-4DD5-955F-B99CD568B644}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9570D05-868D-4DD5-955F-B99CD568B644}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9570D05-868D-4DD5-955F-B99CD568B644}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

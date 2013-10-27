@@ -10,5 +10,13 @@ namespace DomainLayer.Models
     public class LoanModel
     {
         private ILoan _loan;
+
+        public Guid Id { get; set; }
+
+        public LoanApplicationModel Application { get; set; }
+
+        public IEnumerable<AccountModel> Accounts { get; set; }
+
+        public PaymentScheduleModel PaymentSchedule { get; set; }
     }
 }

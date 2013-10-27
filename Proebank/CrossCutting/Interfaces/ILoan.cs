@@ -8,6 +8,8 @@ namespace CrossCutting.Interfaces
 {
     public interface ILoan
     {
+        Guid Id { get; set; }
+
         ILoanApplication Application { get; set; }
 
         IEnumerable<IAccount> Accounts { get; set; }

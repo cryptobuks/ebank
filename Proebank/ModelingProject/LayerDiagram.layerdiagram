@@ -40,6 +40,11 @@
       </references>
     </layer>
     <layer Id="76dd4594-4bcc-4995-836d-9986468eb52b" name="InfrastructureLayer">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="37d9cfa5-b76e-4aa7-873e-1d57bc2f571e" direction="Forward">
+          <layerMoniker Id="cd194e6a-0b17-457e-b5a5-1b73f0785a31" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
       <references>
         <reference Id="c215a380-1f82-417c-8423-4302a5738608" name="InfrastructureLayer">
           <ArtifactNode Label="InfrastructureLayer" Category="CodeSchema_Project" Id="(Assembly=&quot;$(PersonalUri)/Projects/GitHub/Proebank/Proebank/InfrastructureLayer/InfrastructureLayer.csproj&quot;)">

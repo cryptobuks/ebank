@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DomainLayer.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class LoanTests
     {
         [TestMethod]
         public void TestMethod1()

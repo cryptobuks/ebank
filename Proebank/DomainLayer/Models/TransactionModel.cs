@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DomainLayer.Models
 {
-    public class TransationModel
+    public class TransactionModel
     {
         private ITransaction _transaction;
     }

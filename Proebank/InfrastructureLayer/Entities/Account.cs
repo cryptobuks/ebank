@@ -9,64 +9,14 @@ namespace InfrastructureLayer.Entities
 {
     class Account : IAccount
     {
-        public Guid Id
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Guid Id { get; set; }
 
-        public string Number
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string Number { get; set; }
 
-        public decimal Balance
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public decimal Balance { get; set; }
 
-        public DateTime CreationDate
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public DateTime CreationDate { get; set; }
 
-        public IEmployee Employee
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IEmployee Employee { get; set; }
     }
 }

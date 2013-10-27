@@ -9,88 +9,18 @@ namespace InfrastructureLayer.Entities
 {
     class LoanApplication : ILoanApplication
     {
-        public long Id
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public long Id { get; set; }
 
-        public decimal LoanAmount
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public decimal LoanAmount { get; set; }
 
-        public DateTime TimeCreated
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public DateTime TimeCreated { get; set; }
 
-        public int Term
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public int Term { get; set; }
 
-        public ITariff Tariff
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public ITariff Tariff { get; set; }
 
-        public LoanPurpose LoanPurpose
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public LoanPurpose LoanPurpose { get; set; }
 
-        public IEnumerable<IDocument> Documents
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IEnumerable<IDocument> Documents { get; set; }
     }
 }

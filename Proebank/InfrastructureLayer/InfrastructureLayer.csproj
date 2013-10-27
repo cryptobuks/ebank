@@ -58,6 +58,7 @@
     <Compile Include="Entities\Tariff.cs" />
     <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AccountRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

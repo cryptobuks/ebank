@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{067BB171-F6DE-4407-B48F-263731ADE0A5}</ProjectGuid>
+    <ProjectGuid>{F9570D05-868D-4DD5-955F-B99CD568B644}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CrossCutting</RootNamespace>
-    <AssemblyName>CrossCutting</AssemblyName>
+    <RootNamespace>RepositoriesContracts</RootNamespace>
+    <AssemblyName>RepositoriesContracts</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,24 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\DocType.cs" />
-    <Compile Include="Enums\EmployeeRole.cs" />
-    <Compile Include="Enums\LoanPurpose.cs" />
-    <Compile Include="Enums\PaymentType.cs" />
-    <Compile Include="Enums\TariffDocType.cs" />
-    <Compile Include="Interfaces\IAccount.cs" />
-    <Compile Include="Interfaces\ILoanApplication.cs" />
-    <Compile Include="Interfaces\ICustomer.cs" />
-    <Compile Include="Interfaces\IDocument.cs" />
-    <Compile Include="Interfaces\IEmployee.cs" />
-    <Compile Include="Interfaces\ILoan.cs" />
-    <Compile Include="Interfaces\IPayment.cs" />
-    <Compile Include="Interfaces\IPaymentSchedule.cs" />
-    <Compile Include="Interfaces\ITariff.cs" />
-    <Compile Include="Interfaces\ITransaction.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

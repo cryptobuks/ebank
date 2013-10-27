@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrossCutting
+namespace InfrastructureLayer.Repositories
 {
-    public interface IRepository
-    {
-    }
+    //public class AccountRepository : IAccountRepository
+    //{
+    //}
 }

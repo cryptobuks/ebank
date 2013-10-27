@@ -8,8 +8,12 @@ using System.Threading.Tasks;
 
 namespace InfrastructureLayer
 {
-    public class DataContext : DbContext
+    class DataContext : DbContext
     {
+        public DbSet<Account> Accounts { get; set; }
+
+        public DbSet<Loan> Loans { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<Account>()

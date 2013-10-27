@@ -8,9 +8,9 @@ namespace CrossCutting.Interfaces
 {
     public interface IDocument
     {
-        object Id { get; set; }
+        Guid Id { get; set; }
 
-        object Number { get; set; }
+        string Number { get; set; }
 
         ICustomer Customer { get; set; }
 

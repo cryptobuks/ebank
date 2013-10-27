@@ -8,46 +8,18 @@ namespace CrossCutting.Interfaces
 {
     public interface IEmployee
     {
-        object Id
-        {
-            get;
-            set;
-        }
+        int Id { get; set; }
 
-        object FirstName
-        {
-            get;
-            set;
-        }
+        string LastName { get; set; }
 
-        object LastName
-        {
-            get;
-            set;
-        }
+        string FirstName { get; set; }
 
-        object MiddleName
-        {
-            get;
-            set;
-        }
+        string MiddleName { get; set; }
 
-        object HiredOn
-        {
-            get;
-            set;
-        }
+        DateTime HiredOn { get; set; }
 
-        object FiredOn
-        {
-            get;
-            set;
-        }
+        DateTime FiredOn { get; set; }
 
-        EmployeeRole EmployeeRole
-        {
-            get;
-            set;
-        }
+        EmployeeRole EmployeeRole { get; set; }
     }
 }

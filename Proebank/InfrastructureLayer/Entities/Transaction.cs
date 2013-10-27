@@ -9,76 +9,16 @@ namespace InfrastructureLayer.Entities
 {
     class Transaction : ITransaction
     {
-        public Guid Id
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Guid Id { get; set; }
 
-        public DateTime Time
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public DateTime Time { get; set; }
 
-        public decimal Amount
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public decimal Amount { get; set; }
 
-        public IAccount From
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IAccount From { get; set; }
 
-        public IAccount To
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IAccount To { get; set; }
 
-        public IEmployee CommitedBy
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IEmployee CommitedBy { get; set; }
     }
 }
