@@ -40,4 +40,39 @@
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Validate Include="LayerDiagram.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="LayerDiagram.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>LayerDiagram.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="LayerDiagram.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>LayerDiagram.layerdiagram</DependentUpon>
+    </Validate>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationLayer\ApplicationLayer.csproj">
+      <Name>ApplicationLayer</Name>
+      <Project>{a7714003-3a01-40cb-9177-9612fbacf735}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\CrossCutting\CrossCutting.csproj">
+      <Name>CrossCutting</Name>
+      <Project>{067bb171-f6de-4407-b48f-263731ade0a5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainLayer\DomainLayer.csproj">
+      <Name>DomainLayer</Name>
+      <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\InfrastructureLayer\InfrastructureLayer.csproj">
+      <Name>InfrastructureLayer</Name>
+      <Project>{ba1096a4-e462-4097-863c-917c15dede21}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\PresentationLayer\PresentationLayer.csproj">
+      <Name>PresentationLayer</Name>
+      <Project>{c22713d0-c493-412b-9680-7b18ec7327d6}</Project>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
