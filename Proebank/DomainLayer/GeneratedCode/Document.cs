@@ -29,5 +29,23 @@ internal class Document
 		set;
 	}
 
+	public virtual DocType DocType
+	{
+		get;
+		set;
+	}
+
+	public virtual TariffDocType TariffDocType
+	{
+		get;
+		set;
+	}
+
+	public virtual IEnumerable<LoanApplication> LoanApplications
+	{
+		get;
+		set;
+	}
+
 }
 

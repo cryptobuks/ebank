@@ -8,28 +8,14 @@ namespace CrossCutting.Interfaces
 {
     public interface IAccount
     {
-        ulong Number
-        {
-            get;
-            set;
-        }
+        Guid Id { get; set; }
+        
+        string Number { get; set; }
 
-        decimal Balance
-        {
-            get;
-            set;
-        }
+        decimal Balance { get; set; }
 
-        DateTime CreationDate
-        {
-            get;
-            set;
-        }
+        DateTime CreationDate { get; set; }
 
-        IEmployee Employee
-        {
-            get;
-            set;
-        }
+        IEmployee Employee { get; set; }
     }
 }

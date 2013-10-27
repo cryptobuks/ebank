@@ -54,6 +54,7 @@
     <Compile Include="Interfaces\IPaymentSchedule.cs" />
     <Compile Include="Interfaces\ITariff.cs" />
     <Compile Include="Interfaces\ITransaction.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

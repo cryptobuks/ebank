@@ -8,5 +8,10 @@ namespace CrossCutting.Interfaces
 {
     public interface ILoan
     {
+        ILoanApplication Application { get; set; }
+
+        IEnumerable<IAccount> Accounts { get; set; }
+
+        IPaymentSchedule PaymentSchedule { get; set; }
     }
 }

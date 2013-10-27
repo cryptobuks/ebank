@@ -258,7 +258,7 @@
           <association
             Id="befbd57f-3c9c-4315-bc91-25aed311f4c8"
             isDerived="false"
-            sourceEndRoleName="LoanApplication"
+            sourceEndRoleName="LoanApplications"
             targetEndRoleName="Documents"
             isLeaf="false"
             isAbstract="false">
@@ -270,15 +270,27 @@
               <associationHasOwnedEnds>
                 <memberEnd
                   Id="25517610-a77b-4951-a29a-d91f20d7af44"
-                  name="LoanApplication"
+                  name="LoanApplications"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
                   isDerived="false"
                   isDerivedUnion="false"
                   aggregation="Shared"
-                  isComposite="false"
-                  isNavigableOwned="false" />
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="f46bd97b-0982-4575-9418-cbc516f9f222"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="50348542-6d6f-412e-afbf-fbfea9177284"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
@@ -1923,15 +1935,6 @@
             </propertyInstances>
           </stereotypeInstance>
         </appliedStereotypesInternal>
-        <suppliersInternal>
-          <dependency
-            Id="89b5c01f-bd2c-44e2-be52-f868880f272a">
-            <enumerationMoniker
-              Id="83223d91-4f63-4217-97d8-5f44865a33e2"
-              LastKnownName="DocType"
-              LastKnownLocation="ModelingProject.uml" />
-          </dependency>
-        </suppliersInternal>
         <targetEnds>
           <association
             Id="2653be08-de1c-4608-96e9-b7485efa0998"
@@ -1975,6 +1978,84 @@
                 <memberEnd
                   Id="69bda814-ed47-4b9b-abae-d6646147e1ab"
                   name="Customer"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="e8dfde2f-65eb-4356-ae47-bd98999c57bc"
+            isDerived="false"
+            sourceEndRoleName="Document"
+            targetEndRoleName="DocType"
+            isLeaf="false"
+            isAbstract="false">
+            <enumerationMoniker
+              Id="83223d91-4f63-4217-97d8-5f44865a33e2"
+              LastKnownName="DocType"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="390b43f9-5012-4769-b388-0721b39baf5f"
+                  name="Document"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1e201906-cfbd-490e-bc9b-e94e0c95be96"
+                  name="DocType"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="a6c5a317-1de8-44ed-a27b-b1beab109c47"
+            isDerived="false"
+            sourceEndRoleName="Document"
+            targetEndRoleName="TariffDocType"
+            isLeaf="false"
+            isAbstract="false">
+            <enumerationMoniker
+              Id="e99392de-799b-4c05-b9f3-14baf14962a3"
+              LastKnownName="TariffDocType"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1ae969b3-b484-41ac-a4d2-ffd2b154f31c"
+                  name="Document"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="07f5585f-38f9-45d3-9601-3eb1e33c66a4"
+                  name="TariffDocType"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -6635,6 +6716,12 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                LastKnownName="String"
+                LastKnownLocation="ModelingProject.uml" />
+            </type_NamedElement>
           </property>
           <property
             Id="6323d96c-eb9e-44ae-9efc-4c88ab039425"
@@ -6767,6 +6854,75 @@
                     Id="7797979b-f2fc-4638-b18c-7ae5aff699b0">
                     <propertyInstance
                       Id="32c4cd82-6ac6-400f-94a0-214349c32fcd"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+          </property>
+          <property
+            Id="01e1e33a-2839-4e7b-af93-ae49676630d8"
+            name="Id"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="6176b206-2722-4b91-ac39-78de7dc6e7db"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="390bcdf4-d2c7-43d2-9e86-e41f3aa6f734">
+                    <propertyInstance
+                      Id="7c98da51-e078-4473-b37f-616c5bd40ddb"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="41f0e42d-ccac-49fb-937b-f5ecb9b49b25">
+                    <propertyInstance
+                      Id="4098c2f5-2429-41ee-b5de-75cb59f5306d"
+                      name="Get"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="bb8ead3f-0576-4a09-9280-968d19f286fc">
+                    <propertyInstance
+                      Id="6b0e6f4c-085b-45e9-8850-3e663e2deaf4"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="eaaf45a0-6485-429d-a33a-40caee9d9d09">
+                    <propertyInstance
+                      Id="aeaaf58b-eba9-4143-8764-21b7307794d9"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="9d5c1aed-dd71-4721-8436-a59ca6871b77">
+                    <propertyInstance
+                      Id="4b98951f-cd86-4fc4-97c7-bdfbc6a87fa7"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0fd9373c-d161-4b61-b50c-41f84e6353be">
+                    <propertyInstance
+                      Id="3489db35-666b-45d7-b422-5fd88aeee690"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e017d221-afde-40d7-88c6-a4dd8ff54110">
+                    <propertyInstance
+                      Id="8e75eca1-993b-4670-ba39-af8b68efb03d"
                       name="Set"
                       value="none" />
                   </stereotypeInstanceHasPropertyInstances>

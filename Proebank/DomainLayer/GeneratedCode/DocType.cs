@@ -9,37 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-internal class Account
+internal enum DocType : int
 {
-	public virtual string Number
-	{
-		get;
-		set;
-	}
-
-	public virtual object Balance
-	{
-		get;
-		set;
-	}
-
-	public virtual object CreationDate
-	{
-		get;
-		set;
-	}
-
-	public virtual object Id
-	{
-		get;
-		set;
-	}
-
-	public virtual Employee Employee
-	{
-		get;
-		set;
-	}
-
+	Passport,
+	DriverLicense,
+	IncomeStatement,
+	PersonalDeposit,
+	SalaryCard,
 }
-

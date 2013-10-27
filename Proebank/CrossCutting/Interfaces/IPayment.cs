@@ -8,5 +8,23 @@ namespace CrossCutting.Interfaces
 {
     public interface IPayment
     {
+
+        Guid Id
+        {
+            get;
+            set;
+        }
+
+        DateTime Date
+        {
+            get;
+            set;
+        }
+
+        PaymentType PaymentType
+        {
+            get;
+            set;
+        }
     }
 }

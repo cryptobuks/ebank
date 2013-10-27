@@ -9,7 +9,19 @@ namespace InfrastructureLayer.Entities
 {
     class Account : IAccount
     {
-        public ulong Number
+        public Guid Id
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Number
         {
             get
             {

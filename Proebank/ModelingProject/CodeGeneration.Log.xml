@@ -6,83 +6,84 @@
   <MessageClass Name="Error" Label="Error" Option="Show errors" />
   <MessageClass Name="Property" Label="Property" Option="Show metadata" />
   <MessageClass Name="Diagnostic" Label="Message" Option="Show diagnostic messages" />
-  <Message Timestamp="2013-10-27T15:22:54" Importance="High" Text="Code generation or text transformation started." />
-  <Message Timestamp="2013-10-27T15:22:55" Importance="Diagnostic" Text="Name = ClassTemplate" />
-  <Message Timestamp="2013-10-27T15:22:55" Importance="Diagnostic" Text="Overwrite = True" />
-  <Message Timestamp="2013-10-27T15:22:55" Importance="Diagnostic" Text="ProjectPath = ..\DomainLayer\DomainLayer.csproj" />
-  <Message Timestamp="2013-10-27T15:22:55" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
-  <Message Timestamp="2013-10-27T15:22:55" Importance="Diagnostic" Text="TargetName = {Name}" />
-  <Message Timestamp="2013-10-27T15:22:55" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
-  <Message Timestamp="2013-10-27T15:22:55" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
-  <Message Timestamp="2013-10-27T15:22:55" Importance="Medium" Text="ModelingProject's Text Template Binding: 'ClassTemplate' will apply ClassTemplate.t4 to: 'ModelingProject::LoanApplication' -  (Class), 'ModelingProject::Loan' -  (Class), 'ModelingProject::Tariff' -  (Class), 'ModelingProject::PaymentSchedule' -  (Class), 'ModelingProject::Transaction' -  (Class), 'ModelingProject::Payment' -  (Class), 'ModelingProject::Account' -  (Class), 'ModelingProject::Document' -  (Class), 'ModelingProject::LoanService' -  (Class), 'ModelingProject::Employee' -  (Class), 'ModelingProject::Customer' -  (Class), 'ModelingProject::ProcessingService' -  (Class), 'ModelingProject::AccountService' -  (Class) " />
-  <Message Timestamp="2013-10-27T15:22:55" Importance="Medium" Text="'ModelingProject::LoanApplication' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\LoanApplication.cs" />
-  <Message Timestamp="2013-10-27T15:22:55" Importance="Medium" Text="'ModelingProject::Loan' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Loan.cs" />
-  <Message Timestamp="2013-10-27T15:22:56" Importance="Medium" Text="'ModelingProject::Tariff' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Tariff.cs" />
-  <Message Timestamp="2013-10-27T15:22:56" Importance="Medium" Text="'ModelingProject::PaymentSchedule' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\PaymentSchedule.cs" />
-  <Message Timestamp="2013-10-27T15:22:56" Importance="Medium" Text="'ModelingProject::Transaction' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Transaction.cs" />
-  <Message Timestamp="2013-10-27T15:22:56" Importance="Medium" Text="'ModelingProject::Payment' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Payment.cs" />
-  <Message Timestamp="2013-10-27T15:22:56" Importance="Medium" Text="'ModelingProject::Account' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Account.cs" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Medium" Text="'ModelingProject::Document' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Document.cs" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Medium" Text="'ModelingProject::LoanService' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\LoanService.cs" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Medium" Text="'ModelingProject::Employee' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Employee.cs" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Medium" Text="'ModelingProject::Customer' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Customer.cs" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Medium" Text="'ModelingProject::ProcessingService' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\ProcessingService.cs" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Medium" Text="'ModelingProject::AccountService' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\AccountService.cs" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Diagnostic" Text="Name = EnumTemplate" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Diagnostic" Text="Overwrite = True" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Diagnostic" Text="ProjectPath = ..\DomainLayer\DomainLayer.csproj" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Diagnostic" Text="TargetName = {Name}" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4" />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Medium" Text="ModelingProject's Text Template Binding: 'EnumTemplate' will apply EnumTemplate.t4 to: 'ModelingProject::LoanPurpose' -  (Enumeration), 'ModelingProject::TariffDocType' -  (Enumeration), 'ModelingProject::PaymentType' -  (Enumeration), 'ModelingProject::EmployeeRole' -  (Enumeration), 'ModelingProject::DocType' -  (Enumeration) " />
-  <Message Timestamp="2013-10-27T15:22:57" Importance="Medium" Text="'ModelingProject::LoanPurpose' -  (Enumeration) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\LoanPurpose.cs" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Medium" Text="'ModelingProject::TariffDocType' -  (Enumeration) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\TariffDocType.cs" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Medium" Text="'ModelingProject::PaymentType' -  (Enumeration) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\PaymentType.cs" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Medium" Text="'ModelingProject::EmployeeRole' -  (Enumeration) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\EmployeeRole.cs" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Medium" Text="'ModelingProject::DocType' -  (Enumeration) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\DocType.cs" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="Name = StructTemplate" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="Overwrite = True" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="ProjectPath = ..\DomainLayer\DomainLayer.csproj" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="TargetName = {Name}" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Medium" Text="ModelingProject's Text Template Binding: 'StructTemplate' will apply StructTemplate.t4 to: 'ModelingProject::LoanApplication' -  (Class), 'ModelingProject::Loan' -  (Class), 'ModelingProject::Tariff' -  (Class), 'ModelingProject::PaymentSchedule' -  (Class), 'ModelingProject::Transaction' -  (Class), 'ModelingProject::Payment' -  (Class), 'ModelingProject::Account' -  (Class), 'ModelingProject::Document' -  (Class), 'ModelingProject::LoanService' -  (Class), 'ModelingProject::Employee' -  (Class), 'ModelingProject::Customer' -  (Class), 'ModelingProject::ProcessingService' -  (Class), 'ModelingProject::AccountService' -  (Class) " />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::LoanApplication' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::Loan' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::Tariff' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::PaymentSchedule' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::Transaction' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::Payment' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::Account' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::Document' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::LoanService' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::Employee' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:58" Importance="Diagnostic" Text="'ModelingProject::Customer' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::ProcessingService' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::AccountService' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="The selection included 21 elements which were not bound to a template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Dependency): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Dependency): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Dependency): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
-  <Message Timestamp="2013-10-27T15:22:59" Importance="High" Text="Code generation complete. Errors: 0. Warnings: 0." />
+  <Message Timestamp="2013-10-27T17:55:46" Importance="High" Text="Code generation or text transformation started." />
+  <Message Timestamp="2013-10-27T17:55:46" Importance="Diagnostic" Text="Name = ClassTemplate" />
+  <Message Timestamp="2013-10-27T17:55:46" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2013-10-27T17:55:46" Importance="Diagnostic" Text="ProjectPath = ..\DomainLayer\DomainLayer.csproj" />
+  <Message Timestamp="2013-10-27T17:55:46" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2013-10-27T17:55:46" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2013-10-27T17:55:46" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2013-10-27T17:55:46" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2013-10-27T17:55:46" Importance="Medium" Text="ModelingProject's Text Template Binding: 'ClassTemplate' will apply ClassTemplate.t4 to: 'ModelingProject::LoanApplication' -  (Class), 'ModelingProject::Loan' -  (Class), 'ModelingProject::Tariff' -  (Class), 'ModelingProject::PaymentSchedule' -  (Class), 'ModelingProject::Transaction' -  (Class), 'ModelingProject::Payment' -  (Class), 'ModelingProject::Account' -  (Class), 'ModelingProject::Document' -  (Class), 'ModelingProject::LoanService' -  (Class), 'ModelingProject::Employee' -  (Class), 'ModelingProject::Customer' -  (Class), 'ModelingProject::ProcessingService' -  (Class), 'ModelingProject::AccountService' -  (Class) " />
+  <Message Timestamp="2013-10-27T17:55:47" Importance="Medium" Text="'ModelingProject::LoanApplication' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\LoanApplication.cs" />
+  <Message Timestamp="2013-10-27T17:55:47" Importance="Medium" Text="'ModelingProject::Loan' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Loan.cs" />
+  <Message Timestamp="2013-10-27T17:55:47" Importance="Medium" Text="'ModelingProject::Tariff' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Tariff.cs" />
+  <Message Timestamp="2013-10-27T17:55:47" Importance="Medium" Text="'ModelingProject::PaymentSchedule' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\PaymentSchedule.cs" />
+  <Message Timestamp="2013-10-27T17:55:47" Importance="Medium" Text="'ModelingProject::Transaction' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Transaction.cs" />
+  <Message Timestamp="2013-10-27T17:55:48" Importance="Medium" Text="'ModelingProject::Payment' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Payment.cs" />
+  <Message Timestamp="2013-10-27T17:55:48" Importance="Medium" Text="'ModelingProject::Account' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Account.cs" />
+  <Message Timestamp="2013-10-27T17:55:48" Importance="Medium" Text="'ModelingProject::Document' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Document.cs" />
+  <Message Timestamp="2013-10-27T17:55:48" Importance="Medium" Text="'ModelingProject::LoanService' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\LoanService.cs" />
+  <Message Timestamp="2013-10-27T17:55:48" Importance="Medium" Text="'ModelingProject::Employee' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Employee.cs" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Medium" Text="'ModelingProject::Customer' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\Customer.cs" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Medium" Text="'ModelingProject::ProcessingService' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\ProcessingService.cs" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Medium" Text="'ModelingProject::AccountService' -  (Class) : success (file replaced) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\AccountService.cs" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Diagnostic" Text="Name = EnumTemplate" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Diagnostic" Text="ProjectPath = ..\DomainLayer\DomainLayer.csproj" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Medium" Text="ModelingProject's Text Template Binding: 'EnumTemplate' will apply EnumTemplate.t4 to: 'ModelingProject::LoanPurpose' -  (Enumeration), 'ModelingProject::TariffDocType' -  (Enumeration), 'ModelingProject::PaymentType' -  (Enumeration), 'ModelingProject::EmployeeRole' -  (Enumeration), 'ModelingProject::DocType' -  (Enumeration) " />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Medium" Text="'ModelingProject::LoanPurpose' -  (Enumeration) : success (file created) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\LoanPurpose.cs" />
+  <Message Timestamp="2013-10-27T17:55:49" Importance="Medium" Text="'ModelingProject::TariffDocType' -  (Enumeration) : success (file created) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\TariffDocType.cs" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Medium" Text="'ModelingProject::PaymentType' -  (Enumeration) : success (file created) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\PaymentType.cs" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Medium" Text="'ModelingProject::EmployeeRole' -  (Enumeration) : success (file created) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\EmployeeRole.cs" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Medium" Text="'ModelingProject::DocType' -  (Enumeration) : success (file created) - C:\Users\Dmitry\Documents\Projects\GitHub\Proebank\Proebank\DomainLayer\GeneratedCode\DocType.cs" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="Name = StructTemplate" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="ProjectPath = ..\DomainLayer\DomainLayer.csproj" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Medium" Text="ModelingProject's Text Template Binding: 'StructTemplate' will apply StructTemplate.t4 to: 'ModelingProject::LoanApplication' -  (Class), 'ModelingProject::Loan' -  (Class), 'ModelingProject::Tariff' -  (Class), 'ModelingProject::PaymentSchedule' -  (Class), 'ModelingProject::Transaction' -  (Class), 'ModelingProject::Payment' -  (Class), 'ModelingProject::Account' -  (Class), 'ModelingProject::Document' -  (Class), 'ModelingProject::LoanService' -  (Class), 'ModelingProject::Employee' -  (Class), 'ModelingProject::Customer' -  (Class), 'ModelingProject::ProcessingService' -  (Class), 'ModelingProject::AccountService' -  (Class) " />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="'ModelingProject::LoanApplication' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="'ModelingProject::Loan' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="'ModelingProject::Tariff' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="'ModelingProject::PaymentSchedule' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="'ModelingProject::Transaction' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="'ModelingProject::Payment' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="'ModelingProject::Account' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="'ModelingProject::Document' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:50" Importance="Diagnostic" Text="'ModelingProject::LoanService' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::Employee' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::Customer' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::ProcessingService' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::AccountService' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="The selection included 22 elements which were not bound to a template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Dependency): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Dependency): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="Diagnostic" Text="'ModelingProject::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-27T17:55:51" Importance="High" Text="Code generation complete. Errors: 0. Warnings: 0." />
 </Log>

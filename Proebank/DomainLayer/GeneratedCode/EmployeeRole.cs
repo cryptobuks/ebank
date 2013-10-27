@@ -9,37 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-internal class Account
+internal enum EmployeeRole : int
 {
-	public virtual string Number
-	{
-		get;
-		set;
-	}
-
-	public virtual object Balance
-	{
-		get;
-		set;
-	}
-
-	public virtual object CreationDate
-	{
-		get;
-		set;
-	}
-
-	public virtual object Id
-	{
-		get;
-		set;
-	}
-
-	public virtual Employee Employee
-	{
-		get;
-		set;
-	}
-
+	Operator,
+	Consultant,
+	SecurityService,
+	Chief,
+	CreditCommitee,
 }
-
