@@ -44,19 +44,11 @@
     <Compile Include="Enums\LoanPurpose.cs" />
     <Compile Include="Enums\PaymentType.cs" />
     <Compile Include="Enums\TariffDocType.cs" />
-    <Compile Include="Interfaces\IAccount.cs" />
-    <Compile Include="Interfaces\ILoanApplication.cs" />
-    <Compile Include="Interfaces\ICustomer.cs" />
-    <Compile Include="Interfaces\IDocument.cs" />
-    <Compile Include="Interfaces\IEmployee.cs" />
-    <Compile Include="Interfaces\ILoan.cs" />
-    <Compile Include="Interfaces\IPayment.cs" />
-    <Compile Include="Interfaces\IPaymentSchedule.cs" />
-    <Compile Include="Interfaces\ITariff.cs" />
-    <Compile Include="Interfaces\ITransaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

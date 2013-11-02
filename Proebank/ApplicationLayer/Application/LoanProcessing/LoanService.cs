@@ -1,16 +1,12 @@
-﻿using CrossCutting.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using DomainLayer.Models;
 
 namespace ApplicationLayer.LoanProcessing
 {
     class LoanService
     {
 
-        public IEnumerable<ILoan> Loans
+        public IEnumerable<LoanModel> Loans
         {
             get;
             set;

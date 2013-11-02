@@ -1,96 +1,21 @@
-﻿using CrossCutting.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace DomainLayer.Models
 {
-    public class EmployeeModel : IEmployee
+    public class EmployeeModel
     {
-        public int Id
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public int Id { get; set; }
 
-        public string LastName
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string LastName { get; set; }
 
-        public string FirstName
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string FirstName { get; set; }
 
-        public string MiddleName
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string MiddleName { get; set; }
 
-        public DateTime HiredOn
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public DateTime HiredOn { get; set; }
 
-        public DateTime FiredOn
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public DateTime FiredOn { get; set; }
 
-        public EmployeeRole EmployeeRole
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public EmployeeRole EmployeeRole { get; set; }
     }
 }

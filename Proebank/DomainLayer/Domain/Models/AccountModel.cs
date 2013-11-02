@@ -1,13 +1,8 @@
-﻿using CrossCutting.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace DomainLayer.Models
 {
-    public class AccountModel : IAccount
+    public class AccountModel
     {
         public Guid Id { get; set; }
 
@@ -17,6 +12,6 @@ namespace DomainLayer.Models
 
         public DateTime CreationDate { get; set; }
 
-        public IEmployee Employee { get; set; }
+        public EmployeeModel Employee { get; set; }
     }
 }

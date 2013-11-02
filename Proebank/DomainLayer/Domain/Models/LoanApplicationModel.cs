@@ -1,96 +1,22 @@
-﻿using CrossCutting.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DomainLayer.Models
 {
-    public class LoanApplicationModel : ILoanApplication
+    public class LoanApplicationModel
     {
-        public long Id
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public long Id { get; set; }
 
-        public decimal LoanAmount
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public decimal LoanAmount { get; set; }
 
-        public DateTime TimeCreated
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public DateTime TimeCreated { get; set; }
 
-        public int Term
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public int Term { get; set; }
 
-        public ITariff Tariff
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public TariffModel Tariff { get; set; }
 
-        public LoanPurpose LoanPurpose
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public LoanPurpose LoanPurpose { get; set; }
 
-        public IEnumerable<IDocument> Documents
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IEnumerable<DocumentModel> Documents { get; set; }
     }
 }

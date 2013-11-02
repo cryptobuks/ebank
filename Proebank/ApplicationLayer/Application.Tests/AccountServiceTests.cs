@@ -1,13 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Configuration;
-using Application.Tests.FakeRepositories;
-using ApplicationLayer.AccountProcessing;
+﻿using ApplicationLayer.AccountProcessing;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepositoriesContracts;
 
 namespace Application.Tests
 {

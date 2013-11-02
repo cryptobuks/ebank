@@ -1,48 +1,13 @@
-﻿using CrossCutting.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace DomainLayer.Models
 {
-    public class PaymentModel : IPayment
+    public class PaymentModel
     {
-        public Guid Id
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Guid Id { get; set; }
 
-        public DateTime Date
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public DateTime Date { get; set; }
 
-        public PaymentType PaymentType
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public PaymentType PaymentType { get; set; }
     }
 }

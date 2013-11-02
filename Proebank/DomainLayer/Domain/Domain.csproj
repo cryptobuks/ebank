@@ -51,19 +51,6 @@
   <ItemGroup>
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
-    <Compile Include="GeneratedCode\Account.cs" />
-    <Compile Include="GeneratedCode\AccountService.cs" />
-    <Compile Include="GeneratedCode\Customer.cs" />
-    <Compile Include="GeneratedCode\Document.cs" />
-    <Compile Include="GeneratedCode\Employee.cs" />
-    <Compile Include="GeneratedCode\Loan.cs" />
-    <Compile Include="GeneratedCode\LoanApplication.cs" />
-    <Compile Include="GeneratedCode\LoanService.cs" />
-    <Compile Include="GeneratedCode\Payment.cs" />
-    <Compile Include="GeneratedCode\PaymentSchedule.cs" />
-    <Compile Include="GeneratedCode\ProcessingService.cs" />
-    <Compile Include="GeneratedCode\Tariff.cs" />
-    <Compile Include="GeneratedCode\Transaction.cs" />
     <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\LoanApplicationModel.cs" />

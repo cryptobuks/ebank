@@ -1,11 +1,7 @@
-﻿using CrossCutting.Interfaces;
-using DomainLayer.Models;
+﻿using DomainLayer.Models;
 using RepositoriesContracts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApplicationLayer.AccountProcessing
 {
@@ -37,8 +33,8 @@ namespace ApplicationLayer.AccountProcessing
         {
             // TODO: Полная чушь, надо переписать
             var acc = new AccountModel { Id = Guid.NewGuid(), Number = "3819xxx" };
-            var savedEntity = _repository.SaveOrUpdate(acc);
-            return savedEntity != null ? acc: null;
+             _repository.SaveOrUpdate(acc);
+            return acc;
         }
 
         public void CloseAccount()

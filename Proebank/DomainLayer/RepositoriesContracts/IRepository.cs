@@ -11,10 +11,10 @@ namespace RepositoriesContracts
 
         IList<T> FindAll(Func<T, bool> filter);
 
-        T FindOne(Func<T, bool> filter);
+        T FindFirst(Func<T, bool> filter);
 
-        T SaveOrUpdate(T entity);
+        void SaveOrUpdate(params T[] entities);
 
-        void Delete(T entity);
+        T Delete(T entity);
     }
 }

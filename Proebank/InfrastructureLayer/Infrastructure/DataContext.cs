@@ -1,18 +1,17 @@
-﻿using CrossCutting.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using DomainLayer.Models;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InfrastructureLayer
 {
     class DataContext : DbContext
     {
-        public DbSet<IAccount> Accounts { get; set; }
+        public DataContext() : base("Proebank")
+        {
+        }
 
-        public DbSet<ILoan> Loans { get; set; }
+        public DbSet<AccountModel> Accounts { get; set; }
+
+        public DbSet<LoanModel> Loans { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
