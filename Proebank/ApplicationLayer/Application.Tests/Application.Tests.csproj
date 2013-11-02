@@ -63,7 +63,6 @@
     <Compile Include="AccountServiceTests.cs" />
     <Compile Include="FakeRepositories\AccountRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TmpEntities\Account.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

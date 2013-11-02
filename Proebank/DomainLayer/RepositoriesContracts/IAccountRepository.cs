@@ -1,9 +1,10 @@
 ﻿using System;
-using CrossCutting.Interfaces;
+using DomainLayer.Models;
 
 namespace RepositoriesContracts
 {
-    public interface IAccountRepository : IRepository<IAccount, Guid>
+    public interface IAccountRepository : IRepository<AccountModel, Guid>
     {
+        // TODO: declare specific functions for Accounts
     }
 }

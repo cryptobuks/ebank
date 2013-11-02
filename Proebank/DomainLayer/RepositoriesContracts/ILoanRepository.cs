@@ -1,9 +1,10 @@
 ﻿using System;
-using CrossCutting.Interfaces;
+using DomainLayer.Models;
 
 namespace RepositoriesContracts
 {
-    interface ILoanRepository : IRepository<ILoan, Guid>
+    public interface ILoanRepository : IRepository<LoanModel, Guid>
     {
+        // TODO: add specific operations
     }
 }

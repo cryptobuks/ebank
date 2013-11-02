@@ -1,84 +1,20 @@
-﻿using CrossCutting.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DomainLayer.Models
 {
-    public class DocumentModel : IDocument
+    public class DocumentModel
     {
-        public Guid Id
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Guid Id { get; set; }
 
-        public string Number
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string Number { get; set; }
 
-        public ICustomer Customer
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public CustomerModel Customer { get; set; }
 
-        public DocType DocType
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public DocType DocType { get; set; }
 
-        public TariffDocType TariffDocType
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public TariffDocType TariffDocType { get; set; }
 
-        public IEnumerable<ILoanApplication> LoanApplications
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IEnumerable<LoanApplicationModel> LoanApplications { get; set; }
     }
 }

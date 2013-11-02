@@ -1,64 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Tests.TmpEntities;
-using CrossCutting.Interfaces;
+using DomainLayer.Models;
 using RepositoriesContracts;
 
 namespace Application.Tests.FakeRepositories
 {
     class AccountRepository : IAccountRepository
     {
-        private readonly List<IAccount> _accounts;
+        private readonly List<AccountModel> _accounts;
 
         public AccountRepository()
         {
-            _accounts = new List<IAccount>();
+            _accounts = new List<AccountModel>();
         }
 
-        public IAccount Get(Guid id)
+        public AccountModel Get(Guid id)
         {
-            return FindOne(a => a.Id == id);
+            return FindFirst(a => a.Id == id);
         }
 
-        public IList<IAccount> GetAll()
+        public IList<AccountModel> GetAll()
         {
             return _accounts;
         }
 
-        public IList<IAccount> FindAll(Func<IAccount, bool> filter)
+        public IList<AccountModel> FindAll(Func<AccountModel, bool> filter)
         {
             return _accounts.Where(filter).ToList();
         }
 
-        public IAccount FindOne(Func<IAccount, bool> filter)
+        public AccountModel FindFirst(Func<AccountModel, bool> filter)
         {
-            return _accounts.SingleOrDefault();
+            return _accounts.FirstOrDefault();
         }
 
-        public IAccount SaveOrUpdate(IAccount entity)
+        public void SaveOrUpdate(params AccountModel[] entities)
         {
-            var acc = FindOne(a => a.Id == entity.Id);
-            if (acc == null)
+            foreach (var entity in entities)
             {
-                _accounts.Add(entity);
-                acc = entity;
+                var id = entity.Id;
+                var acc = FindFirst(a => a.Id == id);
+                if (acc == null)
+                {
+                    _accounts.Add(entity);
+                    acc = entity;
+                }
+                else
+                {
+                    acc.Balance = entity.Balance;
+                    acc.CreationDate = entity.CreationDate;
+                    acc.Employee = entity.Employee;
+                    acc.Number = entity.Number;
+                }
             }
-            else
-            {
-                acc.Balance = entity.Balance;
-                acc.CreationDate = entity.CreationDate;
-                acc.Employee = entity.Employee;
-                acc.Number = entity.Number;
-            }
-            return acc;
         }
 
-        public void Delete(IAccount entity)
+        public AccountModel Delete(AccountModel entity)
         {
-            _accounts.Remove(entity);
+            var removalSucceeded = _accounts.Remove(entity);
+            return removalSucceeded ? entity : null;
         }
     }
 }

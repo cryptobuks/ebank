@@ -2,63 +2,62 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using DomainLayer.Models;
 using RepositoriesContracts;
 
 namespace InfrastructureLayer.Repositories
 {
-    // TODO: don't create db context for every method call
-    public class AccountRepository : IAccountRepository
+    // TODO: try to generalize more, using DbSet<T> everywhere
+    class LoanRepository : ILoanRepository
     {
-        public AccountModel Get(Guid id)
+        public LoanModel Get(Guid id)
         {
             using (var ctx = new DataContext())
             {
-                return ctx.Accounts.First(acc => acc.Id == id);
+                return ctx.Loans.First(loan => loan.Id == id);
             }
         }
 
-        public IList<AccountModel> GetAll()
+        public IList<LoanModel> GetAll()
         {
             using (var ctx = new DataContext())
             {
-                return ctx.Accounts.ToList();
+                return ctx.Loans.ToList();
             }
         }
 
-        public IList<AccountModel> FindAll(Func<AccountModel, bool> filter)
+        public IList<LoanModel> FindAll(Func<LoanModel, bool> filter)
         {
             using (var ctx = new DataContext())
             {
-                return ctx.Accounts
-                    .Where(ac => filter(ac))
+                return ctx.Loans
+                    .Where(loan => filter(loan))
                     .ToList();
             }
         }
 
-        public AccountModel FindFirst(Func<AccountModel, bool> filter)
+        public LoanModel FindFirst(Func<LoanModel, bool> filter)
         {
             using (var ctx = new DataContext())
             {
-                return ctx.Accounts
+                return ctx.Loans
                     .First(a => filter(a));
             }
         }
 
-        public void SaveOrUpdate(params AccountModel[] entities)
+        public void SaveOrUpdate(params LoanModel[] entities)
         {
             using (var ctx = new DataContext())
             {
-                ctx.Accounts.AddOrUpdate(entities);
+                ctx.Loans.AddOrUpdate(entities);
             }
         }
 
-        public AccountModel Delete(AccountModel entity)
+        public LoanModel Delete(LoanModel entity)
         {
             using (var ctx = new DataContext())
             {
-                return ctx.Accounts.Remove(entity);
+                return ctx.Loans.Remove(entity);
             }
         }
     }
