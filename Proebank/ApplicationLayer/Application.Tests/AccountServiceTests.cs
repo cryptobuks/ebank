@@ -1,4 +1,5 @@
 ﻿using Application.AccountProcessing;
+using Domain.Enums;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,7 +25,7 @@ namespace Application.Tests
         [TestMethod]
         public void CreateAccount()
         {
-            var account = _service.CreateAccount();
+            var account = _service.CreateAccount(Currency.BYR, AccountType.ContractService);
             Assert.IsNotNull(account);
         }
 

@@ -14,6 +14,7 @@ namespace Domain.Models
     {
         public Guid Id { get; set; }
         public decimal Amount { get; set; }
+        public Currency Currency { get; set; }
         public DateTime Date { get; set; }
         public EntryType Type { get; set; }
         public EntrySubType SubType { get; set; }
