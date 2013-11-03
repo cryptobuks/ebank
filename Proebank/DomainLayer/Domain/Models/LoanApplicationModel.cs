@@ -14,6 +14,8 @@ namespace Domain.Models
 
         public int Term { get; set; }
 
+        public string CellPhone { get; set; }
+
         public TariffModel Tariff { get; set; }
 
         public LoanPurpose LoanPurpose { get; set; }

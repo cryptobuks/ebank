@@ -54,6 +54,10 @@
     </Validate>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ApplicationLayer\Application.Tests\Application.Tests.csproj">
+      <Name>Application.Tests</Name>
+      <Project>{f900aaf4-dbfa-46d3-9e35-1f4295fa8a44}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\ApplicationLayer\Application\Application.csproj">
       <Name>Application</Name>
       <Project>{a7714003-3a01-40cb-9177-9612fbacf735}</Project>

@@ -57,6 +57,10 @@
     <Compile Include="Migrations\201311030836060_AddedEntriesRemovedTransactions.Designer.cs">
       <DependentUpon>201311030836060_AddedEntriesRemovedTransactions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201311031121505_AddedCellPhone.cs" />
+    <Compile Include="Migrations\201311031121505_AddedCellPhone.Designer.cs">
+      <DependentUpon>201311031121505_AddedCellPhone.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AccountRepository.cs" />
@@ -86,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201311030836060_AddedEntriesRemovedTransactions.resx">
       <DependentUpon>201311030836060_AddedEntriesRemovedTransactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201311031121505_AddedCellPhone.resx">
+      <DependentUpon>201311031121505_AddedCellPhone.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

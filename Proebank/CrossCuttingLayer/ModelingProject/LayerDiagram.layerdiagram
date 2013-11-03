@@ -1,31 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="b0f9820b-88ff-4d75-9d0c-a3d9146c35bb" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <comments>
+    <comment Id="b7db1119-1e65-40c5-80a8-0bfcfe9f9de6" name="Comment1">
+      <body>Модели</body>
+      <layerElements>
+        <linkFromCommentToLayerElement>
+          <layerMoniker Id="fb4f3964-04b4-4d03-8acd-6e1f6221233f" />
+        </linkFromCommentToLayerElement>
+      </layerElements>
+    </comment>
+    <comment Id="3e1b888a-570d-4348-9ccd-1f11eda69d63" name="Comment2">
+      <body>Сайт</body>
+      <layerElements>
+        <linkFromCommentToLayerElement>
+          <layerMoniker Id="8c766674-aa36-4b2f-a51f-f4b6f652da52" />
+        </linkFromCommentToLayerElement>
+      </layerElements>
+    </comment>
+    <comment Id="2696b261-edd5-41ba-b6ae-68e0edfacb55" name="Comment3">
+      <body>Службы: начисление процентов</body>
+      <layerElements>
+        <linkFromCommentToLayerElement>
+          <layerMoniker Id="9d80b100-657e-4e75-ac58-ce22a8433328" />
+        </linkFromCommentToLayerElement>
+      </layerElements>
+    </comment>
+    <comment Id="00b4656a-7209-496f-963c-34fbaa51de91" name="Comment4">
+      <body>Слой доступа к данным</body>
+      <layerElements>
+        <linkFromCommentToLayerElement>
+          <layerMoniker Id="43c8e031-279f-44e0-8113-d372566ca3f9" />
+        </linkFromCommentToLayerElement>
+      </layerElements>
+    </comment>
+  </comments>
   <layers>
-    <layer Id="c8b481e9-970f-48a2-8fa8-3b605c4ef8b7" name="ApplicationLayer">
+    <layer Id="9d80b100-657e-4e75-ac58-ce22a8433328" name="ApplicationLayer">
       <dependencyToLayers>
-        <dependencyFromLayerToLayer Id="a312de97-49bb-448e-bb73-fce5224f139c" direction="Forward">
-          <layerMoniker Id="cd0ed716-9e4a-4fcf-a9a1-e76400f733dd" />
-        </dependencyFromLayerToLayer>
-        <dependencyFromLayerToLayer Id="8b218c6a-701e-467b-b783-f82682b6cece" direction="Forward">
-          <layerMoniker Id="9fd7410d-b5e0-47b6-bf67-229c056ae2c6" />
+        <dependencyFromLayerToLayer Id="d1f7eb94-3993-4022-bf48-2f7659bce89c" direction="Forward">
+          <layerMoniker Id="fb4f3964-04b4-4d03-8acd-6e1f6221233f" />
         </dependencyFromLayerToLayer>
       </dependencyToLayers>
       <references>
-        <reference Id="49e95f27-d174-4d99-a221-283cfa029217" name="ApplicationLayer">
-          <ArtifactNode Label="ApplicationLayer" Category="CodeSchema_Project" Id="(Assembly=../../ApplicationLayer)">
+        <reference Id="6f4de037-1f6f-4288-b059-72a80a33dcfc" name="ApplicationLayer">
+          <ArtifactNode Label="ApplicationLayer" Category="CodeSchema_Project" Id="(Assembly=&quot;$(PersonalUri)/Projects/GitHub/Proebank/Proebank/ApplicationLayer&quot;)">
             <Category Ref="SolutionFolder" />
           </ArtifactNode>
-          <ExpandedNode Id="(Assembly=ApplicationLayer)" Label="ApplicationLayer.dll" Category="CodeSchema_Assembly">
+          <ExpandedNode Id="(Assembly=Application)" Label="Application.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+          <ExpandedNode Id="(Assembly=Application.Tests)" Label="Application.Tests.dll" Category="CodeSchema_Assembly">
             <Category Ref="FileSystem.Category.FileOfType.dll" />
             <LinkCategory Ref="Represents" />
           </ExpandedNode>
         </reference>
       </references>
     </layer>
-    <layer Id="9fd7410d-b5e0-47b6-bf67-229c056ae2c6" name="CrossCuttingLayer">
+    <layer Id="7469f81f-408a-4910-bb2b-ac6414bb7fa3" name="CrossCuttingLayer">
       <references>
-        <reference Id="d20f626b-cc5d-4d77-8b1a-35ba1c0a3a7b" name="CrossCuttingLayer">
-          <ArtifactNode Label="CrossCuttingLayer" Category="CodeSchema_Project" Id="(Assembly=../../CrossCuttingLayer)">
+        <reference Id="b20f590d-f123-41ed-814e-a1b8d01c11bf" name="CrossCuttingLayer">
+          <ArtifactNode Label="CrossCuttingLayer" Category="CodeSchema_Project" Id="(Assembly=&quot;$(PersonalUri)/Projects/GitHub/Proebank/Proebank/CrossCuttingLayer&quot;)">
             <Category Ref="SolutionFolder" />
           </ArtifactNode>
           <ExpandedNode Id="(Assembly=CrossCutting)" Label="CrossCutting.dll" Category="CodeSchema_Assembly">
@@ -35,18 +70,18 @@
         </reference>
       </references>
     </layer>
-    <layer Id="cd0ed716-9e4a-4fcf-a9a1-e76400f733dd" name="DomainLayer">
+    <layer Id="fb4f3964-04b4-4d03-8acd-6e1f6221233f" name="DomainLayer">
       <dependencyToLayers>
-        <dependencyFromLayerToLayer Id="2d49f82e-3be3-419f-9e2e-34ba0bcaf0bf" direction="Forward">
-          <layerMoniker Id="9fd7410d-b5e0-47b6-bf67-229c056ae2c6" />
+        <dependencyFromLayerToLayer Id="c4fb078d-1186-4e64-a2c1-5fd69caa4bfa" direction="Forward">
+          <layerMoniker Id="7469f81f-408a-4910-bb2b-ac6414bb7fa3" />
         </dependencyFromLayerToLayer>
       </dependencyToLayers>
       <references>
-        <reference Id="1fe66dbb-9525-41a0-8cf7-814598f26659" name="DomainLayer">
-          <ArtifactNode Label="DomainLayer" Category="CodeSchema_Project" Id="(Assembly=../../DomainLayer)">
+        <reference Id="0fdeabac-71a6-4c28-b34a-4558cb285d17" name="DomainLayer">
+          <ArtifactNode Label="DomainLayer" Category="CodeSchema_Project" Id="(Assembly=&quot;$(PersonalUri)/Projects/GitHub/Proebank/Proebank/DomainLayer&quot;)">
             <Category Ref="SolutionFolder" />
           </ArtifactNode>
-          <ExpandedNode Id="(Assembly=DomainLayer.Tests)" Label="DomainLayer.Tests.dll" Category="CodeSchema_Assembly">
+          <ExpandedNode Id="(Assembly=Domain.Tests)" Label="Domain.Tests.dll" Category="CodeSchema_Assembly">
             <Category Ref="FileSystem.Category.FileOfType.dll" />
             <LinkCategory Ref="Represents" />
           </ExpandedNode>
@@ -54,45 +89,47 @@
             <Category Ref="FileSystem.Category.FileOfType.dll" />
             <LinkCategory Ref="Represents" />
           </ExpandedNode>
-          <ExpandedNode Id="(Assembly=DomainLayer)" Label="DomainLayer.dll" Category="CodeSchema_Assembly">
+          <ExpandedNode Id="(Assembly=Domain)" Label="Domain.dll" Category="CodeSchema_Assembly">
             <Category Ref="FileSystem.Category.FileOfType.dll" />
             <LinkCategory Ref="Represents" />
           </ExpandedNode>
         </reference>
       </references>
     </layer>
-    <layer Id="26e4cc02-802f-4c71-b33b-134370840819" name="InfrastructureLayer">
+    <layer Id="43c8e031-279f-44e0-8113-d372566ca3f9" name="InfrastructureLayer">
       <dependencyToLayers>
-        <dependencyFromLayerToLayer Id="af8e30bd-7feb-4aa8-b86d-aea66598b6ac" direction="Forward">
-          <layerMoniker Id="9fd7410d-b5e0-47b6-bf67-229c056ae2c6" />
-        </dependencyFromLayerToLayer>
-        <dependencyFromLayerToLayer Id="e00766c2-a6a8-497e-9dc7-3a94bb94b291" direction="Forward">
-          <layerMoniker Id="cd0ed716-9e4a-4fcf-a9a1-e76400f733dd" />
+        <dependencyFromLayerToLayer Id="d8477e99-ac6f-44d5-8474-333ceb3b9983" direction="Forward">
+          <layerMoniker Id="fb4f3964-04b4-4d03-8acd-6e1f6221233f" />
         </dependencyFromLayerToLayer>
       </dependencyToLayers>
       <references>
-        <reference Id="e24f251b-3f8d-49d6-831d-3625c6e534e4" name="InfrastructureLayer">
-          <ArtifactNode Label="InfrastructureLayer" Category="CodeSchema_Project" Id="(Assembly=../../InfrastructureLayer)">
+        <reference Id="425ab4b8-f87a-4f77-90ef-a08a2ed30350" name="InfrastructureLayer">
+          <ArtifactNode Label="InfrastructureLayer" Category="CodeSchema_Project" Id="(Assembly=&quot;$(PersonalUri)/Projects/GitHub/Proebank/Proebank/InfrastructureLayer&quot;)">
             <Category Ref="SolutionFolder" />
           </ArtifactNode>
-          <ExpandedNode Id="(Assembly=InfrastructureLayer)" Label="InfrastructureLayer.dll" Category="CodeSchema_Assembly">
+          <ExpandedNode Id="(Assembly=Infrastructure)" Label="Infrastructure.dll" Category="CodeSchema_Assembly">
             <Category Ref="FileSystem.Category.FileOfType.dll" />
             <LinkCategory Ref="Represents" />
           </ExpandedNode>
         </reference>
       </references>
     </layer>
-    <layer Id="292bc707-578c-4027-ae1d-77fa43a407ff" name="PresentationLayer">
+    <layer Id="8c766674-aa36-4b2f-a51f-f4b6f652da52" name="PresentationLayer">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="f8fe79be-20f3-4a9f-a746-ffc53e5869ba" direction="Forward">
+          <layerMoniker Id="fb4f3964-04b4-4d03-8acd-6e1f6221233f" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
       <references>
-        <reference Id="3aab38b6-e6c9-46e3-a4d9-923cf92693f7" name="PresentationLayer">
-          <ArtifactNode Label="PresentationLayer" Category="CodeSchema_Project" Id="(Assembly=../../PresentationLayer)">
+        <reference Id="19c095e7-7b57-47b0-bd70-b1a9fdd0244d" name="PresentationLayer">
+          <ArtifactNode Label="PresentationLayer" Category="CodeSchema_Project" Id="(Assembly=&quot;$(PersonalUri)/Projects/GitHub/Proebank/Proebank/PresentationLayer&quot;)">
             <Category Ref="SolutionFolder" />
           </ArtifactNode>
-          <ExpandedNode Id="(Assembly=PresentationLayer.Tests)" Label="PresentationLayer.Tests.dll" Category="CodeSchema_Assembly">
+          <ExpandedNode Id="(Assembly=Presentation.Tests)" Label="Presentation.Tests.dll" Category="CodeSchema_Assembly">
             <Category Ref="FileSystem.Category.FileOfType.dll" />
             <LinkCategory Ref="Represents" />
           </ExpandedNode>
-          <ExpandedNode Id="(Assembly=PresentationLayer)" Label="PresentationLayer.dll" Category="CodeSchema_Assembly">
+          <ExpandedNode Id="(Assembly=Presentation)" Label="Presentation.dll" Category="CodeSchema_Assembly">
             <Category Ref="FileSystem.Category.FileOfType.dll" />
             <LinkCategory Ref="Represents" />
           </ExpandedNode>
