@@ -1,6 +1,9 @@
 ﻿namespace Domain.Models
 {
-    public class CustomerModel
+    /// <summary>
+    /// Клиент банка
+    /// </summary>
+    public class Customer
     {
         public long Id { get; set; }
 

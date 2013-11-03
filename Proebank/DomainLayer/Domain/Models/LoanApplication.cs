@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CrossCutting.Enums;
+using Domain.Enums;
 
 namespace Domain.Models
 {
-    public class LoanApplicationModel
+    public class LoanApplication
     {
         public long Id { get; set; }
 
@@ -16,10 +16,10 @@ namespace Domain.Models
 
         public string CellPhone { get; set; }
 
-        public TariffModel Tariff { get; set; }
+        public Tariff Tariff { get; set; }
 
         public LoanPurpose LoanPurpose { get; set; }
 
-        public IEnumerable<DocumentModel> Documents { get; set; }
+        public virtual ICollection<Document> Documents { get; set; }
     }
 }

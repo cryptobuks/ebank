@@ -7,11 +7,11 @@ namespace RepositoriesContracts
     {
         T Get(TId id);
 
+        T Get(Func<T, bool> filter);
+
         IList<T> GetAll();
 
-        IList<T> FindAll(Func<T, bool> filter);
-
-        T FindFirst(Func<T, bool> filter);
+        IList<T> GetAll(Func<T, bool> filter);
 
         void SaveOrUpdate(params T[] entities);
 

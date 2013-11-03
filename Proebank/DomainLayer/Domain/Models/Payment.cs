@@ -1,9 +1,9 @@
 ﻿using System;
-using CrossCutting.Enums;
+using Domain.Enums;
 
 namespace Domain.Models
 {
-    public class PaymentModel
+    public class Payment
     {
         public Guid Id { get; set; }
 

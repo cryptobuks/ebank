@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Domain.Models
 {
-    public class PaymentScheduleModel
+    public class PaymentSchedule
     {
         public long Id { get; set; }
 
-        public IEnumerable<PaymentModel> Payments { get; set; }
+        public IEnumerable<Payment> Payments { get; set; }
 
         public Guid AddPayment()
         {

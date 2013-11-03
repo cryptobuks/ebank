@@ -61,7 +61,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AccountServiceTests.cs" />
-    <Compile Include="FakeRepositories\AccountRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +79,10 @@
     <ProjectReference Include="..\..\DomainLayer\RepositoriesContracts\RepositoriesContracts.csproj">
       <Project>{f9570d05-868d-4dd5-955f-b99cd568b644}</Project>
       <Name>RepositoriesContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\InfrastructureLayer\Infrastructure\Infrastructure.csproj">
+      <Project>{ba1096a4-e462-4097-863c-917c15dede21}</Project>
+      <Name>Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Application\Application.csproj">
       <Project>{a7714003-3a01-40cb-9177-9612fbacf735}</Project>

@@ -42,8 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountProcessing\AccountService.cs" />
-    <Compile Include="AccountProcessing\FeeCalculator.cs" />
-    <Compile Include="AccountProcessing\InterestCalculator.cs" />
+    <Compile Include="LoanProcessing\FeeCalculator.cs" />
+    <Compile Include="LoanProcessing\InterestCalculator.cs" />
     <Compile Include="LoanProcessing\LoanService.cs" />
     <Compile Include="ProcessingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

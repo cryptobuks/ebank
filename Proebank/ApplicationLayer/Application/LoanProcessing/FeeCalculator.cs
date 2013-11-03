@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Application.FinancialFunctions;
 using Domain.Models;
 
-namespace Application.AccountProcessing
+namespace Application.LoanProcessing
 {
     static class FeeCalculator
     {
@@ -15,7 +15,7 @@ namespace Application.AccountProcessing
             var a = Interest.InterestRate(4, 5);
         }
 
-        public static EntryModel AccrualFor(DateTime date)
+        public static Entry AccrualFor(DateTime date)
         {
             throw new NotImplementedException();
         }

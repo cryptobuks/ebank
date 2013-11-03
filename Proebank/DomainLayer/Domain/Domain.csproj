@@ -49,16 +49,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\AccountModel.cs" />
-    <Compile Include="Models\CustomerModel.cs" />
-    <Compile Include="Models\DocumentModel.cs" />
-    <Compile Include="Models\EmployeeModel.cs" />
-    <Compile Include="Models\EntryModel.cs" />
-    <Compile Include="Models\LoanApplicationModel.cs" />
-    <Compile Include="Models\LoanModel.cs" />
-    <Compile Include="Models\PaymentModel.cs" />
-    <Compile Include="Models\PaymentScheduleModel.cs" />
-    <Compile Include="Models\TariffModel.cs" />
+    <Compile Include="Enums\AccountType.cs" />
+    <Compile Include="Enums\Currency.cs" />
+    <Compile Include="Enums\DocType.cs" />
+    <Compile Include="Enums\EmployeeRole.cs" />
+    <Compile Include="Enums\EntrySubType.cs" />
+    <Compile Include="Enums\EntryType.cs" />
+    <Compile Include="Enums\LoanPurpose.cs" />
+    <Compile Include="Enums\TariffDocType.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Document.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Entry.cs" />
+    <Compile Include="Models\LoanApplication.cs" />
+    <Compile Include="Models\Loan.cs" />
+    <Compile Include="Models\Payment.cs" />
+    <Compile Include="Models\PaymentSchedule.cs" />
+    <Compile Include="Models\Tariff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

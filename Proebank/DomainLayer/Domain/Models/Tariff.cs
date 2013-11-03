@@ -1,9 +1,9 @@
 ﻿using System;
-using CrossCutting.Enums;
+using Domain.Enums;
 
 namespace Domain.Models
 {
-    public class TariffModel
+    public class Tariff
     {
         public int Id { get; set; }
 

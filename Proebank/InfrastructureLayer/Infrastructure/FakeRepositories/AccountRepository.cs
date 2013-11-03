@@ -4,43 +4,43 @@ using System.Linq;
 using Domain.Models;
 using RepositoriesContracts;
 
-namespace Application.Tests.FakeRepositories
+namespace Infrastructure.FakeRepositories
 {
     class AccountRepository : IAccountRepository
     {
-        private readonly List<AccountModel> _accounts;
+        private readonly List<Account> _accounts;
 
         public AccountRepository()
         {
-            _accounts = new List<AccountModel>();
+            _accounts = new List<Account>();
         }
 
-        public AccountModel Get(Guid id)
+        public Account Get(Guid id)
         {
-            return FindFirst(a => a.Id == id);
+            return Get(a => a.Id == id);
         }
 
-        public IList<AccountModel> GetAll()
+        public IList<Account> GetAll()
         {
             return _accounts;
         }
 
-        public IList<AccountModel> FindAll(Func<AccountModel, bool> filter)
+        public IList<Account> GetAll(Func<Account, bool> filter)
         {
             return _accounts.Where(filter).ToList();
         }
 
-        public AccountModel FindFirst(Func<AccountModel, bool> filter)
+        public Account Get(Func<Account, bool> filter)
         {
             return _accounts.FirstOrDefault();
         }
 
-        public void SaveOrUpdate(params AccountModel[] entities)
+        public void SaveOrUpdate(params Account[] entities)
         {
             foreach (var entity in entities)
             {
                 var id = entity.Id;
-                var acc = FindFirst(a => a.Id == id);
+                var acc = Get(a => a.Id == id);
                 if (acc == null)
                 {
                     _accounts.Add(entity);
@@ -48,15 +48,15 @@ namespace Application.Tests.FakeRepositories
                 }
                 else
                 {
+                    // TODO: complete; extract method
                     acc.Entries = entity.Entries;
-                    acc.CreationDate = entity.CreationDate;
-                    acc.Employee = entity.Employee;
+                    acc.DateOpened = entity.DateOpened;
                     acc.Number = entity.Number;
                 }
             }
         }
 
-        public AccountModel Delete(AccountModel entity)
+        public Account Delete(Account entity)
         {
             var removalSucceeded = _accounts.Remove(entity);
             return removalSucceeded ? entity : null;

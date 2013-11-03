@@ -1,17 +1,17 @@
-﻿@model IList<Domain.Models.AccountModel>
+﻿@model IList<Domain.Models.Account>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Bank account list:</h2>
+<h2>Bank accounts list:</h2>
 <div>
     @foreach (var acc in Model)
     {
         <p>
             <span>@acc.Id</span>
-            <span>@acc.Number</span>
-            <span>@acc.Entries.Count</span>
-            <span>@acc.CreationDate</span>
+            <span>@acc.Type</span>
+            <span>@acc.DateOpened</span>
+            <span>@acc.NumberText</span>
         </p>
     }
 </div>

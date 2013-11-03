@@ -1,4 +1,4 @@
-﻿namespace CrossCutting.Enums
+﻿namespace Domain.Enums
 {
     public enum TariffDocType : int
     {

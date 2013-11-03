@@ -1,9 +1,12 @@
 ﻿using System;
-using CrossCutting.Enums;
+using Domain.Enums;
 
 namespace Domain.Models
 {
-    public class EmployeeModel
+    /// <summary>
+    /// Работник банка
+    /// </summary>
+    public class Employee
     {
         public int Id { get; set; }
 

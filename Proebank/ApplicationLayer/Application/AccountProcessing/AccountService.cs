@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
 using RepositoriesContracts;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,45 @@ namespace Application.AccountProcessing
             _repository = accountRepository;
         }
 
-        public AccountModel CreateAccount()
+        public Account CreateAccount(Currency currency, AccountType accountType)
         {
-            // TODO: Полная чушь, надо переписать
-            var acc = new AccountModel { Id = Guid.NewGuid(), Number = "3819xxx" };
+            var acc = new Account()
+            {
+                Id = Guid.NewGuid(),
+                Currency = currency,
+                DateOpened = DateTime.UtcNow,
+                Type = accountType,
+            };
             _repository.SaveOrUpdate(acc);
             return acc;
         }
 
-        public void CloseAccount()
+        public void AddEntry(Account account, Entry entry)
         {
-            throw new System.NotImplementedException();
+            if (account == null)
+                throw new ArgumentNullException("account");
+            if (entry == null)
+                throw new ArgumentNullException("entry");
+            if (account.Currency != entry.Currency)
+                throw new ArgumentException("Currencies are not equal");
+            else
+            {
+                account.Entries.Add(entry);
+                _repository.SaveOrUpdate(account);
+            }
+        }
+
+        public void CloseAccount(Account account)
+        {
+            if (account.IsClosed)
+            {
+                throw new ArgumentException("Account is already closed");
+            }
+            else
+            {
+                account.IsClosed = true;
+                _repository.SaveOrUpdate(account);
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Application.LoanProcessing
     class LoanService
     {
 
-        public IEnumerable<LoanModel> Loans
+        public IEnumerable<Loan> Loans
         {
             get;
             set;

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CrossCutting.Enums;
+using Domain.Enums;
 
 namespace Domain.Models
 {
-    public class EntryModel
+    /// <summary>
+    /// Какая-либо операция со счётом (Account): начисление платежей или процентов
+    /// </summary>
+    public class Entry
     {
         public Guid Id { get; set; }
         public decimal Amount { get; set; }

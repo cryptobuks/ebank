@@ -27,5 +27,17 @@ namespace Application.Tests
             var account = _service.CreateAccount();
             Assert.IsNotNull(account);
         }
+
+        //[TestMethod]
+        //public void AddEntry()
+        //{
+            
+        //}
+
+        //[TestMethod]
+        //public void CloseAccount()
+        //{
+            
+        //}
     }
 }

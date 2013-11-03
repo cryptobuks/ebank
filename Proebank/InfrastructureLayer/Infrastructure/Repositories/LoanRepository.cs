@@ -10,7 +10,7 @@ namespace Infrastructure.Repositories
     // TODO: try to generalize more, using DbSet<T> everywhere
     class LoanRepository : ILoanRepository
     {
-        public LoanModel Get(Guid id)
+        public Loan Get(Guid id)
         {
             using (var ctx = new DataContext())
             {
@@ -18,7 +18,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public IList<LoanModel> GetAll()
+        public IList<Loan> GetAll()
         {
             using (var ctx = new DataContext())
             {
@@ -26,7 +26,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public IList<LoanModel> FindAll(Func<LoanModel, bool> filter)
+        public IList<Loan> GetAll(Func<Loan, bool> filter)
         {
             using (var ctx = new DataContext())
             {
@@ -36,7 +36,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public LoanModel FindFirst(Func<LoanModel, bool> filter)
+        public Loan Get(Func<Loan, bool> filter)
         {
             using (var ctx = new DataContext())
             {
@@ -45,7 +45,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public void SaveOrUpdate(params LoanModel[] entities)
+        public void SaveOrUpdate(params Loan[] entities)
         {
             using (var ctx = new DataContext())
             {
@@ -53,7 +53,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public LoanModel Delete(LoanModel entity)
+        public Loan Delete(Loan entity)
         {
             using (var ctx = new DataContext())
             {

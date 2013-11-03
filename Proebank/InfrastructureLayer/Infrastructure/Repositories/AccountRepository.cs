@@ -11,7 +11,7 @@ namespace Infrastructure.Repositories
     // TODO: don't create db context for every method call
     public class AccountRepository : IAccountRepository
     {
-        public AccountModel Get(Guid id)
+        public Account Get(Guid id)
         {
             using (var ctx = new DataContext())
             {
@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public IList<AccountModel> GetAll()
+        public IList<Account> GetAll()
         {
             using (var ctx = new DataContext())
             {
@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public IList<AccountModel> FindAll(Func<AccountModel, bool> filter)
+        public IList<Account> GetAll(Func<Account, bool> filter)
         {
             using (var ctx = new DataContext())
             {
@@ -37,7 +37,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public AccountModel FindFirst(Func<AccountModel, bool> filter)
+        public Account Get(Func<Account, bool> filter)
         {
             using (var ctx = new DataContext())
             {
@@ -46,7 +46,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public void SaveOrUpdate(params AccountModel[] entities)
+        public void SaveOrUpdate(params Account[] entities)
         {
             using (var ctx = new DataContext())
             {
@@ -54,7 +54,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public AccountModel Delete(AccountModel entity)
+        public Account Delete(Account entity)
         {
             using (var ctx = new DataContext())
             {
