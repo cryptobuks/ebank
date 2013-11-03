@@ -1,7 +1,7 @@
-﻿using DomainLayer.Models;
+﻿using Domain.Models;
 using System.Data.Entity;
 
-namespace InfrastructureLayer
+namespace Infrastructure
 {
     class DataContext : DbContext
     {

@@ -9,8 +9,8 @@
     <ProjectGuid>{72DFD774-5B5D-4ECD-BC23-3631B44B4D6E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PresentationLayer.Tests</RootNamespace>
-    <AssemblyName>PresentationLayer.Tests</AssemblyName>
+    <RootNamespace>Presentation.Tests</RootNamespace>
+    <AssemblyName>Presentation.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -103,6 +103,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ApplicationLayer\Application.Tests\Application.Tests.csproj">
+      <Project>{f900aaf4-dbfa-46d3-9e35-1f4295fa8a44}</Project>
+      <Name>Application.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ApplicationLayer\Application\Application.csproj">
       <Project>{a7714003-3a01-40cb-9177-9612fbacf735}</Project>
       <Name>Application</Name>

@@ -6,8 +6,8 @@
     <ProjectGuid>{8F59D70E-EAFA-4E48-AEE5-96BAA6261ACE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DomainLayer.Tests</RootNamespace>
-    <AssemblyName>DomainLayer.Tests</AssemblyName>
+    <RootNamespace>Domain.Tests</RootNamespace>
+    <AssemblyName>Domain.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

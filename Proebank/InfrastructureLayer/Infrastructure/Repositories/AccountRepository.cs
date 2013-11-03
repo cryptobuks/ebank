@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
-using DomainLayer.Models;
+using Domain.Models;
 using RepositoriesContracts;
 
-namespace InfrastructureLayer.Repositories
+namespace Infrastructure.Repositories
 {
     // TODO: don't create db context for every method call
     public class AccountRepository : IAccountRepository

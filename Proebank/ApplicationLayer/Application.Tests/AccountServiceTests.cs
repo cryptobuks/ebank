@@ -1,7 +1,8 @@
-﻿using ApplicationLayer.AccountProcessing;
+﻿using Application.AccountProcessing;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RepositoriesContracts;
 
 namespace Application.Tests
 {
@@ -15,10 +16,9 @@ namespace Application.Tests
         public static void InitService(TestContext context)
         {
             _container = new UnityContainer();
-            //var section = (UnityConfigurationSection)ConfigurationManager.GetSection("unity");
-            //section.Configure(_container);
             _container.LoadConfiguration();
-            _service = _container.Resolve<AccountService>();
+            var _repository = _container.Resolve<IAccountRepository>();
+            _service = new AccountService(_repository);
         }
 
         [TestMethod]

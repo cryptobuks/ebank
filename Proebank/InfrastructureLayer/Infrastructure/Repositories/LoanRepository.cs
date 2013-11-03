@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using DomainLayer.Models;
+using Domain.Models;
 using RepositoriesContracts;
 
-namespace InfrastructureLayer.Repositories
+namespace Infrastructure.Repositories
 {
     // TODO: try to generalize more, using DbSet<T> everywhere
     class LoanRepository : ILoanRepository

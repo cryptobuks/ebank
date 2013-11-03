@@ -8,12 +8,13 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
-using PresentationLayer.Models;
+using Presentation.Models;
+using RepositoriesContracts;
 
-namespace PresentationLayer.Controllers
+namespace Presentation.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PresentationLayer.Models
+namespace Presentation.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

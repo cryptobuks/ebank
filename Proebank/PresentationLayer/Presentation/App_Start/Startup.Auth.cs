@@ -3,7 +3,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 
-namespace PresentationLayer
+namespace Presentation
 {
     public partial class Startup
     {

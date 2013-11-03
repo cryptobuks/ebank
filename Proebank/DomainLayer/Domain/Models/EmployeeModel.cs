@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DomainLayer.Models
+namespace Domain.Models
 {
     public class EmployeeModel
     {

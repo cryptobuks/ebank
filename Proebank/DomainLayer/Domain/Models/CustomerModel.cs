@@ -1,4 +1,4 @@
-﻿namespace DomainLayer.Models
+﻿namespace Domain.Models
 {
     public class CustomerModel
     {

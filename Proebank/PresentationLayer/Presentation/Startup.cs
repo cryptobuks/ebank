@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(PresentationLayer.Startup))]
-namespace PresentationLayer
+[assembly: OwinStartupAttribute(typeof(Presentation.Startup))]
+namespace Presentation
 {
     public partial class Startup
     {

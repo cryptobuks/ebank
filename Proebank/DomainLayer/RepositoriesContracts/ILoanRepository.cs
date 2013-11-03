@@ -1,5 +1,5 @@
 ﻿using System;
-using DomainLayer.Models;
+using Domain.Models;
 
 namespace RepositoriesContracts
 {

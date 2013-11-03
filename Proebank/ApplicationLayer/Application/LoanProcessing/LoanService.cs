@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using DomainLayer.Models;
+using Domain.Models;
 
-namespace ApplicationLayer.LoanProcessing
+namespace Application.LoanProcessing
 {
     class LoanService
     {
