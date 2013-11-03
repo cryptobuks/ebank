@@ -1,19 +1,19 @@
-﻿namespace Domain.Models
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+
+namespace Domain.Models.Customers
 {
     /// <summary>
     /// Клиент банка
     /// </summary>
-    public class Customer
+    public class Customer : IdentityUser
     {
-        public long Id { get; set; }
-
-        public string IdentificationNumber { get; set; }
-
         public string LastName { get; set; }
 
         public string FirstName { get; set; }
 
         public string MiddleName { get; set; }
+
+        public string IdentificationNumber { get; set; }
 
         public string Email { get; set; }
 

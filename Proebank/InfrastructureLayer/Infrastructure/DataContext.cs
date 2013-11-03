@@ -1,4 +1,8 @@
 ﻿using Domain.Models;
+using Domain.Models.Accounts;
+using Domain.Models.Customers;
+using Domain.Models.Loans;
+using Domain.Models.Users;
 using Infrastructure.Migrations;
 using System.Data.Entity;
 
@@ -17,6 +21,10 @@ namespace Infrastructure
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer(new DataContextInitializer());
+            //modelBuilder.Entity<User>()
+            //    .Map(m => m.ToTable("Users"))
+            //    .Map<Customer>(m => m.ToTable("Customers"))
+            //    .Map<Employee>(m => m.ToTable("Employees"));
             //modelBuilder.Entity<Account>()
             //    .Property(u => u.Number)
             //    .HasColumnName("Number");

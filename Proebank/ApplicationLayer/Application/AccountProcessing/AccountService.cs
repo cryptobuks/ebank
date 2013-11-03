@@ -1,6 +1,6 @@
 ﻿using Domain.Enums;
 using Domain.Models;
-using RepositoriesContracts;
+using Domain.Models.Accounts;
 using System;
 using System.Collections.Generic;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Domain.Enums;
 
-namespace Domain.Models
+namespace Domain.Models.Loans
 {
     public class LoanApplication
     {

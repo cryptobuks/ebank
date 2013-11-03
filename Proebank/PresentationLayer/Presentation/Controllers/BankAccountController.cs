@@ -1,5 +1,5 @@
-﻿using Microsoft.Practices.Unity;
-using RepositoriesContracts;
+﻿using Domain.Models.Accounts;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

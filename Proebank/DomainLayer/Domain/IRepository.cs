@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RepositoriesContracts
+namespace Domain
 {
     public interface IRepository<T, in TId>
     {

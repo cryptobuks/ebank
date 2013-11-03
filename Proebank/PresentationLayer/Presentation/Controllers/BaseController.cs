@@ -1,6 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
-using RepositoriesContracts;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

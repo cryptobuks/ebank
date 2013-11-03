@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Enums;
+using Domain.Shared;
 
-namespace Domain.Models
+namespace Domain.Models.Accounts
 {
     /// <summary>
     /// Какая-либо операция со счётом (Account): начисление платежей или процентов
     /// </summary>
-    public class Entry
+    public class Entry : IEntity<Entry>
     {
         public Guid Id { get; set; }
         public decimal Amount { get; set; }
@@ -18,5 +15,10 @@ namespace Domain.Models
         public DateTime Date { get; set; }
         public EntryType Type { get; set; }
         public EntrySubType SubType { get; set; }
+
+        public bool SameIdentityAs(Entry other)
+        {
+            return other != null && other.Id.Equals(Id);
+        }
     }
 }

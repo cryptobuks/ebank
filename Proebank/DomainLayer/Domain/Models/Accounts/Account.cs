@@ -1,14 +1,14 @@
-﻿using Domain.Enums;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using Domain.Enums;
+using Domain.Shared;
 
-namespace Domain.Models
+namespace Domain.Models.Accounts
 {
     /// <summary>
     /// Банковский счёт
     /// </summary>
-    public class Account
+    public class Account : IEntity<Account>
     {
         public Guid Id { get; set; }
 
@@ -33,5 +33,10 @@ namespace Domain.Models
         public DateTime? DateClosed { get; set; }
 
         public bool IsClosed { get; set; }
+
+        public bool SameIdentityAs(Account other)
+        {
+            return other != null && other.Id.Equals(Id);
+        }
     }
 }

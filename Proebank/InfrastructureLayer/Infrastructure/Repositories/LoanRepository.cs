@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using Domain.Models;
-using RepositoriesContracts;
+using Domain.Models.Loans;
 
 namespace Infrastructure.Repositories
 {

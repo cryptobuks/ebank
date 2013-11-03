@@ -1,3 +1,5 @@
+using Domain.Models.Accounts;
+
 namespace Infrastructure.Migrations
 {
     using Domain.Enums;

@@ -1,9 +1,9 @@
 ﻿using Application.AccountProcessing;
 using Domain.Enums;
+using Domain.Models.Accounts;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepositoriesContracts;
 
 namespace Application.Tests
 {

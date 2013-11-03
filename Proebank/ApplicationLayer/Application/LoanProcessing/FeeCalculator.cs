@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.FinancialFunctions;
 using Domain.Models;
+using Domain.Models.Accounts;
 
 namespace Application.LoanProcessing
 {

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Domain.Models.Accounts;
+using Domain.Models.Users;
 
-namespace Domain.Models
+namespace Domain.Models.Loans
 {
     public class Loan
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Domain.Models;
+using Domain.Models.Loans;
 
 namespace Application.LoanProcessing
 {

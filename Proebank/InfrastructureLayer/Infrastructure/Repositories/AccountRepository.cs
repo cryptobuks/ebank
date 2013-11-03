@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using Domain.Models;
-using RepositoriesContracts;
+using Domain.Models.Accounts;
 
 namespace Infrastructure.Repositories
 {

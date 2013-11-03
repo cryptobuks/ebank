@@ -68,17 +68,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CrossCuttingLayer\CrossCutting\CrossCutting.csproj">
-      <Project>{067bb171-f6de-4407-b48f-263731ade0a5}</Project>
-      <Name>CrossCutting</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\DomainLayer\Domain\Domain.csproj">
       <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
       <Name>Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DomainLayer\RepositoriesContracts\RepositoriesContracts.csproj">
-      <Project>{f9570d05-868d-4dd5-955f-b99cd568b644}</Project>
-      <Name>RepositoriesContracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\InfrastructureLayer\Infrastructure\Infrastructure.csproj">
       <Project>{ba1096a4-e462-4097-863c-917c15dede21}</Project>

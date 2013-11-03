@@ -1,7 +1,7 @@
 ﻿using System;
 using Domain.Enums;
 
-namespace Domain.Models
+namespace Domain.Models.Loans
 {
     public class Tariff
     {

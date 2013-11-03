@@ -51,6 +51,7 @@
     <Compile Include="DataContext.cs" />
     <Compile Include="DataContextInitializer.cs" />
     <Compile Include="FakeRepositories\AccountRepository.cs" />
+    <Compile Include="FakeRepositories\LoanRepository.cs" />
     <Compile Include="Migrations\201311030101539_InitMigration.cs" />
     <Compile Include="Migrations\201311030101539_InitMigration.Designer.cs">
       <DependentUpon>201311030101539_InitMigration.cs</DependentUpon>
@@ -81,17 +82,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CrossCuttingLayer\CrossCutting\CrossCutting.csproj">
-      <Project>{067bb171-f6de-4407-b48f-263731ade0a5}</Project>
-      <Name>CrossCutting</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\DomainLayer\Domain\Domain.csproj">
       <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
       <Name>Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DomainLayer\RepositoriesContracts\RepositoriesContracts.csproj">
-      <Project>{f9570d05-868d-4dd5-955f-b99cd568b644}</Project>
-      <Name>RepositoriesContracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

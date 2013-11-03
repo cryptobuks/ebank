@@ -70,10 +70,6 @@
       <Name>Domain</Name>
       <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\DomainLayer\RepositoriesContracts\RepositoriesContracts.csproj">
-      <Name>RepositoriesContracts</Name>
-      <Project>{f9570d05-868d-4dd5-955f-b99cd568b644}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\InfrastructureLayer\Infrastructure\Infrastructure.csproj">
       <Name>Infrastructure</Name>
       <Project>{ba1096a4-e462-4097-863c-917c15dede21}</Project>
@@ -85,10 +81,6 @@
     <ProjectReference Include="..\..\PresentationLayer\Presentation\Presentation.csproj">
       <Name>Presentation</Name>
       <Project>{c22713d0-c493-412b-9680-7b18ec7327d6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\CrossCutting\CrossCutting.csproj">
-      <Name>CrossCutting</Name>
-      <Project>{067bb171-f6de-4407-b48f-263731ade0a5}</Project>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -1,7 +1,6 @@
 ﻿using System;
-using Domain.Models;
 
-namespace RepositoriesContracts
+namespace Domain.Models.Loans
 {
     public interface ILoanRepository : IRepository<Loan, Guid>
     {

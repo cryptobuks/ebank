@@ -1,7 +1,6 @@
 ﻿using System;
-using Domain.Models;
 
-namespace RepositoriesContracts
+namespace Domain.Models.Accounts
 {
     public interface IAccountRepository : IRepository<Account, Guid>
     {
