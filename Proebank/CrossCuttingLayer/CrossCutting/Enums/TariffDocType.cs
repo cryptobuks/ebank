@@ -1,7 +1,10 @@
-﻿public enum TariffDocType : int
+﻿namespace CrossCutting.Enums
 {
-    GuarantorPrimary,
-    GuarantorSecondary,
-    DebtorPrimary,
-    DebtorSecondary,
+    public enum TariffDocType : int
+    {
+        GuarantorPrimary,
+        GuarantorSecondary,
+        DebtorPrimary,
+        DebtorSecondary,
+    }
 }

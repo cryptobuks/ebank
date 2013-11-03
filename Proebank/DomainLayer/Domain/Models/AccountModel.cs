@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Domain.Models
 {
@@ -8,7 +10,9 @@ namespace Domain.Models
 
         public string Number { get; set; }
 
-        public decimal Balance { get; set; }
+        //public decimal Balance { get; set; }
+
+        public IList<EntryModel> Entries { get; set; }
 
         public DateTime CreationDate { get; set; }
 

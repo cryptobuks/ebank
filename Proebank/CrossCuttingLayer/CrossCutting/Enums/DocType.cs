@@ -1,8 +1,11 @@
-﻿public enum DocType : int
+﻿namespace CrossCutting.Enums
 {
-    Passport,
-    DriverLicense,
-    IncomeStatement,
-    PersonalDeposit,
-    SalaryCard,
+    public enum DocType : int
+    {
+        Passport,
+        DriverLicense,
+        IncomeStatement,
+        PersonalDeposit,
+        SalaryCard,
+    }
 }

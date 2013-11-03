@@ -53,12 +53,12 @@
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\EntryModel.cs" />
     <Compile Include="Models\LoanApplicationModel.cs" />
     <Compile Include="Models\LoanModel.cs" />
     <Compile Include="Models\PaymentModel.cs" />
     <Compile Include="Models\PaymentScheduleModel.cs" />
     <Compile Include="Models\TariffModel.cs" />
-    <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

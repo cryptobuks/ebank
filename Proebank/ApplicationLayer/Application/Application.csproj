@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountProcessing\AccountService.cs" />
+    <Compile Include="AccountProcessing\FeeCalculator.cs" />
+    <Compile Include="AccountProcessing\InterestCalculator.cs" />
     <Compile Include="LoanProcessing\LoanService.cs" />
     <Compile Include="ProcessingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +64,10 @@
     <ProjectReference Include="..\..\InfrastructureLayer\Infrastructure\Infrastructure.csproj">
       <Project>{ba1096a4-e462-4097-863c-917c15dede21}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.FinancialFunctions\Application.FinancialFunctions.fsproj">
+      <Project>{213b79a6-fdfa-4c28-bc91-7af9c70c99f3}</Project>
+      <Name>Application.FinancialFunctions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

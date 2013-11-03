@@ -1,7 +1,10 @@
-﻿public enum LoanPurpose : int
+﻿namespace CrossCutting.Enums
 {
-    Common,
-    Car,
-    Education,
-    Housing,
+    public enum LoanPurpose : int
+    {
+        Common,
+        Car,
+        Education,
+        Housing,
+    }
 }

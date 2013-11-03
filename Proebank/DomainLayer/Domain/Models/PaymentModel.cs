@@ -1,4 +1,5 @@
 ﻿using System;
+using CrossCutting.Enums;
 
 namespace Domain.Models
 {
@@ -8,6 +9,6 @@ namespace Domain.Models
 
         public DateTime Date { get; set; }
 
-        public PaymentType PaymentType { get; set; }
+        public EntryType PaymentType { get; set; }
     }
 }

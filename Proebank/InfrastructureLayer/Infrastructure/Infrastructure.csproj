@@ -53,6 +53,10 @@
     <Compile Include="Migrations\201311030101539_InitMigration.Designer.cs">
       <DependentUpon>201311030101539_InitMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201311030836060_AddedEntriesRemovedTransactions.cs" />
+    <Compile Include="Migrations\201311030836060_AddedEntriesRemovedTransactions.Designer.cs">
+      <DependentUpon>201311030836060_AddedEntriesRemovedTransactions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AccountRepository.cs" />
@@ -79,6 +83,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201311030101539_InitMigration.resx">
       <DependentUpon>201311030101539_InitMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201311030836060_AddedEntriesRemovedTransactions.resx">
+      <DependentUpon>201311030836060_AddedEntriesRemovedTransactions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

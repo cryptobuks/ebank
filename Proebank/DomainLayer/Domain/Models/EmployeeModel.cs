@@ -1,4 +1,5 @@
 ﻿using System;
+using CrossCutting.Enums;
 
 namespace Domain.Models
 {

@@ -48,7 +48,7 @@ namespace Application.Tests.FakeRepositories
                 }
                 else
                 {
-                    acc.Balance = entity.Balance;
+                    acc.Entries = entity.Entries;
                     acc.CreationDate = entity.CreationDate;
                     acc.Employee = entity.Employee;
                     acc.Number = entity.Number;

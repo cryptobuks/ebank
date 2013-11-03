@@ -14,21 +14,6 @@ namespace Application.AccountProcessing
             _repository = accountRepository;
         }
 
-        public void CommitTransaction(TransactionModel transaction)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public TransactionModel FindTransactionById()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IEnumerable<TransactionModel> FindTransactionsBy()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public AccountModel CreateAccount()
         {
             // TODO: Полная чушь, надо переписать

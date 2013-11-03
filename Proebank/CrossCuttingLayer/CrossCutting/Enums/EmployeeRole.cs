@@ -1,8 +1,11 @@
-﻿public enum EmployeeRole : int
+﻿namespace CrossCutting.Enums
 {
-    Operator,
-    Consultant,
-    SecurityService,
-    Chief,
-    CreditCommitee,
+    public enum EmployeeRole : int
+    {
+        Operator,
+        Consultant,
+        SecurityService,
+        Chief,
+        CreditCommitee,
+    }
 }
