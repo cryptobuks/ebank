@@ -14,7 +14,5 @@ namespace Domain.Models.Loans
         public virtual ICollection<Account> Accounts { get; set; }
 
         public PaymentSchedule PaymentSchedule { get; set; }
-
-        public Employee ConcludedBy { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Models.Customers
 {
@@ -7,12 +8,6 @@ namespace Domain.Models.Customers
     /// </summary>
     public class Customer : IdentityUser
     {
-        public string LastName { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string MiddleName { get; set; }
-
         public string IdentificationNumber { get; set; }
 
         public string Email { get; set; }
