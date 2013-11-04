@@ -18,7 +18,7 @@ namespace Presentation.Internal.Models
     public class ApplicationDbContext : IdentityDbContext<Employee>
     {
         public ApplicationDbContext()
-            : base("ProebankInternal")
+            : base("ProebankEmployees")
         {
         }
     }

@@ -11,7 +11,7 @@ namespace Presentation.Models
     //public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     //{
     //    public ApplicationDbContext()
-    //        : base("DefaultConnection")
+    //        : base("ProebankCustomers")
     //    {
     //    }
     //}
@@ -19,7 +19,7 @@ namespace Presentation.Models
     public class ApplicationDbContext : IdentityDbContext<Customer>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection")
+            : base("ProebankCustomers")
         {
         }
     }
