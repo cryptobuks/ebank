@@ -63,6 +63,7 @@
     <Compile Include="Enums\EmployeeRole.cs" />
     <Compile Include="Enums\EntrySubType.cs" />
     <Compile Include="Enums\EntryType.cs" />
+    <Compile Include="Enums\LoanApplicationStatus.cs" />
     <Compile Include="Enums\LoanPurpose.cs" />
     <Compile Include="Enums\TariffDocType.cs" />
     <Compile Include="IRepository.cs" />

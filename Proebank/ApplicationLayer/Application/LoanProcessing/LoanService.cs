@@ -31,6 +31,19 @@ namespace Application.LoanProcessing
             return validationResult;
         }
 
+        public void ConsiderLoanApplication(LoanApplication loanApplication, bool decision)
+        {
+            // TODO: change later
+            if (decision)
+            {
+                loanApplication.Approve();
+            }
+            else
+            {
+                loanApplication.Reject();
+            }
+        }
+
         private bool ValidateLoanApplication(LoanApplication loanApplication)
         {
             throw new System.NotImplementedException();

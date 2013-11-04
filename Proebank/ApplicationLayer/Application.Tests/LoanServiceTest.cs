@@ -104,5 +104,12 @@ namespace Application.Tests
         {
             Assert.IsFalse(_service.CreateLoanApplication(_invalidLoanApp));
         }
+
+        [TestMethod]
+        public void ConsiderLoanApplication()
+        {
+            _service.ConsiderLoanApplication(_validLoanApp, true);
+            Assert.AreEqual(LoanApplicationStatus.Approved, _validLoanApp.Status);
+        }
     }
 }
