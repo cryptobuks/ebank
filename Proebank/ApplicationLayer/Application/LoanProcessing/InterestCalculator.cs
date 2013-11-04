@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Enums;
 using Domain.Models;
 using Domain.Models.Accounts;
+using Domain.Models.Loans;
 
 namespace Application.LoanProcessing
 {
     static class InterestCalculator
     {
-        public static Entry AccrualFor(DateTime date)
+        public static Entry CalculateInterestFor(Loan loan, DateTime date)
         {
-            throw new NotImplementedException();
+            // TODO: very basic logic. Improve later
+            var application = loan.Application;
+            var amount = application.LoanAmount;
+            var interestRate = application.Tariff.InterestRate;
+            var accrual = amount * interestRate / application.Term;
+            return new Entry {Amount = accrual, Type = EntryType.Accrual, SubType = EntrySubType.Interest};
         }
     }
 }
