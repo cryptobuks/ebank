@@ -44,9 +44,9 @@ namespace Application.LoanProcessing
             }
         }
 
-        private bool ValidateLoanApplication(LoanApplication loanApplication)
+        public PaymentSchedule CalculatePaymentSchedule(LoanApplication loanApplication)
         {
-            throw new System.NotImplementedException();
+            return PaymentScheduleCalculator.Calculate(loanApplication);
         }
 
         public void CreateLoanContract()

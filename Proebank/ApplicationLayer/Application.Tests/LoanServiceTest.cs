@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using Application.LoanProcessing;
@@ -77,6 +78,7 @@ namespace Application.Tests
                 Documents = new Collection<Document> { _passport },
                 LoanAmount = 5.5E7M,
                 LoanPurpose = LoanPurpose.Common,
+                Tariff = _tariff,
                 TariffId = _tariff.Id,
                 Term = 3,
                 TimeCreated = DateTime.Now
@@ -110,6 +112,15 @@ namespace Application.Tests
         {
             _service.ConsiderLoanApplication(_validLoanApp, true);
             Assert.AreEqual(LoanApplicationStatus.Approved, _validLoanApp.Status);
+        }
+
+        [TestMethod]
+        public void CalculatePayments()
+        {
+            var schedule = _service.CalculatePaymentSchedule(_validLoanApp);
+            Assert.IsNotNull(schedule);
+            Assert.AreEqual(_validLoanApp.Term, schedule.Payments.Count);
+            Assert.AreEqual(_validLoanApp.LoanAmount * (1 + _validLoanApp.Tariff.InterestRate), schedule.Payments.Sum(p => p.Amount));
         }
     }
 }

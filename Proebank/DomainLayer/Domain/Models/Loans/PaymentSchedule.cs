@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Models.Loans
 {
     public class PaymentSchedule
     {
+        public PaymentSchedule()
+        {
+            Payments = new Collection<Payment>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        public IEnumerable<Payment> Payments { get; set; }
+        public Collection<Payment> Payments { get; private set; }
 
-        public Guid AddPayment()
+        public void AddPayment(Payment payment)
         {
-            throw new NotImplementedException();
+            Payments.Add(payment);
         }
     }
 }

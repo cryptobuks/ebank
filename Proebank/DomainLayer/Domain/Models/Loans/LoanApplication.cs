@@ -15,11 +15,15 @@ namespace Domain.Models.Loans
 
         public DateTime TimeCreated { get; set; }
 
+        public DateTime? TimeContracted { get; set; }
+
         public int Term { get; set; }
 
         public string CellPhone { get; set; }
 
         public int TariffId { get; set; }
+
+        public Tariff Tariff { get; set; }
 
         public LoanPurpose LoanPurpose { get; set; }
 
@@ -39,6 +43,7 @@ namespace Domain.Models.Loans
 
         public void Contract()
         {
+            TimeContracted = DateTime.Now;
             Status = LoanApplicationStatus.Contracted;
         }
     }
