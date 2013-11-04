@@ -19,7 +19,6 @@ namespace Application.AccountProcessing
         {
             var acc = new Account()
             {
-                Id = Guid.NewGuid(),
                 Currency = currency,
                 DateOpened = DateTime.UtcNow,
                 Type = accountType,

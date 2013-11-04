@@ -1,6 +1,8 @@
-﻿namespace Domain.Models.Customers
+﻿using System;
+
+namespace Domain.Models.Customers
 {
-    public interface ICustomerRepository : IRepository<Customer, string>
+    public interface ICustomerRepository : IRepository<Customer, Guid>
     {
     }
 }

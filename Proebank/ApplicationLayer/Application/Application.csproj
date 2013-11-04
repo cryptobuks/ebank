@@ -46,6 +46,7 @@
     <Compile Include="LoanProcessing\InterestCalculator.cs" />
     <Compile Include="LoanProcessing\LoanService.cs" />
     <Compile Include="LoanProcessing\PaymentScheduleCalculator.cs" />
+    <Compile Include="LoanProcessing\TariffHelper.cs" />
     <Compile Include="ProcessingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

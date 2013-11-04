@@ -1,11 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Domain.Enums;
 
 namespace Domain.Models.Loans
 {
     public class Tariff
     {
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; private set; }
 
         public string Name { get; set; }
 
@@ -17,7 +20,7 @@ namespace Domain.Models.Loans
 
         public DateTime CreationDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public int MinTerm { get; set; }
 
@@ -34,5 +37,16 @@ namespace Domain.Models.Loans
         public bool IsSecondaryDocumentNeeded { get; set; }
 
         public LoanPurpose LoanPurpose { get; set; }
+
+        public bool Validate(LoanApplication loanApplication)
+        {
+            var amount = loanApplication.LoanAmount;
+            var term = loanApplication.Term;
+            var isAmountValid = amount >= MinAmount && amount <= MaxAmount;
+            var isTermValid = term >= MinTerm && term <= MaxTerm;
+            var hasDocs = loanApplication.Documents.Any(d => d.TariffDocType == TariffDocType.DebtorPrimary);
+            // TODO: complete
+            return isAmountValid && isTermValid && hasDocs;
+        }
     }
 }

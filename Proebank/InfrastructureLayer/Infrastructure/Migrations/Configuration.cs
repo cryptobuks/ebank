@@ -1,4 +1,5 @@
 using Domain.Models.Accounts;
+using Domain.Models.Loans;
 
 namespace Infrastructure.Migrations
 {
@@ -35,7 +36,6 @@ using System.Linq;
             var bankCreationDate = new DateTime(2013, 9, 2);
             var entry = new Entry 
             { 
-                Id = Guid.Parse("57A78920-B1AA-47DE-8B9A-C9EACAEC38E3"),
                 Amount = 1.0E11M,
                 Date = bankCreationDate,
                 Type = EntryType.Payment,
@@ -44,7 +44,6 @@ using System.Linq;
             context.Accounts.AddOrUpdate(
                 new Account
                 {
-                    Id = Guid.Parse("34D8EE16-DDA9-48D7-9FCF-AA65910DF77A"),
                     Currency = Currency.BYR,
                     DateOpened = new DateTime(2013, 9, 2),
                     DateClosed = null,
@@ -53,6 +52,21 @@ using System.Linq;
                     Entries = new List<Entry> { entry },
                     IsClosed = false,
                 });
+
+            var tariff = new Tariff()
+            {
+                CreationDate = bankCreationDate, EndDate = null,
+                InitialFee = 0, InterestRate = 0.75M, IsGuarantorNeeded = false, IsSecondaryDocumentNeeded = false,
+                LoanPurpose = LoanPurpose.Common,
+                MaxAmount = 1.0E8M,
+                MinAge = 18,
+                MaxTerm = 36,
+                MinTerm = 3,
+                MinAmount = 1.0E6M,
+                Name = "NeverSeeMeAgain"
+            };
+            context.Tariffs.AddOrUpdate(tariff);
+
             context.SaveChanges();
         }
     }

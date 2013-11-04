@@ -16,7 +16,11 @@ namespace Infrastructure
 
         public DbSet<Account> Accounts { get; set; }
 
+        public DbSet<LoanApplication> LoanApplications { get; set; }
+
         public DbSet<Loan> Loans { get; set; }
+
+        public DbSet<Tariff> Tariffs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

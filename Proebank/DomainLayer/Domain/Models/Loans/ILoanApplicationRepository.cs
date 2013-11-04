@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Models.Users;
 
-namespace Domain.Models.Employees
+namespace Domain.Models.Loans
 {
-    public interface IEmployeeRepository : IRepository<Employee, Guid>
+    public interface ILoanApplicationRepository : IRepository<LoanApplication, long>
     {
     }
 }

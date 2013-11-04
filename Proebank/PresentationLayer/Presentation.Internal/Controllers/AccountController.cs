@@ -17,16 +17,16 @@ namespace Presentation.Internal.Controllers
     public class AccountController : BaseController
     {
         public AccountController()
-            : this(new UserManager<Employee>(new UserStore<Employee>(new ApplicationDbContext())))
+            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
         }
 
-        public AccountController(UserManager<Employee> userManager)
+        public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
         }
 
-        public UserManager<Employee> UserManager { get; private set; }
+        public UserManager<ApplicationUser> UserManager { get; private set; }
 
         //
         // GET: /Account/Login
@@ -79,7 +79,7 @@ namespace Presentation.Internal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new Employee() { UserName = model.UserName };
+                var user = new ApplicationUser() { UserName = model.UserName };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -266,7 +266,7 @@ namespace Presentation.Internal.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new Employee() { UserName = model.UserName };
+                var user = new ApplicationUser() { UserName = model.UserName };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -332,7 +332,7 @@ namespace Presentation.Internal.Controllers
             }
         }
 
-        private async Task SignInAsync(Employee user, bool isPersistent)
+        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);

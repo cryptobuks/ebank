@@ -1,0 +1,16 @@
+﻿@model IList<Domain.Models.Loans.LoanApplication>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bank accounts list:</h2>
+<div>
+    @foreach (var loan in Model)
+    {
+        <p>
+            <span>@loan.Id</span>
+        </p>
+    }
+</div>
+
+

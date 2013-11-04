@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using Domain.Enums;
-using Domain.Shared;
 
 namespace Domain.Models.Accounts
 {
     /// <summary>
     /// Банковский счёт
     /// </summary>
-    public class Account : IEntity<Account>
+    public class Account
     {
-        public Guid Id { get; set; }
+        public Account()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        public readonly Guid Id;
 
         public AccountType Type { get; set; }
 
@@ -19,9 +25,10 @@ namespace Domain.Models.Accounts
         /// </summary>
         public int Number { get; set; }
 
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Computed)]
         public string NumberText 
         { 
-            get { return String.Concat(((int)Type).ToString(), Number.ToString("D9")); } 
+            get { return String.Concat(((int)Type).ToString(CultureInfo.InvariantCulture), Number.ToString("D9")); } 
         }
 
         public Currency Currency { get; set; }

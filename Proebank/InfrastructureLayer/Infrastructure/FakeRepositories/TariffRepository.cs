@@ -7,7 +7,7 @@ using Domain.Models.Loans;
 
 namespace Infrastructure.FakeRepositories
 {
-    class LoanRepository : AbstractRepository<Loan, Guid>, ILoanRepository
+    class TariffRepository : AbstractRepository<Tariff, int>, ITariffRepository
     {
     }
 }

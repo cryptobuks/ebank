@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Enums;
+using Domain.Models.Customers;
 using Domain.Models.Users;
 
 namespace Domain.Models.Loans
@@ -10,16 +12,23 @@ namespace Domain.Models.Loans
     /// </summary>
     public class Document 
     {
-        public Guid Id { get; set; }
+        public Document()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        public readonly Guid Id;
 
         public string Number { get; set; }
 
-        public string CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
 
         public DocType DocType { get; set; }
 
         public TariffDocType TariffDocType { get; set; }
 
-        public IEnumerable<LoanApplication> LoanApplications { get; set; }
+        public virtual Customer Customer { get; set; }
+
+        public virtual IEnumerable<LoanApplication> LoanApplications { get; set; }
     }
 }

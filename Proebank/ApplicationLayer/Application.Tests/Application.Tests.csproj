@@ -61,6 +61,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AccountServiceTests.cs" />
+    <Compile Include="LoanServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

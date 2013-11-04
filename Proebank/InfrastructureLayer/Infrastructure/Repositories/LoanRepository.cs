@@ -7,13 +7,22 @@ using Domain.Models.Loans;
 namespace Infrastructure.Repositories
 {
     // TODO: try to generalize more, using DbSet<T> everywhere
-    class LoanRepository : ILoanRepository
+    public class LoanRepository : ILoanRepository
     {
         public Loan Get(Guid id)
         {
             using (var ctx = new DataContext())
             {
                 return ctx.Loans.First(loan => loan.Id == id);
+            }
+        }
+
+        public Loan Get(Func<Loan, bool> filter)
+        {
+            using (var ctx = new DataContext())
+            {
+                return ctx.Loans
+                    .First(a => filter(a));
             }
         }
 
@@ -32,15 +41,6 @@ namespace Infrastructure.Repositories
                 return ctx.Loans
                     .Where(loan => filter(loan))
                     .ToList();
-            }
-        }
-
-        public Loan Get(Func<Loan, bool> filter)
-        {
-            using (var ctx = new DataContext())
-            {
-                return ctx.Loans
-                    .First(a => filter(a));
             }
         }
 

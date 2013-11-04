@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Enums;
 
 namespace Domain.Models.Loans
 {
     public class LoanApplication
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
         public decimal LoanAmount { get; set; }
@@ -16,7 +18,7 @@ namespace Domain.Models.Loans
 
         public string CellPhone { get; set; }
 
-        public Tariff Tariff { get; set; }
+        public int TariffId { get; set; }
 
         public LoanPurpose LoanPurpose { get; set; }
 

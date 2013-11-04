@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Models.Accounts;
 using Domain.Models.Users;
 
@@ -7,7 +8,12 @@ namespace Domain.Models.Loans
 {
     public class Loan
     {
-        public Guid Id { get; set; }
+        public Loan()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        public readonly Guid Id;
 
         public LoanApplication Application { get; set; }
 

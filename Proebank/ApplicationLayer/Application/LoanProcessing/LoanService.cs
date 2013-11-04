@@ -4,13 +4,36 @@ using Domain.Models.Loans;
 
 namespace Application.LoanProcessing
 {
-    class LoanService
+    public class LoanService
     {
+        private readonly ILoanRepository _loanRepository;
+        private readonly ILoanApplicationRepository _loanApplicationRepository;
+        private readonly ITariffRepository _tariffRepository;
+        private readonly TariffHelper _tariffHelper;
 
-        public IEnumerable<Loan> Loans
+        public LoanService(ILoanRepository loanRepository, 
+            ILoanApplicationRepository loanApplicationRepository,
+            ITariffRepository tariffRepository)
         {
-            get;
-            set;
+            _loanRepository = loanRepository;
+            _loanApplicationRepository = loanApplicationRepository;
+            _tariffRepository = tariffRepository;
+            _tariffHelper = new TariffHelper(_tariffRepository);
+        }
+
+        public bool CreateLoanApplication(LoanApplication loanApplication)
+        {
+            var validationResult = _tariffHelper.ValidateLoanApplication(loanApplication);
+            if (validationResult)
+            {
+                _loanApplicationRepository.SaveOrUpdate(loanApplication);
+            }
+            return validationResult;
+        }
+
+        private bool ValidateLoanApplication(LoanApplication loanApplication)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void CreateLoanContract()

@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Shared;
 
 namespace Domain.Models.Loans
 {
-    public class Payment : IEntity<Payment>
+    public class Payment
     {
-        public Guid Id { get; set; }
+        public Payment()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        public readonly Guid Id;
 
         public DateTime ShouldBePaidBefore { get; set; }
 

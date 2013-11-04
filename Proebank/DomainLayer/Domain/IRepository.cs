@@ -5,8 +5,6 @@ namespace Domain
 {
     public interface IRepository<T, in TId>
     {
-        T Get(TId id);
-
         T Get(Func<T, bool> filter);
 
         IList<T> GetAll();
