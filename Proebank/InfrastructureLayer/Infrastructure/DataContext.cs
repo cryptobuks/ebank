@@ -3,12 +3,12 @@ using Domain.Models.Accounts;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Domain.Models.Users;
-using Infrastructure.Migrations;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Infrastructure
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<Employee>
     {
         public DataContext() : base("Proebank")
         {
@@ -24,14 +24,13 @@ namespace Infrastructure
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new DataContextInitializer());
-            //modelBuilder.Entity<User>()
-            //    .Map(m => m.ToTable("Users"))
-            //    .Map<Customer>(m => m.ToTable("Customers"))
-            //    .Map<Employee>(m => m.ToTable("Employees"));
-            //modelBuilder.Entity<Account>()
-            //    .Property(u => u.Number)
-            //    .HasColumnName("Number");
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<IdentityUser>()
+                .ToTable("Users");
+            modelBuilder.Entity<Employee>()
+                .ToTable("Employees");
+            modelBuilder.Entity<Customer>()
+                .ToTable("Customers");
         }
     }
 }

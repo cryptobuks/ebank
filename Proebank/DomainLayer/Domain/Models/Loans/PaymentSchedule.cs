@@ -13,7 +13,7 @@ namespace Domain.Models.Loans
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         public Collection<Payment> Payments { get; private set; }
 

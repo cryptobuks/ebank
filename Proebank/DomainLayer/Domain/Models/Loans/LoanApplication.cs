@@ -9,7 +9,7 @@ namespace Domain.Models.Loans
     public class LoanApplication
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         public decimal LoanAmount { get; set; }
 
@@ -21,7 +21,7 @@ namespace Domain.Models.Loans
 
         public string CellPhone { get; set; }
 
-        public int TariffId { get; set; }
+        public Guid TariffId { get; set; }
 
         public Tariff Tariff { get; set; }
 

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Domain.Models.Customers;
+using Domain.Models.Users;
+using Infrastructure;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
@@ -17,16 +19,16 @@ namespace Presentation.Controllers
     public class AccountController : BaseController
     {
         public AccountController()
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            : this(new UserManager<Employee>(new UserStore<Employee>(new DataContext())))
         {
         }
 
-        public AccountController(UserManager<ApplicationUser> userManager)
+        public AccountController(UserManager<Employee> userManager)
         {
             UserManager = userManager;
         }
 
-        public UserManager<ApplicationUser> UserManager { get; private set; }
+        public UserManager<Employee> UserManager { get; private set; }
 
         //
         // GET: /Account/Login
@@ -79,7 +81,7 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
+                var user = new Employee() { UserName = model.UserName };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -266,11 +268,11 @@ namespace Presentation.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser() { UserName = model.UserName };
+                var user = new Employee() { UserName = model.UserName };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                    result = await UserManager.AddLoginAsync(user.Id.ToString(), info.Login);
                     if (result.Succeeded)
                     {
                         await SignInAsync(user, isPersistent: false);
@@ -332,7 +334,7 @@ namespace Presentation.Controllers
             }
         }
 
-        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
+        private async Task SignInAsync(Employee user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);

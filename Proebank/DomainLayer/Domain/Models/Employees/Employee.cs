@@ -1,20 +1,17 @@
 ﻿using System;
 using Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Domain.Models.Users
 {
     /// <summary>
     /// Работник банка
     /// </summary>
-    public class Employee
+    public class Employee : IdentityUser
     {
         public Employee()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public readonly Guid Id;
+        { }
 
         public string LastName { get; set; }
 
@@ -22,9 +19,9 @@ namespace Domain.Models.Users
 
         public string MiddleName { get; set; }
 
-        public DateTime HiredOn { get; set; }
+        public DateTime? HiredOn { get; set; }
 
-        public DateTime FiredOn { get; set; }
+        public DateTime? FiredOn { get; set; }
 
         public EmployeeRole EmployeeRole { get; set; }
     }

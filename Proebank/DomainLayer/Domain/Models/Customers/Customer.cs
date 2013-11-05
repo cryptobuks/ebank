@@ -1,20 +1,17 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Domain.Models.Customers
 {
     /// <summary>
     /// Клиент банка
     /// </summary>
-    public class Customer
+    public class Customer : IdentityUser
     {
         public Customer()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public readonly Guid Id;
-
+        { }
+        
         public string LastName { get; set; }
 
         public string FirstName { get; set; }

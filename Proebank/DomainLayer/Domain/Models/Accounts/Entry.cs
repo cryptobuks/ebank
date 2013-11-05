@@ -14,7 +14,7 @@ namespace Domain.Models.Accounts
             Id = Guid.NewGuid();
         }
 
-        public readonly Guid Id;
+        public Guid Id { get; set; }
 
         public decimal Amount { get; set; }
 
