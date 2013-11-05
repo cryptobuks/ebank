@@ -9,14 +9,6 @@ namespace Infrastructure.Repositories
     // TODO: try to generalize more, using DbSet<T> everywhere
     public class LoanRepository : ILoanRepository
     {
-        public Loan Get(Guid id)
-        {
-            using (var ctx = new DataContext())
-            {
-                return ctx.Loans.First(loan => loan.Id == id);
-            }
-        }
-
         public Loan Get(Func<Loan, bool> filter)
         {
             using (var ctx = new DataContext())
@@ -49,6 +41,7 @@ namespace Infrastructure.Repositories
             using (var ctx = new DataContext())
             {
                 ctx.Loans.AddOrUpdate(entities);
+                ctx.SaveChanges();
             }
         }
 
@@ -56,7 +49,9 @@ namespace Infrastructure.Repositories
         {
             using (var ctx = new DataContext())
             {
-                return ctx.Loans.Remove(entity);
+                var removedLoan = ctx.Loans.Remove(entity);
+                ctx.SaveChanges();
+                return removedLoan;
             }
         }
     }

@@ -12,23 +12,35 @@ namespace Application.Tests
     public class ProcessingServiceTest
     {
         private static UnityContainer _container;
-        private static LoanService _loanService;
-        private static AccountService _accountService;
+        private static ProcessingService _service;
 
         [ClassInitialize]
         public static void  InitService(TestContext context)
         {
             _container = new UnityContainer();
             _container.LoadConfiguration();
-            _accountService = _container.Resolve<AccountService>();
-            _loanService = _container.Resolve<LoanService>();
+            _service = _container.Resolve<ProcessingService>();
         }
 
         [TestMethod]
         public void ProcessEndOfMonth()
         {
             // TODO: add data!
-            ProcessingService.ProcessEndOfMonth(DateTime.UtcNow, _accountService, _loanService);
+            _service.ProcessEndOfMonth(DateTime.UtcNow);
         }
+
+        //[TestMethod]
+        //public void CreateLoanContract()
+        //{
+        //    // TODO: add data!
+        //    var loan = _service.CreateLoanContract(new LoanApplication
+        //    {
+        //        CellPhone = String.Empty,
+        //        Documents = null,
+        //        LoanAmount = 1000000,
+        //    });
+        //    Assert.IsNotNull(loan);
+        //    // TODO: add check of accounts and so on
+        //}
     }
 }

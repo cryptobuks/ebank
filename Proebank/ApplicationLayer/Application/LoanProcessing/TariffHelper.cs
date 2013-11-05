@@ -9,7 +9,8 @@ namespace Application.LoanProcessing
 {
     class TariffHelper
     {
-        private ITariffRepository _repository;
+        private readonly ITariffRepository _repository;
+
         public TariffHelper(ITariffRepository repository)
         {
             _repository = repository;

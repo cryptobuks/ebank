@@ -4,5 +4,6 @@
     {
         Accrual,
         Payment,
+        Transfer,
     }
 }

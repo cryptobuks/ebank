@@ -31,6 +31,12 @@ namespace Domain.Models.Loans
 
         public virtual ICollection<Document> Documents { get; set; }
 
+        // TODO: implement explicit choice
+        public Currency Currency
+        {
+            get { return Currency.BYR; }
+        }
+
         public void Approve()
         {
             Status = LoanApplicationStatus.Approved;

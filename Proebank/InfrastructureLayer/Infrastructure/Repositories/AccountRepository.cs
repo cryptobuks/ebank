@@ -9,14 +9,6 @@ namespace Infrastructure.Repositories
     // TODO: don't create db context for every method call
     public class AccountRepository : IAccountRepository
     {
-        public Account Get(Guid id)
-        {
-            using (var ctx = new DataContext())
-            {
-                return ctx.Accounts.First(acc => acc.Id == id);
-            }
-        }
-
         public IList<Account> GetAll()
         {
             using (var ctx = new DataContext())
@@ -49,6 +41,7 @@ namespace Infrastructure.Repositories
             using (var ctx = new DataContext())
             {
                 ctx.Accounts.AddOrUpdate(entities);
+                ctx.SaveChanges();
             }
         }
 
@@ -56,7 +49,9 @@ namespace Infrastructure.Repositories
         {
             using (var ctx = new DataContext())
             {
-                return ctx.Accounts.Remove(entity);
+                var removedAccount = ctx.Accounts.Remove(entity);
+                ctx.SaveChanges();
+                return removedAccount;
             }
         }
     }

@@ -13,6 +13,14 @@ namespace Application.LoanProcessing
         private readonly ILoanApplicationRepository _loanApplicationRepository;
         private readonly ITariffRepository _tariffRepository;
         private readonly TariffHelper _tariffHelper;
+        private static readonly AccountType[] LoanAccountTypes = new[]
+                {
+                    AccountType.ContractService,
+                    AccountType.GeneralDebt,
+                    AccountType.Interest,
+                    AccountType.OverdueGeneralDebt, 
+                    AccountType.OverdueInterest,
+                };
 
         public LoanService(ILoanRepository loanRepository, 
             ILoanApplicationRepository loanApplicationRepository,
@@ -22,6 +30,14 @@ namespace Application.LoanProcessing
             _loanApplicationRepository = loanApplicationRepository;
             _tariffRepository = tariffRepository;
             _tariffHelper = new TariffHelper(_tariffRepository);
+        }
+
+        public static AccountType[] AccountTypes
+        {
+            get
+            {
+                return LoanAccountTypes;
+            }
         }
 
         public bool CreateLoanApplication(LoanApplication loanApplication)
@@ -61,16 +77,6 @@ namespace Application.LoanProcessing
                     loan => InterestCalculator.CalculateInterestFor(loan, currentDate));
         }
 
-        public void CreateLoanContract()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void CloseLoanContract()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void RegisterPayment()
         {
             throw new System.NotImplementedException();
@@ -79,6 +85,11 @@ namespace Application.LoanProcessing
         public void SaveOrUpdateTariff(Tariff tariff)
         {
             _tariffRepository.SaveOrUpdate(tariff);
+        }
+
+        internal void SaveNewLoan(Loan loan)
+        {
+            _loanRepository.SaveOrUpdate(loan);
         }
     }
 }

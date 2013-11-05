@@ -40,6 +40,7 @@ namespace Infrastructure.Repositories
             using (var ctx = new DataContext())
             {
                 ctx.LoanApplications.AddOrUpdate(entities);
+                ctx.SaveChanges();
             }
         }
 
@@ -47,7 +48,9 @@ namespace Infrastructure.Repositories
         {
             using (var ctx = new DataContext())
             {
-                return ctx.LoanApplications.Remove(entity);
+                var removedApplication = ctx.LoanApplications.Remove(entity);
+                ctx.SaveChanges();
+                return removedApplication;
             }
         }
     }

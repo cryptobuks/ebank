@@ -9,10 +9,14 @@ namespace Application.AccountProcessing
     public class AccountService
     {
         private readonly IAccountRepository _repository;
+        //// TODO: создать его в методе Seed базы; для каждой валюты свой!
+        //public static Account BankAccount { get; private set; }
 
         public AccountService(IAccountRepository accountRepository)
         {
             _repository = accountRepository;
+            //BankAccount = _repository.Get(acc => 
+            //    acc.Type == AccountType.BankBalance &&);
         }
 
         public Account CreateAccount(Currency currency, AccountType accountType)
@@ -35,11 +39,8 @@ namespace Application.AccountProcessing
                 throw new ArgumentNullException("entry");
             if (account.Currency != entry.Currency)
                 throw new ArgumentException("Currencies are not equal");
-            else
-            {
-                account.Entries.Add(entry);
-                _repository.SaveOrUpdate(account);
-            }
+            account.Entries.Add(entry);
+            _repository.SaveOrUpdate(account);
         }
 
         public void CloseAccount(Account account)
