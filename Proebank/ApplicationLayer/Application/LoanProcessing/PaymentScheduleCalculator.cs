@@ -39,7 +39,7 @@ namespace Application.LoanProcessing
             var schedule = new PaymentSchedule();
             for (var i = 1; i <= term; i++)
             {
-                schedule.AddPayment(new Payment() { Amount = part, ShouldBePaidBefore = validStartDate.AddMonths(i) });
+                schedule.AddPayment(new Payment { Amount = part, ShouldBePaidBefore = validStartDate.AddMonths(i) });
             }
             return schedule;
         }

@@ -75,5 +75,10 @@ namespace Application.LoanProcessing
         {
             throw new System.NotImplementedException();
         }
+
+        public void SaveOrUpdateTariff(Tariff tariff)
+        {
+            _tariffRepository.SaveOrUpdate(tariff);
+        }
     }
 }

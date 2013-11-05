@@ -6,12 +6,12 @@ using Application.LoanProcessing;
 
 namespace Application
 {
-    public static class ProcessingService
+    public class ProcessingService
     {
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
 
-        public static void ProcessEndOfMonth(DateTime date, LoanService loanService, AccountService accountService)
+        public static void ProcessEndOfMonth(DateTime date, AccountService accountService, LoanService loanService)
         {
             lock (MonthSync)
             {

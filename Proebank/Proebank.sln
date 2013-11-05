@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject", "CrossCuttingLayer\ModelingProject\ModelingProject.modelproj", "{C46393A0-29AB-4E36-BDCB-7BE4E9849ED5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "DomainLayer\Domain\Domain.csproj", "{14A6D35D-4124-45F5-B962-AEC147178892}"

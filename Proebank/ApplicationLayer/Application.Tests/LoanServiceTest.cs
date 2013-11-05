@@ -32,10 +32,7 @@ namespace Application.Tests
         {
             _container = new UnityContainer();
             _container.LoadConfiguration();
-            var loanRepository = _container.Resolve<ILoanRepository>();
-            var loanApplicationRepository = _container.Resolve<ILoanApplicationRepository>();
-            var tariffRepository = _container.Resolve<ITariffRepository>();
-            _service = new LoanService(loanRepository, loanApplicationRepository, tariffRepository);
+            _service = _container.Resolve<LoanService>();
             _customer = new Customer
             {
                 LastName = "Mitchell",
@@ -71,7 +68,7 @@ namespace Application.Tests
                 MinAmount = 1.0E6M,
                 Name = "NeverSeeMeAgain"
             };
-            tariffRepository.SaveOrUpdate(_tariff);
+            _service.SaveOrUpdateTariff(_tariff);
             _validLoanApp = new LoanApplication
             {
                 CellPhone = "+375291000000",
