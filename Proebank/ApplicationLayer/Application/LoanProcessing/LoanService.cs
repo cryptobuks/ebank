@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
-using Domain.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Domain.Enums;
+using Domain.Models.Accounts;
 using Domain.Models.Loans;
 
 namespace Application.LoanProcessing
@@ -49,6 +52,15 @@ namespace Application.LoanProcessing
             return PaymentScheduleCalculator.Calculate(loanApplication);
         }
 
+        public Dictionary<Account, Entry> ProcessEndOfMonth(DateTime currentDate)
+        {
+            return _loanRepository
+                .GetAll(l => !l.IsClosed)
+                .ToDictionary(
+                    loan => loan.Accounts.Single(acc => acc.Type == AccountType.Interest),
+                    loan => InterestCalculator.CalculateInterestFor(loan, currentDate));
+        }
+
         public void CreateLoanContract()
         {
             throw new System.NotImplementedException();
@@ -62,6 +74,11 @@ namespace Application.LoanProcessing
         public void RegisterPayment()
         {
             throw new System.NotImplementedException();
+        }
+
+        public void SaveOrUpdateTariff(Tariff tariff)
+        {
+            _tariffRepository.SaveOrUpdate(tariff);
         }
     }
 }

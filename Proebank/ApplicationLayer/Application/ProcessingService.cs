@@ -1,17 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Application.AccountProcessing;
+using Application.LoanProcessing;
 
 namespace Application
 {
-    public static class ProcessingService
+    public class ProcessingService
     {
-        public static IEnumerable<string> GetCustomers()
+        private static readonly object DaySync = new object();
+        private static readonly object MonthSync = new object();
+
+        public static void ProcessEndOfMonth(DateTime date, AccountService accountService, LoanService loanService)
         {
-            return new[] { "One", "Two", "Three" };
+            lock (MonthSync)
+            {
+                var accruals = loanService.ProcessEndOfMonth(date);
+                foreach (var accrual in accruals)
+                {
+                    accountService.AddEntry(accrual.Key, accrual.Value);
+                }
+            }
         }
 
-        public static string GetCustomer(int id)
+        public static void ProcessEndOfDay(DateTime date, LoanService loanService, AccountService accountService)
         {
-            return (id / 2 + 5).ToString(); 
+            lock (DaySync)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

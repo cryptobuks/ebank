@@ -91,6 +91,9 @@
     <Compile Include="Models\Loans\Loan.cs" />
     <Compile Include="Models\Loans\PaymentSchedule.cs" />
     <Compile Include="Models\Loans\Tariff.cs" />
+    <Compile Include="Models\Time\BankCalendar.cs" />
+    <Compile Include="Models\Time\BankCalendarEntry.cs" />
+    <Compile Include="Models\Time\BankDateTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
