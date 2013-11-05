@@ -14,7 +14,7 @@ namespace Domain.Models.Loans
             Id = Guid.NewGuid();
         }
 
-        public readonly Guid Id;
+        public Guid Id { get; set; }
 
         public DateTime ShouldBePaidBefore { get; set; }
 

@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20827.3
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject", "CrossCuttingLayer\ModelingProject\ModelingProject.modelproj", "{C46393A0-29AB-4E36-BDCB-7BE4E9849ED5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "DomainLayer\Domain\Domain.csproj", "{14A6D35D-4124-45F5-B962-AEC147178892}"
@@ -37,6 +39,9 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Application.FinancialFunctions", "ApplicationLayer\Application.FinancialFunctions\Application.FinancialFunctions.fsproj", "{213B79A6-FDFA-4C28-BC91-7AF9C70C99F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Internal", "PresentationLayer\Presentation.Internal\Presentation.Internal.csproj", "{5D95675D-C0C0-49F1-9EED-6F76D2E5B743}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BA1096A4-E462-4097-863C-917C15DEDE21} = {BA1096A4-E462-4097-863C-917C15DEDE21}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Internal.Tests", "Presentation.Internal.Tests\Presentation.Internal.Tests.csproj", "{5029CAE5-D005-4F88-ABF3-927AC00C0FFD}"
 EndProject

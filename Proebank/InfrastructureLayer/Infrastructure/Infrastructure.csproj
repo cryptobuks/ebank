@@ -38,6 +38,14 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.EntityFramework.1.0.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -55,25 +63,13 @@
     <Compile Include="FakeRepositories\LoanApplicationRepository.cs" />
     <Compile Include="FakeRepositories\LoanRepository.cs" />
     <Compile Include="FakeRepositories\TariffRepository.cs" />
-    <Compile Include="Migrations\201311030101539_InitMigration.cs" />
-    <Compile Include="Migrations\201311030101539_InitMigration.Designer.cs">
-      <DependentUpon>201311030101539_InitMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201311052014312_Initial.cs" />
+    <Compile Include="Migrations\201311052014312_Initial.Designer.cs">
+      <DependentUpon>201311052014312_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201311030836060_AddedEntriesRemovedTransactions.cs" />
-    <Compile Include="Migrations\201311030836060_AddedEntriesRemovedTransactions.Designer.cs">
-      <DependentUpon>201311030836060_AddedEntriesRemovedTransactions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201311031121505_AddedCellPhone.cs" />
-    <Compile Include="Migrations\201311031121505_AddedCellPhone.Designer.cs">
-      <DependentUpon>201311031121505_AddedCellPhone.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201311031331133_AddedCellPhone1.cs" />
-    <Compile Include="Migrations\201311031331133_AddedCellPhone1.Designer.cs">
-      <DependentUpon>201311031331133_AddedCellPhone1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201311031550446_ChangedAllNames.cs" />
-    <Compile Include="Migrations\201311031550446_ChangedAllNames.Designer.cs">
-      <DependentUpon>201311031550446_ChangedAllNames.cs</DependentUpon>
+    <Compile Include="Migrations\201311052043200_Initial1.cs" />
+    <Compile Include="Migrations\201311052043200_Initial1.Designer.cs">
+      <DependentUpon>201311052043200_Initial1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,20 +89,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201311030101539_InitMigration.resx">
-      <DependentUpon>201311030101539_InitMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201311052014312_Initial.resx">
+      <DependentUpon>201311052014312_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311030836060_AddedEntriesRemovedTransactions.resx">
-      <DependentUpon>201311030836060_AddedEntriesRemovedTransactions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311031121505_AddedCellPhone.resx">
-      <DependentUpon>201311031121505_AddedCellPhone.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311031331133_AddedCellPhone1.resx">
-      <DependentUpon>201311031331133_AddedCellPhone1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311031550446_ChangedAllNames.resx">
-      <DependentUpon>201311031550446_ChangedAllNames.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201311052043200_Initial1.resx">
+      <DependentUpon>201311052043200_Initial1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

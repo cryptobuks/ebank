@@ -17,11 +17,11 @@ namespace Domain.Models.Loans
             Id = Guid.NewGuid();
         }
 
-        public readonly Guid Id;
+        public Guid Id { get; set; }
 
         public string Number { get; set; }
 
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
 
         public DocType DocType { get; set; }
 
