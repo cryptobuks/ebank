@@ -163,9 +163,18 @@ namespace Application
             return entry;
         }
 
-        public void CloseLoanContract()
+        public bool CloseLoanContract(Loan loan)
         {
-            throw new System.NotImplementedException();
+            var canBeClosed = _loanService.CanLoanBeClosed(loan);
+            if (canBeClosed)
+            {
+                foreach (var account in loan.Accounts)
+                {
+                    _accountService.CloseAccount(account);
+                }
+                _loanService.CloseLoan(loan);
+            }
+            return canBeClosed;
         }
     }
 }

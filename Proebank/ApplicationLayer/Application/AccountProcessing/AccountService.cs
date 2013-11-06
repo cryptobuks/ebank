@@ -52,6 +52,7 @@ namespace Application.AccountProcessing
             else
             {
                 account.IsClosed = true;
+                account.DateClosed = DateTime.UtcNow;
                 _repository.SaveOrUpdate(account);
             }
         }

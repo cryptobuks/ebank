@@ -77,14 +77,14 @@ namespace Application.LoanProcessing
                     loan => InterestCalculator.CalculateInterestFor(loan, currentDate));
         }
 
-        public void RegisterPayment()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void SaveOrUpdateTariff(Tariff tariff)
         {
             _tariffRepository.SaveOrUpdate(tariff);
+        }
+
+        public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
+        {
+            return _loanRepository.GetAll(filter);
         }
 
         internal void SaveNewLoan(Loan loan)
@@ -92,9 +92,15 @@ namespace Application.LoanProcessing
             _loanRepository.SaveOrUpdate(loan);
         }
 
-        public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
+        internal bool CanLoanBeClosed(Loan loan)
         {
-            return _loanRepository.GetAll(filter);
+            return loan.Accounts.All(a => a.Balance == 0M);
+        }
+
+        internal void CloseLoan(Loan loan)
+        {
+            loan.IsClosed = true;
+            _loanRepository.SaveOrUpdate(loan);
         }
     }
 }
