@@ -65,10 +65,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Glimpse.1.7.0\lib\net45\Glimpse.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.EF6, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Glimpse.EF6.1.5.0\lib\net45\Glimpse.EF6.dll</HintPath>
-    </Reference>
     <Reference Include="Glimpse.Mvc5, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Glimpse.Mvc5.1.5.0\lib\net45\Glimpse.Mvc5.dll</HintPath>
