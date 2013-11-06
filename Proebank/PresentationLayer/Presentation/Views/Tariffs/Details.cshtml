@@ -1,0 +1,114 @@
+﻿@model Domain.Models.Loans.Tariff
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Tariff</legend>
+    <dl>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InterestRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InterestRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinTerm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinTerm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxTerm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxTerm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InitialFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InitialFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsGuarantorNeeded)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsGuarantorNeeded)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSecondaryDocumentNeeded)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSecondaryDocumentNeeded)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LoanPurpose)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoanPurpose)
+        </dd>
+
+    </dl>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

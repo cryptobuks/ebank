@@ -1,0 +1,89 @@
+﻿@model Domain.Models.Loans.LoanApplication
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset class="form-horizontal">
+        <legend>LoanApplication</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.LoanAmount, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.LoanAmount)
+                @Html.ValidationMessageFor(model => model.LoanAmount, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.TimeCreated, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.TimeCreated)
+                @Html.ValidationMessageFor(model => model.TimeCreated, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.TimeContracted, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.TimeContracted)
+                @Html.ValidationMessageFor(model => model.TimeContracted, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Term, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Term)
+                @Html.ValidationMessageFor(model => model.Term, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.CellPhone, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.CellPhone)
+                @Html.ValidationMessageFor(model => model.CellPhone, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.TariffId, "TariffId", new { @class = "control-label" })
+            <div class="controls">
+                @Html.DropDownList("TariffId", String.Empty)
+                @Html.ValidationMessageFor(model => model.TariffId, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.LoanPurpose, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.LoanPurpose)
+                @Html.ValidationMessageFor(model => model.LoanPurpose, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Save" class="btn" />
+        </div>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
