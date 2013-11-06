@@ -14,7 +14,8 @@ namespace Infrastructure.Repositories
             using (var ctx = new DataContext())
             {
                 return ctx.Loans
-                    .First(a => filter(a));
+                    .AsQueryable()
+                    .First(filter);
             }
         }
 
@@ -31,7 +32,8 @@ namespace Infrastructure.Repositories
             using (var ctx = new DataContext())
             {
                 return ctx.Loans
-                    .Where(loan => filter(loan))
+                    .AsQueryable()
+                    .Where(filter)
                     .ToList();
             }
         }

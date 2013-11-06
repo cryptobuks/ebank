@@ -22,7 +22,8 @@ namespace Infrastructure.Repositories
             using (var ctx = new DataContext())
             {
                 return ctx.Accounts
-                    .Where(ac => filter(ac))
+                    .AsQueryable()
+                    .Where(filter)
                     .ToList();
             }
         }
@@ -32,7 +33,8 @@ namespace Infrastructure.Repositories
             using (var ctx = new DataContext())
             {
                 return ctx.Accounts
-                    .First(a => filter(a));
+                    .AsQueryable()
+                    .First(filter);
             }
         }
 
