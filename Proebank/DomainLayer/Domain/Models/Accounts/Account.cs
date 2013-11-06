@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
+using System.Linq;
 using Domain.Enums;
 
 namespace Domain.Models.Accounts
@@ -44,6 +45,13 @@ namespace Domain.Models.Accounts
         public bool SameIdentityAs(Account other)
         {
             return other != null && other.Id.Equals(Id);
+        }
+
+        // TODO: check if we need it for readonly property
+        [NotMapped]
+        public decimal Balance
+        {
+            get { return Entries.Sum(e => e.Amount); }
         }
     }
 }

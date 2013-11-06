@@ -91,5 +91,10 @@ namespace Application.LoanProcessing
         {
             _loanRepository.SaveOrUpdate(loan);
         }
+
+        public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
+        {
+            return _loanRepository.GetAll(filter);
+        }
     }
 }

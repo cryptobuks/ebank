@@ -14,5 +14,8 @@
         OverdueGeneralDebt = 2481,
         // счёт учёта просроченных процентов
         OverdueInterest = 2491,
+        // TODO: добавить вид счёта
+        // счёт учёта будущих доходов
+        //FutureIncome,
     }
 }

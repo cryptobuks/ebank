@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Schema;
 using Domain.Enums;
 
 namespace Domain.Models.Accounts
@@ -29,6 +30,19 @@ namespace Domain.Models.Accounts
         public bool SameIdentityAs(Entry other)
         {
             return other != null && other.Id.Equals(Id);
+        }
+
+        public static Entry GetOppositeFor(Entry entry)
+        {
+            var opposite = new Entry
+            {
+                Amount = entry.Amount*-1,
+                Currency = entry.Currency,
+                Date = entry.Date,
+                SubType = entry.SubType,
+                Type = entry.Type
+            };
+            return opposite;
         }
     }
 }

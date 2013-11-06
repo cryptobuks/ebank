@@ -9,10 +9,10 @@ namespace Domain.Models.Loans
     {
         public PaymentSchedule()
         {
+            Id = Guid.NewGuid();
             Payments = new Collection<Payment>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         public Collection<Payment> Payments { get; private set; }
