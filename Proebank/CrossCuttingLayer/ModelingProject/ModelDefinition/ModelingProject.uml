@@ -7594,6 +7594,1206 @@
         </ownedLiterals>
       </enumeration>
     </packageHasNamedElement>
+	<packageHasNamedElement>
+      <actor
+        Id="3355664e-1b48-48b8-a980-56eedf9cfa19"
+        name="Operator"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="fb51ac03-ecb9-4d78-84cb-fdd44ca6ea16"
+            isDerived="false"
+            sourceEndRoleName="Operator"
+            targetEndRoleName="Log in"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="a7525dc5-924b-43c2-9e59-820a806c9a05"
+              LastKnownName="Log in"
+              LastKnownLocation="ModelingProject1.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1ba8599d-69eb-4091-9e8c-9d78e5758324"
+                  name="Operator"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="4becb9d9-e866-411d-a026-26c68a4b1286"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="a7525dc5-924b-43c2-9e59-820a806c9a05"
+        name="Log in"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="ba56538e-cc25-474c-9712-6ab9e38ebe18"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="Transactions with money"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="211366d0-106b-4096-95ed-12e0b48f4dc3"
+              LastKnownName="Transactions with money"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="9298b6cc-8c0f-4870-a614-9a4da06f657d"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="94627396-0bfa-4bdb-a523-78f05c1c4ebc"
+                  name="Transactions with money"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="211366d0-106b-4096-95ed-12e0b48f4dc3"
+        name="Transactions with money"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="7f9431bd-defc-4110-9c51-fbffcc92b4c7">
+            <useCaseMoniker
+              Id="b6bb7c23-be2e-4db6-9f56-b781346d707e"
+              LastKnownName="Depositing money"
+              LastKnownLocation="ModelingProject.uml" />
+          </include>
+        </additions>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="b6bb7c23-be2e-4db6-9f56-b781346d707e"
+        name="Depositing money"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="106c84c9-4204-4cdc-871a-4fce6d323fa5"
+        name="Specialist in working with clients"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="c2f35c6d-65d3-47b2-846b-c05083c587db"
+            isDerived="false"
+            sourceEndRoleName="Specialist in working with clients"
+            targetEndRoleName="Log in"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="d4ddf2f0-c435-4e0f-a35f-93be2627f1e9"
+              LastKnownName="Log in"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b9d0abd2-f762-401e-80e0-daa0509e7b05"
+                  name="Specialist in working with clients"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6d795a82-6e38-4f1f-8a00-2a3713a390bf"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="d4ddf2f0-c435-4e0f-a35f-93be2627f1e9"
+        name="Log in"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="a1583a28-0fb5-41af-9044-4b69c0debe8d"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="Submitting an application for a loan"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="25fe9c67-5f75-49e1-8e8e-b04354a06b1e"
+              LastKnownName="Submitting an application for a loan"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c27ef328-d753-4613-95ea-60d7edbf06dc"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="37cd47f1-a396-49d0-9d98-77a7c6827134"
+                  name="Submitting an application for a loan"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="5b374418-fd75-4d2c-a54b-fba14c18787b"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="A contract for the loan"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="6aec8810-0666-4804-99bc-fe13dcbb6a3a"
+              LastKnownName="A contract for the loan"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d827f5c2-bfad-4361-95a8-301099e42ca6"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="90fbebdb-4937-46f7-bdcd-38c52959c1f9"
+                  name="A contract for the loan"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="fbfdb320-6200-4c60-8180-5d60c252d5b9"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="View a loan application"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="5cbdb4df-5474-43b4-8449-655def104160"
+              LastKnownName="View a loan application"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="05c920af-7097-4611-9c22-0cd7d6bbd5f1"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="efbc612b-6766-4a75-b604-29808e5f7f65"
+                  name="View a loan application"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="b88bf7f3-0894-497b-8c00-456558defeb8"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="View contract for a loan"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="87bfaacd-888d-4219-8930-71370b415d0a"
+              LastKnownName="View contract for a loan"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ec5c6115-42d7-496b-adac-e175a4bd0c8e"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="06f4a8bc-d909-4204-b0fc-8c189cc253c6"
+                  name="View contract for a loan"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="af8ca782-0c2b-49bd-bb17-f2b7c39259bb"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="Repayment of a credit"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="f7fe92fa-8ccf-4c32-be13-e8c39dae3757"
+              LastKnownName="Repayment of a credit"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="bfc48074-fba2-4f55-b0b9-991541d45d3b"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6de9a309-abfb-440f-a266-76f3466d1479"
+                  name="Repayment of a credit"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="25fe9c67-5f75-49e1-8e8e-b04354a06b1e"
+        name="Submitting an application for a loan"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="eac5de22-95ac-4e13-b611-25b067418ffa">
+            <useCaseMoniker
+              Id="05c3adc6-6bd9-4e95-b5b9-c6c5b93fd49a"
+              LastKnownName="Statement"
+              LastKnownLocation="ModelingProject.uml" />
+          </include>
+          <include
+            Id="48e7bd81-c806-4b59-87b7-c22707a2d843">
+            <useCaseMoniker
+              Id="508ffddc-59fe-47aa-a219-adbe7a29fa53"
+              LastKnownName="Income statement"
+              LastKnownLocation="ModelingProject.uml" />
+          </include>
+          <include
+            Id="d2ef64ff-3625-4397-bcfa-2c728c9f560d">
+            <useCaseMoniker
+              Id="8ce95aae-ff67-4b5b-9cda-ae7cc59f1ec9"
+              LastKnownName="Copies of passport"
+              LastKnownLocation="ModelingProject.uml" />
+          </include>
+          <include
+            Id="ef7b66a6-51db-40ea-b869-5fdc6aae9d41">
+            <useCaseMoniker
+              Id="075dabfa-657f-4651-9871-4cfa30575f12"
+              LastKnownName="Military ID"
+              LastKnownLocation="ModelingProject.uml" />
+          </include>
+          <include
+            Id="fa735de7-c0b1-47d1-9455-654dcdd73f6f">
+            <useCaseMoniker
+              Id="6a461ab0-c437-47a8-8b0a-934d9d24dc38"
+              LastKnownName="Insurance certificate"
+              LastKnownLocation="ModelingProject.uml" />
+          </include>
+          <include
+            Id="a2e1a566-192d-4822-96f2-ec6da114dbf6">
+            <useCaseMoniker
+              Id="bed638cd-376c-4e2b-8004-404dbae145ca"
+              LastKnownName="Documents for bond / guarantee of third parties"
+              LastKnownLocation="ModelingProject.uml" />
+          </include>
+        </additions>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="6aec8810-0666-4804-99bc-fe13dcbb6a3a"
+        name="A contract for the loan"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="65ceafe2-8c26-4a1f-a2c5-672c3250cf23"
+            isDerived="false"
+            sourceEndRoleName="A contract for the loan"
+            targetEndRoleName="Filling in the blank credit agreement"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="16589a14-ad9d-42ec-a141-c3bd209ff57a"
+              LastKnownName="Filling in the blank credit agreement"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="4c619672-5293-49be-998e-223a3b1fd34a"
+                  name="A contract for the loan"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ec6b8533-4ada-479a-8a06-05f39c913404"
+                  name="Filling in the blank credit agreement"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="5cbdb4df-5474-43b4-8449-655def104160"
+        name="View a loan application"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="87bfaacd-888d-4219-8930-71370b415d0a"
+        name="View contract for a loan"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="f7fe92fa-8ccf-4c32-be13-e8c39dae3757"
+        name="Repayment of a credit"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="05c3adc6-6bd9-4e95-b5b9-c6c5b93fd49a"
+        name="Statement"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="508ffddc-59fe-47aa-a219-adbe7a29fa53"
+        name="Income statement"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="8ce95aae-ff67-4b5b-9cda-ae7cc59f1ec9"
+        name="Copies of passport"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="075dabfa-657f-4651-9871-4cfa30575f12"
+        name="Military ID"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="6a461ab0-c437-47a8-8b0a-934d9d24dc38"
+        name="Insurance certificate"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="bed638cd-376c-4e2b-8004-404dbae145ca"
+        name="Documents for bond / guarantee of third parties"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="16589a14-ad9d-42ec-a141-c3bd209ff57a"
+        name="Filling in the blank credit agreement"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="98540e5f-f48c-4925-9966-131afb6dddf2"
+        name="Security man"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="22277ad8-b303-42b7-9fbd-f55059394c23"
+            isDerived="false"
+            sourceEndRoleName="Security man"
+            targetEndRoleName="Log in"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="a54a8c2d-db63-4089-806b-0d281b0b3aed"
+              LastKnownName="Log in"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="31f4b1e5-b932-48bf-a0a0-4629f3d4e6bc"
+                  name="Security man"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b737bf3e-b181-4ec6-b79a-5875ee81bfad"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="a54a8c2d-db63-4089-806b-0d281b0b3aed"
+        name="Log in"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="2dfeddd5-939e-4708-97ca-22c3d58a86ce"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="View the application"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="e1f0a888-d494-448a-8edb-646cf19b5648"
+              LastKnownName="View the application"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="a6cf48aa-42d6-490c-98a9-745e2504cf15"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="477ec822-4f3a-4174-a405-0cd32f00ecfa"
+                  name="View the application"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="fad40a72-08c7-4f77-9ece-f201b25c7684"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="Get additional information about the client"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="bd4bd8cf-d97e-40f1-9f5a-13c9e30fb2d3"
+              LastKnownName="Get additional information about the client"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="481d526e-4e1a-4912-a30d-13cd0292473d"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d98d8c6d-866f-4301-93a7-d07bb65cb0dc"
+                  name="Get additional information about the client"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="e1f0a888-d494-448a-8edb-646cf19b5648"
+        name="View the application"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="e5901fb0-486f-4dcc-bdb9-ddc829d56db0"
+            isDerived="false"
+            sourceEndRoleName="View the application"
+            targetEndRoleName="Get additional information about the client"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="bd4bd8cf-d97e-40f1-9f5a-13c9e30fb2d3"
+              LastKnownName="Get additional information about the client"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3750355d-b4d4-40e9-abb3-f58d384d269c"
+                  name="View the application"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c6d30287-7b62-4286-a2b0-127ef84f0466"
+                  name="Get additional information about the client"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="cd1b87c2-792d-44c7-b876-983143724b66"
+            isDerived="false"
+            sourceEndRoleName="View the application"
+            targetEndRoleName="Take a decision on loan"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="1c71804c-394d-4a2e-86c1-7245399b804c"
+              LastKnownName="Take a decision on loan"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="24a9a6be-cc58-4d36-b177-e391e9b16f98"
+                  name="View the application"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1dddd497-82ba-42b7-8eb9-0d34fbe44c72"
+                  name="Take a decision on loan"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="f3127aa7-1241-41f0-9fb6-eb0acea63eea"
+            isDerived="false"
+            sourceEndRoleName="View the application"
+            targetEndRoleName="Referred to the credit committee"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="698616b4-ea25-4e01-b0ca-35652e43a0fb"
+              LastKnownName="Referred to the credit committee"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="5e2d1aab-6a6b-4f1e-966d-dd625f02e56f"
+                  name="View the application"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ffb33d78-f0fc-4304-957c-b565ca34e6a0"
+                  name="Referred to the credit committee"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="bd4bd8cf-d97e-40f1-9f5a-13c9e30fb2d3"
+        name="Get additional information about the client"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="e046ba0b-9787-4594-ada3-9a86c2e61077"
+            isDerived="false"
+            sourceEndRoleName="Get additional information about the client"
+            targetEndRoleName="Take a decision on loan"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="1c71804c-394d-4a2e-86c1-7245399b804c"
+              LastKnownName="Take a decision on loan"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="2731f9e8-238b-43ef-8658-c1f7e5c87355"
+                  name="Get additional information about the client"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="39d4ca05-ecb9-48bf-aab0-4535e71a4dfa"
+                  name="Take a decision on loan"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="4531cf96-e7b4-44b8-b5c0-e9606d789a42"
+            isDerived="false"
+            sourceEndRoleName="Get additional information about the client"
+            targetEndRoleName="Referred to the credit committee"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="698616b4-ea25-4e01-b0ca-35652e43a0fb"
+              LastKnownName="Referred to the credit committee"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="83037998-6166-4b1a-a3ed-7f1899eb496d"
+                  name="Get additional information about the client"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e5dee8c8-03d6-40e2-b946-aafc4be2f447"
+                  name="Referred to the credit committee"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="1c71804c-394d-4a2e-86c1-7245399b804c"
+        name="Take a decision on loan"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="698616b4-ea25-4e01-b0ca-35652e43a0fb"
+        name="Referred to the credit committee"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="ea8b7c79-c54b-4714-8e36-0ce6371fc573"
+        name="A member of the credit committee"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="beeb855e-294e-41b0-a38c-9efa1d5a7201"
+            isDerived="false"
+            sourceEndRoleName="A member of the credit committee"
+            targetEndRoleName="Log in"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="4dce069e-99f1-46d5-87e6-30b32a4f4bca"
+              LastKnownName="Log in"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="5f4f04fc-6e41-499b-a2c0-beff80a2c63b"
+                  name="A member of the credit committee"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d1501080-994c-4449-868f-71406ebee9d9"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="4dce069e-99f1-46d5-87e6-30b32a4f4bca"
+        name="Log in"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="dde609fd-16ac-47b7-806f-c492db54c719"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="Make a decision to grant a loan"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="b281114c-1c26-451c-9d49-aa35be196765"
+              LastKnownName="Make a decision to grant a loan"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="77118643-9a08-45ac-b755-cccc740787bc"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="18a2e245-e3c4-4b6d-97c5-1428812e3b07"
+                  name="Make a decision to grant a loan"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="b281114c-1c26-451c-9d49-aa35be196765"
+        name="Make a decision to grant a loan"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="2fb5a6ef-e877-4133-bd4f-dd64100f7ffa"
+        name="Head of Credit Department"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="3ba84985-e891-48c8-b961-5d26961c8ba9"
+            isDerived="false"
+            sourceEndRoleName="Head of Credit Department"
+            targetEndRoleName="Log in"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="4751f3a6-8023-4889-9ac4-b5644fd39c41"
+              LastKnownName="Log in"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3f1b1c50-0b33-4415-8ef5-b393bd9be9cd"
+                  name="Head of Credit Department"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1311a127-f0a6-4738-bca8-726b722115de"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="4751f3a6-8023-4889-9ac4-b5644fd39c41"
+        name="Log in"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="ef9a39fb-2bc1-42b7-ab0a-36bf3f9b52f4"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="Make a final decision to grant a loan"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="9b5fe5e2-2c0a-4631-be22-066dfb549ae1"
+              LastKnownName="Make a final decision to grant a loan"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="469e7d83-c5e4-4281-af21-2eda6b2e3a96"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="7f638880-931b-4ea7-827e-dae6d275c94b"
+                  name="Make a final decision to grant a loan"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="011817e8-53a7-4f9f-9edb-bbf0fc970426"
+            isDerived="false"
+            sourceEndRoleName="Log in"
+            targetEndRoleName="View statistics"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="dd12de8c-8f28-4158-8075-1f53ad750df5"
+              LastKnownName="View statistics"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c680e339-6b57-4257-b50e-fafb6f625ded"
+                  name="Log in"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="38d8af99-df22-4046-8057-1020e81a3084"
+                  name="View statistics"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="9b5fe5e2-2c0a-4631-be22-066dfb549ae1"
+        name="Make a final decision to grant a loan"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="dd12de8c-8f28-4158-8075-1f53ad750df5"
+        name="View statistics"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="c1694308-4cd2-4ea7-9ab1-4fd4485da5fd">
+            <useCaseMoniker
+              Id="92c101e5-26eb-4384-885e-2b42578290b9"
+              LastKnownName="General statistics"
+              LastKnownLocation="ModelingProject.uml" />
+          </include>
+          <include
+            Id="75440727-5f97-488d-be88-5167113ca362">
+            <useCaseMoniker
+              Id="9b6d6759-d541-413c-a85f-d7988c9d0d08"
+              LastKnownName="Clients statistics"
+              LastKnownLocation="ModelingProject.uml" />
+          </include>
+        </additions>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="92c101e5-26eb-4384-885e-2b42578290b9"
+        name="General statistics"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="9b6d6759-d541-413c-a85f-d7988c9d0d08"
+        name="Clients statistics"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
   </packagedElements>
   <primitiveType
     Id="220a3521-e091-4221-bae9-3ef9018e845c"
