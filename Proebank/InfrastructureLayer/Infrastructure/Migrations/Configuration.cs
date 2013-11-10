@@ -1,3 +1,8 @@
+using System.Collections.Generic;
+using Domain.Enums;
+using Domain.Models.Loans;
+using Domain.Models.Users;
+
 namespace Infrastructure.Migrations
 {
     using System;
@@ -26,6 +31,48 @@ namespace Infrastructure.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            var rand = new Random();
+            var tariffs = new List<Tariff>();
+            for (var i = 0; i < 10; i++)
+            {
+                var tariff = new Tariff()
+                {
+                    Name = "tariff_" + i.ToString(),
+                    CreationDate = DateTime.Now,
+                    EndDate = DateTime.Now,
+                    InitialFee = rand.Next(10, 10000),
+                    InterestRate = rand.Next(4, 64),
+                    IsGuarantorNeeded = false,
+                    IsSecondaryDocumentNeeded = false,
+                    MaxAmount = rand.Next(100, 1000000),
+                    LoanPurpose = LoanPurpose.Common,
+                    MinAge = 18,
+                    MaxAge = 60,
+                    MinAmount = rand.Next(1, 100),
+                    MinTerm = rand.Next(3, 12),
+                    MaxTerm = rand.Next(12, 36)
+                };
+                context.Tariffs.AddOrUpdate(tariff);
+                tariffs.Add(tariff);
+            }
+
+            for (var i = 0; i < 10; i++)
+            {
+                context.LoanApplications.AddOrUpdate(
+                    new LoanApplication()
+                    {
+                        CellPhone = rand.Next(1111111, 9999999).ToString(),
+                        Currency = Currency.BYR,
+                        Documents = null,
+                        LoanAmount = rand.Next(100, 10000),
+                        LoanPurpose = LoanPurpose.Common,
+                        Tariff = tariffs[i],
+                        Term = rand.Next(3, 36),
+                        TimeCreated = DateTime.Now,
+                        TimeContracted = DateTime.Now
+                    });
+            }
+
         }
     }
 }

@@ -63,13 +63,9 @@
     <Compile Include="FakeRepositories\LoanApplicationRepository.cs" />
     <Compile Include="FakeRepositories\LoanRepository.cs" />
     <Compile Include="FakeRepositories\TariffRepository.cs" />
-    <Compile Include="Migrations\201311052014312_Initial.cs" />
-    <Compile Include="Migrations\201311052014312_Initial.Designer.cs">
-      <DependentUpon>201311052014312_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201311052043200_Initial1.cs" />
-    <Compile Include="Migrations\201311052043200_Initial1.Designer.cs">
-      <DependentUpon>201311052043200_Initial1.cs</DependentUpon>
+    <Compile Include="Migrations\201311090038256_Init.cs" />
+    <Compile Include="Migrations\201311090038256_Init.Designer.cs">
+      <DependentUpon>201311090038256_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,11 +85,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201311052014312_Initial.resx">
-      <DependentUpon>201311052014312_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311052043200_Initial1.resx">
-      <DependentUpon>201311052043200_Initial1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201311090038256_Init.resx">
+      <DependentUpon>201311090038256_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

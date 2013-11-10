@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Presentation.Controllers
 {
+    [Authorize]
     public abstract class BaseController : Controller
     {
         public IUnityContainer Container { get; set; }
