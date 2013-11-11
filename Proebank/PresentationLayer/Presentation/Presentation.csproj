@@ -202,6 +202,7 @@
     <Compile Include="Controllers\LoanApplicationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoanController.cs" />
     <Compile Include="Controllers\TariffsController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
@@ -270,11 +271,6 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Application\Create.cshtml" />
-    <Content Include="Views\Application\Delete.cshtml" />
-    <Content Include="Views\Application\Details.cshtml" />
-    <Content Include="Views\Application\Edit.cshtml" />
-    <Content Include="Views\Application\Index.cshtml" />
     <Content Include="Views\LoanApplication\Create.cshtml" />
     <Content Include="Views\LoanApplication\Delete.cshtml" />
     <Content Include="Views\LoanApplication\Details.cshtml" />
@@ -286,6 +282,8 @@
     <Content Include="Views\Tariffs\Edit.cshtml" />
     <Content Include="Views\Tariffs\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Views\Loan\Index.cshtml" />
+    <Content Include="Views\Loan\SignContract.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

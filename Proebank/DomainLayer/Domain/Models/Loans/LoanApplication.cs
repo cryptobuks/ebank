@@ -42,7 +42,7 @@ namespace Domain.Models.Loans
         public LoanPurpose LoanPurpose { get; set; }
 
         [DisplayName("Status")]
-        public LoanApplicationStatus Status { get; private set; }
+        public LoanApplicationStatus Status { get; set; }
 
 
         [DisplayName("Documents")]
@@ -51,21 +51,5 @@ namespace Domain.Models.Loans
         // TODO: implement explicit choice
         [DisplayName("Currency")]
         public Currency Currency { get; set; }
-
-        public void Approve()
-        {
-            Status = LoanApplicationStatus.Approved;
-        }
-
-        public void Reject()
-        {
-            Status = LoanApplicationStatus.Rejected;
-        }
-
-        public void Contract()
-        {
-            TimeContracted = DateTime.Now;
-            Status = LoanApplicationStatus.Contracted;
-        }
     }
 }

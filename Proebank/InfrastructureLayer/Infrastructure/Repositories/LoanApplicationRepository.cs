@@ -4,6 +4,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Enums;
 using Domain.Models.Loans;
 
 namespace Infrastructure.Repositories
@@ -56,6 +57,37 @@ namespace Infrastructure.Repositories
                 var removedApplication = ctx.LoanApplications.Remove(entity);
                 ctx.SaveChanges();
                 return removedApplication;
+            }
+        }
+
+        public void Approve(LoanApplication entity)
+        {
+            using (var ctx = new DataContext())
+            {
+                var application = Get(a => a.Id.Equals(entity.Id));
+                application.Status = LoanApplicationStatus.Approved;
+                ctx.SaveChanges();
+            }
+        }
+
+        public void Reject(LoanApplication entity)
+        {
+            using (var ctx = new DataContext())
+            {
+                var application = Get(a => a.Id.Equals(entity.Id));
+                application.Status = LoanApplicationStatus.Rejected;
+                ctx.SaveChanges();
+            }
+        }
+
+        public void Contract(LoanApplication entity)
+        {
+            using (var ctx = new DataContext())
+            {
+                var application = Get(a => a.Id.Equals(entity.Id));
+                application.TimeContracted = DateTime.UtcNow;
+                application.Status = LoanApplicationStatus.Contracted;
+                ctx.SaveChanges();
             }
         }
     }
