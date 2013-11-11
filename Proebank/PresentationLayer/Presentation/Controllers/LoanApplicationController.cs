@@ -1,12 +1,9 @@
-﻿using System.Data.Entity;
-using System.Net;
-using Domain.Models.Accounts;
+﻿using System.Net;
+using Domain.Enums;
 using Domain.Models.Loans;
 using Microsoft.Practices.Unity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Presentation.Controllers
@@ -25,8 +22,46 @@ namespace Presentation.Controllers
         public ActionResult Index()
         {
             var loanapplications = LoanApplicationRepository.GetAll();//.Include(l => l.Tariff);
+            ViewBag.ActiveTab = "All";
             return View(loanapplications.ToList());
         }
+
+
+        public ActionResult New()
+        {
+            var loanapplications = LoanApplicationRepository
+                .GetAll(a => a.Status == LoanApplicationStatus.New);
+            ViewBag.ActiveTab = "New";
+            return View("Index", loanapplications.ToList());
+        }
+
+
+        public ActionResult Approved()
+        {
+            var loanapplications = LoanApplicationRepository
+                .GetAll(a => a.Status == LoanApplicationStatus.Approved);
+            ViewBag.ActiveTab = "Approved";
+            return View("Index", loanapplications.ToList());
+        }
+
+
+        public ActionResult Rejected()
+        {
+            var loanapplications = LoanApplicationRepository
+                .GetAll(a => a.Status == LoanApplicationStatus.Rejected);
+            ViewBag.ActiveTab = "Rejected";
+            return View("Index", loanapplications.ToList());
+        }
+
+
+        public ActionResult Contracted()
+        {
+            var loanapplications = LoanApplicationRepository
+                .GetAll(a => a.Status == LoanApplicationStatus.Contracted);
+            ViewBag.ActiveTab = "Contracted";
+            return View("Index", loanapplications.ToList());
+        }
+
 
         public ActionResult Details(Guid? id)
         {
@@ -49,10 +84,6 @@ namespace Presentation.Controllers
             return View();
         }
 
-        // To protect from over posting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // 
-        // Example: public ActionResult Update([Bind(Include="ExampleProperty1,ExampleProperty2")] Model model)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(LoanApplication loanapplication)
@@ -70,14 +101,13 @@ namespace Presentation.Controllers
             return View(loanapplication);
         }
 
-        // GET: /L/Edit/5
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LoanApplication loanapplication = LoanApplicationRepository.Get(l => l.Id.Equals(id));
+            var loanapplication = LoanApplicationRepository.Get(l => l.Id.Equals(id));
             if (loanapplication == null)
             {
                 return HttpNotFound();
@@ -87,10 +117,6 @@ namespace Presentation.Controllers
             return View(loanapplication);
         }
 
-        // To protect from over posting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // 
-        // Example: public ActionResult Update([Bind(Include="ExampleProperty1,ExampleProperty2")] Model model)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(LoanApplication loanapplication)
@@ -111,12 +137,12 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LoanApplication loanapplication = LoanApplicationRepository.Get(l => l.Id.Equals(id));
-            if (loanapplication == null)
+            var loanApplication = LoanApplicationRepository.Get(l => l.Id.Equals(id));
+            if (loanApplication == null)
             {
                 return HttpNotFound();
             }
-            return View(loanapplication);
+            return View(loanApplication);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -128,6 +154,22 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult Contract(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var loanApplication = LoanApplicationRepository.Get(l => l.Id.Equals(id));
+            if (loanApplication == null)
+            {
+                return HttpNotFound();
+            }
+            loanApplication.Contract();
+            LoanApplicationRepository.SaveOrUpdate(loanApplication);
+            return RedirectToAction("Index");
+        }
 
     }
 }

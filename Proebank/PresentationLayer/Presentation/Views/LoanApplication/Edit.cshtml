@@ -26,22 +26,6 @@
         </div>
 
         <div class="control-group">
-            @Html.LabelFor(model => model.TimeCreated, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.TimeCreated)
-                @Html.ValidationMessageFor(model => model.TimeCreated, null, new { @class = "help-inline" })
-            </div>
-        </div>
-
-        <div class="control-group">
-            @Html.LabelFor(model => model.TimeContracted, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.TimeContracted)
-                @Html.ValidationMessageFor(model => model.TimeContracted, null, new { @class = "help-inline" })
-            </div>
-        </div>
-
-        <div class="control-group">
             @Html.LabelFor(model => model.Term, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.Term)
