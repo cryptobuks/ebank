@@ -62,33 +62,21 @@ namespace Infrastructure.Repositories
 
         public void Approve(LoanApplication entity)
         {
-            using (var ctx = new DataContext())
-            {
-                var application = Get(a => a.Id.Equals(entity.Id));
-                application.Status = LoanApplicationStatus.Approved;
-                ctx.SaveChanges();
-            }
+            entity.Status = LoanApplicationStatus.Approved;
+            SaveOrUpdate(entity);
         }
 
         public void Reject(LoanApplication entity)
         {
-            using (var ctx = new DataContext())
-            {
-                var application = Get(a => a.Id.Equals(entity.Id));
-                application.Status = LoanApplicationStatus.Rejected;
-                ctx.SaveChanges();
-            }
+            entity.Status = LoanApplicationStatus.Rejected;
+            SaveOrUpdate(entity);
         }
 
         public void Contract(LoanApplication entity)
         {
-            using (var ctx = new DataContext())
-            {
-                var application = Get(a => a.Id.Equals(entity.Id));
-                application.TimeContracted = DateTime.UtcNow;
-                application.Status = LoanApplicationStatus.Contracted;
-                ctx.SaveChanges();
-            }
+            entity.TimeContracted = DateTime.UtcNow;
+            entity.Status = LoanApplicationStatus.Contracted;
+            SaveOrUpdate(entity);
         }
     }
 }
