@@ -166,10 +166,63 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            loanApplication.Contract();
+            throw new NotImplementedException();
+            //loanApplication.Contract();
             LoanApplicationRepository.SaveOrUpdate(loanApplication);
             return RedirectToAction("Index");
         }
+        public ActionResult Approve(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LoanApplication loanApplication = LoanApplicationRepository.Get(l => l.Id.Equals(id));
+            if (loanApplication == null)
+            {
+                return HttpNotFound();
+            }
+            LoanApplicationRepository.Approve(loanApplication);
+            return RedirectToAction("Index");
+        }
 
+        [HttpPost, ActionName("Approve")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Approve(Guid id)
+        {
+            LoanApplication loanApplication = LoanApplicationRepository.Get(l => l.Id.Equals(id));
+            if (loanApplication != null)
+            {
+                LoanApplicationRepository.Approve(loanApplication);
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Reject(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LoanApplication loanApplication = LoanApplicationRepository.Get(l => l.Id.Equals(id));
+            if (loanApplication == null)
+            {
+                return HttpNotFound();
+            }
+            LoanApplicationRepository.Reject(loanApplication);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost, ActionName("Reject")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Reject(Guid id)
+        {
+            LoanApplication loanApplication = LoanApplicationRepository.Get(l => l.Id.Equals(id));
+            if (loanApplication != null)
+            {
+                LoanApplicationRepository.Reject(loanApplication);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

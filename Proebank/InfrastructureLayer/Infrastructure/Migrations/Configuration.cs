@@ -15,6 +15,7 @@ namespace Infrastructure.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(Infrastructure.DataContext context)
@@ -33,14 +34,14 @@ namespace Infrastructure.Migrations
             //
             var rand = new Random();
             var tariffs = new List<Tariff>();
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var tariff = new Tariff()
                 {
                     Name = "tariff_" + i.ToString(),
                     CreationDate = DateTime.Now,
                     EndDate = DateTime.Now,
-                    InitialFee = rand.Next(10, 10000),
+                    InitialFee = 0,
                     InterestRate = rand.Next(4, 64),
                     IsGuarantorNeeded = false,
                     IsSecondaryDocumentNeeded = false,
@@ -66,7 +67,7 @@ namespace Infrastructure.Migrations
                         Documents = null,
                         LoanAmount = rand.Next(100, 10000),
                         LoanPurpose = LoanPurpose.Common,
-                        Tariff = tariffs[i],
+                        Tariff = tariffs[i % tariffs.Count],
                         Term = rand.Next(3, 36),
                         TimeCreated = DateTime.Now,
                         TimeContracted = DateTime.Now

@@ -4,6 +4,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Enums;
 using Domain.Models.Loans;
 
 namespace Infrastructure.Repositories
@@ -57,6 +58,25 @@ namespace Infrastructure.Repositories
                 ctx.SaveChanges();
                 return removedApplication;
             }
+        }
+
+        public void Approve(LoanApplication entity)
+        {
+            entity.Status = LoanApplicationStatus.Approved;
+            SaveOrUpdate(entity);
+        }
+
+        public void Reject(LoanApplication entity)
+        {
+            entity.Status = LoanApplicationStatus.Rejected;
+            SaveOrUpdate(entity);
+        }
+
+        public void Contract(LoanApplication entity)
+        {
+            entity.TimeContracted = DateTime.UtcNow;
+            entity.Status = LoanApplicationStatus.Contracted;
+            SaveOrUpdate(entity);
         }
     }
 }

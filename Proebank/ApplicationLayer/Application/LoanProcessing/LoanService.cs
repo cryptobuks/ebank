@@ -55,11 +55,11 @@ namespace Application.LoanProcessing
             // TODO: change later
             if (decision)
             {
-                loanApplication.Approve();
+                _loanApplicationRepository.Approve(loanApplication);
             }
             else
             {
-                loanApplication.Reject();
+                _loanApplicationRepository.Reject(loanApplication);
             }
         }
 
@@ -89,6 +89,8 @@ namespace Application.LoanProcessing
 
         internal void SaveNewLoan(Loan loan)
         {
+            // TODO: check if application is saved without call to application repository
+            _loanApplicationRepository.SaveOrUpdate(loan.Application);
             _loanRepository.SaveOrUpdate(loan);
         }
 
@@ -101,6 +103,17 @@ namespace Application.LoanProcessing
         {
             loan.IsClosed = true;
             _loanRepository.SaveOrUpdate(loan);
+        }
+
+        // TODO: do we need such methods?
+        public IEnumerable<Loan> GetAll()
+        {
+            return _loanRepository.GetAll();
+        }
+
+        public Loan GetSingle(Func<Loan, bool> filter)
+        {
+            return _loanRepository.Get(filter);
         }
     }
 }

@@ -113,7 +113,6 @@ namespace Application
         public Loan CreateLoanContract(LoanApplication application)
         {
             // TODO: CRITICAL: check bank balance
-            application.Contract();
             var schedule = _loanService.CalculatePaymentSchedule(application);
             var accounts = new List<Account>(LoanService.AccountTypes
                 .Select(accountType =>
@@ -128,6 +127,7 @@ namespace Application
                 Type = EntryType.Transfer,
                 SubType = EntrySubType.GeneralDebt,
             };
+            application.Status = LoanApplicationStatus.Contracted;
             // TODO: CRITICAL: add entry to bank balance
             _accountService.AddEntry(generalDebtAcc, initialEntry); 
             var loan = new Loan
