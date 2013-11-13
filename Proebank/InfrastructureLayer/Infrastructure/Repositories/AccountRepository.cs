@@ -9,15 +9,14 @@ namespace Infrastructure.Repositories
     // TODO: don't create db context for every method call
     public class AccountRepository : IAccountRepository
     {
+        DataContext ctx = new DataContext();
         public IList<Account> GetAll()
-        {
-            var ctx = new DataContext();
+        {            
             return ctx.Accounts.ToList();
         }
 
         public IList<Account> GetAll(Func<Account, bool> filter)
         {
-            var ctx = new DataContext();
             return ctx.Accounts
                 .AsQueryable()
                 .Where(filter)
@@ -26,7 +25,6 @@ namespace Infrastructure.Repositories
 
         public Account Get(Func<Account, bool> filter)
         {
-            var ctx = new DataContext();
             return ctx.Accounts
                 .AsQueryable()
                 .First(filter);
@@ -34,19 +32,15 @@ namespace Infrastructure.Repositories
 
         public void SaveOrUpdate(params Account[] entities)
         {
-            var ctx = new DataContext();
             ctx.Accounts.AddOrUpdate(entities);
             ctx.SaveChanges();
         }
 
         public Account Delete(Account entity)
         {
-            using (var ctx = new DataContext())
-            {
-                var removedAccount = ctx.Accounts.Remove(entity);
-                ctx.SaveChanges();
-                return removedAccount;
-            }
+            var removedAccount = ctx.Accounts.Remove(entity);
+            ctx.SaveChanges();
+            return removedAccount;
         }
     }
 }

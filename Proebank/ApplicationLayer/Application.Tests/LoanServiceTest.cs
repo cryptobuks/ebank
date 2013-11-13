@@ -86,6 +86,7 @@ namespace Application.Tests
                 Documents = new Collection<Document> { _passport },
                 LoanAmount = 5.5E11M,
                 LoanPurpose = LoanPurpose.Common,
+                Tariff = _tariff,
                 TariffId = _tariff.Id,
                 Term = 120,
                 TimeCreated = DateTime.Now

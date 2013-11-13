@@ -85,7 +85,7 @@ namespace Application.LoanProcessing
         internal void SaveNewLoan(Loan loan)
         {
             // TODO: check if application is saved without call to application repository
-            _loanApplicationRepository.SaveOrUpdate(loan.Application);
+            //_loanApplicationRepository.SaveOrUpdate(loan.Application);
             _loanRepository.SaveOrUpdate(loan);
         }
 
@@ -114,6 +114,11 @@ namespace Application.LoanProcessing
         public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
         {
             return _loanRepository.GetAll(filter);
+        }
+
+        public LoanApplication GetApplication(Guid loanApplicationId)
+        {
+            return _loanApplicationRepository.Get(la => la.Id == loanApplicationId);
         }
     }
 }

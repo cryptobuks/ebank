@@ -9,9 +9,9 @@ namespace Infrastructure.Repositories
     // TODO: try to generalize more, using DbSet<T> everywhere
     public class LoanRepository : ILoanRepository
     {
+        DataContext ctx = new DataContext();
         public Loan Get(Func<Loan, bool> filter)
-        {
-            var ctx = new DataContext();
+        {            
             return ctx.Loans
                 .AsQueryable()
                 .First(filter);
@@ -19,13 +19,11 @@ namespace Infrastructure.Repositories
 
         public IList<Loan> GetAll()
         {
-            var ctx = new DataContext();
             return ctx.Loans.ToList();
         }
 
         public IList<Loan> GetAll(Func<Loan, bool> filter)
         {
-            var ctx = new DataContext();
             return ctx.Loans
                 .AsQueryable()
                 .Where(filter)
@@ -34,21 +32,15 @@ namespace Infrastructure.Repositories
 
         public void SaveOrUpdate(params Loan[] entities)
         {
-            using (var ctx = new DataContext())
-            {
-                ctx.Loans.AddOrUpdate(entities);
-                ctx.SaveChanges();
-            }
+            ctx.Loans.AddOrUpdate(entities);
+            ctx.SaveChanges();
         }
 
         public Loan Delete(Loan entity)
         {
-            using (var ctx = new DataContext())
-            {
-                var removedLoan = ctx.Loans.Remove(entity);
-                ctx.SaveChanges();
-                return removedLoan;
-            }
+            var removedLoan = ctx.Loans.Remove(entity);
+            ctx.SaveChanges();
+            return removedLoan;
         }
     }
 }

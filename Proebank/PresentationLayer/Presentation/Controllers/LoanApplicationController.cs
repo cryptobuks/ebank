@@ -5,11 +5,14 @@ using Microsoft.Practices.Unity;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using Application.LoanProcessing;
+using System.Collections.Generic;
 
 namespace Presentation.Controllers
 {
     public class LoanApplicationController : BaseController
     {
+        private LoanService _service { get; set; }
         private ILoanApplicationRepository LoanApplicationRepository { get; set; }
         private ITariffRepository TariffRepository { get; set; }
 
@@ -17,6 +20,7 @@ namespace Presentation.Controllers
         {
             LoanApplicationRepository = Container.Resolve<ILoanApplicationRepository>();
             TariffRepository = Container.Resolve<ITariffRepository>();
+            _service = Container.Resolve<LoanService>();
         }
 
         public ActionResult Index()
@@ -91,11 +95,15 @@ namespace Presentation.Controllers
             if (ModelState.IsValid)
             {
                 loanapplication.Id = Guid.NewGuid();
-                LoanApplicationRepository.SaveOrUpdate(loanapplication);
-                //db.SaveChanges();
+                loanapplication.Documents = new List<Document>();
+                loanapplication.TimeCreated = DateTime.UtcNow;
+                loanapplication.Status = LoanApplicationStatus.New;
+                loanapplication.Tariff = TariffRepository.Get(t => t.Id.Equals(loanapplication.TariffId));
+                _service.CreateLoanApplication(loanapplication);
                 return RedirectToAction("Index");
             }
 
+            // TODO: change dropdown list to fill application tariff at once
             var tariffs = TariffRepository.GetAll();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", loanapplication.TariffId);
             return View(loanapplication);
@@ -166,6 +174,8 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
+            //// TODO: CRITICAL: REMOVE HACK!
+            //LoanApplicationRepository.Dispose(loanApplication);
             return RedirectToAction("Preview", "Loan", loanApplication);
         }
 

@@ -13,5 +13,7 @@ namespace Domain.Models.Loans
         void Reject(LoanApplication loanApplication);
 
         void Contract(LoanApplication loanApplication);
+
+        //void Dispose(LoanApplication loanApplication);
     }
 }

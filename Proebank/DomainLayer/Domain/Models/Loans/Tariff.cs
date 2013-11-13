@@ -44,9 +44,8 @@ namespace Domain.Models.Loans
             var term = loanApplication.Term;
             var isAmountValid = amount >= MinAmount && amount <= MaxAmount;
             var isTermValid = term >= MinTerm && term <= MaxTerm;
-            var hasDocs = loanApplication.Documents.Any(d => d.TariffDocType == TariffDocType.DebtorPrimary);
             // TODO: complete
-            return isAmountValid && isTermValid && hasDocs;
+            return isAmountValid && isTermValid;
         }
     }
 }

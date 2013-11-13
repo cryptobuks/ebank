@@ -44,6 +44,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            loanApplication = LoanService.GetApplication(loanApplication.Id);
             var loan = _processingService.CreateLoanContract(loanApplication);
             if (loan == null)
             {

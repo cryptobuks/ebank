@@ -10,9 +10,10 @@ namespace Infrastructure.Repositories
 {
     public class TariffRepository : ITariffRepository
     {
+        DataContext ctx = new DataContext();
+
         public Tariff Get(Func<Tariff, bool> filter)
         {
-            var ctx = new DataContext();
             return ctx.Tariffs
                 .AsQueryable()
                 .First(filter);
@@ -21,13 +22,11 @@ namespace Infrastructure.Repositories
         // TODO: to IQueryable
         public IList<Tariff> GetAll()
         {
-            var ctx = new DataContext();
             return ctx.Tariffs.ToList();
         }
 
         public IList<Tariff> GetAll(Func<Tariff, bool> filter)
         {
-            var ctx = new DataContext();
             return ctx.Tariffs
                 .AsQueryable()
                 .Where(filter)
@@ -36,21 +35,16 @@ namespace Infrastructure.Repositories
 
         public void SaveOrUpdate(params Tariff[] entities)
         {
-            using (var ctx = new DataContext())
-            {
-                ctx.Tariffs.AddOrUpdate(entities);
-                ctx.SaveChanges();
-            }
+            ctx.Tariffs.AddOrUpdate(entities);
+            ctx.SaveChanges();
         }
 
         public Tariff Delete(Tariff entity)
         {
-            using (var ctx = new DataContext())
-            {
-                var removedTariff = ctx.Tariffs.Remove(entity);
-                ctx.SaveChanges();
-                return removedTariff;
-            }
+            var tariffToRemove = ctx.Tariffs.Single(t => t.Id.Equals(entity.Id));
+            var removedTariff = ctx.Tariffs.Remove(tariffToRemove);
+            ctx.SaveChanges();
+            return removedTariff;
         }
     }
 }

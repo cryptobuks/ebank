@@ -18,12 +18,11 @@ namespace Application.LoanProcessing
 
         public bool ValidateLoanApplication(LoanApplication loanApplication)
         {
-            var tariff = _repository.Get(t => t.Id == loanApplication.Id);
-            if (tariff == null)
+            if (loanApplication == null || loanApplication.Tariff == null)
             {
-                throw new Exception("Tariff with id=" + loanApplication.Id + " not found");
+                throw new ArgumentException("loanApplication");
             }
-            return tariff.Validate(loanApplication);
+            return loanApplication.Tariff.Validate(loanApplication);
         }
     }
 }
