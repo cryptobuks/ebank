@@ -290,7 +290,8 @@
     <Content Include="Views\Tariffs\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
     <Content Include="Views\Loan\Index.cshtml" />
-    <Content Include="Views\Loan\SignContract.cshtml" />
+    <Content Include="Views\Loan\Preview.cshtml" />
+    <Content Include="Views\Loan\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

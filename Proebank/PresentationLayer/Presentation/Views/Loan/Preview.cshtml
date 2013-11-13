@@ -1,0 +1,66 @@
+﻿@model Domain.Models.Loans.LoanApplication
+
+@{
+    ViewBag.Title = "Preview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Preview</h2>
+
+<div>
+    <h4>LoanApplication</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LoanAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoanAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeContracted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeContracted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Term)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Term)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CellPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CellPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TariffId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TariffId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sign contract", "Sign", Model)
+</p>

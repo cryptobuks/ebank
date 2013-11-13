@@ -11,40 +11,32 @@ namespace Infrastructure.Repositories
     {
         public IList<Account> GetAll()
         {
-            using (var ctx = new DataContext())
-            {
-                return ctx.Accounts.ToList();
-            }
+            var ctx = new DataContext();
+            return ctx.Accounts.ToList();
         }
 
         public IList<Account> GetAll(Func<Account, bool> filter)
         {
-            using (var ctx = new DataContext())
-            {
-                return ctx.Accounts
-                    .AsQueryable()
-                    .Where(filter)
-                    .ToList();
-            }
+            var ctx = new DataContext();
+            return ctx.Accounts
+                .AsQueryable()
+                .Where(filter)
+                .ToList();
         }
 
         public Account Get(Func<Account, bool> filter)
         {
-            using (var ctx = new DataContext())
-            {
-                return ctx.Accounts
-                    .AsQueryable()
-                    .First(filter);
-            }
+            var ctx = new DataContext();
+            return ctx.Accounts
+                .AsQueryable()
+                .First(filter);
         }
 
         public void SaveOrUpdate(params Account[] entities)
         {
-            using (var ctx = new DataContext())
-            {
-                ctx.Accounts.AddOrUpdate(entities);
-                ctx.SaveChanges();
-            }
+            var ctx = new DataContext();
+            ctx.Accounts.AddOrUpdate(entities);
+            ctx.SaveChanges();
         }
 
         public Account Delete(Account entity)

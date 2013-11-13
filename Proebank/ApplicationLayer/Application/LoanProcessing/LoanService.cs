@@ -82,11 +82,6 @@ namespace Application.LoanProcessing
             _tariffRepository.SaveOrUpdate(tariff);
         }
 
-        public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
-        {
-            return _loanRepository.GetAll(filter);
-        }
-
         internal void SaveNewLoan(Loan loan)
         {
             // TODO: check if application is saved without call to application repository
@@ -114,6 +109,11 @@ namespace Application.LoanProcessing
         public Loan GetSingle(Func<Loan, bool> filter)
         {
             return _loanRepository.Get(filter);
+        }
+
+        public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
+        {
+            return _loanRepository.GetAll(filter);
         }
     }
 }

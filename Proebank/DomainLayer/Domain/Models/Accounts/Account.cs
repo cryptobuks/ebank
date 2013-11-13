@@ -15,6 +15,7 @@ namespace Domain.Models.Accounts
         public Account()
         {
             Id = Guid.NewGuid();
+            Entries = new List<Entry>();
         }
 
         public Guid Id { get; set; }

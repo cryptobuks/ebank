@@ -36,14 +36,13 @@ namespace Domain.Models.Loans
         [DisplayName("Tariff")]
         public Guid TariffId { get; set; }
 
-        public Tariff Tariff { get; set; }
+        public virtual Tariff Tariff { get; set; }
 
         [DisplayName("Loan Purpose")]
         public LoanPurpose LoanPurpose { get; set; }
 
         [DisplayName("Status")]
         public LoanApplicationStatus Status { get; set; }
-
 
         [DisplayName("Documents")]
         public virtual ICollection<Document> Documents { get; set; }

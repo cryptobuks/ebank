@@ -166,11 +166,9 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            throw new NotImplementedException();
-            //loanApplication.Contract();
-            LoanApplicationRepository.SaveOrUpdate(loanApplication);
-            return RedirectToAction("Index");
+            return RedirectToAction("Preview", "Loan", loanApplication);
         }
+
         public ActionResult Approve(Guid? id)
         {
             if (id == null)

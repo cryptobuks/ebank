@@ -12,32 +12,26 @@ namespace Infrastructure.Repositories
     {
         public Tariff Get(Func<Tariff, bool> filter)
         {
-            using (var ctx = new DataContext())
-            {
-                return ctx.Tariffs
-                    .AsQueryable()
-                    .First(filter);
-            }
+            var ctx = new DataContext();
+            return ctx.Tariffs
+                .AsQueryable()
+                .First(filter);
         }
 
         // TODO: to IQueryable
         public IList<Tariff> GetAll()
         {
-            using (var ctx = new DataContext())
-            {
-                return ctx.Tariffs.ToList();
-            }
+            var ctx = new DataContext();
+            return ctx.Tariffs.ToList();
         }
 
         public IList<Tariff> GetAll(Func<Tariff, bool> filter)
         {
-            using (var ctx = new DataContext())
-            {
-                return ctx.Tariffs
-                    .AsQueryable()
-                    .Where(filter)
-                    .ToList();
-            }
+            var ctx = new DataContext();
+            return ctx.Tariffs
+                .AsQueryable()
+                .Where(filter)
+                .ToList();
         }
 
         public void SaveOrUpdate(params Tariff[] entities)
