@@ -1,10 +1,12 @@
-﻿using System;
-using Application.AccountProcessing;
-using Application.LoanProcessing;
+﻿using Domain.Enums;
+using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Application.Tests
 {
@@ -13,6 +15,7 @@ namespace Application.Tests
     {
         private static UnityContainer _container;
         private static ProcessingService _service;
+        private static Loan _loan;
 
         [ClassInitialize]
         public static void  InitService(TestContext context)
@@ -20,13 +23,62 @@ namespace Application.Tests
             _container = new UnityContainer();
             _container.LoadConfiguration();
             _service = _container.Resolve<ProcessingService>();
+
+            var customer = new Customer
+            {
+                LastName = "Mitchell",
+                FirstName = "Stanley",
+                MiddleName = "Matthew",
+                Address = "Minsk",
+                BirthDate = new DateTime(1972, 10, 17),
+                Email = null,
+                IdentificationNumber = "317041972A0PB1",
+                Phone = "+375111111111",
+            };
+            var passport = new Document
+            {
+                CustomerId = customer.Id,
+                Customer = customer,
+                DocType = DocType.Passport,
+                TariffDocType = TariffDocType.DebtorPrimary,
+                Number = "MP2345678"
+            };
+            var tariff = new Tariff
+            {
+                CreationDate = new DateTime(2013, 07, 01),
+                EndDate = null,
+                InitialFee = 0,
+                InterestRate = 0.75M,
+                IsGuarantorNeeded = false,
+                IsSecondaryDocumentNeeded = false,
+                LoanPurpose = LoanPurpose.Common,
+                MaxAmount = 1.0E8M,
+                MinAge = 18,
+                MaxTerm = 36,
+                MinTerm = 3,
+                MinAmount = 1.0E6M,
+                Name = "NeverSeeMeAgain"
+            };
+            //_service.SaveOrUpdateTariff(tariff);
+            var validLoanApp = new LoanApplication
+            {
+                CellPhone = "+375291000000",
+                Documents = new Collection<Document> { passport },
+                LoanAmount = 5.5E7M,
+                LoanPurpose = LoanPurpose.Common,
+                Tariff = tariff,
+                TariffId = tariff.Id,
+                Term = 3,
+                TimeCreated = DateTime.Now
+            };
+            _loan = _service.CreateLoanContract(validLoanApp);
         }
 
         [TestMethod]
         public void ProcessEndOfMonth()
         {
-            // TODO: add data!
             _service.ProcessEndOfMonth(DateTime.UtcNow);
+            Assert.AreEqual(1, _loan.Accounts.First(a => a.Type == AccountType.Interest).Entries.Count);
         }
 
         //[TestMethod]

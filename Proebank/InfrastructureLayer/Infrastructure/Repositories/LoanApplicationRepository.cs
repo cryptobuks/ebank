@@ -14,31 +14,25 @@ namespace Infrastructure.Repositories
     {
         public LoanApplication Get(Func<LoanApplication, bool> filter)
         {
-            using (var ctx = new DataContext())
-            {
-                return ctx.LoanApplications
-                    .AsQueryable()
-                    .First(filter);
-            }
+            var ctx = new DataContext();
+            return ctx.LoanApplications
+                .AsQueryable()
+                .First(filter);
         }
 
         public IList<LoanApplication> GetAll()
         {
-            using (var ctx = new DataContext())
-            {
-                return ctx.LoanApplications.ToList();
-            }
+            var ctx = new DataContext();
+            return ctx.LoanApplications.ToList();
         }
 
         public IList<LoanApplication> GetAll(Func<LoanApplication, bool> filter)
         {
-            using (var ctx = new DataContext())
-            {
-                return ctx.LoanApplications
-                    .AsQueryable()
-                    .Where(filter)
-                    .ToList();
-            }
+            var ctx = new DataContext();
+            return ctx.LoanApplications
+                .AsQueryable()
+                .Where(filter)
+                .ToList();
         }
 
         public void SaveOrUpdate(params LoanApplication[] entities)
