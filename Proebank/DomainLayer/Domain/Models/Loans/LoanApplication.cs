@@ -19,12 +19,12 @@ namespace Domain.Models.Loans
 
         [DisplayName("Time Created")]
         //[DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy hh:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime TimeCreated { get; set; }
 
         [DisplayName("Time Contracted")]
         //[DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy hh:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? TimeContracted { get; set; }
 
         [DisplayName("Term")]
