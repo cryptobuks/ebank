@@ -70,7 +70,7 @@ namespace Infrastructure.Migrations
                         Tariff = tariffs[i % tariffs.Count],
                         Term = rand.Next(3, 36),
                         TimeCreated = DateTime.Now,
-                        TimeContracted = DateTime.Now
+                        TimeContracted = null
                     });
             }
 
