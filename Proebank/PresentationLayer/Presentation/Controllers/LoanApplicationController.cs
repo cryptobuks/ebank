@@ -88,6 +88,8 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(LoanApplication loanapplication)
         {
+            loanapplication.Status = LoanApplicationStatus.New;
+            loanapplication.TimeCreated = DateTime.Now;
             if (ModelState.IsValid)
             {
                 loanapplication.Id = Guid.NewGuid();

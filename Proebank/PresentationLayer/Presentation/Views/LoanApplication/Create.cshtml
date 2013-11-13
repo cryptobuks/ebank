@@ -55,14 +55,6 @@
                 @Html.ValidationMessageFor(model => model.LoanPurpose, null, new { @class = "help-inline" })
             </div>
         </div>
-
-        <div class="control-group">
-            @Html.LabelFor(model => model.Status, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.Status)
-                @Html.ValidationMessageFor(model => model.Status, null, new { @class = "help-inline" })
-            </div>
-        </div>
         
         <div class="control-group">
             @Html.LabelFor(model => model.Currency, new { @class = "control-label" })
