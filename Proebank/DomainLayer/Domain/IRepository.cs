@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain
 {
@@ -7,9 +8,9 @@ namespace Domain
     {
         T Get(Func<T, bool> filter);
 
-        IList<T> GetAll();
+        IQueryable<T> GetAll();
 
-        IList<T> GetAll(Func<T, bool> filter);
+        IEnumerable<T> GetAll(Func<T, bool> filter);
 
         void SaveOrUpdate(params T[] entities);
 

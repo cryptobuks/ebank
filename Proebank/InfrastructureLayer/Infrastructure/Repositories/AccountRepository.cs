@@ -17,17 +17,16 @@ namespace Infrastructure.Repositories
             this._context = context;
         }
 
-        public IList<Account> GetAll()
+        public IQueryable<Account> GetAll()
         {
-            return _context.Accounts.ToList();
+            return _context.Accounts.AsQueryable();
         }
 
-        public IList<Account> GetAll(Func<Account, bool> filter)
+        public IEnumerable<Account> GetAll(Func<Account, bool> filter)
         {
             return _context.Accounts
                 .AsQueryable()
-                .Where(filter)
-                .ToList();
+                .Where(filter);
         }
 
         public Account Get(Func<Account, bool> filter)

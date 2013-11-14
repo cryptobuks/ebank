@@ -25,18 +25,16 @@ namespace Infrastructure.Repositories
                 .First(filter);
         }
 
-        // TODO: to IQueryable
-        public IList<Tariff> GetAll()
+        public IQueryable<Tariff> GetAll()
         {
-            return _context.Tariffs.ToList();
+            return _context.Tariffs.AsQueryable();
         }
 
-        public IList<Tariff> GetAll(Func<Tariff, bool> filter)
+        public IEnumerable<Tariff> GetAll(Func<Tariff, bool> filter)
         {
             return _context.Tariffs
                 .AsQueryable()
-                .Where(filter)
-                .ToList();
+                .Where(filter);
         }
 
         public void SaveOrUpdate(params Tariff[] entities)

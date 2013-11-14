@@ -23,17 +23,16 @@ namespace Infrastructure.Repositories
                 .First(filter);
         }
 
-        public IList<Loan> GetAll()
+        public IQueryable<Loan> GetAll()
         {
-            return _context.Loans.ToList();
+            return _context.Loans.AsQueryable();
         }
 
-        public IList<Loan> GetAll(Func<Loan, bool> filter)
+        public IEnumerable<Loan> GetAll(Func<Loan, bool> filter)
         {
             return _context.Loans
                 .AsQueryable()
-                .Where(filter)
-                .ToList();
+                .Where(filter);
         }
 
         public void SaveOrUpdate(params Loan[] entities)

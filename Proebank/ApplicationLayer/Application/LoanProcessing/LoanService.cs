@@ -10,9 +10,6 @@ namespace Application.LoanProcessing
 {
     public class LoanService
     {
-        //private readonly ILoanRepository _unitOfWork.LoanRepository;
-        //private readonly ILoanApplicationRepository _unitOfWork.LoanApplicationRepository;
-        //private readonly ITariffRepository _tariffRepository;
         private IUnitOfWork _unitOfWork;
         private readonly TariffHelper _tariffHelper;
         private static readonly AccountType[] LoanAccountTypes = new[]
@@ -99,7 +96,7 @@ namespace Application.LoanProcessing
         }
 
         // TODO: do we need such methods?
-        public IEnumerable<Loan> GetAll()
+        public IQueryable<Loan> GetAll()
         {
             return _unitOfWork.LoanRepository.GetAll();
         }
@@ -117,6 +114,37 @@ namespace Application.LoanProcessing
         public LoanApplication GetApplication(Guid loanApplicationId)
         {
             return _unitOfWork.LoanApplicationRepository.Get(la => la.Id == loanApplicationId);
+        }
+
+        public IEnumerable<LoanApplication> GetLoanApplications(Func<LoanApplication, bool> filter)
+        {
+            return _unitOfWork.LoanApplicationRepository.GetAll(filter);
+        }
+
+        public IQueryable<Tariff> GetTariffs()
+        {
+            return _unitOfWork.TariffRepository.GetAll();
+        }
+
+        public void DeleteLoanApplicationById(Guid id)
+        {
+            var loanApplication = _unitOfWork.LoanApplicationRepository.Get(la => la.Id.Equals(id));
+            _unitOfWork.LoanApplicationRepository.Delete(loanApplication);
+        }
+
+        public void ApproveLoanAppication(LoanApplication loanApplication)
+        {
+            _unitOfWork.LoanApplicationRepository.Approve(loanApplication);
+        }
+
+        public void RejectLoanApplication(LoanApplication loanApplication)
+        {
+            _unitOfWork.LoanApplicationRepository.Reject(loanApplication);
+        }
+
+        public void SaveOrUpdateLoanApplication(LoanApplication loanApplication)
+        {
+            throw new NotImplementedException();
         }
     }
 }

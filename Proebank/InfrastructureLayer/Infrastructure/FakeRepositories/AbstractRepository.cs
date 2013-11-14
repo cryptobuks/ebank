@@ -29,11 +29,11 @@ namespace Infrastructure.FakeRepositories
             }
         }
 
-        public IList<T> GetAll()
+        public IQueryable<T> GetAll()
         {
             if (_isDisposedIfNull != null)
             {
-                return _entities;
+                return _entities.AsQueryable();
             }
             else
             {
@@ -41,7 +41,7 @@ namespace Infrastructure.FakeRepositories
             }
         }
 
-        public IList<T> GetAll(Func<T, bool> filter)
+        public IEnumerable<T> GetAll(Func<T, bool> filter)
         {
             if (_isDisposedIfNull != null)
             {
