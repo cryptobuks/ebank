@@ -37,10 +37,9 @@ namespace Infrastructure.Repositories
                 .Where(filter);
         }
 
-        public void SaveOrUpdate(params Tariff[] entities)
+        public void Upsert(params Tariff[] entities)
         {
             _context.Tariffs.AddOrUpdate(entities);
-            _context.SaveChanges();
         }
 
         public Tariff Delete(Tariff entity)
@@ -48,9 +47,7 @@ namespace Infrastructure.Repositories
             // TODO: refactor to remove entity or (preferrably) as in
             // http://www.asp.net/mvc/tutorials/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application
             var tariffToRemove = _context.Tariffs.Single(t => t.Id.Equals(entity.Id));
-            var removedTariff = _context.Tariffs.Remove(tariffToRemove);
-            _context.SaveChanges();
-            return removedTariff;
+            return _context.Tariffs.Remove(tariffToRemove);
         }
     }
 }

@@ -36,16 +36,14 @@ namespace Infrastructure.Repositories
                 .First(filter);
         }
 
-        public void SaveOrUpdate(params Account[] entities)
+        public void Upsert(params Account[] entities)
         {
             _context.Accounts.AddOrUpdate(entities);
-            _context.SaveChanges();
         }
 
         public Account Delete(Account entity)
         {
             var removedAccount = _context.Accounts.Remove(entity);
-            _context.SaveChanges();
             return removedAccount;
         }
     }

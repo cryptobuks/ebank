@@ -59,7 +59,7 @@ namespace Presentation.Controllers
             if (ModelState.IsValid)
             {
                 tariff.Id = Guid.NewGuid();
-                TariffRepository.SaveOrUpdate(tariff);
+                TariffRepository.Upsert(tariff);
                 return RedirectToAction("Index");
             }
 
@@ -91,7 +91,7 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                TariffRepository.SaveOrUpdate(tariff);
+                TariffRepository.Upsert(tariff);
                 return RedirectToAction("Index");
             }
             return View(tariff);

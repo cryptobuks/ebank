@@ -25,7 +25,7 @@ namespace Presentation.Controllers
             var loanapplications = _service.GetLoanApplications(la => true);//.Include(l => l.Tariff);
             ViewBag.ActiveTab = "All";
             // TODO: get rid of ToList()
-            return View(loanapplications.ToList());
+            return View(loanapplications);
         }
 
 
@@ -129,7 +129,8 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                _service.SaveOrUpdateLoanApplication(loanApplication);
+                //_service.SaveOrUpdateLoanApplication(loanApplication);
+                _service.SaveChanges();
                 return RedirectToAction("Index");
             }
             var tariffs = _service.GetTariffs();
@@ -171,8 +172,7 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            //// TODO: CRITICAL: REMOVE HACK!
-            //LoanApplicationRepository.Dispose(loanApplication);
+            // TODO: try save changes if everything else doesn't work
             return RedirectToAction("Preview", "Loan", new { loanApplicationId = loanApplication.Id});
         }
 
@@ -188,6 +188,7 @@ namespace Presentation.Controllers
                 return HttpNotFound();
             }
             _service.ApproveLoanAppication(loanApplication);
+            _service.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -199,6 +200,7 @@ namespace Presentation.Controllers
             if (loanApplication != null)
             {
                 _service.ApproveLoanAppication(loanApplication);
+                _service.SaveChanges();
             }
             return RedirectToAction("Index");
         }
@@ -215,6 +217,7 @@ namespace Presentation.Controllers
                 return HttpNotFound();
             }
             _service.RejectLoanApplication(loanApplication);
+            _service.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -226,6 +229,7 @@ namespace Presentation.Controllers
             if (loanApplication != null)
             {
                 _service.RejectLoanApplication(loanApplication);
+                _service.SaveChanges();
             }
             return RedirectToAction("Index");
         }

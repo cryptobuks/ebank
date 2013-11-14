@@ -35,16 +35,14 @@ namespace Infrastructure.Repositories
                 .Where(filter);
         }
 
-        public void SaveOrUpdate(params Loan[] entities)
+        public void Upsert(params Loan[] entities)
         {
             _context.Loans.AddOrUpdate(entities);
-            _context.SaveChanges();
         }
 
         public Loan Delete(Loan entity)
         {
             var removedLoan = _context.Loans.Remove(entity);
-            _context.SaveChanges();
             return removedLoan;
         }
     }

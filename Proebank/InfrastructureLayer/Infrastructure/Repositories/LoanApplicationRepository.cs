@@ -37,36 +37,33 @@ namespace Infrastructure.Repositories
                 .Where(filter);
         }
 
-        public void SaveOrUpdate(params LoanApplication[] entities)
+        public void Upsert(params LoanApplication[] entities)
         {
             _context.LoanApplications.AddOrUpdate(entities);
-            _context.SaveChanges();
         }
 
         public LoanApplication Delete(LoanApplication entity)
         {
-            var removedApplication = _context.LoanApplications.Remove(entity);
-            _context.SaveChanges();
-            return removedApplication;
+            return _context.LoanApplications.Remove(entity);
         }
 
         public void Approve(LoanApplication entity)
         {
             entity.Status = LoanApplicationStatus.Approved;
-            SaveOrUpdate(entity);
+            Upsert(entity);
         }
 
         public void Reject(LoanApplication entity)
         {
             entity.Status = LoanApplicationStatus.Rejected;
-            SaveOrUpdate(entity);
+            Upsert(entity);
         }
 
         public void Contract(LoanApplication entity)
         {
             entity.TimeContracted = DateTime.UtcNow;
             entity.Status = LoanApplicationStatus.Contracted;
-            SaveOrUpdate(entity);
+            Upsert(entity);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Application.LoanProcessing
             var validationResult = _tariffHelper.ValidateLoanApplication(loanApplication);
             if (validationResult)
             {
-                _unitOfWork.LoanApplicationRepository.SaveOrUpdate(loanApplication);
+                _unitOfWork.LoanApplicationRepository.Upsert(loanApplication);
             }
             return validationResult;
         }
@@ -74,14 +74,15 @@ namespace Application.LoanProcessing
 
         public void SaveOrUpdateTariff(Tariff tariff)
         {
-            _unitOfWork.TariffRepository.SaveOrUpdate(tariff);
+            _unitOfWork.Save();
+            //_unitOfWork.TariffRepository.SaveOrUpdate(tariff);
         }
 
         internal void SaveNewLoan(Loan loan)
         {
             // TODO: check if application is saved without call to application repository
-            //_unitOfWork.LoanApplicationRepository.SaveOrUpdate(loan.Application);
-            _unitOfWork.LoanRepository.SaveOrUpdate(loan);
+            _unitOfWork.LoanRepository.Upsert(loan);
+            _unitOfWork.Save();
         }
 
         internal bool CanLoanBeClosed(Loan loan)
@@ -92,7 +93,7 @@ namespace Application.LoanProcessing
         internal void CloseLoan(Loan loan)
         {
             loan.IsClosed = true;
-            _unitOfWork.LoanRepository.SaveOrUpdate(loan);
+            _unitOfWork.LoanRepository.Upsert(loan);
         }
 
         // TODO: do we need such methods?
@@ -142,9 +143,9 @@ namespace Application.LoanProcessing
             _unitOfWork.LoanApplicationRepository.Reject(loanApplication);
         }
 
-        public void SaveOrUpdateLoanApplication(LoanApplication loanApplication)
+        public void SaveChanges()
         {
-            throw new NotImplementedException();
+            _unitOfWork.Save();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Application.AccountProcessing
                 DateOpened = DateTime.UtcNow,
                 Type = accountType,
             };
-            _unitOfWork.AccountRepository.SaveOrUpdate(acc);
+            _unitOfWork.AccountRepository.Upsert(acc);
             return acc;
         }
 
@@ -41,7 +41,7 @@ namespace Application.AccountProcessing
             if (account.Currency != entry.Currency)
                 throw new ArgumentException("Currencies are not equal");
             account.Entries.Add(entry);
-            _unitOfWork.AccountRepository.SaveOrUpdate(account);
+            _unitOfWork.AccountRepository.Upsert(account);
         }
 
         public void CloseAccount(Account account)
@@ -54,7 +54,7 @@ namespace Application.AccountProcessing
             {
                 account.IsClosed = true;
                 account.DateClosed = DateTime.UtcNow;
-                _unitOfWork.AccountRepository.SaveOrUpdate(account);
+                _unitOfWork.AccountRepository.Upsert(account);
             }
         }
     }

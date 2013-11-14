@@ -53,7 +53,7 @@ namespace Infrastructure.FakeRepositories
             }
         }
 
-        public void SaveOrUpdate(params T[] entities)
+        public void Upsert(params T[] entities)
         {
             if (_isDisposedIfNull != null)
             {

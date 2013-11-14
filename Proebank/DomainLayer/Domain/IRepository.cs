@@ -12,7 +12,7 @@ namespace Domain
 
         IEnumerable<T> GetAll(Func<T, bool> filter);
 
-        void SaveOrUpdate(params T[] entities);
+        void Upsert(params T[] entities);
 
         T Delete(T entity);
     }
