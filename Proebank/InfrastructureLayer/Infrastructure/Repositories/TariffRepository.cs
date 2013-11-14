@@ -10,11 +10,17 @@ namespace Infrastructure.Repositories
 {
     public class TariffRepository : ITariffRepository
     {
-        DataContext ctx = new DataContext();
+        private DataContext _context;
+
+        public TariffRepository(DataContext context)
+        {
+            // TODO: Complete member initialization
+            this._context = context;
+        }
 
         public Tariff Get(Func<Tariff, bool> filter)
         {
-            return ctx.Tariffs
+            return _context.Tariffs
                 .AsQueryable()
                 .First(filter);
         }
@@ -22,12 +28,12 @@ namespace Infrastructure.Repositories
         // TODO: to IQueryable
         public IList<Tariff> GetAll()
         {
-            return ctx.Tariffs.ToList();
+            return _context.Tariffs.ToList();
         }
 
         public IList<Tariff> GetAll(Func<Tariff, bool> filter)
         {
-            return ctx.Tariffs
+            return _context.Tariffs
                 .AsQueryable()
                 .Where(filter)
                 .ToList();
@@ -35,15 +41,17 @@ namespace Infrastructure.Repositories
 
         public void SaveOrUpdate(params Tariff[] entities)
         {
-            ctx.Tariffs.AddOrUpdate(entities);
-            ctx.SaveChanges();
+            _context.Tariffs.AddOrUpdate(entities);
+            _context.SaveChanges();
         }
 
         public Tariff Delete(Tariff entity)
         {
-            var tariffToRemove = ctx.Tariffs.Single(t => t.Id.Equals(entity.Id));
-            var removedTariff = ctx.Tariffs.Remove(tariffToRemove);
-            ctx.SaveChanges();
+            // TODO: refactor to remove entity or (preferrably) as in
+            // http://www.asp.net/mvc/tutorials/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application
+            var tariffToRemove = _context.Tariffs.Single(t => t.Id.Equals(entity.Id));
+            var removedTariff = _context.Tariffs.Remove(tariffToRemove);
+            _context.SaveChanges();
             return removedTariff;
         }
     }

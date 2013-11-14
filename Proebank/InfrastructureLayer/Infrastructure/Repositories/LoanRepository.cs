@@ -9,22 +9,28 @@ namespace Infrastructure.Repositories
     // TODO: try to generalize more, using DbSet<T> everywhere
     public class LoanRepository : ILoanRepository
     {
-        DataContext ctx = new DataContext();
+        private readonly DataContext _context;
+
+        public LoanRepository(DataContext context)
+        {
+            // TODO: Complete member initialization
+            this._context = context;
+        }
         public Loan Get(Func<Loan, bool> filter)
-        {            
-            return ctx.Loans
+        {
+            return _context.Loans
                 .AsQueryable()
                 .First(filter);
         }
 
         public IList<Loan> GetAll()
         {
-            return ctx.Loans.ToList();
+            return _context.Loans.ToList();
         }
 
         public IList<Loan> GetAll(Func<Loan, bool> filter)
         {
-            return ctx.Loans
+            return _context.Loans
                 .AsQueryable()
                 .Where(filter)
                 .ToList();
@@ -32,14 +38,14 @@ namespace Infrastructure.Repositories
 
         public void SaveOrUpdate(params Loan[] entities)
         {
-            ctx.Loans.AddOrUpdate(entities);
-            ctx.SaveChanges();
+            _context.Loans.AddOrUpdate(entities);
+            _context.SaveChanges();
         }
 
         public Loan Delete(Loan entity)
         {
-            var removedLoan = ctx.Loans.Remove(entity);
-            ctx.SaveChanges();
+            var removedLoan = _context.Loans.Remove(entity);
+            _context.SaveChanges();
             return removedLoan;
         }
     }

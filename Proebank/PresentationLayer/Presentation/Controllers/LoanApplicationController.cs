@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Web.Routing;
 using Domain.Enums;
 using Domain.Models.Loans;
 using Microsoft.Practices.Unity;
@@ -178,7 +179,7 @@ namespace Presentation.Controllers
             }
             //// TODO: CRITICAL: REMOVE HACK!
             //LoanApplicationRepository.Dispose(loanApplication);
-            return RedirectToAction("Preview", "Loan", loanApplication);
+            return RedirectToAction("Preview", "Loan", new { loanApplicationId = loanApplication.Id});
         }
 
         public ActionResult Approve(Guid? id)

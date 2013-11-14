@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Application.LoanProcessing;
+using Domain.Enums;
 using Microsoft.Practices.Unity;
 using Domain.Models.Loans;
 using Application;
@@ -13,25 +14,28 @@ namespace Presentation.Controllers
 {
     public class LoanController : BaseController
     {
-        private LoanService LoanService { get; set; }
         private ProcessingService _processingService { get; set; }
 
         public LoanController()
         {
             // TODO: remove something or create loan service property
-            LoanService = Container.Resolve<LoanService>();
             _processingService = Container.Resolve<ProcessingService>();
         }
 
         public ActionResult Index()
         {
-            var loans = LoanService.GetAll();
-            return View(loans.ToList());    // TODO: why ToList() is needed?
+            var loans = _processingService._loanService.GetAll();
+            return View(loans);
         }
 
-        public ActionResult Preview(LoanApplication loanApplication)
+        public ActionResult Preview(Guid? loanApplicationId)
         {
-            if (loanApplication == null)
+            if (loanApplicationId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var loanApplication = _processingService._loanService.GetApplication(loanApplicationId.Value);
+            if (loanApplication == null || loanApplication.Status != LoanApplicationStatus.Approved)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -44,7 +48,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            loanApplication = LoanService.GetApplication(loanApplication.Id);
+            loanApplication = _processingService._loanService.GetApplication(loanApplication.Id);
             var loan = _processingService.CreateLoanContract(loanApplication);
             if (loan == null)
             {

@@ -9,35 +9,30 @@ using Domain.Models.Loans;
 
 namespace Infrastructure.Repositories
 {
-    // TODO: don't create datacontext every time and try use IQueryable instead of IList
     public class LoanApplicationRepository : ILoanApplicationRepository
     {
-        private DataContext _ctx;
-        DataContext ctx
+        private readonly DataContext _context;
+
+        public LoanApplicationRepository(DataContext context)
         {
-            get
-            {
-                // TODO: need lock()
-                if (_ctx == null)
-                    _ctx = new DataContext();
-                return _ctx;
-            }
+            // TODO: Complete member initialization
+            this._context = context;
         }
         public LoanApplication Get(Func<LoanApplication, bool> filter)
         {
-            return ctx.LoanApplications
+            return _context.LoanApplications
                 .AsQueryable()
                 .First(filter);
         }
 
         public IList<LoanApplication> GetAll()
         {
-            return ctx.LoanApplications.ToList();
+            return _context.LoanApplications.ToList();
         }
 
         public IList<LoanApplication> GetAll(Func<LoanApplication, bool> filter)
         {
-            return ctx.LoanApplications
+            return _context.LoanApplications
                 .AsQueryable()
                 .Where(filter)
                 .ToList();
@@ -45,14 +40,14 @@ namespace Infrastructure.Repositories
 
         public void SaveOrUpdate(params LoanApplication[] entities)
         {
-            ctx.LoanApplications.AddOrUpdate(entities);
-            ctx.SaveChanges();
+            _context.LoanApplications.AddOrUpdate(entities);
+            _context.SaveChanges();
         }
 
         public LoanApplication Delete(LoanApplication entity)
         {
-            var removedApplication = ctx.LoanApplications.Remove(entity);
-            ctx.SaveChanges();
+            var removedApplication = _context.LoanApplications.Remove(entity);
+            _context.SaveChanges();
             return removedApplication;
         }
 
@@ -73,12 +68,6 @@ namespace Infrastructure.Repositories
             entity.TimeContracted = DateTime.UtcNow;
             entity.Status = LoanApplicationStatus.Contracted;
             SaveOrUpdate(entity);
-        }
-
-        public void Dispose(LoanApplication loanApplication)
-        {
-            _ctx.Dispose();
-            _ctx = null;
         }
     }
 }
