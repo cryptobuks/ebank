@@ -11,6 +11,8 @@ namespace Infrastructure.FakeRepositories
 {
     class LoanApplicationRepository : AbstractRepository<LoanApplication, long>, ILoanApplicationRepository
     {
+        public LoanApplicationRepository(object _isDisposedIndicator) : base(_isDisposedIndicator) { }
+
         public void Approve(LoanApplication loanApplication)
         {
             var entity = Get(la => la.Id.Equals(loanApplication.Id));

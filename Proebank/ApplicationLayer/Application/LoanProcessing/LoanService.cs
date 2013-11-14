@@ -4,14 +4,16 @@ using System.Linq;
 using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Loans;
+using Infrastructure;
 
 namespace Application.LoanProcessing
 {
     public class LoanService
     {
-        private readonly ILoanRepository _loanRepository;
-        private readonly ILoanApplicationRepository _loanApplicationRepository;
-        private readonly ITariffRepository _tariffRepository;
+        //private readonly ILoanRepository _unitOfWork.LoanRepository;
+        //private readonly ILoanApplicationRepository _unitOfWork.LoanApplicationRepository;
+        //private readonly ITariffRepository _tariffRepository;
+        private IUnitOfWork _unitOfWork;
         private readonly TariffHelper _tariffHelper;
         private static readonly AccountType[] LoanAccountTypes = new[]
                 {
@@ -22,14 +24,10 @@ namespace Application.LoanProcessing
                     AccountType.OverdueInterest,
                 };
 
-        public LoanService(ILoanRepository loanRepository, 
-            ILoanApplicationRepository loanApplicationRepository,
-            ITariffRepository tariffRepository)
+        public LoanService(IUnitOfWork unitOfWork)
         {
-            _loanRepository = loanRepository;
-            _loanApplicationRepository = loanApplicationRepository;
-            _tariffRepository = tariffRepository;
-            _tariffHelper = new TariffHelper(_tariffRepository);
+            _unitOfWork = unitOfWork;
+            _tariffHelper = new TariffHelper();
         }
 
         public static AccountType[] AccountTypes
@@ -45,7 +43,7 @@ namespace Application.LoanProcessing
             var validationResult = _tariffHelper.ValidateLoanApplication(loanApplication);
             if (validationResult)
             {
-                _loanApplicationRepository.SaveOrUpdate(loanApplication);
+                _unitOfWork.LoanApplicationRepository.SaveOrUpdate(loanApplication);
             }
             return validationResult;
         }
@@ -55,11 +53,11 @@ namespace Application.LoanProcessing
             // TODO: change later
             if (decision)
             {
-                _loanApplicationRepository.Approve(loanApplication);
+                _unitOfWork.LoanApplicationRepository.Approve(loanApplication);
             }
             else
             {
-                _loanApplicationRepository.Reject(loanApplication);
+                _unitOfWork.LoanApplicationRepository.Reject(loanApplication);
             }
         }
 
@@ -70,7 +68,7 @@ namespace Application.LoanProcessing
 
         public Dictionary<Account, Entry> ProcessEndOfMonth(DateTime currentDate)
         {
-            return _loanRepository
+            return _unitOfWork.LoanRepository
                 .GetAll(l => !l.IsClosed)
                 .ToDictionary(
                     loan => loan.Accounts.Single(acc => acc.Type == AccountType.Interest),
@@ -79,14 +77,14 @@ namespace Application.LoanProcessing
 
         public void SaveOrUpdateTariff(Tariff tariff)
         {
-            _tariffRepository.SaveOrUpdate(tariff);
+            _unitOfWork.TariffRepository.SaveOrUpdate(tariff);
         }
 
         internal void SaveNewLoan(Loan loan)
         {
             // TODO: check if application is saved without call to application repository
-            //_loanApplicationRepository.SaveOrUpdate(loan.Application);
-            _loanRepository.SaveOrUpdate(loan);
+            //_unitOfWork.LoanApplicationRepository.SaveOrUpdate(loan.Application);
+            _unitOfWork.LoanRepository.SaveOrUpdate(loan);
         }
 
         internal bool CanLoanBeClosed(Loan loan)
@@ -97,28 +95,28 @@ namespace Application.LoanProcessing
         internal void CloseLoan(Loan loan)
         {
             loan.IsClosed = true;
-            _loanRepository.SaveOrUpdate(loan);
+            _unitOfWork.LoanRepository.SaveOrUpdate(loan);
         }
 
         // TODO: do we need such methods?
         public IEnumerable<Loan> GetAll()
         {
-            return _loanRepository.GetAll();
+            return _unitOfWork.LoanRepository.GetAll();
         }
 
         public Loan GetSingle(Func<Loan, bool> filter)
         {
-            return _loanRepository.Get(filter);
+            return _unitOfWork.LoanRepository.Get(filter);
         }
 
         public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
         {
-            return _loanRepository.GetAll(filter);
+            return _unitOfWork.LoanRepository.GetAll(filter);
         }
 
         public LoanApplication GetApplication(Guid loanApplicationId)
         {
-            return _loanApplicationRepository.Get(la => la.Id == loanApplicationId);
+            return _unitOfWork.LoanApplicationRepository.Get(la => la.Id == loanApplicationId);
         }
     }
 }

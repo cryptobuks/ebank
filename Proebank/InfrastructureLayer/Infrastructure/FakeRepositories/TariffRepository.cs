@@ -9,5 +9,6 @@ namespace Infrastructure.FakeRepositories
 {
     class TariffRepository : AbstractRepository<Tariff, int>, ITariffRepository
     {
+        public TariffRepository(object _isDisposedIndicator) : base(_isDisposedIndicator) { }
     }
 }

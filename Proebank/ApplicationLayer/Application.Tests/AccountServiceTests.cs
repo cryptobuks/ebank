@@ -18,8 +18,7 @@ namespace Application.Tests
         {
             _container = new UnityContainer();
             _container.LoadConfiguration();
-            var _repository = _container.Resolve<IAccountRepository>();
-            _service = new AccountService(_repository);
+            _service = _container.Resolve<AccountService>();
         }
 
         [TestMethod]

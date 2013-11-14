@@ -1,6 +1,7 @@
 ﻿using Domain.Enums;
 using Domain.Models;
 using Domain.Models.Accounts;
+using Infrastructure;
 using System;
 using System.Collections.Generic;
 
@@ -8,13 +9,13 @@ namespace Application.AccountProcessing
 {
     public class AccountService
     {
-        private readonly IAccountRepository _repository;
+        private IUnitOfWork _unitOfWork;
         //// TODO: создать его в методе Seed базы; для каждой валюты свой!
         //public static Account BankAccount { get; private set; }
 
-        public AccountService(IAccountRepository accountRepository)
+        public AccountService(IUnitOfWork unitOfWork)
         {
-            _repository = accountRepository;
+            _unitOfWork = unitOfWork;
             //BankAccount = _repository.Get(acc => 
             //    acc.Type == AccountType.BankBalance &&);
         }
@@ -27,7 +28,7 @@ namespace Application.AccountProcessing
                 DateOpened = DateTime.UtcNow,
                 Type = accountType,
             };
-            _repository.SaveOrUpdate(acc);
+            _unitOfWork.AccountRepository.SaveOrUpdate(acc);
             return acc;
         }
 
@@ -40,7 +41,7 @@ namespace Application.AccountProcessing
             if (account.Currency != entry.Currency)
                 throw new ArgumentException("Currencies are not equal");
             account.Entries.Add(entry);
-            _repository.SaveOrUpdate(account);
+            _unitOfWork.AccountRepository.SaveOrUpdate(account);
         }
 
         public void CloseAccount(Account account)
@@ -53,7 +54,7 @@ namespace Application.AccountProcessing
             {
                 account.IsClosed = true;
                 account.DateClosed = DateTime.UtcNow;
-                _repository.SaveOrUpdate(account);
+                _unitOfWork.AccountRepository.SaveOrUpdate(account);
             }
         }
     }

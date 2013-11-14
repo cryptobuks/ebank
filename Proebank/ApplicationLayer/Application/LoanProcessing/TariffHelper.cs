@@ -9,13 +9,6 @@ namespace Application.LoanProcessing
 {
     class TariffHelper
     {
-        private readonly ITariffRepository _repository;
-
-        public TariffHelper(ITariffRepository repository)
-        {
-            _repository = repository;
-        }
-
         public bool ValidateLoanApplication(LoanApplication loanApplication)
         {
             if (loanApplication == null || loanApplication.Tariff == null)
