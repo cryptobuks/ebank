@@ -68,7 +68,7 @@ namespace Application.Tests
                 MinAmount = 1.0E6M,
                 Name = "NeverSeeMeAgain"
             };
-            _service.SaveOrUpdateTariff(_tariff);
+            _service.UpsertTariff(_tariff);
             _validLoanApp = new LoanApplication
             {
                 CellPhone = "+375291000000",
@@ -96,13 +96,19 @@ namespace Application.Tests
         [TestMethod]
         public void CreateValidLoanApplication()
         {
-            Assert.IsTrue(_service.CreateLoanApplication(_validLoanApp));
+            var before = _service.GetLoanApplications(la => true).Count();
+            _service.CreateLoanApplication(_validLoanApp);
+            var after = _service.GetLoanApplications(la => true).Count();
+            Assert.AreEqual(before + 1, after);
         }
 
         [TestMethod]
         public void CreateInvalidLoanApplication()
         {
-            Assert.IsFalse(_service.CreateLoanApplication(_invalidLoanApp));
+            var before = _service.GetLoanApplications(la => true).Count();
+            _service.CreateLoanApplication(_validLoanApp);
+            var after = _service.GetLoanApplications(la => true).Count();
+            Assert.AreEqual(before, after);
         }
 
         [TestMethod]

@@ -68,6 +68,10 @@
     <Compile Include="Migrations\201311090038256_Init.Designer.cs">
       <DependentUpon>201311090038256_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201311150659497_AddedTariffStartTime.cs" />
+    <Compile Include="Migrations\201311150659497_AddedTariffStartTime.Designer.cs">
+      <DependentUpon>201311150659497_AddedTariffStartTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AccountRepository.cs" />
@@ -89,6 +93,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201311090038256_Init.resx">
       <DependentUpon>201311090038256_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201311150659497_AddedTariffStartTime.resx">
+      <DependentUpon>201311150659497_AddedTariffStartTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

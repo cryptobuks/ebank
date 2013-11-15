@@ -24,7 +24,7 @@ namespace Presentation.Controllers
 
         public ActionResult Index()
         {
-            var loans = _processingService._loanService.GetAll();
+            var loans = _processingService.LoanService.GetLoans(la => true);
             return View(loans);
         }
 
@@ -34,7 +34,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _processingService._loanService.GetApplication(loanApplicationId.Value);
+            var loanApplication = _processingService.LoanService.GetLoanApplications(la => la.Id.Equals(loanApplicationId.Value)).SingleOrDefault();
             if (loanApplication == null || loanApplication.Status != LoanApplicationStatus.Approved)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -48,7 +48,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            loanApplication = _processingService._loanService.GetApplication(loanApplication.Id);
+            loanApplication = _processingService.LoanService.GetLoanApplications(la => la.Id.Equals(loanApplication.Id)).Single();
             var loan = _processingService.CreateLoanContract(loanApplication);
             if (loan == null)
             {

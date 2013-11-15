@@ -13,14 +13,14 @@ namespace Application
 {
     public class ProcessingService
     {
-        public readonly LoanService _loanService;
+        public readonly LoanService LoanService;
         public readonly AccountService _accountService;
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
 
         public ProcessingService(LoanService loanService, AccountService accountService)
         {
-            _loanService = loanService;
+            LoanService = loanService;
             _accountService = accountService;
         }
 
@@ -45,7 +45,7 @@ namespace Application
         {
             // TODO: transfer from 3819 to other accounts, not only two
             // We filter only loans with below zero balance on contract service account
-            var loansWithMoneyOnServiceAccount = _loanService.GetLoans(loan =>
+            var loansWithMoneyOnServiceAccount = LoanService.GetLoans(loan =>
             {
                 var contractServiceAcc = loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
                 return contractServiceAcc != null && contractServiceAcc.Balance > 0;
@@ -102,7 +102,7 @@ namespace Application
         {
             lock (MonthSync)
             {
-                var accruals = _loanService.ProcessEndOfMonth(date);
+                var accruals = LoanService.ProcessEndOfMonth(date);
                 foreach (var accrual in accruals)
                 {
                     _accountService.AddEntry(accrual.Key, accrual.Value);
@@ -113,7 +113,7 @@ namespace Application
         public Loan CreateLoanContract(LoanApplication application)
         {
             // TODO: CRITICAL: check bank balance
-            var schedule = _loanService.CalculatePaymentSchedule(application);
+            var schedule = LoanService.CalculatePaymentSchedule(application);
             var accounts = new List<Account>(LoanService.AccountTypes
                 .Select(accountType =>
                     _accountService.CreateAccount(application.Currency, accountType)));
@@ -137,7 +137,7 @@ namespace Application
                 PaymentSchedule = schedule,
                 Accounts = accounts,
             };
-            _loanService.SaveNewLoan(loan);
+            LoanService.UpsertLoan(loan);
             return loan;
         }
 
@@ -165,14 +165,14 @@ namespace Application
 
         public bool CloseLoanContract(Loan loan)
         {
-            var canBeClosed = _loanService.CanLoanBeClosed(loan);
+            var canBeClosed = LoanService.CanLoanBeClosed(loan);
             if (canBeClosed)
             {
                 foreach (var account in loan.Accounts)
                 {
                     _accountService.CloseAccount(account);
                 }
-                _loanService.CloseLoan(loan);
+                LoanService.CloseLoan(loan);
             }
             return canBeClosed;
         }

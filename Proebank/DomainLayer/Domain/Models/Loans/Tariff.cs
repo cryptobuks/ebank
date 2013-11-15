@@ -14,7 +14,7 @@ namespace Domain.Models.Loans
         [DisplayName("Tariff Name")]
         public string Name { get; set; }
 
-        [DisplayName("Int. Rate")]
+        [DisplayName("Int. Rate (0.3 means 30%)")]
         public decimal InterestRate { get; set; }
 
         [DisplayName("Min Amount")]
@@ -25,6 +25,9 @@ namespace Domain.Models.Loans
 
         [DisplayName("Creation Date")]
         public DateTime CreationDate { get; set; }
+
+        [DisplayName("Start Date")]
+        public DateTime? StartDate { get; set; }
 
         [DisplayName("End Date")]
         public DateTime? EndDate { get; set; }

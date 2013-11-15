@@ -32,48 +32,45 @@ namespace Infrastructure.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            var rand = new Random();
-            var tariffs = new List<Tariff>();
-            for (var i = 0; i < 3; i++)
+            var tariff0 = new Tariff()
             {
-                var tariff = new Tariff()
-                {
-                    Name = "tariff_" + i.ToString(),
-                    CreationDate = DateTime.Now,
-                    EndDate = DateTime.Now,
-                    InitialFee = 0,
-                    InterestRate = rand.Next(4, 64),
-                    IsGuarantorNeeded = false,
-                    IsSecondaryDocumentNeeded = false,
-                    MaxAmount = rand.Next(100, 1000000),
-                    LoanPurpose = LoanPurpose.Common,
-                    MinAge = 18,
-                    MaxAge = 60,
-                    MinAmount = rand.Next(1, 100),
-                    MinTerm = rand.Next(3, 12),
-                    MaxTerm = rand.Next(12, 36)
-                };
-                context.Tariffs.AddOrUpdate(tariff);
-                tariffs.Add(tariff);
-            }
-
-            for (var i = 0; i < 10; i++)
+                Id = Guid.Parse("DEF8A3B2-8439-4714-8084-CA30364D1E92"),
+                Name = "Common Tariff",
+                CreationDate = DateTime.Now,
+                EndDate = null,
+                InitialFee = 0M,
+                InterestRate = 0.5M,
+                IsGuarantorNeeded = false,
+                IsSecondaryDocumentNeeded = false,                
+                MinAmount = 10000,
+                MaxAmount = 100000000,
+                LoanPurpose = LoanPurpose.Common,
+                MinAge = 18,
+                MaxAge = 60,
+                MinTerm = 1,
+                MaxTerm = 24
+            };
+            var tariff1 = new Tariff()
             {
-                context.LoanApplications.AddOrUpdate(
-                    new LoanApplication()
-                    {
-                        CellPhone = rand.Next(1111111, 9999999).ToString(),
-                        Currency = Currency.BYR,
-                        Documents = null,
-                        LoanAmount = rand.Next(100, 10000),
-                        LoanPurpose = LoanPurpose.Common,
-                        Tariff = tariffs[i % tariffs.Count],
-                        Term = rand.Next(3, 36),
-                        TimeCreated = DateTime.Now,
-                        TimeContracted = null
-                    });
-            }
-
+                Id = Guid.Parse("52A139D6-E673-4F72-B5D6-10D1F33FB878"),
+                Name = "Car Tariff",
+                CreationDate = DateTime.Now,
+                EndDate = null,
+                InitialFee = 0M,
+                InterestRate = 0.4M,
+                IsGuarantorNeeded = false,
+                IsSecondaryDocumentNeeded = false,                
+                MinAmount = 1000000,
+                MaxAmount = 100000000,
+                LoanPurpose = LoanPurpose.Car,
+                MinAge = 18,
+                MaxAge = 60,
+                MinTerm = 6,
+                MaxTerm = 36
+            };
+            context.Tariffs.AddOrUpdate(tariff0);
+            context.Tariffs.AddOrUpdate(tariff1);
+            context.SaveChanges();
         }
     }
 }

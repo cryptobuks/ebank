@@ -10,21 +10,22 @@ using Domain.Models.Loans;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.Practices.Unity;
+using Application.LoanProcessing;
 
 namespace Presentation.Controllers
 {
     public class TariffsController : BaseController
     {
-        private ITariffRepository TariffRepository { get; set; }
+        private LoanService _service;
 
         public TariffsController()
         {
-            TariffRepository = Container.Resolve<ITariffRepository>();
+            _service = Container.Resolve<LoanService>();
         }
 
         public ActionResult Index()
         {
-            var tariffs = TariffRepository.GetAll().ToList();
+            var tariffs = _service.GetTariffs(t => true);
             return View(tariffs);
         }
 
@@ -34,7 +35,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tariff tariff = TariffRepository.Get(t => t.Id.Equals(id));
+            Tariff tariff = _service.GetTariffs(t => t.Id.Equals(id)).Single();
             if (tariff == null)
             {
                 return HttpNotFound();
@@ -59,7 +60,8 @@ namespace Presentation.Controllers
             if (ModelState.IsValid)
             {
                 tariff.Id = Guid.NewGuid();
-                TariffRepository.Upsert(tariff);
+                tariff.CreationDate = DateTime.UtcNow;
+                _service.UpsertTariff(tariff);
                 return RedirectToAction("Index");
             }
 
@@ -72,7 +74,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tariff tariff = TariffRepository.Get(t => t.Id.Equals(id));
+            Tariff tariff = _service.GetTariffs(t => t.Id.Equals(id)).Single();
             if (tariff == null)
             {
                 return HttpNotFound();
@@ -91,7 +93,7 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                TariffRepository.Upsert(tariff);
+                _service.UpsertTariff(tariff);
                 return RedirectToAction("Index");
             }
             return View(tariff);
@@ -104,7 +106,7 @@ namespace Presentation.Controllers
             {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tariff tariff = TariffRepository.Get(t => t.Id.Equals(id));
+            Tariff tariff = _service.GetTariffs(t => t.Id.Equals(id)).Single();
             if (tariff == null)
             {
                 return HttpNotFound();
@@ -117,8 +119,7 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Tariff tariff = TariffRepository.Get(t => t.Id.Equals(id));
-            TariffRepository.Delete(tariff);
+            _service.DeleteTariffById(id);
             return RedirectToAction("Index");
         }
     }

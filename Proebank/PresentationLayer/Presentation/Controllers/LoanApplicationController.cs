@@ -79,7 +79,7 @@ namespace Presentation.Controllers
 
         public ActionResult Create()
         {
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs(t => true);
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             return View();
         }
@@ -96,13 +96,13 @@ namespace Presentation.Controllers
                 loanApplication.Documents = new List<Document>();
                 loanApplication.TimeCreated = DateTime.UtcNow;
                 loanApplication.Status = LoanApplicationStatus.New;
-                loanApplication.Tariff = _service.GetTariffs().Single(t => t.Id.Equals(loanApplication.TariffId));
+                loanApplication.Tariff = _service.GetTariffs(t => t.Id.Equals(loanApplication.TariffId)).Single();
                 _service.CreateLoanApplication(loanApplication);
                 return RedirectToAction("Index");
             }
 
             // TODO: change dropdown list to fill application tariff at once
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs(t => true);
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", loanApplication.TariffId);
             return View(loanApplication);
         }
@@ -118,7 +118,7 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs(t => true);
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", loanapplication.TariffId);
             return View(loanapplication);
         }
@@ -129,11 +129,10 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                //_service.SaveOrUpdateLoanApplication(loanApplication);
-                _service.SaveChanges();
+                _service.UpsertLoanApplication(loanApplication);
                 return RedirectToAction("Index");
             }
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs(t => true);
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", loanApplication.TariffId);
             return View(loanApplication);
         }
@@ -188,7 +187,6 @@ namespace Presentation.Controllers
                 return HttpNotFound();
             }
             _service.ApproveLoanAppication(loanApplication);
-            _service.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -200,7 +198,6 @@ namespace Presentation.Controllers
             if (loanApplication != null)
             {
                 _service.ApproveLoanAppication(loanApplication);
-                _service.SaveChanges();
             }
             return RedirectToAction("Index");
         }
@@ -217,7 +214,6 @@ namespace Presentation.Controllers
                 return HttpNotFound();
             }
             _service.RejectLoanApplication(loanApplication);
-            _service.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -229,7 +225,6 @@ namespace Presentation.Controllers
             if (loanApplication != null)
             {
                 _service.RejectLoanApplication(loanApplication);
-                _service.SaveChanges();
             }
             return RedirectToAction("Index");
         }

@@ -35,14 +35,16 @@ namespace Application.LoanProcessing
             }
         }
 
-        public bool CreateLoanApplication(LoanApplication loanApplication)
+        public void CreateLoanApplication(LoanApplication loanApplication)
         {
             var validationResult = _tariffHelper.ValidateLoanApplication(loanApplication);
             if (validationResult)
             {
                 _unitOfWork.LoanApplicationRepository.Upsert(loanApplication);
+                _unitOfWork.Save();
             }
-            return validationResult;
+            // TODO: make it without exception :)
+            else throw new Exception("Loan application is not valid");
         }
 
         public void ConsiderLoanApplication(LoanApplication loanApplication, bool decision)
@@ -72,16 +74,21 @@ namespace Application.LoanProcessing
                     loan => InterestCalculator.CalculateInterestFor(loan, currentDate));
         }
 
-        public void SaveOrUpdateTariff(Tariff tariff)
+        public void UpsertTariff(Tariff tariff)
         {
+            _unitOfWork.TariffRepository.Upsert(tariff);
             _unitOfWork.Save();
-            //_unitOfWork.TariffRepository.SaveOrUpdate(tariff);
         }
 
-        internal void SaveNewLoan(Loan loan)
+        internal void UpsertLoan(Loan loan)
         {
-            // TODO: check if application is saved without call to application repository
             _unitOfWork.LoanRepository.Upsert(loan);
+            _unitOfWork.Save();
+        }
+
+        public void UpsertLoanApplication(LoanApplication loanApplication)
+        {
+            _unitOfWork.LoanApplicationRepository.Upsert(loanApplication);
             _unitOfWork.Save();
         }
 
@@ -94,17 +101,7 @@ namespace Application.LoanProcessing
         {
             loan.IsClosed = true;
             _unitOfWork.LoanRepository.Upsert(loan);
-        }
-
-        // TODO: do we need such methods?
-        public IQueryable<Loan> GetAll()
-        {
-            return _unitOfWork.LoanRepository.GetAll();
-        }
-
-        public Loan GetSingle(Func<Loan, bool> filter)
-        {
-            return _unitOfWork.LoanRepository.Get(filter);
+            _unitOfWork.Save();
         }
 
         public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
@@ -112,39 +109,39 @@ namespace Application.LoanProcessing
             return _unitOfWork.LoanRepository.GetAll(filter);
         }
 
-        public LoanApplication GetApplication(Guid loanApplicationId)
-        {
-            return _unitOfWork.LoanApplicationRepository.Get(la => la.Id == loanApplicationId);
-        }
-
         public IEnumerable<LoanApplication> GetLoanApplications(Func<LoanApplication, bool> filter)
         {
             return _unitOfWork.LoanApplicationRepository.GetAll(filter);
         }
 
-        public IQueryable<Tariff> GetTariffs()
+        public IEnumerable<Tariff> GetTariffs(Func<Tariff, bool> filter)
         {
-            return _unitOfWork.TariffRepository.GetAll();
+            return _unitOfWork.TariffRepository.GetAll(filter);
+        }
+
+        public void DeleteTariffById(Guid id)
+        {
+            var tariff = _unitOfWork.TariffRepository.Get(t => t.Id.Equals(id));
+            _unitOfWork.TariffRepository.Delete(tariff);
+            _unitOfWork.Save();
         }
 
         public void DeleteLoanApplicationById(Guid id)
         {
             var loanApplication = _unitOfWork.LoanApplicationRepository.Get(la => la.Id.Equals(id));
             _unitOfWork.LoanApplicationRepository.Delete(loanApplication);
+            _unitOfWork.Save();
         }
 
         public void ApproveLoanAppication(LoanApplication loanApplication)
         {
             _unitOfWork.LoanApplicationRepository.Approve(loanApplication);
+            _unitOfWork.Save();
         }
 
         public void RejectLoanApplication(LoanApplication loanApplication)
         {
             _unitOfWork.LoanApplicationRepository.Reject(loanApplication);
-        }
-
-        public void SaveChanges()
-        {
             _unitOfWork.Save();
         }
     }
