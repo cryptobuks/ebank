@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.20827.3
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject", "CrossCuttingLayer\ModelingProject\ModelingProject.modelproj", "{C46393A0-29AB-4E36-BDCB-7BE4E9849ED5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "DomainLayer\Domain\Domain.csproj", "{14A6D35D-4124-45F5-B962-AEC147178892}"
@@ -44,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Internal", "Pr
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Internal.Tests", "Presentation.Internal.Tests\Presentation.Internal.Tests.csproj", "{5029CAE5-D005-4F88-ABF3-927AC00C0FFD}"
+EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject1", "CrossCuttingLayer\ModelingProject1\ModelingProject1.modelproj", "{C657DE82-3672-4BCA-ABF2-DA18BF3FFE8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,12 +95,17 @@ Global
 		{5029CAE5-D005-4F88-ABF3-927AC00C0FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5029CAE5-D005-4F88-ABF3-927AC00C0FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5029CAE5-D005-4F88-ABF3-927AC00C0FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C657DE82-3672-4BCA-ABF2-DA18BF3FFE8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C657DE82-3672-4BCA-ABF2-DA18BF3FFE8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C657DE82-3672-4BCA-ABF2-DA18BF3FFE8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C657DE82-3672-4BCA-ABF2-DA18BF3FFE8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C46393A0-29AB-4E36-BDCB-7BE4E9849ED5} = {928B876A-D2F5-4B57-B6E5-D0E2F18BA568}
+		{C657DE82-3672-4BCA-ABF2-DA18BF3FFE8C} = {928B876A-D2F5-4B57-B6E5-D0E2F18BA568}
 		{8F59D70E-EAFA-4E48-AEE5-96BAA6261ACE} = {5EDDDF88-2B18-48FD-9B7F-E80AD91A2AEA}
 		{14A6D35D-4124-45F5-B962-AEC147178892} = {5EDDDF88-2B18-48FD-9B7F-E80AD91A2AEA}
 		{A7714003-3A01-40CB-9177-9612FBACF735} = {FBC30485-5FB1-45C4-B24B-4B76962E34E1}

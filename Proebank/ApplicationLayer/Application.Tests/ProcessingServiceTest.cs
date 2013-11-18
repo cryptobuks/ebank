@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using Domain.Models.Accounts;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Microsoft.Practices.Unity;
@@ -94,5 +95,51 @@ namespace Application.Tests
         //    Assert.IsNotNull(loan);
         //    // TODO: add check of accounts and so on
         //}
+
+
+        [TestMethod]
+        public void ProcessEndOfDay()
+        {
+
+            //public void ProcessEndOfDay(DateTime date)
+           // _service.ProcessEndOfDay(date);
+
+
+        }
+
+        //[TestMethod]
+        //public Loan CreateLoanContract(LoanApplication application)
+        //{
+        //    return default(Loan);
+        //}
+
+        [TestMethod]
+        public void RegisterPayment()
+        {
+            const decimal amount = 1.0E7M;
+            var entry = _service.RegisterPayment(_loan, amount);
+            Assert.AreEqual(amount, entry.Amount);
+            var lastAddedEntry = _loan.Accounts.First(acc => acc.Type == AccountType.ContractService).Entries.Last();
+            Assert.AreEqual(amount, lastAddedEntry.Amount);
+        }
+
+        [TestMethod]
+        public void CloseLoanContract()
+        {
+            var canBeClosed = _loan.Accounts.All(acc => acc.Balance == 0M);
+            if (canBeClosed)
+            {
+                Assert.IsTrue(_service.CloseLoanContract(_loan));
+            }
+            else
+            {
+                Assert.IsFalse(_service.CloseLoanContract(_loan));
+            }
+        }
+
+
+        
+
+
     }
 }
