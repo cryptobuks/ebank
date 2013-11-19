@@ -18,7 +18,7 @@ namespace Application
     {
         public readonly LoanService LoanService;
 
-        private readonly AccountService _accountService;
+        private readonly AccountService AccountService;
         private readonly CalendarService _calendarService;
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
@@ -26,7 +26,7 @@ namespace Application
         public ProcessingService(LoanService loanService, AccountService accountService, CalendarService calendarService)
         {
             LoanService = loanService;
-            _accountService = accountService;
+            AccountService = accountService;
             _calendarService = calendarService;
         }
 
