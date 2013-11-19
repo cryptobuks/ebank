@@ -10,11 +10,10 @@ namespace Domain.Models.Loans
 {
     public class LoanApplication
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         [DisplayName("Loan Amount")]
-        [Range(0, 9999999)]
+        [Range(0, 100000000)]
         public decimal LoanAmount { get; set; }
 
         [DisplayName("Time Created")]
