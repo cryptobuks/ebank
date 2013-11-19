@@ -82,8 +82,8 @@ namespace Application
                         SubType = EntrySubType.Interest
                     };
                     var interestEntryMinus = Entry.GetOppositeFor(interestEntryPlus);
-                    _accountService.AddEntry(interestAccount, interestEntryPlus);
-                    _accountService.AddEntry(contractAccount, interestEntryMinus);
+                    AccountService.AddEntry(interestAccount, interestEntryPlus);
+                    AccountService.AddEntry(contractAccount, interestEntryMinus);
                     amount -= interestPayment;
                     if (amount > 0M)
                     {
@@ -100,8 +100,8 @@ namespace Application
                                 SubType = EntrySubType.GeneralDebt
                             };
                             var generalDebtMinus = Entry.GetOppositeFor(generalDebtPlus);
-                            _accountService.AddEntry(generalDebtAccount, generalDebtPlus);
-                            _accountService.AddEntry(contractAccount, generalDebtMinus);
+                            AccountService.AddEntry(generalDebtAccount, generalDebtPlus);
+                            AccountService.AddEntry(contractAccount, generalDebtMinus);
                         }
                     }
                 }
@@ -116,7 +116,7 @@ namespace Application
                 var accruals = LoanService.ProcessEndOfMonth(date);
                 foreach (var accrual in accruals)
                 {
-                    _accountService.AddEntry(accrual.Key, accrual.Value);
+                    AccountService.AddEntry(accrual.Key, accrual.Value);
                 }
                 _calendarService.UpdateMonthlyProcessingTime();
             }
@@ -128,7 +128,7 @@ namespace Application
             var schedule = LoanService.CalculatePaymentSchedule(application);
             var accounts = new List<Account>(LoanService.AccountTypes
                 .Select(accountType =>
-                    _accountService.CreateAccount(application.Currency, accountType)));
+                    AccountService.CreateAccount(application.Currency, accountType)));
             var generalDebtAcc = accounts.Single(a => a.Type == AccountType.GeneralDebt);
             var entryDate = DateTime.UtcNow;
             var initialEntry = new Entry()
@@ -141,7 +141,7 @@ namespace Application
             };
             application.Status = LoanApplicationStatus.Contracted;
             // TODO: CRITICAL: add entry to bank balance
-            _accountService.AddEntry(generalDebtAcc, initialEntry); 
+            AccountService.AddEntry(generalDebtAcc, initialEntry); 
             var loan = new Loan
             {
                 Application = application,
@@ -171,7 +171,7 @@ namespace Application
                 Type = EntryType.Payment,
                 SubType = EntrySubType.ContractService
             };
-            _accountService.AddEntry(contractAccount, entry);
+            AccountService.AddEntry(contractAccount, entry);
             return entry;
         }
 
@@ -182,7 +182,7 @@ namespace Application
             {
                 foreach (var account in loan.Accounts)
                 {
-                    _accountService.CloseAccount(account);
+                    AccountService.CloseAccount(account);
                 }
                 LoanService.CloseLoan(loan);
             }
