@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Domain.Enums;
+using Domain.Models.Calendars;
 using Domain.Models.Loans;
 using Domain.Models.Users;
 
@@ -70,6 +71,15 @@ namespace Infrastructure.Migrations
             };
             context.Tariffs.AddOrUpdate(tariff0);
             context.Tariffs.AddOrUpdate(tariff1);
+
+            var calendarEntry = new Calendar
+            {
+                Id = Guid.Parse("15AB1FE1-081D-440A-BD73-9DEBF4976084"),
+                CurrentTime = new DateTime(2013, 11, 1, 15, 0, 0),
+                ProcessingLock = false
+            };
+            context.Calendars.AddOrUpdate(calendarEntry);
+
             context.SaveChanges();
         }
     }

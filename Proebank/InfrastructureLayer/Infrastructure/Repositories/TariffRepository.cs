@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
         public TariffRepository(DataContext context)
         {
             // TODO: Complete member initialization
-            this._context = context;
+            _context = context;
         }
 
         public Tariff Get(Func<Tariff, bool> filter)

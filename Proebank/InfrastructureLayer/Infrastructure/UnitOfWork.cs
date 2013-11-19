@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Models.Accounts;
+using Domain.Models.Calendars;
+using Domain.Models.Loans;
 using Infrastructure.Repositories;
 
 namespace Infrastructure
@@ -14,57 +17,70 @@ namespace Infrastructure
         private LoanRepository _loanRepository;
         private LoanApplicationRepository _loanApplicationRepository;
         private TariffRepository _tariffRepository;
+        private CalendarRepository _calendarRepository;
 
         public UnitOfWork()
         {
             _context = new DataContext();
         }
 
-        public Domain.Models.Accounts.IAccountRepository AccountRepository
+        public IAccountRepository AccountRepository
         {
             get
             {
-                if (this._accountRepository == null)
+                if (_accountRepository == null)
                 {
-                    this._accountRepository = new AccountRepository(_context);
+                    _accountRepository = new AccountRepository(_context);
                 }
                 return _accountRepository;
             }
         }
 
-        public Domain.Models.Loans.ILoanRepository LoanRepository
+        public ILoanRepository LoanRepository
         {
             get
             {
-                if (this._loanRepository == null)
+                if (_loanRepository == null)
                 {
-                    this._loanRepository = new LoanRepository(_context);
+                    _loanRepository = new LoanRepository(_context);
                 }
                 return _loanRepository;
             }
         }
 
-        public Domain.Models.Loans.ILoanApplicationRepository LoanApplicationRepository
+        public ILoanApplicationRepository LoanApplicationRepository
         {
             get
             {
-                if (this._loanApplicationRepository == null)
+                if (_loanApplicationRepository == null)
                 {
-                    this._loanApplicationRepository = new LoanApplicationRepository(_context);
+                    _loanApplicationRepository = new LoanApplicationRepository(_context);
                 }
                 return _loanApplicationRepository;
             }
         }
 
-        public Domain.Models.Loans.ITariffRepository TariffRepository
+        public ITariffRepository TariffRepository
         {
             get
             {
-                if (this._tariffRepository == null)
+                if (_tariffRepository == null)
                 {
-                    this._tariffRepository = new TariffRepository(_context);
+                    _tariffRepository = new TariffRepository(_context);
                 }
                 return _tariffRepository;
+            }
+        }
+
+        public ICalendarRepository CalendarRepository
+        {
+            get
+            {
+                if (_calendarRepository == null)
+                {
+                    _calendarRepository = new CalendarRepository(_context);
+                }
+                return _calendarRepository;
             }
         }
 
@@ -73,18 +89,18 @@ namespace Infrastructure
             _context.SaveChanges();
         }
 
-        private bool disposed = false;
+        private bool _disposed = false;
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
                     _context.Dispose();
                 }
             }
-            this.disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()

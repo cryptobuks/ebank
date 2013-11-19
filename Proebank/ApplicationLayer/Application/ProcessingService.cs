@@ -3,41 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Application.AccountProcessing;
+using Application.CalendarProcessing;
 using Application.LoanProcessing;
 using Domain.Enums;
 using Domain.Models.Accounts;
+using Domain.Models.Calendars;
 using Domain.Models.Loans;
 using Infrastructure.Migrations;
 
 namespace Application
 {
+    // TODO: make all services disposable
     public class ProcessingService
     {
         public readonly LoanService LoanService;
-        public readonly AccountService _accountService;
+
+        private readonly AccountService _accountService;
+        private readonly CalendarService _calendarService;
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
 
-        public ProcessingService(LoanService loanService, AccountService accountService)
+        public ProcessingService(LoanService loanService, AccountService accountService, CalendarService calendarService)
         {
             LoanService = loanService;
             _accountService = accountService;
+            _calendarService = calendarService;
         }
 
         /// <summary>
         /// Process to end every banking day
         /// </summary>
         /// <param name="date">current day</param>
-        public void ProcessEndOfDay(DateTime date)
+        public DateTime ProcessEndOfDay()
         {
             // TODO: lock any other account operations!
             lock (DaySync)
             {
+                var date = _calendarService.Calendar.CurrentTime.HasValue 
+                    ? _calendarService.Calendar.CurrentTime.Value
+                    : DateTime.UtcNow;
                 ProcessContractServiceAccounts();
                 if (date.Day == DateTime.DaysInMonth(date.Year, date.Month))
                 {
                     ProcessEndOfMonth(date);
                 }
+                return _calendarService.MoveTime(1);
             }
         }
 
@@ -96,6 +106,7 @@ namespace Application
                     }
                 }
             }
+            _calendarService.UpdateDailyProcessingTime();
         }
 
         public void ProcessEndOfMonth(DateTime date)
@@ -107,6 +118,7 @@ namespace Application
                 {
                     _accountService.AddEntry(accrual.Key, accrual.Value);
                 }
+                _calendarService.UpdateMonthlyProcessingTime();
             }
         }
 
@@ -175,6 +187,11 @@ namespace Application
                 LoanService.CloseLoan(loan);
             }
             return canBeClosed;
+        }
+
+        public Calendar GetCurrentTime()
+        {
+            return _calendarService.Calendar;
         }
     }
 }

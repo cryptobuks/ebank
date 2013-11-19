@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Models.Accounts;
+using Domain.Models.Calendars;
 using Domain.Models.Loans;
 
 namespace Infrastructure
@@ -14,6 +15,7 @@ namespace Infrastructure
         ILoanRepository LoanRepository { get; }
         ILoanApplicationRepository LoanApplicationRepository { get; }
         ITariffRepository TariffRepository { get; }
+        ICalendarRepository CalendarRepository { get; }
 
         void Save();
     }

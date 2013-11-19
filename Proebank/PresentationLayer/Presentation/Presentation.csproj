@@ -199,6 +199,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ProcessingController.cs" />
     <Compile Include="Controllers\LoanApplicationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -292,6 +293,7 @@
     <Content Include="Views\Loan\Index.cshtml" />
     <Content Include="Views\Loan\Preview.cshtml" />
     <Content Include="Views\Loan\Details.cshtml" />
+    <Content Include="Views\Processing\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

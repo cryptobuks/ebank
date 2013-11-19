@@ -1,0 +1,10 @@
+﻿@model Domain.Models.Calendars.Calendar
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Processing Management</h2>
+<h4>Current Time is @Model.CurrentTime</h4>
+<p><a class="btn btn-primary btn-large" href="@Url.Action("MoveNextDay")">Close banking day</a></p>
