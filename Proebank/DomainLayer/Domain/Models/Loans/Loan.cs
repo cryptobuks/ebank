@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Models.Accounts;
+using Domain.Models.Customers;
 using Domain.Models.Users;
 
 namespace Domain.Models.Loans
@@ -13,6 +14,8 @@ namespace Domain.Models.Loans
         {
             Id = Guid.NewGuid();
         }
+
+        public Customer Customer { get; set; }
 
         public Guid Id { get; set; }
 

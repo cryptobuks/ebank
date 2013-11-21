@@ -77,6 +77,10 @@
     <Compile Include="Migrations\201311190445302_AddedCalendar.Designer.cs">
       <DependentUpon>201311190445302_AddedCalendar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201311202222426_userInLoan.cs" />
+    <Compile Include="Migrations\201311202222426_userInLoan.Designer.cs">
+      <DependentUpon>201311202222426_userInLoan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AccountRepository.cs" />
@@ -105,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201311190445302_AddedCalendar.resx">
       <DependentUpon>201311190445302_AddedCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201311202222426_userInLoan.resx">
+      <DependentUpon>201311202222426_userInLoan.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
