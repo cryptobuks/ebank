@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,30 +11,30 @@ namespace Application.CalendarProcessing
 {
     public class CalendarService
     {
-        private IUnitOfWork _unitOfWork;
+        private DataContext Context { get; set; }
 
         public Calendar Calendar
         {
-            get { return _unitOfWork.CalendarRepository.GetAll().First(); }
+            get { return Context.Calendars.First(); }
         }
 
-        public CalendarService(IUnitOfWork unitOfWork)
+        public CalendarService(DataContext context)
         {
-            _unitOfWork = unitOfWork;
+            Context = context;
         }
 
         // TODO: try TimeSpan if it works well for all time cases
         // TODO: all DateTime.UtcNow should be replaced with exceptions
         public DateTime MoveTime(byte days)
         {
-            var currentCalendar = _unitOfWork.CalendarRepository.GetAll().First();
+            var currentCalendar = Context.Calendars.First();
             var result = currentCalendar.CurrentTime.HasValue ? currentCalendar.CurrentTime.Value : DateTime.UtcNow;
             if (!currentCalendar.ProcessingLock)
             {
                 currentCalendar.ProcessingLock = true;
-                _unitOfWork.CalendarRepository.Upsert(currentCalendar);
-                _unitOfWork.Save();
-                var calendar2 = _unitOfWork.CalendarRepository.GetAll().First();
+                Context.Calendars.AddOrUpdate(currentCalendar);
+                Context.SaveChanges();
+                var calendar2 = Context.Calendars.First();
                 if (calendar2.Equals(currentCalendar))
                 {
                     calendar2.CurrentTime = calendar2.CurrentTime.HasValue
@@ -42,8 +43,8 @@ namespace Application.CalendarProcessing
                     result = calendar2.CurrentTime.Value;
                     calendar2.ProcessingLock = false;
                     // TODO: is it needed to update it explicitly?
-                    _unitOfWork.CalendarRepository.Upsert(calendar2);
-                    _unitOfWork.Save();
+                    Context.Calendars.AddOrUpdate(calendar2);
+                    Context.SaveChanges();
                 }
                 else throw new Exception("Calendar is locked");
             }
@@ -52,18 +53,18 @@ namespace Application.CalendarProcessing
 
         public void UpdateDailyProcessingTime()
         {
-            var currentCalendar = _unitOfWork.CalendarRepository.GetAll().First();
+            var currentCalendar = Context.Calendars.First();
             currentCalendar.LastDailyProcessingTime = currentCalendar.CurrentTime;
-            _unitOfWork.CalendarRepository.Upsert(currentCalendar); // TODO: can it be removed?
-            _unitOfWork.Save();
+            Context.Calendars.AddOrUpdate(currentCalendar); // TODO: can it be removed?
+            Context.SaveChanges();
         }
 
         public void UpdateMonthlyProcessingTime()
         {
-            var currentCalendar = _unitOfWork.CalendarRepository.GetAll().First();
+            var currentCalendar = Context.Calendars.First();
             currentCalendar.LastMonthlyProcessingTime = currentCalendar.CurrentTime;
-            _unitOfWork.CalendarRepository.Upsert(currentCalendar); // TODO: can it be removed?
-            _unitOfWork.Save();
+            Context.Calendars.AddOrUpdate(currentCalendar); // TODO: can it be removed?
+            Context.SaveChanges();
         }
     }
 }

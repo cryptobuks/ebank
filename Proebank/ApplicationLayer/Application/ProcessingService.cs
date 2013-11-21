@@ -8,8 +8,11 @@ using Application.LoanProcessing;
 using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Calendars;
+using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Infrastructure.Migrations;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Application
 {
@@ -141,9 +144,29 @@ namespace Application
             };
             application.Status = LoanApplicationStatus.Contracted;
             // TODO: CRITICAL: add entry to bank balance
-            AccountService.AddEntry(generalDebtAcc, initialEntry); 
+            AccountService.AddEntry(generalDebtAcc, initialEntry);
+
+            var userStore = new UserStore<Customer>();
+            var userManager = new UserManager<Customer>(userStore);
+            var user = new Customer
+            {
+                UserName = "Username" + DateTime.Now.ToFileTime(),
+                Address = "No.Address",
+                BirthDate = DateTime.Today,
+                Email = "no@ema.il",
+                FirstName = "Firstname",
+                LastName = "Lastname",
+                MiddleName = "Middlename",
+                IdentificationNumber = "0000-0000-0000"
+            };
+            var identityResult = userManager.Create(user, "11111111");
+            if (!identityResult.Succeeded)
+            {
+                return null;
+            }
             var loan = new Loan
             {
+                Customer = user,
                 Application = application,
                 IsClosed = false,
                 PaymentSchedule = schedule,

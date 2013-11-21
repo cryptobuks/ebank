@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Loans;
@@ -10,7 +12,7 @@ namespace Application.LoanProcessing
 {
     public class LoanService
     {
-        private IUnitOfWork _unitOfWork;
+        private DataContext Context;
         private readonly TariffHelper _tariffHelper;
         private static readonly AccountType[] LoanAccountTypes = new[]
                 {
@@ -21,9 +23,9 @@ namespace Application.LoanProcessing
                     AccountType.OverdueInterest,
                 };
 
-        public LoanService(IUnitOfWork unitOfWork)
+        public LoanService(DataContext context)
         {
-            _unitOfWork = unitOfWork;
+            Context = context;
             _tariffHelper = new TariffHelper();
         }
 
@@ -40,8 +42,8 @@ namespace Application.LoanProcessing
             var validationResult = _tariffHelper.ValidateLoanApplication(loanApplication);
             if (validationResult)
             {
-                _unitOfWork.LoanApplicationRepository.Upsert(loanApplication);
-                _unitOfWork.Save();
+                Context.LoanApplications.AddOrUpdate(loanApplication);
+                Context.SaveChanges();
             }
             // TODO: make it without exception :)
             else throw new Exception("Loan application is not valid");
@@ -52,11 +54,13 @@ namespace Application.LoanProcessing
             // TODO: change later
             if (decision)
             {
-                _unitOfWork.LoanApplicationRepository.Approve(loanApplication);
+                loanApplication.Status = LoanApplicationStatus.Approved;
+                Context.LoanApplications.AddOrUpdate(loanApplication);
             }
             else
             {
-                _unitOfWork.LoanApplicationRepository.Reject(loanApplication);
+                loanApplication.Status = LoanApplicationStatus.Rejected;
+                Context.LoanApplications.AddOrUpdate(loanApplication);
             }
         }
 
@@ -67,8 +71,8 @@ namespace Application.LoanProcessing
 
         public Dictionary<Account, Entry> ProcessEndOfMonth(DateTime currentDate)
         {
-            return _unitOfWork.LoanRepository
-                .GetAll(l => !l.IsClosed)
+            return Context.Loans
+                .Where(l => !l.IsClosed)
                 .ToDictionary(
                     loan => loan.Accounts.Single(acc => acc.Type == AccountType.Interest),
                     loan => InterestCalculator.CalculateInterestFor(loan, currentDate));
@@ -76,20 +80,20 @@ namespace Application.LoanProcessing
 
         public void UpsertTariff(Tariff tariff)
         {
-            _unitOfWork.TariffRepository.Upsert(tariff);
-            _unitOfWork.Save();
+            Context.Tariffs.AddOrUpdate(tariff);
+            Context.SaveChanges();
         }
 
         internal void UpsertLoan(Loan loan)
         {
-            _unitOfWork.LoanRepository.Upsert(loan);
-            _unitOfWork.Save();
+            Context.Loans.AddOrUpdate(loan);
+            Context.SaveChanges();
         }
 
         public void UpsertLoanApplication(LoanApplication loanApplication)
         {
-            _unitOfWork.LoanApplicationRepository.Upsert(loanApplication);
-            _unitOfWork.Save();
+            Context.LoanApplications.AddOrUpdate(loanApplication);
+            Context.SaveChanges();
         }
 
         internal bool CanLoanBeClosed(Loan loan)
@@ -100,49 +104,51 @@ namespace Application.LoanProcessing
         internal void CloseLoan(Loan loan)
         {
             loan.IsClosed = true;
-            _unitOfWork.LoanRepository.Upsert(loan);
-            _unitOfWork.Save();
+            Context.Loans.AddOrUpdate(loan);
+            Context.SaveChanges();
         }
 
         public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
         {
-            return _unitOfWork.LoanRepository.GetAll(filter);
+            return Context.Loans.Where(filter);
         }
 
         public IEnumerable<LoanApplication> GetLoanApplications(Func<LoanApplication, bool> filter)
         {
-            return _unitOfWork.LoanApplicationRepository.GetAll(filter);
+            return Context.LoanApplications.Where(filter);
         }
 
         public IEnumerable<Tariff> GetTariffs(Func<Tariff, bool> filter)
         {
-            return _unitOfWork.TariffRepository.GetAll(filter);
+            return Context.Tariffs.Where(filter);
         }
 
         public void DeleteTariffById(Guid id)
         {
-            var tariff = _unitOfWork.TariffRepository.Get(t => t.Id.Equals(id));
-            _unitOfWork.TariffRepository.Delete(tariff);
-            _unitOfWork.Save();
+            var tariff = Context.Tariffs.Single(t => t.Id.Equals(id));
+            Context.Tariffs.Remove(tariff);
+            Context.SaveChanges();
         }
 
         public void DeleteLoanApplicationById(Guid id)
         {
-            var loanApplication = _unitOfWork.LoanApplicationRepository.Get(la => la.Id.Equals(id));
-            _unitOfWork.LoanApplicationRepository.Delete(loanApplication);
-            _unitOfWork.Save();
+            var loanApplication = Context.LoanApplications.Single(la => la.Id.Equals(id));
+            Context.LoanApplications.Remove(loanApplication);
+            Context.SaveChanges();
         }
 
         public void ApproveLoanAppication(LoanApplication loanApplication)
         {
-            _unitOfWork.LoanApplicationRepository.Approve(loanApplication);
-            _unitOfWork.Save();
+            loanApplication.Status = LoanApplicationStatus.Approved;
+            Context.LoanApplications.AddOrUpdate(loanApplication);
+            Context.SaveChanges();
         }
 
         public void RejectLoanApplication(LoanApplication loanApplication)
         {
-            _unitOfWork.LoanApplicationRepository.Reject(loanApplication);
-            _unitOfWork.Save();
+            loanApplication.Status = LoanApplicationStatus.Rejected;
+            Context.LoanApplications.AddOrUpdate(loanApplication);
+            Context.SaveChanges();
         }
     }
 }
