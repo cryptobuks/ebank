@@ -42,6 +42,7 @@ namespace Application.AccountProcessing
                 throw new ArgumentException("Currencies are not equal");
             account.Entries.Add(entry);
             _unitOfWork.AccountRepository.Upsert(account);
+            _unitOfWork.Save();
         }
 
         public void CloseAccount(Account account)

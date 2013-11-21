@@ -3,41 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Application.AccountProcessing;
+using Application.CalendarProcessing;
 using Application.LoanProcessing;
 using Domain.Enums;
 using Domain.Models.Accounts;
+using Domain.Models.Calendars;
 using Domain.Models.Loans;
 using Infrastructure.Migrations;
 
 namespace Application
 {
+    // TODO: make all services disposable
     public class ProcessingService
     {
         public readonly LoanService LoanService;
-        public readonly AccountService _accountService;
+
+        private readonly AccountService AccountService;
+        private readonly CalendarService _calendarService;
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
 
-        public ProcessingService(LoanService loanService, AccountService accountService)
+        public ProcessingService(LoanService loanService, AccountService accountService, CalendarService calendarService)
         {
             LoanService = loanService;
-            _accountService = accountService;
+            AccountService = accountService;
+            _calendarService = calendarService;
         }
 
         /// <summary>
         /// Process to end every banking day
         /// </summary>
         /// <param name="date">current day</param>
-        public void ProcessEndOfDay(DateTime date)
+        public DateTime ProcessEndOfDay()
         {
             // TODO: lock any other account operations!
             lock (DaySync)
             {
+                var date = _calendarService.Calendar.CurrentTime.HasValue 
+                    ? _calendarService.Calendar.CurrentTime.Value
+                    : DateTime.UtcNow;
                 ProcessContractServiceAccounts();
                 if (date.Day == DateTime.DaysInMonth(date.Year, date.Month))
                 {
                     ProcessEndOfMonth(date);
                 }
+                return _calendarService.MoveTime(1);
             }
         }
 
@@ -72,8 +82,8 @@ namespace Application
                         SubType = EntrySubType.Interest
                     };
                     var interestEntryMinus = Entry.GetOppositeFor(interestEntryPlus);
-                    _accountService.AddEntry(interestAccount, interestEntryPlus);
-                    _accountService.AddEntry(contractAccount, interestEntryMinus);
+                    AccountService.AddEntry(interestAccount, interestEntryPlus);
+                    AccountService.AddEntry(contractAccount, interestEntryMinus);
                     amount -= interestPayment;
                     if (amount > 0M)
                     {
@@ -90,12 +100,13 @@ namespace Application
                                 SubType = EntrySubType.GeneralDebt
                             };
                             var generalDebtMinus = Entry.GetOppositeFor(generalDebtPlus);
-                            _accountService.AddEntry(generalDebtAccount, generalDebtPlus);
-                            _accountService.AddEntry(contractAccount, generalDebtMinus);
+                            AccountService.AddEntry(generalDebtAccount, generalDebtPlus);
+                            AccountService.AddEntry(contractAccount, generalDebtMinus);
                         }
                     }
                 }
             }
+            _calendarService.UpdateDailyProcessingTime();
         }
 
         public void ProcessEndOfMonth(DateTime date)
@@ -105,8 +116,9 @@ namespace Application
                 var accruals = LoanService.ProcessEndOfMonth(date);
                 foreach (var accrual in accruals)
                 {
-                    _accountService.AddEntry(accrual.Key, accrual.Value);
+                    AccountService.AddEntry(accrual.Key, accrual.Value);
                 }
+                _calendarService.UpdateMonthlyProcessingTime();
             }
         }
 
@@ -116,7 +128,7 @@ namespace Application
             var schedule = LoanService.CalculatePaymentSchedule(application);
             var accounts = new List<Account>(LoanService.AccountTypes
                 .Select(accountType =>
-                    _accountService.CreateAccount(application.Currency, accountType)));
+                    AccountService.CreateAccount(application.Currency, accountType)));
             var generalDebtAcc = accounts.Single(a => a.Type == AccountType.GeneralDebt);
             var entryDate = DateTime.UtcNow;
             var initialEntry = new Entry()
@@ -129,7 +141,7 @@ namespace Application
             };
             application.Status = LoanApplicationStatus.Contracted;
             // TODO: CRITICAL: add entry to bank balance
-            _accountService.AddEntry(generalDebtAcc, initialEntry); 
+            AccountService.AddEntry(generalDebtAcc, initialEntry); 
             var loan = new Loan
             {
                 Application = application,
@@ -159,7 +171,7 @@ namespace Application
                 Type = EntryType.Payment,
                 SubType = EntrySubType.ContractService
             };
-            _accountService.AddEntry(contractAccount, entry);
+            AccountService.AddEntry(contractAccount, entry);
             return entry;
         }
 
@@ -170,11 +182,16 @@ namespace Application
             {
                 foreach (var account in loan.Accounts)
                 {
-                    _accountService.CloseAccount(account);
+                    AccountService.CloseAccount(account);
                 }
                 LoanService.CloseLoan(loan);
             }
             return canBeClosed;
+        }
+
+        public Calendar GetCurrentTime()
+        {
+            return _calendarService.Calendar;
         }
     }
 }

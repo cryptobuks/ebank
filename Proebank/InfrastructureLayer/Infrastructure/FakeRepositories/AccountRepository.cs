@@ -6,8 +6,8 @@ using Domain.Models.Accounts;
 
 namespace Infrastructure.FakeRepositories
 {
-    class AccountRepository : AbstractRepository<Account, Guid>, IAccountRepository
+    public class AccountRepository : AbstractRepository<Account, Guid>, IAccountRepository
     {
-        public AccountRepository(object _isDisposedIndicator) : base(_isDisposedIndicator) { }
+        public AccountRepository(object isDisposedIndicator) : base(isDisposedIndicator) { }
     }
 }

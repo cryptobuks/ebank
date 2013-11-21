@@ -8,7 +8,6 @@ namespace Domain.Models.Loans
 {
     public class Tariff
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         [DisplayName("Tariff Name")]

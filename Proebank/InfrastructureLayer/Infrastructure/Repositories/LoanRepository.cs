@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories
         public LoanRepository(DataContext context)
         {
             // TODO: Complete member initialization
-            this._context = context;
+            _context = context;
         }
         public Loan Get(Func<Loan, bool> filter)
         {

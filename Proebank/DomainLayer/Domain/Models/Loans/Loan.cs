@@ -16,11 +16,11 @@ namespace Domain.Models.Loans
 
         public Guid Id { get; set; }
 
-        public LoanApplication Application { get; set; }
+        public virtual LoanApplication Application { get; set; }
 
         public virtual ICollection<Account> Accounts { get; set; }
 
-        public PaymentSchedule PaymentSchedule { get; set; }
+        public virtual PaymentSchedule PaymentSchedule { get; set; }
 
         [DisplayName("Is Closed")]
         public bool IsClosed { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Models.Accounts;
+using Domain.Models.Calendars;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Domain.Models.Users;
@@ -21,6 +22,8 @@ namespace Infrastructure
         public DbSet<Loan> Loans { get; set; }
 
         public DbSet<Tariff> Tariffs { get; set; }
+
+        public DbSet<Calendar> Calendars { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
