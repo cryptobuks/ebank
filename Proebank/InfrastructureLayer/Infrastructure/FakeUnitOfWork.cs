@@ -1,4 +1,7 @@
-﻿using Infrastructure.FakeRepositories;
+﻿using Domain.Models.Accounts;
+using Domain.Models.Calendars;
+using Domain.Models.Loans;
+using Infrastructure.FakeRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +16,7 @@ namespace Infrastructure
         private LoanRepository _loanRepository;
         private LoanApplicationRepository _loanApplicationRepository;
         private TariffRepository _tariffRepository;
+        private CalendarRepository _calendarRepository;
         private object _isDisposedIndicator;
 
         public FakeUnitOfWork()
@@ -22,26 +26,32 @@ namespace Infrastructure
             _loanRepository = new LoanRepository(_isDisposedIndicator);
             _loanApplicationRepository = new LoanApplicationRepository(_isDisposedIndicator);
             _tariffRepository = new TariffRepository(_isDisposedIndicator);
+            _calendarRepository = new CalendarRepository(_isDisposedIndicator);
         }
 
-        public Domain.Models.Accounts.IAccountRepository AccountRepository
+        public IAccountRepository AccountRepository
         {
             get { return _accountRepository; }
         }
 
-        public Domain.Models.Loans.ILoanRepository LoanRepository
+        public ILoanRepository LoanRepository
         {
             get { return _loanRepository; }
         }
 
-        public Domain.Models.Loans.ILoanApplicationRepository LoanApplicationRepository
+        public ILoanApplicationRepository LoanApplicationRepository
         {
             get { return _loanApplicationRepository; }
         }
 
-        public Domain.Models.Loans.ITariffRepository TariffRepository
+        public ITariffRepository TariffRepository
         {
             get { return _tariffRepository; }
+        }
+
+        public ICalendarRepository CalendarRepository
+        {
+            get { return _calendarRepository; }
         }
 
         public void Save()

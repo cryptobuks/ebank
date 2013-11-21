@@ -1,0 +1,8 @@
+﻿html, body {
+    height: 100%;
+}
+.screen {
+    background-color: #efefef;
+    width: 100%;
+    height: 100%;
+}

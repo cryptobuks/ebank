@@ -6,15 +6,13 @@ using Domain.Models.Accounts;
 
 namespace Infrastructure.Repositories
 {
-    // TODO: don't create db context for every method call
     public class AccountRepository : IAccountRepository
     {
         private readonly DataContext _context;
 
         public AccountRepository(DataContext context)
         {
-            // TODO: Complete member initialization
-            this._context = context;
+            _context = context;
         }
 
         public IQueryable<Account> GetAll()
