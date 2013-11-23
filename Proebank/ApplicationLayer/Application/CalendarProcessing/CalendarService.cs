@@ -65,5 +65,26 @@ namespace Application.CalendarProcessing
             _unitOfWork.CalendarRepository.Upsert(currentCalendar); // TODO: can it be removed?
             _unitOfWork.Save();
         }
+
+        internal void SetCurrentDate(DateTime dateTime)
+        {
+            Calendar calendar = null;
+            if (_unitOfWork.CalendarRepository.GetAll().Any())
+            {
+                _unitOfWork.CalendarRepository.GetAll().First().CurrentTime = dateTime;
+            }
+            else
+            {
+                calendar = new Calendar { Id = Calendar.ConstGuid, CurrentTime = dateTime };
+            }
+            if (calendar != null)
+            {
+                _unitOfWork.CalendarRepository.Upsert(calendar);
+            }
+            else
+            {
+                throw new Exception("Something went wrong on setting current date");
+            }
+        }
     }
 }

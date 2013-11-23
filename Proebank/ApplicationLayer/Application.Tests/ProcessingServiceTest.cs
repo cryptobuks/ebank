@@ -78,6 +78,7 @@ namespace Application.Tests
         [TestMethod]
         public void ProcessEndOfMonth()
         {
+            _service.SetCurrentDateTime(new DateTime(2013, 11, 1, 15, 0, 0));
             _service.ProcessEndOfMonth(DateTime.UtcNow);
             Assert.AreEqual(1, _loan.Accounts.First(a => a.Type == AccountType.Interest).Entries.Count);
         }
