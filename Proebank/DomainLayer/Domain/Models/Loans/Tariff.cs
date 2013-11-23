@@ -64,5 +64,12 @@ namespace Domain.Models.Loans
             // TODO: complete
             return isAmountValid && isTermValid;
         }
+
+
+        public decimal CalculateTotalSum(decimal sum, int term)
+        {
+            var interestRate = term*InterestRate/12;
+            return (sum + sum*interestRate);
+        }
     }
 }
