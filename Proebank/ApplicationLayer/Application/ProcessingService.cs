@@ -17,9 +17,8 @@ namespace Application
     public class ProcessingService
     {
         public readonly LoanService LoanService;
-
-        private readonly AccountService AccountService;
-        private readonly CalendarService _calendarService;
+        public readonly AccountService AccountService;
+        public readonly CalendarService CalendarService;
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
 
@@ -27,7 +26,7 @@ namespace Application
         {
             LoanService = loanService;
             AccountService = accountService;
-            _calendarService = calendarService;
+            CalendarService = calendarService;
         }
 
         /// <summary>
@@ -39,74 +38,16 @@ namespace Application
             // TODO: lock any other account operations!
             lock (DaySync)
             {
-                var date = _calendarService.Calendar.CurrentTime.HasValue 
-                    ? _calendarService.Calendar.CurrentTime.Value
+                var date = CalendarService.Calendar.CurrentTime.HasValue 
+                    ? CalendarService.Calendar.CurrentTime.Value
                     : DateTime.UtcNow;
                 ProcessContractServiceAccounts();
                 if (date.Day == DateTime.DaysInMonth(date.Year, date.Month))
                 {
                     ProcessEndOfMonth(date);
                 }
-                return _calendarService.MoveTime(1);
+                return CalendarService.MoveTime(1);
             }
-        }
-
-        private void ProcessContractServiceAccounts()
-        {
-            // TODO: transfer from 3819 to other accounts, not only two
-            // We filter only loans with below zero balance on contract service account
-            var loansWithMoneyOnServiceAccount = LoanService.GetLoans(loan =>
-            {
-                var contractServiceAcc = loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
-                return contractServiceAcc != null && contractServiceAcc.Balance > 0;
-            });
-            foreach (var loan in loansWithMoneyOnServiceAccount)
-            {
-                var accounts = loan.Accounts;
-                // TODO: make filters static
-                var contractAccount = loan.Accounts.Single(acc => acc.Type == AccountType.ContractService);
-                var amount = contractAccount.Balance;
-
-                // at first we transfer money to interest account
-                // then to generalDebtAccount
-                var interestAccount = accounts.Single(acc => acc.Type == AccountType.Interest);
-                var interestPayment = Math.Min(amount, interestAccount.Balance);
-                if (interestPayment > 0M)
-                {
-                    var interestEntryPlus = new Entry
-                    {
-                        Amount = interestPayment,
-                        Currency = loan.Application.Currency,
-                        Date = DateTime.UtcNow,
-                        Type = EntryType.Payment,
-                        SubType = EntrySubType.Interest
-                    };
-                    var interestEntryMinus = Entry.GetOppositeFor(interestEntryPlus);
-                    AccountService.AddEntry(interestAccount, interestEntryPlus);
-                    AccountService.AddEntry(contractAccount, interestEntryMinus);
-                    amount -= interestPayment;
-                    if (amount > 0M)
-                    {
-                        var generalDebtAccount = accounts.Single(acc => acc.Type == AccountType.GeneralDebt);
-                        var generalDebtPayment = Math.Min(amount, generalDebtAccount.Balance);
-                        if (generalDebtPayment > 0M)
-                        {
-                            var generalDebtPlus = new Entry
-                            {
-                                Amount = generalDebtPayment,
-                                Currency = loan.Application.Currency,
-                                Date = DateTime.UtcNow,
-                                Type = EntryType.Payment,
-                                SubType = EntrySubType.GeneralDebt
-                            };
-                            var generalDebtMinus = Entry.GetOppositeFor(generalDebtPlus);
-                            AccountService.AddEntry(generalDebtAccount, generalDebtPlus);
-                            AccountService.AddEntry(contractAccount, generalDebtMinus);
-                        }
-                    }
-                }
-            }
-            _calendarService.UpdateDailyProcessingTime();
         }
 
         public void ProcessEndOfMonth(DateTime date)
@@ -118,7 +59,7 @@ namespace Application
                 {
                     AccountService.AddEntry(accrual.Key, accrual.Value);
                 }
-                _calendarService.UpdateMonthlyProcessingTime();
+                CalendarService.UpdateMonthlyProcessingTime();
             }
         }
 
@@ -189,9 +130,73 @@ namespace Application
             return canBeClosed;
         }
 
-        public Calendar GetCurrentTime()
+        public Calendar GetCurrentDateTime()
         {
-            return _calendarService.Calendar;
+            return CalendarService.Calendar;
+        }
+
+        public void SetCurrentDateTime(DateTime dateTime)
+        {
+            // TODO: as it is public some checks should be done
+            CalendarService.SetCurrentDate(dateTime);
+        }
+
+        private void ProcessContractServiceAccounts()
+        {
+            // TODO: transfer from 3819 to other accounts, not only two
+            // We filter only loans with below zero balance on contract service account
+            var loansWithMoneyOnServiceAccount = LoanService.GetLoans(loan =>
+            {
+                var contractServiceAcc = loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
+                return contractServiceAcc != null && contractServiceAcc.Balance > 0;
+            });
+            foreach (var loan in loansWithMoneyOnServiceAccount)
+            {
+                var accounts = loan.Accounts;
+                // TODO: make filters static
+                var contractAccount = loan.Accounts.Single(acc => acc.Type == AccountType.ContractService);
+                var amount = contractAccount.Balance;
+
+                // at first we transfer money to interest account
+                // then to generalDebtAccount
+                var interestAccount = accounts.Single(acc => acc.Type == AccountType.Interest);
+                var interestPayment = Math.Min(amount, interestAccount.Balance);
+                if (interestPayment > 0M)
+                {
+                    var interestEntryPlus = new Entry
+                    {
+                        Amount = interestPayment,
+                        Currency = loan.Application.Currency,
+                        Date = DateTime.UtcNow,
+                        Type = EntryType.Payment,
+                        SubType = EntrySubType.Interest
+                    };
+                    var interestEntryMinus = Entry.GetOppositeFor(interestEntryPlus);
+                    AccountService.AddEntry(interestAccount, interestEntryPlus);
+                    AccountService.AddEntry(contractAccount, interestEntryMinus);
+                    amount -= interestPayment;
+                    if (amount > 0M)
+                    {
+                        var generalDebtAccount = accounts.Single(acc => acc.Type == AccountType.GeneralDebt);
+                        var generalDebtPayment = Math.Min(amount, generalDebtAccount.Balance);
+                        if (generalDebtPayment > 0M)
+                        {
+                            var generalDebtPlus = new Entry
+                            {
+                                Amount = generalDebtPayment,
+                                Currency = loan.Application.Currency,
+                                Date = DateTime.UtcNow,
+                                Type = EntryType.Payment,
+                                SubType = EntrySubType.GeneralDebt
+                            };
+                            var generalDebtMinus = Entry.GetOppositeFor(generalDebtPlus);
+                            AccountService.AddEntry(generalDebtAccount, generalDebtPlus);
+                            AccountService.AddEntry(contractAccount, generalDebtMinus);
+                        }
+                    }
+                }
+            }
+            CalendarService.UpdateDailyProcessingTime();
         }
     }
 }

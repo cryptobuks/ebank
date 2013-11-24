@@ -48,7 +48,7 @@ namespace Application.LoanProcessing
         {
             if (term < tariff.MaxTerm || term > tariff.MinTerm)
             {
-                throw new Exception("Term is not within the range");
+                throw new ArgumentException("Term is not within the range", "term");
             }
             else
             {

@@ -11,11 +11,6 @@ namespace Application
     public class LoanCalculator
     {
         private PaymentSchedule _paymentSchedule;
-        
-        //_condition потом сделать ENUM, где будем задавать как платить:
-        //1- равными платежами
-        //2- с уменьшением суммы платежа
-        private bool _condition;
 
         public decimal Sum { get; set; }
         public Tariff Tariff { get; set; }
