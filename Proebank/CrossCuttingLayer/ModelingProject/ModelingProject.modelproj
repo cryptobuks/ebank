@@ -22,11 +22,32 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
   <ItemGroup>
+    <Content Include="ApplyForCreditDiagramm.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ApplyForCreditDiagramm.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ApplyForCreditDiagramm.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="CreditChoosing.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CreditChoosing.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>CreditChoosing.sequencediagram</DependentUpon>
+    </Content>
     <Content Include="ModelDefinition\Package_1437.uml">
       <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package_2147.uml">
       <SubType>Content</SubType>
+    </Content>
+    <Content Include="Payment.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Payment.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Payment.sequencediagram</DependentUpon>
     </Content>
     <Content Include="UMLClassDiagram.classdiagram">
       <SubType>Content</SubType>
