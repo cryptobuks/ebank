@@ -1,7 +1,9 @@
 ﻿using System;
+using System.CodeDom;
 using System.Data.Entity.Migrations;
+using System.Globalization;
 using System.Linq;
-using Domain.Models.Calendars;
+using Calendar = Domain.Models.Calendars.Calendar;
 
 namespace Domain.Repositories
 {
@@ -61,6 +63,31 @@ namespace Domain.Repositories
             currentCalendar.LastMonthlyProcessingTime = currentCalendar.CurrentTime;
             Context.Calendars.AddOrUpdate(currentCalendar); // TODO: can it be removed?
             Context.SaveChanges();
+        }
+
+        public void SetCurrentDate(DateTime dateTime)
+        {
+            Calendar calendar = null;
+            if (Context.Calendars.Any())
+            {
+                Context.Calendars.First().CurrentTime = dateTime;
+            }
+            else
+            {
+                calendar = new Calendar
+                {
+                    Id = Calendar.ConstGuid,
+                    CurrentTime = dateTime
+                };
+            }
+            if (calendar != null)
+            {
+                Context.Calendars.AddOrUpdate(calendar);
+            }
+            else
+            {
+                throw new Exception("Something went wrong on setting current date");
+            }
         }
     }
 }

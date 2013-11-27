@@ -1,7 +1,4 @@
-﻿using Application.AccountProcessing;
-using Application.LoanProcessing;
-using Domain.Enums;
-using Domain.Models.Accounts;
+﻿using Domain.Enums;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Microsoft.Practices.Unity;

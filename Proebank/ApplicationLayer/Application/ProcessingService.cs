@@ -23,7 +23,7 @@ namespace Application
         public readonly LoanRepository LoanService;
         private readonly AbstractDataContext Context;
         private readonly AccountRepository AccountService;
-        private readonly CalendarService _calendarService;
+        private readonly CalendarService CalendarService;
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
 
@@ -32,7 +32,7 @@ namespace Application
         {
             LoanService = loanService;
             AccountService = accountService;
-            _calendarService = calendarService;
+            CalendarService = calendarService;
             Context = context;
         }
 
