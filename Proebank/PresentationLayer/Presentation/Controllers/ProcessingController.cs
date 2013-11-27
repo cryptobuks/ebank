@@ -17,7 +17,7 @@ namespace Presentation.Controllers
 
         public ActionResult Index()
         {
-            var time = _processingService.GetCurrentTime();
+            var time = _processingService.GetCurrentDateTime();
             return View(time);
         }
 

@@ -43,5 +43,25 @@ namespace Application.LoanProcessing
             }
             return schedule;
         }
+
+        internal static PaymentSchedule CalculatePaymentScheduleWithoutDateTime(decimal sum, Tariff tariff, int term)
+        {
+            if (term < tariff.MaxTerm || term > tariff.MinTerm)
+            {
+                throw new ArgumentException("Term is not within the range", "term");
+            }
+            else
+            {
+                var totalSum = tariff.CalculateTotalSum(sum, term);
+                var partSum = totalSum / term;
+
+                var schedule = new PaymentSchedule();
+                for (var i = 1; i <= term; i++)
+                {
+                    schedule.AddPayment(new Payment { Amount = partSum });
+                }
+                return schedule;
+            }
+        }
     }
 }

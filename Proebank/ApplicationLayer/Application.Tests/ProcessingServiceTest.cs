@@ -1,4 +1,6 @@
-﻿using Domain.Enums;
+﻿using Application.AccountProcessing;
+using Application.LoanProcessing;
+using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
@@ -78,40 +80,54 @@ namespace Application.Tests
         [TestMethod]
         public void ProcessEndOfMonth()
         {
+            _service.SetCurrentDateTime(new DateTime(2013, 11, 1, 15, 0, 0));
             _service.ProcessEndOfMonth(DateTime.UtcNow);
             Assert.AreEqual(1, _loan.Accounts.First(a => a.Type == AccountType.Interest).Entries.Count);
         }
 
-        //[TestMethod]
-        //public void CreateLoanContract()
-        //{
-        //    // TODO: add data!
-        //    var loan = _service.CreateLoanContract(new LoanApplication
-        //    {
-        //        CellPhone = String.Empty,
-        //        Documents = null,
-        //        LoanAmount = 1000000,
-        //    });
-        //    Assert.IsNotNull(loan);
-        //    // TODO: add check of accounts and so on
-        //}
+        [TestMethod]
+        public void CreateLoanContract()
+        {
+            // TODO: add data!
+            var loan = _service.CreateLoanContract(new LoanApplication
+            {
+                CellPhone = String.Empty,
+                Documents = null,
+                LoanAmount = 1000000,
+            });
+            Assert.IsNotNull(loan);
+            // TODO: add check of accounts and so on
+        }
 
 
         [TestMethod]
         public void ProcessEndOfDay()
         {
+            
+            //var entry = new Entry()
+            //    {
+            //        Amount = 1.0E4M, 
+            //        Currency = _loan.Application.Currency,
+            //        Date = DateTime.Now,
+            //        Id = Guid.NewGuid(),
+            //        SubType = EntrySubType.ContractService, 
+            //        Type = EntryType.Accrual
+            //    };
 
-            //public void ProcessEndOfDay(DateTime date)
-           // _service.ProcessEndOfDay(date);
-
-
+            //var contractServiceAcc = _loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
+            //if (contractServiceAcc == null) return;
+            
+            //contractServiceAcc.Entries.Add(entry);
+            //var interestAccount = _loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.Interest);
+            //var generalDebtAccount = _loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.GeneralDebt);
+            
+            //var contractAccountcAmount = contractServiceAcc.Balance;
+            //if (interestAccount != null)
+            //{
+            //    var interestAccountAmount = interestAccount.Balance;
+            //    var payment = Math.Min(contractAccountcAmount, interestAccountAmount);
+            //}
         }
-
-        //[TestMethod]
-        //public Loan CreateLoanContract(LoanApplication application)
-        //{
-        //    return default(Loan);
-        //}
 
         [TestMethod]
         public void RegisterPayment()

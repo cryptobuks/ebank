@@ -75,7 +75,7 @@ namespace Infrastructure.Migrations
 
             var calendarEntry = new Calendar
             {
-                Id = Guid.Parse("15AB1FE1-081D-440A-BD73-9DEBF4976084"),
+                Id = Calendar.ConstGuid,
                 CurrentTime = new DateTime(2013, 11, 1, 15, 0, 0),
                 ProcessingLock = false
             };
