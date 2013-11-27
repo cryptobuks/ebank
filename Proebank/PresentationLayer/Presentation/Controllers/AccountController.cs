@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Presentation.Models;
+using Microsoft.Practices.Unity;
 
 namespace Presentation.Controllers
 {
@@ -20,8 +21,10 @@ namespace Presentation.Controllers
     public class AccountController : BaseController
     {
         public AccountController()
-            : this(new UserManager<Employee>(new UserStore<Employee>(new DataContext())))
         {
+            var context = Container.Resolve<AbstractDataContext>();
+            var userStore = new UserStore<Employee>(context);
+            UserManager = new UserManager<Employee>(userStore);
         }
 
         public AccountController(UserManager<Employee> userManager)

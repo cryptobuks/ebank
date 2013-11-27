@@ -15,9 +15,9 @@ namespace Domain.Models.Loans
             Id = Guid.NewGuid();
         }
 
-        public Customer Customer { get; set; }
-
         public Guid Id { get; set; }
+
+        public virtual Customer Customer { get; set; }
 
         public virtual LoanApplication Application { get; set; }
 

@@ -66,6 +66,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractDataContext.cs" />
+    <Compile Include="Migrations\201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.cs" />
+    <Compile Include="Migrations\201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.Designer.cs">
+      <DependentUpon>201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201311272313124_RemovedTariffIdFromLoanApplication.cs" />
+    <Compile Include="Migrations\201311272313124_RemovedTariffIdFromLoanApplication.Designer.cs">
+      <DependentUpon>201311272313124_RemovedTariffIdFromLoanApplication.cs</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\AccountRepository.cs" />
     <Compile Include="Repositories\CalendarService.cs" />
     <Compile Include="Repositories\LoanRepository.cs" />
@@ -135,6 +143,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201311202222426_userInLoan.resx">
       <DependentUpon>201311202222426_userInLoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.resx">
+      <DependentUpon>201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201311272313124_RemovedTariffIdFromLoanApplication.resx">
+      <DependentUpon>201311272313124_RemovedTariffIdFromLoanApplication.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

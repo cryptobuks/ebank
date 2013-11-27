@@ -8,6 +8,11 @@ namespace Domain.Models.Loans
 {
     public class Tariff
     {
+        public Tariff()
+        {
+            Id = Guid.NewGuid();
+        }
+
         public Guid Id { get; set; }
 
         [DisplayName("Tariff Name")]
@@ -48,9 +53,6 @@ namespace Domain.Models.Loans
 
         [DisplayName("Guarantor")]
         public bool IsGuarantorNeeded { get; set; }
-
-        [DisplayName("Secondary Doc.")]
-        public bool IsSecondaryDocumentNeeded { get; set; }
 
         [DisplayName("Purpose")]
         public LoanPurpose LoanPurpose { get; set; }

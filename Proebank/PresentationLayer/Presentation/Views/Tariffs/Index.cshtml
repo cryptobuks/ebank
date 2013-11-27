@@ -16,7 +16,7 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.InterestRate)
+            @Html.DisplayNameFor(model => model.InterestRate.ToString("P"))
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MinAmount)
@@ -43,12 +43,8 @@
             @Html.DisplayNameFor(model => model.IsGuarantorNeeded)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsSecondaryDocumentNeeded)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.LoanPurpose)
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {

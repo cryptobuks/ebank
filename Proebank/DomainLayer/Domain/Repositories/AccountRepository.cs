@@ -7,11 +7,11 @@ namespace Domain.Repositories
 {
     public class AccountRepository
     {
-        private DataContext Context { get; set; }
+        private AbstractDataContext Context { get; set; }
         //// TODO: создать его в методе Seed базы; для каждой валюты свой!
         //public static Account BankAccount { get; private set; }
 
-        public AccountRepository(DataContext context)
+        public AccountRepository(AbstractDataContext context)
         {
             Context = context;
             //BankAccount = _repository.Get(acc => 
@@ -20,7 +20,7 @@ namespace Domain.Repositories
 
         public Account CreateAccount(Currency currency, AccountType accountType)
         {
-            var acc = new Account()
+            var acc = new Account
             {
                 Currency = currency,
                 DateOpened = DateTime.UtcNow,

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,6 +41,23 @@ namespace Domain
                 .ToTable("Employees");
             modelBuilder.Entity<Customer>()
                 .ToTable("Customers");
+        }
+
+        public override int SaveChanges()
+        {
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException dbExc)
+            {
+                foreach (var validationError in dbExc.EntityValidationErrors
+                    .SelectMany(validationErrors => validationErrors.ValidationErrors))
+                {
+                    Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                }
+                throw;
+            }
         }
     }
 }

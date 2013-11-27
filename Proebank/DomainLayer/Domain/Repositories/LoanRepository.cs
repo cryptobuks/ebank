@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using Domain.Enums;
 using Domain.Models.Accounts;
@@ -10,7 +12,7 @@ namespace Domain.Repositories
 {
     public class LoanRepository
     {
-        private DataContext Context;
+        private AbstractDataContext _context;
         private readonly TariffHelper _tariffHelper;
         private static readonly AccountType[] LoanAccountTypes = new[]
                 {
@@ -21,9 +23,9 @@ namespace Domain.Repositories
                     AccountType.OverdueInterest,
                 };
 
-        public LoanRepository(DataContext context)
+        public LoanRepository(AbstractDataContext context)
         {
-            Context = context;
+            _context = context;
             _tariffHelper = new TariffHelper();
         }
 
@@ -40,11 +42,11 @@ namespace Domain.Repositories
             var validationResult = _tariffHelper.ValidateLoanApplication(loanApplication);
             if (validationResult)
             {
-                Context.LoanApplications.AddOrUpdate(loanApplication);
-                Context.SaveChanges();
+                _context.LoanApplications.AddOrUpdate(loanApplication);
+                _context.SaveChanges();
             }
-            // TODO: make it without exception :)
-            else throw new Exception("Loan application is not valid");
+            // TODO: make it without exception (but it will fail test :) )
+            else throw new ArgumentException("Loan application is not valid");
         }
 
         public void ConsiderLoanApplication(LoanApplication loanApplication, bool decision)
@@ -53,12 +55,12 @@ namespace Domain.Repositories
             if (decision)
             {
                 loanApplication.Status = LoanApplicationStatus.Approved;
-                Context.LoanApplications.AddOrUpdate(loanApplication);
+                _context.LoanApplications.AddOrUpdate(loanApplication);
             }
             else
             {
                 loanApplication.Status = LoanApplicationStatus.Rejected;
-                Context.LoanApplications.AddOrUpdate(loanApplication);
+                _context.LoanApplications.AddOrUpdate(loanApplication);
             }
         }
 
@@ -66,20 +68,20 @@ namespace Domain.Repositories
 
         public void UpsertTariff(Tariff tariff)
         {
-            Context.Tariffs.AddOrUpdate(tariff);
-            Context.SaveChanges();
+            _context.Tariffs.AddOrUpdate(tariff);
+            _context.SaveChanges();
         }
 
         public void UpsertLoan(Loan loan)
         {
-            Context.Loans.AddOrUpdate(loan);
-            Context.SaveChanges();
+            _context.Loans.AddOrUpdate(loan);
+            _context.SaveChanges();
         }
 
         public void UpsertLoanApplication(LoanApplication loanApplication)
         {
-            Context.LoanApplications.AddOrUpdate(loanApplication);
-            Context.SaveChanges();
+            _context.LoanApplications.AddOrUpdate(loanApplication);
+            _context.SaveChanges();
         }
 
         public bool CanLoanBeClosed(Loan loan)
@@ -90,51 +92,51 @@ namespace Domain.Repositories
         public void CloseLoan(Loan loan)
         {
             loan.IsClosed = true;
-            Context.Loans.AddOrUpdate(loan);
-            Context.SaveChanges();
+            _context.Loans.AddOrUpdate(loan);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
         {
-            return Context.Loans.Where(filter);
+            return _context.Loans.Where(filter);
         }
 
         public IEnumerable<LoanApplication> GetLoanApplications(Func<LoanApplication, bool> filter)
         {
-            return Context.LoanApplications.Where(filter);
+            return _context.LoanApplications.Where(filter);
         }
 
         public IEnumerable<Tariff> GetTariffs(Func<Tariff, bool> filter)
         {
-            return Context.Tariffs.Where(filter);
+            return _context.Tariffs.Where(filter);
         }
 
         public void DeleteTariffById(Guid id)
         {
-            var tariff = Context.Tariffs.Single(t => t.Id.Equals(id));
-            Context.Tariffs.Remove(tariff);
-            Context.SaveChanges();
+            var tariff = _context.Tariffs.Single(t => t.Id.Equals(id));
+            _context.Tariffs.Remove(tariff);
+            _context.SaveChanges();
         }
 
         public void DeleteLoanApplicationById(Guid id)
         {
-            var loanApplication = Context.LoanApplications.Single(la => la.Id.Equals(id));
-            Context.LoanApplications.Remove(loanApplication);
-            Context.SaveChanges();
+            var loanApplication = _context.LoanApplications.Single(la => la.Id.Equals(id));
+            _context.LoanApplications.Remove(loanApplication);
+            _context.SaveChanges();
         }
 
         public void ApproveLoanAppication(LoanApplication loanApplication)
         {
             loanApplication.Status = LoanApplicationStatus.Approved;
-            Context.LoanApplications.AddOrUpdate(loanApplication);
-            Context.SaveChanges();
+            _context.LoanApplications.AddOrUpdate(loanApplication);
+            _context.SaveChanges();
         }
 
         public void RejectLoanApplication(LoanApplication loanApplication)
         {
             loanApplication.Status = LoanApplicationStatus.Rejected;
-            Context.LoanApplications.AddOrUpdate(loanApplication);
-            Context.SaveChanges();
+            _context.LoanApplications.AddOrUpdate(loanApplication);
+            _context.SaveChanges();
         }
     }
 }

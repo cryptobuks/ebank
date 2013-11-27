@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using Application.LoanProcessing;
+using Domain;
 using Domain.Enums;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
@@ -36,6 +37,7 @@ namespace Application.Tests
             _service = _container.Resolve<LoanRepository>();
             _customer = new Customer
             {
+                UserName = "test_customer",
                 LastName = "Mitchell",
                 FirstName = "Stanley",
                 MiddleName = "Matthew",
@@ -60,7 +62,6 @@ namespace Application.Tests
                 InitialFee = 0,
                 InterestRate = 0.75M,
                 IsGuarantorNeeded = false,
-                IsSecondaryDocumentNeeded = false,
                 LoanPurpose = LoanPurpose.Common,
                 MaxAmount = 1.0E8M,
                 MinAge = 18,
@@ -77,7 +78,6 @@ namespace Application.Tests
                 LoanAmount = 5.5E7M,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,
-                TariffId = _tariff.Id,
                 Term = 3,
                 TimeCreated = DateTime.Now
             };
@@ -88,7 +88,6 @@ namespace Application.Tests
                 LoanAmount = 5.5E11M,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,
-                TariffId = _tariff.Id,
                 Term = 120,
                 TimeCreated = DateTime.Now
             };
@@ -97,19 +96,15 @@ namespace Application.Tests
         [TestMethod]
         public void CreateValidLoanApplication()
         {
-            var before = _service.GetLoanApplications(la => true).Count();
             _service.CreateLoanApplication(_validLoanApp);
-            var after = _service.GetLoanApplications(la => true).Count();
-            Assert.AreEqual(before + 1, after);
+            // if something fails here, there will be an exception
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Exception about invalid loan application should have been thrown")]
         public void CreateInvalidLoanApplication()
         {
-            var before = _service.GetLoanApplications(la => true).Count();
-            _service.CreateLoanApplication(_validLoanApp);
-            var after = _service.GetLoanApplications(la => true).Count();
-            Assert.AreEqual(before, after);
+            _service.CreateLoanApplication(_invalidLoanApp);
         }
 
         [TestMethod]

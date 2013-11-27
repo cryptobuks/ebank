@@ -10,6 +10,11 @@ namespace Domain.Models.Loans
 {
     public class LoanApplication
     {
+        public LoanApplication()
+        {
+            Id = Guid.NewGuid();
+        }
+
         public Guid Id { get; set; }
 
         [DisplayName("Loan Amount")]
@@ -31,9 +36,6 @@ namespace Domain.Models.Loans
 
         [DisplayName("Cell Phone")]
         public string CellPhone { get; set; }
-
-        [DisplayName("Tariff")]
-        public Guid TariffId { get; set; }
 
         public virtual Tariff Tariff { get; set; }
 

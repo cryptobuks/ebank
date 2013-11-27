@@ -12,5 +12,14 @@ namespace Domain
             : base("TestProebank")
         {
         }
+
+        /// <summary>
+        /// This implementation keeps all changes in memory ("Local" property)
+        /// </summary>
+        /// <returns></returns>
+        public override int SaveChanges()
+        {
+            return 0;
+        }
     }
 }
