@@ -1,3 +1,4 @@
+using Domain;
 using Infrastructure;
 
 namespace Presentation.Internal.Migrations

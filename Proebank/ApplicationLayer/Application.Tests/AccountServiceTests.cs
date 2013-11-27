@@ -1,6 +1,6 @@
-﻿using Application.AccountProcessing;
-using Domain.Enums;
+﻿using Domain.Enums;
 using Domain.Models.Accounts;
+using Domain.Repositories;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,7 +10,7 @@ namespace Application.Tests
     [TestClass]
     public class AccountServiceTests
     {
-        private static AccountService _service;
+        private static AccountRepository _service;
         private static IUnityContainer _container;
 
         [ClassInitialize]
@@ -18,7 +18,7 @@ namespace Application.Tests
         {
             _container = new UnityContainer();
             _container.LoadConfiguration();
-            _service = _container.Resolve<AccountService>();
+            _service = _container.Resolve<AccountRepository>();
         }
 
         [TestMethod]

@@ -1,20 +1,17 @@
-﻿using System.Data.Entity.Migrations;
+﻿using System;
+using System.Data.Entity.Migrations;
 using Domain.Enums;
-using Domain.Models;
 using Domain.Models.Accounts;
-using Infrastructure;
-using System;
-using System.Collections.Generic;
 
-namespace Application.AccountProcessing
+namespace Domain.Repositories
 {
-    public class AccountService
+    public class AccountRepository
     {
         private DataContext Context { get; set; }
         //// TODO: создать его в методе Seed базы; для каждой валюты свой!
         //public static Account BankAccount { get; private set; }
 
-        public AccountService(DataContext context)
+        public AccountRepository(DataContext context)
         {
             Context = context;
             //BankAccount = _repository.Get(acc => 

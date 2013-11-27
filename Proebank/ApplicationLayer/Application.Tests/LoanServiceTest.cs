@@ -7,6 +7,7 @@ using Application.LoanProcessing;
 using Domain.Enums;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
+using Domain.Repositories;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,7 +20,7 @@ namespace Application.Tests
     [TestClass]
     public class LoanServiceTest
     {
-        private static LoanService _service;
+        private static LoanRepository _service;
         private static IUnityContainer _container;
         private static Customer _customer;
         private static Document _passport;
@@ -32,7 +33,7 @@ namespace Application.Tests
         {
             _container = new UnityContainer();
             _container.LoadConfiguration();
-            _service = _container.Resolve<LoanService>();
+            _service = _container.Resolve<LoanRepository>();
             _customer = new Customer
             {
                 LastName = "Mitchell",
@@ -116,15 +117,6 @@ namespace Application.Tests
         {
             _service.ConsiderLoanApplication(_validLoanApp, true);
             Assert.AreEqual(LoanApplicationStatus.Approved, _validLoanApp.Status);
-        }
-
-        [TestMethod]
-        public void CalculatePayments()
-        {
-            var schedule = _service.CalculatePaymentSchedule(_validLoanApp);
-            Assert.IsNotNull(schedule);
-            Assert.AreEqual(_validLoanApp.Term, schedule.Payments.Count);
-            Assert.AreEqual(_validLoanApp.LoanAmount * (1 + _validLoanApp.Tariff.InterestRate), schedule.Payments.Sum(p => p.Amount));
         }
     }
 }

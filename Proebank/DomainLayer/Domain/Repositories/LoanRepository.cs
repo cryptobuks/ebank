@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
 using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Loans;
-using Infrastructure;
 
-namespace Application.LoanProcessing
+namespace Domain.Repositories
 {
-    public class LoanService
+    public class LoanRepository
     {
         private DataContext Context;
         private readonly TariffHelper _tariffHelper;
@@ -23,7 +21,7 @@ namespace Application.LoanProcessing
                     AccountType.OverdueInterest,
                 };
 
-        public LoanService(DataContext context)
+        public LoanRepository(DataContext context)
         {
             Context = context;
             _tariffHelper = new TariffHelper();
@@ -64,19 +62,7 @@ namespace Application.LoanProcessing
             }
         }
 
-        public PaymentSchedule CalculatePaymentSchedule(LoanApplication loanApplication)
-        {
-            return PaymentScheduleCalculator.Calculate(loanApplication);
-        }
 
-        public Dictionary<Account, Entry> ProcessEndOfMonth(DateTime currentDate)
-        {
-            return Context.Loans
-                .Where(l => !l.IsClosed)
-                .ToDictionary(
-                    loan => loan.Accounts.Single(acc => acc.Type == AccountType.Interest),
-                    loan => InterestCalculator.CalculateInterestFor(loan, currentDate));
-        }
 
         public void UpsertTariff(Tariff tariff)
         {
@@ -84,7 +70,7 @@ namespace Application.LoanProcessing
             Context.SaveChanges();
         }
 
-        internal void UpsertLoan(Loan loan)
+        public void UpsertLoan(Loan loan)
         {
             Context.Loans.AddOrUpdate(loan);
             Context.SaveChanges();
@@ -96,12 +82,12 @@ namespace Application.LoanProcessing
             Context.SaveChanges();
         }
 
-        internal bool CanLoanBeClosed(Loan loan)
+        public bool CanLoanBeClosed(Loan loan)
         {
             return loan.Accounts.All(a => a.Balance == 0M);
         }
 
-        internal void CloseLoan(Loan loan)
+        public void CloseLoan(Loan loan)
         {
             loan.IsClosed = true;
             Context.Loans.AddOrUpdate(loan);

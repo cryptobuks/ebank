@@ -109,10 +109,6 @@
       <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\InfrastructureLayer\Infrastructure\Infrastructure.csproj">
-      <Project>{ba1096a4-e462-4097-863c-917c15dede21}</Project>
-      <Name>Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PresentationLayer\Presentation.Internal\Presentation.Internal.csproj">
       <Project>{5D95675D-C0C0-49F1-9EED-6F76D2E5B743}</Project>
       <Name>Presentation.Internal</Name>

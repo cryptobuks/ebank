@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Application.AccountProcessing;
-using Application.CalendarProcessing;
 using Application.LoanProcessing;
+using Domain;
 using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Calendars;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
+using Domain.Repositories;
+using Infrastructure;
 using Infrastructure.Migrations;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -19,18 +20,20 @@ namespace Application
     // TODO: make all services disposable
     public class ProcessingService
     {
-        public readonly LoanService LoanService;
-
-        private readonly AccountService AccountService;
+        public readonly LoanRepository LoanService;
+        private readonly AbstractDataContext Context;
+        private readonly AccountRepository AccountService;
         private readonly CalendarService _calendarService;
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
 
-        public ProcessingService(LoanService loanService, AccountService accountService, CalendarService calendarService)
+        public ProcessingService(LoanRepository loanService, AccountRepository accountService, CalendarService calendarService, 
+            AbstractDataContext context)
         {
             LoanService = loanService;
             AccountService = accountService;
             _calendarService = calendarService;
+            Context = context;
         }
 
         /// <summary>
@@ -116,7 +119,7 @@ namespace Application
         {
             lock (MonthSync)
             {
-                var accruals = LoanService.ProcessEndOfMonth(date);
+                var accruals = LoanProcessEndOfMonth(date);
                 foreach (var accrual in accruals)
                 {
                     AccountService.AddEntry(accrual.Key, accrual.Value);
@@ -128,8 +131,8 @@ namespace Application
         public Loan CreateLoanContract(LoanApplication application)
         {
             // TODO: CRITICAL: check bank balance
-            var schedule = LoanService.CalculatePaymentSchedule(application);
-            var accounts = new List<Account>(LoanService.AccountTypes
+            var schedule = LoanCalculatePaymentSchedule(application);
+            var accounts = new List<Account>(LoanRepository.AccountTypes
                 .Select(accountType =>
                     AccountService.CreateAccount(application.Currency, accountType)));
             var generalDebtAcc = accounts.Single(a => a.Type == AccountType.GeneralDebt);
@@ -146,7 +149,7 @@ namespace Application
             // TODO: CRITICAL: add entry to bank balance
             AccountService.AddEntry(generalDebtAcc, initialEntry);
 
-            var userStore = new UserStore<Customer>();
+            var userStore = new UserStore<Customer>(Context);
             var userManager = new UserManager<Customer>(userStore);
             var user = new Customer
             {
@@ -215,6 +218,20 @@ namespace Application
         public Calendar GetCurrentTime()
         {
             return _calendarService.Calendar;
+        }
+
+        public PaymentSchedule LoanCalculatePaymentSchedule(LoanApplication loanApplication)
+        {
+            return PaymentScheduleCalculator.Calculate(loanApplication);
+        }
+
+        public Dictionary<Account, Entry> LoanProcessEndOfMonth(DateTime currentDate)
+        {
+            return Context.Loans
+                .Where(l => !l.IsClosed)
+                .ToDictionary(
+                    loan => loan.Accounts.Single(acc => acc.Type == AccountType.Interest),
+                    loan => InterestCalculator.CalculateInterestFor(loan, currentDate));
         }
     }
 }

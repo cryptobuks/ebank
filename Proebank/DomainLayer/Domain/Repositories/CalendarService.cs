@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Models.Calendars;
-using Infrastructure;
 
-namespace Application.CalendarProcessing
+namespace Domain.Repositories
 {
     public class CalendarService
     {

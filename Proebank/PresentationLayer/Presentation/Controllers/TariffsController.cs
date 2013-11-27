@@ -7,8 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Domain.Models.Loans;
+using Domain.Repositories;
 using Infrastructure;
-using Infrastructure.Repositories;
 using Microsoft.Practices.Unity;
 using Application.LoanProcessing;
 
@@ -16,11 +16,11 @@ namespace Presentation.Controllers
 {
     public class TariffsController : BaseController
     {
-        private LoanService _service;
+        private LoanRepository _service;
 
         public TariffsController()
         {
-            _service = Container.Resolve<LoanService>();
+            _service = Container.Resolve<LoanRepository>();
         }
 
         public ActionResult Index()

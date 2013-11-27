@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Domain;
 using Domain.Enums;
 using Domain.Models.Calendars;
 using Domain.Models.Loans;
@@ -11,7 +12,7 @@ namespace Infrastructure.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Infrastructure.DataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()
         {
@@ -19,7 +20,7 @@ namespace Infrastructure.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(Infrastructure.DataContext context)
+        protected override void Seed(DataContext context)
         {
             //  This method will be called after migrating to the latest version.
 

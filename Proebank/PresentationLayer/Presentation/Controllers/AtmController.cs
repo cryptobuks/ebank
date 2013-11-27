@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Application;
 using Application.LoanProcessing;
+using Domain.Repositories;
 using Microsoft.Practices.Unity;
 using Presentation.Models;
 
@@ -12,12 +13,12 @@ namespace Presentation.Controllers
 {
     public class AtmController : BaseController
     {
-        private LoanService LoanService { get; set; }
+        private LoanRepository LoanService { get; set; }
         private ProcessingService ProcessingService { get; set; }
 
         public AtmController()
         {
-            LoanService = Container.Resolve<LoanService>();
+            LoanService = Container.Resolve<LoanRepository>();
             ProcessingService = Container.Resolve<ProcessingService>();
         }
         public ActionResult Index()

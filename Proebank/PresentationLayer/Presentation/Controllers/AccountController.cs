@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Domain;
 using Domain.Models.Customers;
 using Domain.Models.Users;
 using Infrastructure;

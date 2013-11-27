@@ -2,6 +2,7 @@
 using System.Web.Routing;
 using Domain.Enums;
 using Domain.Models.Loans;
+using Domain.Repositories;
 using Microsoft.Practices.Unity;
 using System;
 using System.Linq;
@@ -13,11 +14,11 @@ namespace Presentation.Controllers
 {
     public class LoanApplicationController : BaseController
     {
-        private LoanService _service { get; set; }
+        private LoanRepository _service { get; set; }
 
         public LoanApplicationController()
         {
-            _service = Container.Resolve<LoanService>();
+            _service = Container.Resolve<LoanRepository>();
         }
 
         public ActionResult Index()

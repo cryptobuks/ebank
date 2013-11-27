@@ -1,17 +1,22 @@
-﻿using Domain.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Domain.Models.Accounts;
 using Domain.Models.Calendars;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Domain.Models.Users;
-using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Infrastructure
+namespace Domain
 {
-    public class DataContext : IdentityDbContext<Employee>
+    abstract public class AbstractDataContext : IdentityDbContext<Employee>
     {
-        public DataContext() : base("Proebank")
+        public AbstractDataContext(string dbName)
+            : base(dbName)
         {
         }
 
