@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.20827.3
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject", "CrossCuttingLayer\ModelingProject\ModelingProject.modelproj", "{C46393A0-29AB-4E36-BDCB-7BE4E9849ED5}"
 EndProject
@@ -19,8 +19,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "PresentationLayer\Presentation\Presentation.csproj", "{C22713D0-C493-412B-9680-7B18EC7327D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Tests", "PresentationLayer\Presentation.Tests\Presentation.Tests.csproj", "{72DFD774-5B5D-4ECD-BC23-3631B44B4D6E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "DomainLayer\Domain.Tests\Domain.Tests.csproj", "{8F59D70E-EAFA-4E48-AEE5-96BAA6261ACE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PresentationLayer", "PresentationLayer", "{200F8818-A8D3-4CBE-968D-E32D0F0BED6D}"
 EndProject
@@ -60,10 +58,6 @@ Global
 		{72DFD774-5B5D-4ECD-BC23-3631B44B4D6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72DFD774-5B5D-4ECD-BC23-3631B44B4D6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72DFD774-5B5D-4ECD-BC23-3631B44B4D6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F59D70E-EAFA-4E48-AEE5-96BAA6261ACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F59D70E-EAFA-4E48-AEE5-96BAA6261ACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F59D70E-EAFA-4E48-AEE5-96BAA6261ACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F59D70E-EAFA-4E48-AEE5-96BAA6261ACE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F900AAF4-DBFA-46D3-9E35-1F4295FA8A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F900AAF4-DBFA-46D3-9E35-1F4295FA8A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F900AAF4-DBFA-46D3-9E35-1F4295FA8A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -78,7 +72,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C46393A0-29AB-4E36-BDCB-7BE4E9849ED5} = {928B876A-D2F5-4B57-B6E5-D0E2F18BA568}
-		{8F59D70E-EAFA-4E48-AEE5-96BAA6261ACE} = {5EDDDF88-2B18-48FD-9B7F-E80AD91A2AEA}
 		{14A6D35D-4124-45F5-B962-AEC147178892} = {5EDDDF88-2B18-48FD-9B7F-E80AD91A2AEA}
 		{A7714003-3A01-40CB-9177-9612FBACF735} = {FBC30485-5FB1-45C4-B24B-4B76962E34E1}
 		{F900AAF4-DBFA-46D3-9E35-1F4295FA8A44} = {FBC30485-5FB1-45C4-B24B-4B76962E34E1}

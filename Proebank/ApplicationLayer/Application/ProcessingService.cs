@@ -20,15 +20,15 @@ namespace Application
     // TODO: make all services disposable
     public class ProcessingService
     {
+        private readonly DataContext Context;
         public readonly LoanRepository LoanService;
-        private readonly AbstractDataContext Context;
         private readonly AccountRepository AccountService;
         private readonly CalendarService CalendarService;
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
 
         public ProcessingService(LoanRepository loanService, AccountRepository accountService, CalendarService calendarService, 
-            AbstractDataContext context)
+            DataContext context)
         {
             LoanService = loanService;
             AccountService = accountService;

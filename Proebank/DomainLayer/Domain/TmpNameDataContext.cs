@@ -15,10 +15,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Domain
 {
-    abstract public class AbstractDataContext : IdentityDbContext<Employee>
+    public class DataContext : IdentityDbContext<Employee>
     {
-        public AbstractDataContext(string dbName)
-            : base(dbName)
+        public DataContext()
+            : base("Proebank")
         {
         }
 

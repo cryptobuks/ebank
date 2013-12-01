@@ -16,7 +16,7 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.InterestRate.ToString("P"))
+            @Html.DisplayNameFor(model => model.InterestRate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MinAmount)
@@ -78,9 +78,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsGuarantorNeeded)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsSecondaryDocumentNeeded)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LoanPurpose)

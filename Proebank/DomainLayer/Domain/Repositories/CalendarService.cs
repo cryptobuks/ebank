@@ -9,14 +9,14 @@ namespace Domain.Repositories
 {
     public class CalendarService
     {
-        private AbstractDataContext Context { get; set; }
+        private DataContext Context { get; set; }
 
         public Calendar Calendar
         {
             get { return Context.Calendars.First(); }
         }
 
-        public CalendarService(AbstractDataContext context)
+        public CalendarService(DataContext context)
         {
             Context = context;
         }

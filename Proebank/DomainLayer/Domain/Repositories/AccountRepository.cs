@@ -7,11 +7,11 @@ namespace Domain.Repositories
 {
     public class AccountRepository
     {
-        private AbstractDataContext Context { get; set; }
+        private DataContext Context { get; set; }
         //// TODO: создать его в методе Seed базы; для каждой валюты свой!
         //public static Account BankAccount { get; private set; }
 
-        public AccountRepository(AbstractDataContext context)
+        public AccountRepository(DataContext context)
         {
             Context = context;
             //BankAccount = _repository.Get(acc => 

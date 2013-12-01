@@ -22,7 +22,7 @@ namespace Presentation.Controllers
     {
         public AccountController()
         {
-            var context = Container.Resolve<AbstractDataContext>();
+            var context = new DataContext();
             var userStore = new UserStore<Employee>(context);
             UserManager = new UserManager<Employee>(userStore);
         }

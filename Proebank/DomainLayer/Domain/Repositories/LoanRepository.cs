@@ -12,7 +12,7 @@ namespace Domain.Repositories
 {
     public class LoanRepository
     {
-        private AbstractDataContext _context;
+        private DataContext _context;
         private readonly TariffHelper _tariffHelper;
         private static readonly AccountType[] LoanAccountTypes = new[]
                 {
@@ -23,7 +23,7 @@ namespace Domain.Repositories
                     AccountType.OverdueInterest,
                 };
 
-        public LoanRepository(AbstractDataContext context)
+        public LoanRepository(DataContext context)
         {
             _context = context;
             _tariffHelper = new TariffHelper();

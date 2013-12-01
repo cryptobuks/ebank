@@ -98,14 +98,6 @@
         </div>
 
         <div class="control-group">
-            @Html.LabelFor(model => model.IsSecondaryDocumentNeeded, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.IsSecondaryDocumentNeeded)
-                @Html.ValidationMessageFor(model => model.IsSecondaryDocumentNeeded, null, new { @class = "help-inline" })
-            </div>
-        </div>
-
-        <div class="control-group">
             @Html.LabelFor(model => model.LoanPurpose, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.LoanPurpose)

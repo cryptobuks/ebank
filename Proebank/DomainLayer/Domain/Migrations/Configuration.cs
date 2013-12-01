@@ -1,16 +1,11 @@
-using System.Collections.Generic;
-using Domain;
 using Domain.Enums;
 using Domain.Models.Calendars;
 using Domain.Models.Loans;
-using Domain.Models.Users;
+using System;
+using System.Data.Entity.Migrations;
 
-namespace Infrastructure.Migrations
+namespace Domain.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
