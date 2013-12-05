@@ -6,8 +6,7 @@ using System.Data.Entity.Migrations;
 
 namespace Domain.Migrations
 {
-
-    internal sealed class Configuration : DbMigrationsConfiguration<DataContext>
+    public sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()
         {

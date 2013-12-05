@@ -7,23 +7,23 @@ namespace Presentation.Controllers
     [Authorize]
     public class ProcessingController : BaseController
     {
-        private ProcessingService _processingService { get; set; }
+        private ProcessingService _service { get; set; }
 
         public ProcessingController()
         {
             // TODO: remove something or create loan service property
-            _processingService = Container.Resolve<ProcessingService>();
+            _service = Container.Resolve<ProcessingService>();
         }
 
         public ActionResult Index()
         {
-            var time = _processingService.GetCurrentDateTime();
+            var time = _service.GetCurrentDate();
             return View(time);
         }
 
         public ActionResult MoveNextDay()
         {
-            var newDate = _processingService.ProcessEndOfDay();
+            var newDate = _service.ProcessEndOfDay();
             return RedirectToAction("Index", newDate);
         }
     }

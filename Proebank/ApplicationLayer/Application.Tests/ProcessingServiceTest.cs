@@ -14,7 +14,6 @@ namespace Application.Tests
     [TestClass]
     public class ProcessingServiceTest
     {
-        private static UnityContainer _container;
         private static ProcessingService _service;
         private static Loan _loan;
         private static LoanApplication _validLoanApp;
@@ -25,9 +24,7 @@ namespace Application.Tests
         [ClassInitialize]
         public static void InitService(TestContext context)
         {
-            _container = new UnityContainer();
-            _container.LoadConfiguration();
-            _service = _container.Resolve<ProcessingService>();
+            _service = new ProcessingService();
 
             _customer = new Customer
             {
@@ -75,7 +72,8 @@ namespace Application.Tests
                 Term = 3,
                 TimeCreated = DateTime.Now
             };
-            _loan = _service.CreateLoanContract(_validLoanApp);
+            // TODO: check 2 cases: existing user and new
+            _loan = _service.CreateLoanContract(_customer, _validLoanApp);
         }
 
         // TODO CRITICAL: need save time. But we don't need to really use db, because we can't update it automatically
@@ -91,7 +89,7 @@ namespace Application.Tests
         public void CreateLoanContract()
         {
             // TODO: add data!
-            var loan = _service.CreateLoanContract(new LoanApplication
+            var loan = _service.CreateLoanContract(_customer, new LoanApplication
             {
                 CellPhone = "+37529-CREATE-LOAN-CONTRACT",
                 Documents = new Collection<Document> { _passport },

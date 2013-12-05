@@ -1,4 +1,7 @@
-﻿using Infrastructure;
+﻿using Domain;
+using Domain.Migrations;
+using Infrastructure;
+using Presentation.App_Start;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,7 +17,7 @@ namespace Presentation
     {
         protected void Application_Start()
         {
-            //Database.SetInitializer<DataContext>(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
+            Database.SetInitializer<DataContext>(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

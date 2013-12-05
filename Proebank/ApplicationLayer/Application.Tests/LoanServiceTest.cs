@@ -21,7 +21,7 @@ namespace Application.Tests
     [TestClass]
     public class LoanServiceTest
     {
-        private static LoanRepository _service;
+        private static ProcessingService _service;
         private static IUnityContainer _container;
         private static Customer _customer;
         private static Document _passport;
@@ -32,9 +32,7 @@ namespace Application.Tests
         [ClassInitialize]
         public static void InitService(TestContext context)
         {
-            _container = new UnityContainer();
-            _container.LoadConfiguration();
-            _service = _container.Resolve<LoanRepository>();
+            _service = new ProcessingService();
             _customer = new Customer
             {
                 UserName = "test_customer",

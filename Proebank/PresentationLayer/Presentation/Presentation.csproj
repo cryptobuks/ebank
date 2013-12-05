@@ -113,6 +113,9 @@
     <Reference Include="Microsoft.Practices.Unity.Configuration">
       <HintPath>..\..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Mvc">
+      <HintPath>..\..\packages\Unity.Mvc.3.0.1304.0\lib\Net45\Microsoft.Practices.Unity.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity.ServiceLocatorAdapter">
       <HintPath>..\..\packages\CommonServiceLocator.UnityAdapter.1.0.0.41670\lib\net35\Microsoft.Practices.Unity.ServiceLocatorAdapter.dll</HintPath>
     </Reference>
@@ -174,6 +177,12 @@
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Mvc5">
+      <HintPath>..\..\packages\Unity.Mvc5.1.1\lib\net45\Unity.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\..\packages\WebActivatorEx.2.0.4\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -198,6 +207,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ProcessingController.cs" />
     <Compile Include="Controllers\AtmController.cs" />

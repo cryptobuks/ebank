@@ -9,24 +9,25 @@ using System.Linq;
 using System.Web.Mvc;
 using Application.LoanProcessing;
 using System.Collections.Generic;
+using Application;
 
 namespace Presentation.Controllers
 {
     public class LoanApplicationController : BaseController
     {
-        private LoanRepository _service { get; set; }
+        private ProcessingService _service { get; set; }
 
         public LoanApplicationController()
         {
-            _service = Container.Resolve<LoanRepository>();
+            _service = new ProcessingService();
         }
 
         public ActionResult Index()
         {
-            var loanapplications = _service.GetLoanApplications(la => true);//.Include(l => l.Tariff);
+            var loanApplications = _service.GetLoanApplications(la => true);//.Include(l => l.Tariff);
             ViewBag.ActiveTab = "All";
             // TODO: get rid of ToList()
-            return View(loanapplications);
+            return View(loanApplications);
         }
 
 

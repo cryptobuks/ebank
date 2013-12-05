@@ -10,15 +10,12 @@ namespace Application.Tests
     [TestClass]
     public class AccountServiceTests
     {
-        private static AccountRepository _service;
-        private static IUnityContainer _container;
+        private static ProcessingService _service;
 
         [ClassInitialize]
         public static void InitService(TestContext context)
         {
-            _container = new UnityContainer();
-            _container.LoadConfiguration();
-            _service = _container.Resolve<AccountRepository>();
+            _service = new ProcessingService();
         }
 
         [TestMethod]

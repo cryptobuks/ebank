@@ -11,16 +11,17 @@ using Domain.Repositories;
 using Infrastructure;
 using Microsoft.Practices.Unity;
 using Application.LoanProcessing;
+using Application;
 
 namespace Presentation.Controllers
 {
     public class TariffsController : BaseController
     {
-        private LoanRepository _service;
+        private ProcessingService _service { get; set; }
 
         public TariffsController()
         {
-            _service = Container.Resolve<LoanRepository>();
+            _service = new ProcessingService();
         }
 
         public ActionResult Index()

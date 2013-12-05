@@ -13,17 +13,17 @@ namespace Presentation.Controllers
 {
     public class AtmController : BaseController
     {
-        private LoanRepository LoanService { get; set; }
-        private ProcessingService ProcessingService { get; set; }
+        //private LoanRepository LoanService { get; set; }
+        private ProcessingService _service { get; set; }
 
         public AtmController()
         {
-            LoanService = Container.Resolve<LoanRepository>();
-            ProcessingService = Container.Resolve<ProcessingService>();
+            //LoanService = Container.Resolve<LoanRepository>();
+            _service = Container.Resolve<ProcessingService>();
         }
         public ActionResult Index()
         {
-            var loans = LoanService.GetLoans(l => true);
+            var loans = _service.GetLoans(l => true);
             ViewBag.LoanId = new SelectList(loans, "Id", "Id");
             return View();
         }
@@ -34,10 +34,10 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var loan = LoanService.GetLoans(l => l.Id == model.LoanId).FirstOrDefault();
+                var loan = _service.GetLoans(l => l.Id == model.LoanId).FirstOrDefault();
                 if (loan != null)
                 {
-                    ProcessingService.RegisterPayment(loan, model.Amount);
+                    _service.RegisterPayment(loan, model.Amount);
                 }
             }
             ViewBag.PaymentRegistered = true;
