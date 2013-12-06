@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Collections.Generic;
-using Application.LoanProcessing;
-using Domain;
 using Domain.Enums;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
-using Domain.Repositories;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Application.Tests
@@ -22,7 +14,6 @@ namespace Application.Tests
     public class LoanServiceTest
     {
         private static ProcessingService _service;
-        private static IUnityContainer _container;
         private static Customer _customer;
         private static Document _passport;
         private static Tariff _tariff;

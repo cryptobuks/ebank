@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
+using Presentation.Controllers;
 
 namespace Presentation.Tests.App_Start
 {
@@ -10,7 +11,7 @@ namespace Presentation.Tests.App_Start
     public class UnityConfig
     {
         #region Unity Container
-        private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
+        private static readonly Lazy<IUnityContainer> Container = new Lazy<IUnityContainer>(() =>
         {
             var container = new UnityContainer();
             RegisterTypes(container);
@@ -22,7 +23,7 @@ namespace Presentation.Tests.App_Start
         /// </summary>
         public static IUnityContainer GetConfiguredContainer()
         {
-            return container.Value;
+            return Container.Value;
         }
         #endregion
 
@@ -33,10 +34,9 @@ namespace Presentation.Tests.App_Start
         public static void RegisterTypes(IUnityContainer container)
         {
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
-            // container.LoadConfiguration();
+            container.LoadConfiguration();
 
-            // TODO: Register your types here
-            // container.RegisterType<IProductRepository, ProductRepository>();
+            container.RegisterType<AccountController>(new InjectionConstructor());
         }
     }
 }

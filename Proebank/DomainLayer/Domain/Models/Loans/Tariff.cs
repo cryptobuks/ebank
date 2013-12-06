@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using Domain.Enums;
 
 namespace Domain.Models.Loans

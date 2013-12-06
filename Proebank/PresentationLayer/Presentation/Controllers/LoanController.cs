@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Application.LoanProcessing;
 using Domain.Enums;
-using Microsoft.Practices.Unity;
 using Domain.Models.Loans;
 using Application;
 using System.Net;
@@ -18,12 +14,11 @@ namespace Presentation.Controllers
 {
     public class LoanController : BaseController
     {
-        private ProcessingService _processingService { get; set; }
+        private readonly ProcessingService _processingService;
 
         public LoanController()
         {
-            // TODO: remove something or create loan service property
-            _processingService = Container.Resolve<ProcessingService>();
+            _processingService = new ProcessingService();
         }
 
         public ActionResult Index()

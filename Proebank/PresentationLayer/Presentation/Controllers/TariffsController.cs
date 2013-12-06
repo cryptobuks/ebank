@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Domain.Models.Loans;
-using Domain.Repositories;
-using Infrastructure;
-using Microsoft.Practices.Unity;
-using Application.LoanProcessing;
 using Application;
 
 namespace Presentation.Controllers
 {
     public class TariffsController : BaseController
     {
-        private ProcessingService _service { get; set; }
+        private readonly ProcessingService _service;
 
         public TariffsController()
         {

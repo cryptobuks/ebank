@@ -2,8 +2,6 @@
 using Domain.Models.Accounts;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.ObjectModel;
@@ -107,7 +105,7 @@ namespace Application.Tests
         [TestMethod]
         public void ProcessEndOfDay()
         {
-            var entry = new Entry()
+            var entry = new Entry
                 {
                     Amount = 1.0E4M,
                     Currency = _loan.Application.Currency,
@@ -130,6 +128,7 @@ namespace Application.Tests
                 var interestAccountAmount = interestAccount.Balance;
                 var payment = Math.Min(contractAccountcAmount, interestAccountAmount);
             }
+            Assert.Fail("Test is not done completely");
         }
 
         [TestMethod]

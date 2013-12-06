@@ -1,18 +1,17 @@
 ﻿using System.Web.Mvc;
 using Application;
-using Microsoft.Practices.Unity;
 
 namespace Presentation.Controllers
 {
     [Authorize]
     public class ProcessingController : BaseController
     {
-        private ProcessingService _service { get; set; }
+        private readonly ProcessingService _service;
 
         public ProcessingController()
         {
             // TODO: remove something or create loan service property
-            _service = Container.Resolve<ProcessingService>();
+            _service = new ProcessingService();
         }
 
         public ActionResult Index()

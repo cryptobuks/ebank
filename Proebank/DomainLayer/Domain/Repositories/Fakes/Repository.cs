@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Repositories.Fakes
 {
@@ -17,12 +14,12 @@ namespace Domain.Repositories.Fakes
             _collection = new ObservableCollection<T>();
         }
 
-        public IQueryable<T> GetTable()
+        public IQueryable<T> GetAll()
         {
             return _collection.AsQueryable();
         }
 
-        public IQueryable<T> Filter(Func<T, bool> predicate)
+        public IQueryable<T> Where(Func<T, bool> predicate)
         {
             return _collection.Where(predicate).AsQueryable();
         }

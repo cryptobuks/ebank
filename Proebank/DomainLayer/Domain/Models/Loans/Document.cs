@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Enums;
 using Domain.Models.Customers;
-using Domain.Models.Users;
 
 namespace Domain.Models.Loans
 {

@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Application;
-using Application.LoanProcessing;
-using Domain.Repositories;
-using Microsoft.Practices.Unity;
 using Presentation.Models;
 
 namespace Presentation.Controllers
 {
     public class AtmController : BaseController
     {
-        //private LoanRepository LoanService { get; set; }
-        private ProcessingService _service { get; set; }
+        private readonly ProcessingService _service;
 
         public AtmController()
         {
-            //LoanService = Container.Resolve<LoanRepository>();
-            _service = Container.Resolve<ProcessingService>();
+            _service = new ProcessingService();
         }
         public ActionResult Index()
         {

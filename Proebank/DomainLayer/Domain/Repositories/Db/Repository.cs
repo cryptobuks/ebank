@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Repositories.Db
 {
@@ -16,12 +13,12 @@ namespace Domain.Repositories.Db
             _ctx = context;
         }
 
-        public IQueryable<T> GetTable()
+        public IQueryable<T> GetAll()
         {
             return _ctx.Set<T>();
         }
 
-        public IQueryable<T> Filter(Func<T, bool> predicate)
+        public IQueryable<T> Where(Func<T, bool> predicate)
         {
             return _ctx.Set<T>().Where(predicate).AsQueryable();
         }

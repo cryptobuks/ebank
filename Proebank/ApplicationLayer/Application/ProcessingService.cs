@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Application.LoanProcessing;
-using Domain;
 using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Calendars;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Domain.Repositories;
-using Infrastructure;
-using Infrastructure.Migrations;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
@@ -21,17 +15,17 @@ namespace Application
 {
     public class ProcessingService
     {
-        private IUnityContainer _container;
+        private readonly IUnityContainer _container;
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
-        private static readonly AccountType[] LoanAccountTypes = new[]
-                    {
-                        AccountType.ContractService,
-                        AccountType.GeneralDebt,
-                        AccountType.Interest,
-                        AccountType.OverdueGeneralDebt, 
-                        AccountType.OverdueInterest,
-                    };
+        private static readonly AccountType[] LoanAccountTypes =
+        {
+            AccountType.ContractService,
+            AccountType.GeneralDebt,
+            AccountType.Interest,
+            AccountType.OverdueGeneralDebt, 
+            AccountType.OverdueInterest
+        };
 
         public ProcessingService()
         {
@@ -47,10 +41,8 @@ namespace Application
         /// <summary>
         /// Process to end every banking day
         /// </summary>
-        /// <param name="date">current day</param>
         public DateTime ProcessEndOfDay()
         {
-            var calendarRepo = GetRepository<Calendar>();
             // TODO: lock any other account operations!
             lock (DaySync)
             {
@@ -66,7 +58,7 @@ namespace Application
             }
         }
 
-        public void ProcessEndOfMonth(DateTime date)
+        private void ProcessEndOfMonth(DateTime date)
         {
             lock (MonthSync)
             {
@@ -88,7 +80,7 @@ namespace Application
                     CreateAccount(application.Currency, accountType)));
             var generalDebtAcc = accounts.Single(a => a.Type == AccountType.GeneralDebt);
             var entryDate = DateTime.UtcNow;
-            var initialEntry = new Entry()
+            var initialEntry = new Entry
             {
                 Amount = application.LoanAmount,
                 Currency = application.Currency,
@@ -122,7 +114,7 @@ namespace Application
         {
             var accounts = loan.Accounts;
             var contractAccount = accounts.First(a => a.Type == AccountType.ContractService);
-            var entry = new Entry()
+            var entry = new Entry
             {
                 Amount = amount,
                 Currency = loan.Application.Currency,
@@ -206,15 +198,15 @@ namespace Application
             UpdateDailyProcessingTime();
         }
 
-        public PaymentSchedule LoanCalculatePaymentSchedule(LoanApplication loanApplication)
+        private PaymentSchedule LoanCalculatePaymentSchedule(LoanApplication loanApplication)
         {
             return PaymentScheduleCalculator.Calculate(loanApplication);
         }
 
-        public Dictionary<Account, Entry> LoanProcessEndOfMonth(DateTime currentDate)
+        private Dictionary<Account, Entry> LoanProcessEndOfMonth(DateTime currentDate)
         {
             var loanRepository = GetRepository<Loan>();
-            return loanRepository.GetTable()
+            return loanRepository.GetAll()
                 .Where(l => !l.IsClosed)
                 .ToDictionary(
                     loan => loan.Accounts.Single(acc => acc.Type == AccountType.Interest),
@@ -225,22 +217,22 @@ namespace Application
         public IQueryable<Loan> GetLoans(Func<Loan, bool> filter)
         {
             var loanRepository = GetRepository<Loan>();
-            return loanRepository.Filter(filter);
+            return loanRepository.Where(filter);
         }
 
-        public void UpsertLoan(Loan loan)
+        private void UpsertLoan(Loan loan)
         {
             var loanRepo = GetRepository<Loan>();
             loanRepo.AddOrUpdate(loan);
             loanRepo.SaveChanges();
         }
 
-        public bool CanLoanBeClosed(Loan loan)
+        private bool CanLoanBeClosed(Loan loan)
         {
             return loan.Accounts.All(a => a.Balance == 0M);
         }
 
-        public void CloseLoan(Loan loan)
+        private void CloseLoan(Loan loan)
         {
             var loanRepo = GetRepository<Loan>();
             loan.IsClosed = true;
@@ -253,7 +245,7 @@ namespace Application
         public IQueryable<LoanApplication> GetLoanApplications(Func<LoanApplication, bool> filter)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
-            return loanApplicationRepo.Filter(filter);
+            return loanApplicationRepo.Where(filter);
         }
 
         public void UpsertLoanApplication(LoanApplication loanApplication)
@@ -266,7 +258,7 @@ namespace Application
         public void DeleteLoanApplicationById(Guid id)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
-            var loanApplication = loanApplicationRepo.Filter(la => la.Id.Equals(id)).Single();
+            var loanApplication = loanApplicationRepo.Where(la => la.Id.Equals(id)).Single();
             loanApplicationRepo.Remove(loanApplication);
             loanApplicationRepo.SaveChanges();
         }
@@ -314,7 +306,7 @@ namespace Application
         public IEnumerable<Tariff> GetTariffs(Func<Tariff, bool> filter)
         {
             var tariffRepo = GetRepository<Tariff>();
-            return tariffRepo.Filter(filter);
+            return tariffRepo.Where(filter);
         }
 
         public void UpsertTariff(Tariff tariff)
@@ -327,12 +319,12 @@ namespace Application
         public void DeleteTariffById(Guid id)
         {
             var tariffRepo = GetRepository<Tariff>();
-            var tariff = tariffRepo.GetTable().Single(t => t.Id.Equals(id));
+            var tariff = tariffRepo.GetAll().Single(t => t.Id.Equals(id));
             tariffRepo.Remove(tariff);
             tariffRepo.SaveChanges();
         }
 
-        public bool ValidateLoanApplication(LoanApplication loanApplication)
+        private bool ValidateLoanApplication(LoanApplication loanApplication)
         {
             if (loanApplication == null || loanApplication.Tariff == null)
             {
@@ -343,28 +335,29 @@ namespace Application
         #endregion
 
         #region Calendar methods
-        public Calendar Calendar
+
+        private Calendar Calendar
         {
             get 
             {
                 var calendarRepo = GetRepository<Calendar>();
-                return calendarRepo.GetTable().First(); 
+                return calendarRepo.GetAll().First(); 
             }
         }
 
         // TODO: try TimeSpan if it works well for all time cases
         // TODO: all DateTime.UtcNow should be replaced with exceptions
-        public DateTime MoveTime(byte days)
+        private DateTime MoveTime(byte days)
         {
             var calendarRepository = GetRepository<Calendar>();
-            var currentCalendar = calendarRepository.GetTable().First();
+            var currentCalendar = calendarRepository.GetAll().First();
             var result = currentCalendar.CurrentTime.HasValue ? currentCalendar.CurrentTime.Value : DateTime.UtcNow;
             if (!currentCalendar.ProcessingLock)
             {
                 currentCalendar.ProcessingLock = true;
                 calendarRepository.AddOrUpdate(currentCalendar);
                 calendarRepository.SaveChanges();
-                var calendar2 = calendarRepository.GetTable().First();
+                var calendar2 = calendarRepository.GetAll().First();
                 if (calendar2.Equals(currentCalendar))
                 {
                     calendar2.CurrentTime = calendar2.CurrentTime.HasValue
@@ -381,60 +374,49 @@ namespace Application
             return result;
         }
 
-        public void UpdateDailyProcessingTime()
+        private void UpdateDailyProcessingTime()
         {
             var calendarRepository = GetRepository<Calendar>();
-            var currentCalendar = calendarRepository.GetTable().First();
+            var currentCalendar = calendarRepository.GetAll().First();
             currentCalendar.LastDailyProcessingTime = currentCalendar.CurrentTime;
             calendarRepository.AddOrUpdate(currentCalendar); // TODO: can it be removed?
             calendarRepository.SaveChanges();
         }
 
-        public void UpdateMonthlyProcessingTime()
+        private void UpdateMonthlyProcessingTime()
         {
             using (var calendarRepo = GetRepository<Calendar>())
             {
-                var currentCalendar = calendarRepo.GetTable().First();
+                var currentCalendar = calendarRepo.GetAll().First();
                 currentCalendar.LastMonthlyProcessingTime = currentCalendar.CurrentTime;
                 calendarRepo.AddOrUpdate(currentCalendar); // TODO: can it be removed?
                 calendarRepo.SaveChanges();
             }
         }
 
-        public DateTime? GetCurrentDate()
+        public Calendar GetCurrentDate()
         {
             var calendarRepo = GetRepository<Calendar>();
-            Calendar calendar = null;
-            if (calendarRepo.GetTable().Any())
+            if (calendarRepo.GetAll().Any())
             {
-                return calendarRepo.GetTable().First().CurrentTime;
+                return calendarRepo.GetAll().First();
             }
-            else
+            var calendar = new Calendar
             {
-                calendar = new Calendar
-                {
-                    Id = Calendar.ConstGuid,
-                    CurrentTime = DateTime.UtcNow
-                };
-            }
-            if (calendar != null)
-            {
-                calendarRepo.AddOrUpdate(calendar);
-                return calendar.CurrentTime;
-            }
-            else
-            {
-                throw new Exception("Something went wrong on setting current date");
-            }
+                Id = Calendar.ConstGuid,
+                CurrentTime = DateTime.UtcNow
+            };
+            calendarRepo.AddOrUpdate(calendar);
+            return calendar;
         }
 
         public void SetCurrentDate(DateTime dateTime)
         {
             var calendarRepo = GetRepository<Calendar>();
             Calendar calendar = null;
-            if (calendarRepo.GetTable().Any())
+            if (calendarRepo.GetAll().Any())
             {
-                calendarRepo.GetTable().First().CurrentTime = dateTime;
+                calendarRepo.GetAll().First().CurrentTime = dateTime;
             }
             else
             {
@@ -470,7 +452,7 @@ namespace Application
             return acc;
         }
 
-        public void AddEntry(Account account, Entry entry)
+        private void AddEntry(Account account, Entry entry)
         {
             var accountRepo = GetRepository<Account>();
             if (account == null)
@@ -484,19 +466,16 @@ namespace Application
             accountRepo.SaveChanges();
         }
 
-        public void CloseAccount(Account account)
+        private void CloseAccount(Account account)
         {
             var accountRepo = GetRepository<Account>();
             if (account.IsClosed)
             {
                 throw new ArgumentException("Account is already closed");
             }
-            else
-            {
-                account.IsClosed = true;
-                account.DateClosed = DateTime.UtcNow;
-                accountRepo.AddOrUpdate(account);
-            }
+            account.IsClosed = true;
+            account.DateClosed = DateTime.UtcNow;
+            accountRepo.AddOrUpdate(account);
         }
         #endregion
     }

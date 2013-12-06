@@ -1,8 +1,4 @@
 ﻿using Domain.Enums;
-using Domain.Models.Accounts;
-using Domain.Repositories;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Application.Tests

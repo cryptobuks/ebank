@@ -1,13 +1,9 @@
 ﻿using System.Net;
-using System.Web.Routing;
 using Domain.Enums;
 using Domain.Models.Loans;
-using Domain.Repositories;
-using Microsoft.Practices.Unity;
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using Application.LoanProcessing;
 using System.Collections.Generic;
 using Application;
 
@@ -15,7 +11,7 @@ namespace Presentation.Controllers
 {
     public class LoanApplicationController : BaseController
     {
-        private ProcessingService _service { get; set; }
+        private readonly ProcessingService _service;
 
         public LoanApplicationController()
         {
