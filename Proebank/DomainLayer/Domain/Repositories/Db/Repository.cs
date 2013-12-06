@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Migrations;
 using System.Linq;
 
 namespace Domain.Repositories.Db
@@ -6,7 +7,7 @@ namespace Domain.Repositories.Db
     // TODO:  where T : IEntity
     public class Repository<T> : IRepository<T> where T : class
     {
-        private DataContext _ctx;
+        private readonly DataContext _ctx;
 
         public Repository(DataContext context)
         {
@@ -26,15 +27,7 @@ namespace Domain.Repositories.Db
         public void AddOrUpdate(T entity)
         {
             var set = _ctx.Set<T>();
-            var oldEntity = set.SingleOrDefault(e => e.Equals(entity));
-            if (oldEntity == null)
-            {
-                set.Add(entity);
-            }
-            else
-            {
-                oldEntity = entity;
-            }
+            set.AddOrUpdate(entity);
         }
 
         public void Remove(T entity)

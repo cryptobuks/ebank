@@ -28,7 +28,7 @@ namespace Domain.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            var tariff0 = new Tariff()
+            var tariff0 = new Tariff
             {
                 Id = Guid.Parse("DEF8A3B2-8439-4714-8084-CA30364D1E92"),
                 Name = "Common Tariff",
@@ -45,7 +45,7 @@ namespace Domain.Migrations
                 MinTerm = 1,
                 MaxTerm = 24
             };
-            var tariff1 = new Tariff()
+            var tariff1 = new Tariff
             {
                 Id = Guid.Parse("52A139D6-E673-4F72-B5D6-10D1F33FB878"),
                 Name = "Car Tariff",
