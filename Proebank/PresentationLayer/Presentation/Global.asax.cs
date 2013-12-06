@@ -11,7 +11,7 @@ namespace Presentation
     {
         protected void Application_Start()
         {
-            Database.SetInitializer<DataContext>(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
+            Database.SetInitializer<DataContext>(new DataInitializer());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

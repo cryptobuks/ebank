@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataInitializer.cs" />
     <Compile Include="Migrations\201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.cs" />
     <Compile Include="Migrations\201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.Designer.cs">
       <DependentUpon>201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.cs</DependentUpon>

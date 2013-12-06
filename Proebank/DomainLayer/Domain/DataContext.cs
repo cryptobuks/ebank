@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Domain
 {
-    public class DataContext : IdentityDbContext<Employee>
+    public class DataContext : IdentityDbContext<IdentityUser>
     {
         public DataContext()
             : base("Proebank")

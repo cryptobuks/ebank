@@ -16,16 +16,16 @@ namespace Presentation.Controllers
         public AccountController()
         {
             var context = new DataContext();
-            var userStore = new UserStore<Employee>(context);
-            UserManager = new UserManager<Employee>(userStore);
+            var userStore = new UserStore<IdentityUser>(context);
+            UserManager = new UserManager<IdentityUser>(userStore);
         }
 
-        public AccountController(UserManager<Employee> userManager)
+        public AccountController(UserManager<IdentityUser> userManager)
         {
             UserManager = userManager;
         }
 
-        public UserManager<Employee> UserManager { get; private set; }
+        public UserManager<IdentityUser> UserManager { get; private set; }
 
         //
         // GET: /Account/Login
@@ -331,7 +331,7 @@ namespace Presentation.Controllers
             }
         }
 
-        private async Task SignInAsync(Employee user, bool isPersistent)
+        private async Task SignInAsync(IdentityUser user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
