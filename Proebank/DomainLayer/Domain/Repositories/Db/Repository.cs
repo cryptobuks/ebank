@@ -8,12 +8,10 @@ namespace Domain.Repositories.Db
     public class Repository<T> : IRepository<T> where T : Entity
     {
         private readonly DataContext _ctx;
-        private readonly object _disposingLock;
         public bool IsDisposed { get; private set; }
 
         public Repository(DataContext context)
         {
-            _disposingLock = new object();
             _ctx = context;
         }
 
@@ -47,16 +45,24 @@ namespace Domain.Repositories.Db
 
         public void Dispose()
         {
-            lock (_disposingLock)
+            Dispose(true);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
             {
-                // property can be accessed from another thread, so this lock is bad :(
-                if (IsDisposed)
+                if (disposing)
                 {
-                    throw new ObjectDisposedException("data context");
+                    _ctx.Dispose();
                 }
-                _ctx.Dispose();
                 IsDisposed = true;
             }
+        }
+
+        ~Repository()
+        {
+            Dispose(false);
         }
     }
 }

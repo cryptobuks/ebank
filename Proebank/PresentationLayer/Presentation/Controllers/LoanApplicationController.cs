@@ -101,9 +101,8 @@ namespace Presentation.Controllers
                 return RedirectToAction("Index");
             }
 
-            // TODO: change dropdown list to fill application tariff at once
             var tariffs = _service.GetTariffs();
-            ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
+            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
 

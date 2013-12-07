@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Application.LoanProcessing;
 using Domain.Enums;
@@ -14,7 +15,7 @@ using Microsoft.Practices.Unity.Configuration;
 
 namespace Application
 {
-    public class ProcessingService
+    public class ProcessingService : IDisposable
     {
         private readonly IUnityContainer _container;
         private readonly RepositoryContainer _repositories; 
@@ -29,6 +30,8 @@ namespace Application
             AccountType.OverdueInterest
         };
 
+        private bool _disposed;
+
         public ProcessingService()
         {
             _container = new UnityContainer();
@@ -36,7 +39,7 @@ namespace Application
             _repositories = new RepositoryContainer();
         }
 
-        private IRepository<T> GetRepository<T>() where T : IEntity
+        private IRepository<T> GetRepository<T>() where T : Entity
         {
             var repo = _repositories.Get<T>();
             if (repo != null && repo.IsDisposed)
@@ -59,8 +62,7 @@ namespace Application
             // TODO: lock any other account operations!
             lock (DaySync)
             {
-                var calendarRepo = GetRepository<Calendar>();
-                var currentCalendar = calendarRepo.GetAll().First();
+                var currentCalendar = GetCalendar();
                 var date = currentCalendar.CurrentTime.HasValue
                     ? currentCalendar.CurrentTime.Value
                     : DateTime.UtcNow;
@@ -341,8 +343,7 @@ namespace Application
         {
             var tariffRepo = GetRepository<Tariff>();
             var tariff = tariffRepo.GetAll().Single(t => t.Id.Equals(id));
-            var calendarRepo = GetRepository<Calendar>();   // TODO: helper method to get current time
-            tariff.EndDate = calendarRepo.GetAll().First().CurrentTime.Value;
+            tariff.EndDate = GetCurrentDate();
             tariffRepo.Remove(tariff);
             tariffRepo.SaveChanges();
         }
@@ -358,34 +359,33 @@ namespace Application
         #endregion
 
         #region BankCalendar methods
-
-        // TODO: try TimeSpan if it works well for all time cases
-        // TODO: all DateTime.UtcNow should be replaced with exceptions
         private DateTime MoveTime(byte days)
         {
+            var currentCalendar = GetCalendar(true);
+            Debug.Assert(currentCalendar != null, "currentCalendar != null");
+            Debug.Assert(currentCalendar.CurrentTime != null, "currentCalendar.CurrentTime != null");
+            var result = currentCalendar.CurrentTime.Value + new TimeSpan(1, 0, 0, 0);
+            currentCalendar.CurrentTime = result;
+            currentCalendar.ProcessingLock = false;
+            GetRepository<Calendar>().SaveChanges();
+            return result;
+        }
+
+        private Calendar GetCalendar(bool withLock = false)
+        {
             var calendarRepository = GetRepository<Calendar>();
-            var currentCalendar = calendarRepository.GetAll().First();
-            var result = currentCalendar.CurrentTime.HasValue ? currentCalendar.CurrentTime.Value : DateTime.UtcNow;
-            if (!currentCalendar.ProcessingLock)
+            var calendar = calendarRepository.GetAll().Single();
+            if (withLock)
             {
-                currentCalendar.ProcessingLock = true;
-                calendarRepository.AddOrUpdate(currentCalendar);
-                calendarRepository.SaveChanges();
-                var calendar2 = calendarRepository.GetAll().First();
-                if (calendar2.Equals(currentCalendar))
+                if (!calendar.ProcessingLock)
                 {
-                    calendar2.CurrentTime = calendar2.CurrentTime.HasValue
-                        ? calendar2.CurrentTime.Value.AddDays(days)
-                        : DateTime.UtcNow;
-                    result = calendar2.CurrentTime.Value;
-                    calendar2.ProcessingLock = false;
-                    // TODO: is it needed to update it explicitly?
-                    calendarRepository.AddOrUpdate(calendar2);
+                    calendar.ProcessingLock = true;
+                    calendarRepository.AddOrUpdate(calendar);
                     calendarRepository.SaveChanges();
                 }
-                else throw new Exception("BankCalendar is locked");
+                throw new Exception("Calendar is locked");
             }
-            return result;
+            return calendar;
         }
 
         private void UpdateDailyProcessingTime()
@@ -399,29 +399,30 @@ namespace Application
 
         private void UpdateMonthlyProcessingTime()
         {
-            using (var calendarRepo = GetRepository<Calendar>())
-            {
-                var currentCalendar = calendarRepo.GetAll().First();
-                currentCalendar.LastMonthlyProcessingTime = currentCalendar.CurrentTime;
-                calendarRepo.AddOrUpdate(currentCalendar); // TODO: can it be removed?
-                calendarRepo.SaveChanges();
-            }
+            var calendarRepo = GetRepository<Calendar>();
+            var currentCalendar = calendarRepo.GetAll().First();
+            currentCalendar.LastMonthlyProcessingTime = currentCalendar.CurrentTime;
+            calendarRepo.AddOrUpdate(currentCalendar); // TODO: can it be removed?
+            calendarRepo.SaveChanges();
         }
 
-        public Calendar GetCurrentDate()
+        public DateTime GetCurrentDate()
         {
             var calendarRepo = GetRepository<Calendar>();
-            if (calendarRepo.GetAll().Any())
+            var calendar = calendarRepo.GetAll().SingleOrDefault();
+            if (calendar != null)
             {
-                return calendarRepo.GetAll().First();
+                Debug.Assert(calendar.CurrentTime != null, "calendar.CurrentTime != null");
+                return calendar.CurrentTime.Value;
             }
-            var calendar = new Calendar
+            calendar = new Calendar
             {
                 Id = Calendar.ConstGuid,
                 CurrentTime = DateTime.UtcNow
             };
             calendarRepo.AddOrUpdate(calendar);
-            return calendar;
+            Debug.Assert(calendar.CurrentTime != null, "calendar.CurrentTime != null");
+            return calendar.CurrentTime.Value;
         }
 
         public void SetCurrentDate(DateTime dateTime)
@@ -485,5 +486,28 @@ namespace Application
             accountRepo.AddOrUpdate(account);
         }
         #endregion
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    var allRepos = _repositories.GetAll();
+                    foreach (var repository in allRepos.OfType<IDisposable>())
+                    {
+                        repository.Dispose();
+                    }
+                    allRepos.Clear();
+                    _container.Dispose();
+                }
+                _disposed = true;
+            }
+        }
     }
 }

@@ -15,7 +15,13 @@ namespace Application.LoanProcessing
             var interestRate = application.Tariff.InterestRate;
             // TODO: take from schedule for current date
             var accrual = amount * interestRate / application.Term;
-            return new Entry {Amount = accrual, Type = EntryType.Accrual, SubType = EntrySubType.Interest};
+            return new Entry
+            {
+                Amount = accrual,
+                Type = EntryType.Accrual,
+                SubType = EntrySubType.Interest,
+                Date = date
+            };
         }
     }
 }

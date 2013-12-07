@@ -24,5 +24,15 @@ namespace Domain.Repositories
         {
             _repositories.Remove(repository);
         }
+
+        /// <summary>
+        /// Normally it should be used for enumerating all repositories.
+        /// When you need only one of them, you should use Get() method
+        /// </summary>
+        /// <returns>All repositories in container</returns>
+        public List<object> GetAll()
+        {
+            return _repositories;
+        }
     }
 }

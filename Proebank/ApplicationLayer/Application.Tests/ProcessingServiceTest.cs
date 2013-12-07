@@ -12,15 +12,15 @@ namespace Application.Tests
     [TestClass]
     public class ProcessingServiceTest
     {
-        private static ProcessingService _service;
-        private static Loan _loan;
-        private static LoanApplication _validLoanApp;
-        private static Tariff _tariff;
-        private static Document _passport;
-        private static Customer _customer;
+        private ProcessingService _service;
+        private Loan _loan;
+        private LoanApplication _validLoanApp;
+        private Tariff _tariff;
+        private Document _passport;
+        private Customer _customer;
 
-        [ClassInitialize]
-        public static void InitService(TestContext context)
+        [TestInitialize]
+        public void InitService()
         {
             _service = new ProcessingService();
             _service.SetCurrentDate(new DateTime(2013, 12, 07));
@@ -74,14 +74,20 @@ namespace Application.Tests
             _loan = _service.CreateLoanContract(_customer, _validLoanApp);
         }
 
-        // TODO CRITICAL: need save time. But we don't need to really use db, because we can't update it automatically
-        //[TestMethod]
-        //public void ProcessEndOfMonth()
-        //{
-        //    _service.SetCurrentDateTime(new DateTime(2013, 11, 1, 15, 0, 0));
-        //    _service.ProcessEndOfMonth(DateTime.UtcNow);
-        //    Assert.AreEqual(1, _loan.Accounts.First(a => a.Type == AccountType.Interest).Entries.Count);
-        //}
+        [TestCleanup]
+        public void CleanUpService()
+        {
+            _service.Dispose();
+        }
+
+        [TestMethod]
+        public void ProcessEndOfMonth()
+        {
+            _service.SetCurrentDate(new DateTime(2013, 11, 30, 15, 0, 0));
+            var nextDay = _service.ProcessEndOfDay(); // should call process end of month because next day is the December, 1
+            Assert.AreEqual(new DateTime(2013, 12, 1, 15, 0, 0), nextDay);
+            Assert.AreEqual(1, _loan.Accounts.First(a => a.Type == AccountType.Interest).Entries.Count);
+        }
 
         [TestMethod]
         public void CreateLoanContract()

@@ -9,12 +9,10 @@ namespace Domain.Repositories.Fakes
     public class Repository<T> : IRepository<T> where T : Entity
     {
         private ObservableCollection<T> _collection;
-        private readonly object _disposingLock;
         public bool IsDisposed { get; private set; }
 
         public Repository()
         {
-            _disposingLock = new object();
             _collection = new ObservableCollection<T>();
         }
 
@@ -50,22 +48,31 @@ namespace Domain.Repositories.Fakes
 
         public void SaveChanges()
         {
-            Trace.WriteLine("Changes saved");
+            Trace.WriteLine("Changes saved (fake repository)");
         }
 
         public void Dispose()
         {
+            Dispose(true);
+        }
+
+        private void Dispose(bool disposing)
+        {
             // fake disposing
-            lock (_disposingLock)
+            if (!IsDisposed)
             {
-                if (IsDisposed)
+                if (disposing)
                 {
-                    throw new ObjectDisposedException("data context");
+                    _collection.Clear();
+                    _collection = null;
                 }
-                _collection.Clear();
-                _collection = null;
                 IsDisposed = true;
             }
+        }
+
+        ~Repository()
+        {
+            Dispose(false);
         }
     }
 }

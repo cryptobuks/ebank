@@ -60,7 +60,6 @@ namespace Domain.Models.Loans
             var term = loanApplication.Term;
             var isAmountValid = amount >= MinAmount && amount <= MaxAmount;
             var isTermValid = term >= MinTerm && term <= MaxTerm;
-            // TODO: complete
             return isAmountValid && isTermValid;
         }
 
