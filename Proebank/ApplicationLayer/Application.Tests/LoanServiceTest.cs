@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Domain.Enums;
+using Domain.Models.Accounts;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,7 +24,15 @@ namespace Application.Tests
         [ClassInitialize]
         public static void InitService(TestContext context)
         {
-            _service = new ProcessingService();
+            _service = new ProcessingService(); var bankAccountByr = _service.CreateAccount(Currency.BYR, AccountType.BankBalance);
+            _service.AddEntry(bankAccountByr, new Entry()
+            {
+                Amount = 1E14M,
+                Date = DateTime.UtcNow,
+                Currency = Currency.BYR,
+                Type = EntryType.Capital,
+                SubType = EntrySubType.CharterCapital
+            });
             _customer = new Customer
             {
                 UserName = "test_customer",
@@ -47,6 +56,7 @@ namespace Application.Tests
             _tariff = new Tariff
             {
                 CreationDate = new DateTime(2013, 07, 01),
+                Currency = Currency.BYR,
                 EndDate = null,
                 InitialFee = 0,
                 InterestRate = 0.75M,
@@ -63,6 +73,7 @@ namespace Application.Tests
             _validLoanApp = new LoanApplication
             {
                 CellPhone = "+375291000000",
+                Currency = Currency.BYR,
                 Documents = new Collection<Document> { _passport },
                 LoanAmount = 5.5E7M,
                 LoanPurpose = LoanPurpose.Common,
@@ -73,6 +84,7 @@ namespace Application.Tests
             _invalidLoanApp = new LoanApplication
             {
                 CellPhone = "+375291000000",
+                Currency = Currency.BYR,
                 Documents = new Collection<Document> { _passport },
                 LoanAmount = 5.5E11M,
                 LoanPurpose = LoanPurpose.Common,

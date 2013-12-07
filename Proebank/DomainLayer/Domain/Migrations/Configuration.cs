@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Domain.Enums;
+using Domain.Models.Accounts;
 using Domain.Models.Calendars;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
@@ -21,6 +22,9 @@ namespace Domain.Migrations
         private readonly Guid _securityUserId;
         private readonly Guid _committeeUserId;
         private readonly Guid _headUserId;
+        private readonly Guid _bankAccByr;
+        private readonly Guid _bankAccEur;
+        private readonly Guid _bankAccUsd;
 
         public Configuration()
         {
@@ -32,6 +36,9 @@ namespace Domain.Migrations
             _securityUserId = Guid.Parse("CAF1154E-37ED-45E7-80BE-FC490AEB53A8");
             _committeeUserId = Guid.Parse("894BBEDC-F68A-4683-9003-63F72F9652A5");
             _headUserId = Guid.Parse("219D15DF-1849-4C98-9B3D-8B709572036F");
+            _bankAccByr = Guid.Parse("9B913259-EA90-4D2D-9DF8-2E6780D27F90");
+            _bankAccEur = Guid.Parse("A15D1E0C-CC36-4538-B305-6256C8550EBC");
+            _bankAccUsd = Guid.Parse("F9DB5805-E738-4236-B0C8-A24D839BF60F");
         }
 
         protected override void Seed(DataContext context)
@@ -39,8 +46,19 @@ namespace Domain.Migrations
             //  This method will be called after migrating to the latest version.
 
             base.Seed(context);
+            var bankCreationDate = new DateTime(2013, 8, 15);
 
-            #region seed user roles
+            #region seed calendar
+            var calendarEntry = new Calendar
+                {
+                    Id = Calendar.ConstGuid,
+                    CurrentTime = bankCreationDate,
+                    ProcessingLock = false
+                };
+            context.Calendars.AddOrUpdate(c => c.Id, calendarEntry); 
+            #endregion
+
+            #region seed users and users' roles
             var userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var roleNames = new[]
@@ -114,12 +132,68 @@ namespace Domain.Migrations
             } 
             #endregion
 
+            #region seed bank account
+            var bankAccountByr = new Account
+            {
+                Currency = Currency.BYR,
+                DateOpened = bankCreationDate,
+                Id = _bankAccByr,
+                Number = 1,
+                Entries = new List<Entry>(),
+                Type = AccountType.BankBalance
+            };
+            var bankAccountEur = new Account
+            {
+                Currency = Currency.EUR,
+                DateOpened = bankCreationDate,
+                Id = _bankAccByr,
+                Number = 1,
+                Entries = new List<Entry>(),
+                Type = AccountType.BankBalance
+            };
+            var bankAccountUsd = new Account
+            {
+                Currency = Currency.USD,
+                DateOpened = bankCreationDate,
+                Id = _bankAccByr,
+                Number = 1,
+                Entries = new List<Entry>(),
+                Type = AccountType.BankBalance
+            };
+
+            bankAccountByr.Entries.Add(new Entry()
+            {
+                Amount = 1E14M,
+                Date = bankCreationDate,
+                Currency = Currency.BYR,
+                Type = EntryType.Capital,
+                SubType = EntrySubType.CharterCapital
+            });
+            bankAccountEur.Entries.Add(new Entry()
+            {
+                Amount = 1E8M,
+                Date = bankCreationDate,
+                Currency = Currency.EUR,
+                Type = EntryType.Capital,
+                SubType = EntrySubType.CharterCapital
+            });
+            bankAccountUsd.Entries.Add(new Entry()
+            {
+                Amount = 1E8M,
+                Date = bankCreationDate,
+                Currency = Currency.USD,
+                Type = EntryType.Capital,
+                SubType = EntrySubType.CharterCapital
+            });
+            #endregion
+
             #region seed tariffs
             var tariff0 = new Tariff
                 {
                     Id = Guid.Parse("DEF8A3B2-8439-4714-8084-CA30364D1E92"),
                     Name = "Common Tariff",
                     CreationDate = new DateTime(2013, 9, 1),
+                    Currency = Currency.BYR,
                     EndDate = null,
                     InitialFee = 0M,
                     InterestRate = 0.5M,
@@ -137,6 +211,7 @@ namespace Domain.Migrations
                 Id = Guid.Parse("52A139D6-E673-4F72-B5D6-10D1F33FB878"),
                 Name = "Car Tariff",
                 CreationDate = new DateTime(2013, 9, 1),
+                Currency = Currency.BYR,
                 EndDate = null,
                 InitialFee = 0M,
                 InterestRate = 0.4M,
@@ -151,16 +226,6 @@ namespace Domain.Migrations
             };
             context.Tariffs.AddOrUpdate(t => t.Id, tariff0);
             context.Tariffs.AddOrUpdate(t => t.Id, tariff1); 
-            #endregion
-
-            #region seed calendar
-            var calendarEntry = new Calendar
-                {
-                    Id = Calendar.ConstGuid,
-                    CurrentTime = new DateTime(2013, 11, 1, 15, 0, 0),
-                    ProcessingLock = false
-                };
-            context.Calendars.AddOrUpdate(c => c.Id, calendarEntry); 
             #endregion
 
             context.SaveChanges();

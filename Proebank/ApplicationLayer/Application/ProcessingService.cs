@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using Application.LoanProcessing;
@@ -62,10 +63,7 @@ namespace Application
             // TODO: lock any other account operations!
             lock (DaySync)
             {
-                var currentCalendar = GetCalendar();
-                var date = currentCalendar.CurrentTime.HasValue
-                    ? currentCalendar.CurrentTime.Value
-                    : DateTime.UtcNow;
+                var date = GetCurrentDate();
                 ProcessContractServiceAccounts();
                 if (date.Day == DateTime.DaysInMonth(date.Year, date.Month))
                 {
@@ -90,13 +88,14 @@ namespace Application
 
         public Loan CreateLoanContract(Customer customer, LoanApplication application)
         {
-            // TODO: CRITICAL: check bank balance
+            var bankAccount = GetBankAccount(application.Currency);
+
             var schedule = LoanCalculatePaymentSchedule(application);
             var accounts = new List<Account>(LoanAccountTypes
                 .Select(accountType =>
                     CreateAccount(application.Currency, accountType)));
             var generalDebtAcc = accounts.Single(a => a.Type == AccountType.GeneralDebt);
-            var entryDate = DateTime.UtcNow;
+            var entryDate = GetCurrentDate();
             var initialEntry = new Entry
             {
                 Amount = application.LoanAmount,
@@ -106,8 +105,12 @@ namespace Application
                 SubType = EntrySubType.GeneralDebt,
             };
             application.Status = LoanApplicationStatus.Contracted;
-            // TODO: CRITICAL: add entry to bank balance
-            AddEntry(generalDebtAcc, initialEntry); 
+
+            var bankEntry = Entry.GetOppositeFor(initialEntry);
+            bankEntry.Type = EntryType.Transfer;
+            bankEntry.SubType = EntrySubType.BankLoanIssued;
+            AddEntry(generalDebtAcc, initialEntry);
+            AddEntry(bankAccount, bankEntry);
 
             var loan = new Loan
             {
@@ -119,6 +122,12 @@ namespace Application
             };
             UpsertLoan(loan);
             return loan;
+        }
+
+        private Account GetBankAccount(Currency currency)
+        {
+            var accountRepo = GetRepository<Account>();
+            return accountRepo.Where(acc => acc.Type == AccountType.BankBalance &&  acc.Currency == currency).Single();
         }
 
         /// <summary>
@@ -135,7 +144,7 @@ namespace Application
             {
                 Amount = amount,
                 Currency = loan.Application.Currency,
-                Date = DateTime.UtcNow,
+                Date = GetCurrentDate(),
                 Type = EntryType.Payment,
                 SubType = EntrySubType.ContractService
             };
@@ -185,7 +194,7 @@ namespace Application
                         {
                             Amount = interestPayment,
                             Currency = loan.Application.Currency,
-                            Date = DateTime.UtcNow,
+                            Date = GetCurrentDate(),
                             Type = EntryType.Payment,
                             SubType = EntrySubType.Interest
                         };
@@ -202,7 +211,7 @@ namespace Application
                         {
                             Amount = generalDebtPayment,
                             Currency = loan.Application.Currency,
-                            Date = DateTime.UtcNow,
+                            Date = GetCurrentDate(),
                             Type = EntryType.Payment,
                             SubType = EntrySubType.GeneralDebt
                         };
@@ -354,7 +363,8 @@ namespace Application
             {
                 throw new ArgumentException("loanApplication");
             }
-            return loanApplication.Tariff.Validate(loanApplication);
+            var isEnoughMoney = GetBankAccount(loanApplication.Currency).Balance >= loanApplication.LoanAmount;
+            return isEnoughMoney && loanApplication.Tariff.Validate(loanApplication);
         }
         #endregion
 
@@ -383,7 +393,10 @@ namespace Application
                     calendarRepository.AddOrUpdate(calendar);
                     calendarRepository.SaveChanges();
                 }
-                throw new Exception("Calendar is locked");
+                else
+                {
+                    throw new Exception("Calendar is locked");
+                }
             }
             return calendar;
         }
@@ -393,7 +406,7 @@ namespace Application
             var calendarRepository = GetRepository<Calendar>();
             var currentCalendar = calendarRepository.GetAll().First();
             currentCalendar.LastDailyProcessingTime = currentCalendar.CurrentTime;
-            calendarRepository.AddOrUpdate(currentCalendar); // TODO: can it be removed?
+            calendarRepository.AddOrUpdate(currentCalendar);
             calendarRepository.SaveChanges();
         }
 
@@ -402,7 +415,7 @@ namespace Application
             var calendarRepo = GetRepository<Calendar>();
             var currentCalendar = calendarRepo.GetAll().First();
             currentCalendar.LastMonthlyProcessingTime = currentCalendar.CurrentTime;
-            calendarRepo.AddOrUpdate(currentCalendar); // TODO: can it be removed?
+            calendarRepo.AddOrUpdate(currentCalendar);
             calendarRepo.SaveChanges();
         }
 
@@ -449,10 +462,16 @@ namespace Application
         public Account CreateAccount(Currency currency, AccountType accountType)
         {
             var accountRepo = GetRepository<Account>();
+            var accountWithSameType = accountRepo.Where(a => a.Type.Equals(accountType));
+            var nextNumber = accountWithSameType.Any()
+                ? accountWithSameType.Max(a => a.Number) + 1
+                : 1;
             var acc = new Account
             {
                 Currency = currency,
-                DateOpened = DateTime.UtcNow,
+                DateOpened = GetCurrentDate(),
+                Entries = new Collection<Entry>(),
+                Number = nextNumber,
                 Type = accountType,
             };
             accountRepo.AddOrUpdate(acc);
@@ -460,7 +479,7 @@ namespace Application
             return acc;
         }
 
-        private void AddEntry(Account account, Entry entry)
+        public void AddEntry(Account account, Entry entry)
         {
             var accountRepo = GetRepository<Account>();
             if (account == null)
@@ -474,7 +493,7 @@ namespace Application
             accountRepo.SaveChanges();
         }
 
-        private void CloseAccount(Account account)
+        public void CloseAccount(Account account)
         {
             var accountRepo = GetRepository<Account>();
             if (account.IsClosed)
@@ -482,7 +501,7 @@ namespace Application
                 throw new ArgumentException("Account is already closed");
             }
             account.IsClosed = true;
-            account.DateClosed = DateTime.UtcNow;
+            account.DateClosed = GetCurrentDate();
             accountRepo.AddOrUpdate(account);
         }
         #endregion

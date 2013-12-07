@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using System.Collections.Generic;
+using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
@@ -12,18 +13,28 @@ namespace Application.Tests
     [TestClass]
     public class ProcessingServiceTest
     {
-        private ProcessingService _service;
-        private Loan _loan;
-        private LoanApplication _validLoanApp;
-        private Tariff _tariff;
-        private Document _passport;
-        private Customer _customer;
+        private static ProcessingService _service;
+        private static Loan _loan;
+        private static LoanApplication _validLoanApp;
+        private static Tariff _tariff;
+        private static Document _passport;
+        private static Customer _customer;
 
-        [TestInitialize]
-        public void InitService()
+        [ClassInitialize]
+        public static void InitService(TestContext context)
         {
             _service = new ProcessingService();
             _service.SetCurrentDate(new DateTime(2013, 12, 07));
+
+            var bankAccountByr = _service.CreateAccount(Currency.BYR, AccountType.BankBalance);
+            _service.AddEntry(bankAccountByr, new Entry()
+            {
+                Amount = 1E14M,
+                Date = DateTime.UtcNow,
+                Currency = Currency.BYR,
+                Type = EntryType.Capital,
+                SubType = EntrySubType.CharterCapital
+            });
             _customer = new Customer
             {
                 UserName = "test_customer",
@@ -47,6 +58,7 @@ namespace Application.Tests
             _tariff = new Tariff
             {
                 CreationDate = new DateTime(2013, 07, 01),
+                Currency = Currency.BYR,
                 EndDate = null,
                 InitialFee = 0,
                 InterestRate = 0.75M,
@@ -59,10 +71,10 @@ namespace Application.Tests
                 MinAmount = 1.0E6M,
                 Name = "NeverSeeMeAgain"
             };
-            //_service.SaveOrUpdateTariff(tariff);
             _validLoanApp = new LoanApplication
             {
                 CellPhone = "+375291000000",
+                Currency = _tariff.Currency,
                 Documents = new Collection<Document> { _passport },
                 LoanAmount = 5.5E7M,
                 LoanPurpose = LoanPurpose.Common,
@@ -70,14 +82,7 @@ namespace Application.Tests
                 Term = 3,
                 TimeCreated = DateTime.Now
             };
-            // TODO: check 2 cases: existing user and new
             _loan = _service.CreateLoanContract(_customer, _validLoanApp);
-        }
-
-        [TestCleanup]
-        public void CleanUpService()
-        {
-            _service.Dispose();
         }
 
         [TestMethod]
@@ -92,10 +97,10 @@ namespace Application.Tests
         [TestMethod]
         public void CreateLoanContract()
         {
-            // TODO: add data!
             var loan = _service.CreateLoanContract(_customer, new LoanApplication
             {
                 CellPhone = "+37529-CREATE-LOAN-CONTRACT",
+                Currency = _tariff.Currency,
                 Documents = new Collection<Document> { _passport },
                 LoanAmount = 1000000,
                 LoanPurpose = LoanPurpose.Common,
@@ -104,13 +109,14 @@ namespace Application.Tests
                 TimeCreated = DateTime.Now,
             });
             Assert.IsNotNull(loan);
-            // TODO: add check of accounts and so on
+            Assert.IsNotNull(loan.PaymentSchedule);
+            Assert.AreEqual(3, loan.PaymentSchedule.Payments.Count);
         }
-
 
         [TestMethod]
         public void ProcessEndOfDay()
         {
+            _service.SetCurrentDate(new DateTime(2013, 11, 29, 15, 0, 0));
             _service.RegisterPayment(_loan, 1.0E4M);
             _service.ProcessEndOfDay();
             var contractServiceAcc = _loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);

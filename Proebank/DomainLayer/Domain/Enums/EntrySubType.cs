@@ -2,10 +2,11 @@
 {
     public enum EntrySubType : int
     {
-        CharterCapital,
-        ContractService,
-        GeneralDebt,
-        Interest,
-        Fine,
+        CharterCapital,     // for bank accounts - it's initialization
+        ContractService,    // main account for loan
+        GeneralDebt,        // general debt
+        Interest,           // accrued interest
+        Fine,               // delay in payments
+        BankLoanIssued,     // bank signed loan and gave money to customer
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Application.FinancialFunctions;
 using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Loans;
@@ -18,6 +19,7 @@ namespace Application.LoanProcessing
             return new Entry
             {
                 Amount = accrual,
+                Currency = loan.Application.Currency,
                 Type = EntryType.Accrual,
                 SubType = EntrySubType.Interest,
                 Date = date

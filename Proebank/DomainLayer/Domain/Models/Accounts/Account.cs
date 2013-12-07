@@ -12,11 +12,6 @@ namespace Domain.Models.Accounts
     /// </summary>
     public class Account : Entity
     {
-        public Account()
-        {
-            Entries = new List<Entry>();
-        }
-
         public AccountType Type { get; set; }
 
         /// <summary>
@@ -39,11 +34,6 @@ namespace Domain.Models.Accounts
         public DateTime? DateClosed { get; set; }
 
         public bool IsClosed { get; set; }
-
-        public bool SameIdentityAs(Account other)
-        {
-            return other != null && other.Id.Equals(Id);
-        }
 
         [NotMapped]
         public decimal Balance
