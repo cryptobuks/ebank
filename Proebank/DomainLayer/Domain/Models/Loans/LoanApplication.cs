@@ -30,6 +30,8 @@ namespace Domain.Models.Loans
 
         public virtual Tariff Tariff { get; set; }
 
+        public Guid TariffId { get; set; }
+
         [DisplayName("Loan Purpose")]
         public LoanPurpose LoanPurpose { get; set; }
 
@@ -39,7 +41,6 @@ namespace Domain.Models.Loans
         [DisplayName("Documents")]
         public virtual ICollection<Document> Documents { get; set; }
 
-        // TODO: implement explicit choice
         [DisplayName("Currency")]
         public Currency Currency { get; set; }
     }

@@ -17,14 +17,14 @@ namespace Domain.Repositories.Db
             _ctx = context;
         }
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetAll(bool showRemoved = false)
         {
-            return _ctx.Set<T>();
+            return _ctx.Set<T>().Where(e => showRemoved || !e.IsRemoved);
         }
 
         public IQueryable<T> Where(Func<T, bool> predicate)
         {
-            return _ctx.Set<T>().Where(predicate).AsQueryable();
+            return _ctx.Set<T>().Where(e => !e.IsRemoved && predicate(e));
         }
 
         public void AddOrUpdate(T entity)
@@ -35,7 +35,9 @@ namespace Domain.Repositories.Db
 
         public void Remove(T entity)
         {
-            _ctx.Set<T>().Remove(entity);
+            //_ctx.Set<T>().Remove(entity);
+            entity.IsRemoved = true;
+            AddOrUpdate(entity);
         }
 
         public void SaveChanges()
@@ -47,6 +49,7 @@ namespace Domain.Repositories.Db
         {
             lock (_disposingLock)
             {
+                // property can be accessed from another thread, so this lock is bad :(
                 if (IsDisposed)
                 {
                     throw new ObjectDisposedException("data context");

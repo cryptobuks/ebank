@@ -318,7 +318,13 @@ namespace Application
         #endregion
 
         #region Tariff service methods
-        public IEnumerable<Tariff> GetTariffs(Func<Tariff, bool> filter)
+        public IQueryable<Tariff> GetTariffs()
+        {
+            var tariffRepo = GetRepository<Tariff>();
+            return tariffRepo.GetAll();
+        }
+
+        public IQueryable<Tariff> GetTariffs(Func<Tariff, bool> filter)
         {
             var tariffRepo = GetRepository<Tariff>();
             return tariffRepo.Where(filter);
@@ -335,6 +341,8 @@ namespace Application
         {
             var tariffRepo = GetRepository<Tariff>();
             var tariff = tariffRepo.GetAll().Single(t => t.Id.Equals(id));
+            var calendarRepo = GetRepository<Calendar>();   // TODO: helper method to get current time
+            tariff.EndDate = calendarRepo.GetAll().First().CurrentTime.Value;
             tariffRepo.Remove(tariff);
             tariffRepo.SaveChanges();
         }

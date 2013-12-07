@@ -9,15 +9,19 @@ namespace Domain.Models
     public interface IEntity
     {
         Guid Id { get; }
+        bool IsRemoved { get; }
     }
 
     public abstract class Entity : IEntity
     {
         public Guid Id { get; set; }
 
+        public bool IsRemoved { get; set; }
+
         protected Entity()
         {
             Id = Guid.NewGuid();
+            IsRemoved = false;
         }
 
         public override bool Equals(object obj)

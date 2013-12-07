@@ -68,7 +68,7 @@ namespace Presentation.Controllers
                     Debug.WriteLine("Generated password is: " + password);
                     return EmployeeCreated(new CreatedEmployeeViewModel {Employee = employee, Password = password});
                 }
-                // TODO: CRITICAL: output error (e.g. existing name)
+                ModelState.AddModelError("", String.Join("\n", userResult.Errors));
             }
 
             return View(employee);

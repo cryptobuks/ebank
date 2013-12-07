@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Domain.Enums;
 
 namespace Domain.Models.Loans
@@ -9,7 +10,9 @@ namespace Domain.Models.Loans
         [DisplayName("Tariff Name")]
         public string Name { get; set; }
 
-        [DisplayName("Int. Rate (0.3 means 30%)")]
+        
+        [DisplayName("Interest Rate")]
+        [DisplayFormat(DataFormatString = "{0:P}", ApplyFormatInEditMode = true)]
         public decimal InterestRate { get; set; }
 
         [DisplayName("Min Amount")]
@@ -47,6 +50,9 @@ namespace Domain.Models.Loans
 
         [DisplayName("Purpose")]
         public LoanPurpose LoanPurpose { get; set; }
+
+        [DisplayName("Currency")]
+        public Currency Currency { get; set; }
 
         public bool Validate(LoanApplication loanApplication)
         {

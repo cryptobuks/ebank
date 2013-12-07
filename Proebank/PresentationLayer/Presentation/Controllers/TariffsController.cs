@@ -18,7 +18,7 @@ namespace Presentation.Controllers
 
         public ActionResult Index()
         {
-            var tariffs = _service.GetTariffs(t => true);
+            var tariffs = _service.GetTariffs();
             return View(tariffs);
         }
 
@@ -28,7 +28,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tariff tariff = _service.GetTariffs(t => t.Id.Equals(id)).Single();
+            var tariff = _service.GetTariffs(t => t.Id.Equals(id)).Single();
             if (tariff == null)
             {
                 return HttpNotFound();

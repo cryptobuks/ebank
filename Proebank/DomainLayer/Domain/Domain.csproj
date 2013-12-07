@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201312062226089_MadePaymentsInScheduleVirtual.Designer.cs">
       <DependentUpon>201312062226089_MadePaymentsInScheduleVirtual.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201312070829039_TariffIdIsBack.cs" />
+    <Compile Include="Migrations\201312070829039_TariffIdIsBack.Designer.cs">
+      <DependentUpon>201312070829039_TariffIdIsBack.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Repositories\RepositoryContainer.cs" />
     <Compile Include="Repositories\Db\Repository.cs" />
@@ -140,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201312062226089_MadePaymentsInScheduleVirtual.resx">
       <DependentUpon>201312062226089_MadePaymentsInScheduleVirtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312070829039_TariffIdIsBack.resx">
+      <DependentUpon>201312070829039_TariffIdIsBack.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

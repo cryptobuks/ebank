@@ -104,6 +104,14 @@
                 @Html.ValidationMessageFor(model => model.LoanPurpose, null, new { @class = "help-inline" })
             </div>
         </div>
+        
+        <div class="control-group">
+            @Html.LabelFor(model => model.Currency, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Currency)
+                @Html.ValidationMessageFor(model => model.Currency, null, new { @class = "help-inline" })
+            </div>
+        </div>
 
         <div class="form-actions no-color">
             <input type="submit" value="Save" class="btn" />

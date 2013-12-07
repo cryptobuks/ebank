@@ -19,7 +19,7 @@
         <div class="control-group">
             @Html.LabelFor(model => model.LoanAmount, new { @class = "control-label" })
             <div class="controls">
-                @Html.EditorFor(model => model.LoanAmount)
+                @Html.EditorFor(model => model.LoanAmount, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.LoanAmount, null, new { @class = "help-inline" })
             </div>
         </div>
@@ -27,7 +27,7 @@
         <div class="control-group">
             @Html.LabelFor(model => model.Term, new { @class = "control-label" })
             <div class="controls">
-                @Html.EditorFor(model => model.Term)
+                @Html.EditorFor(model => model.Term, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Term, null, new { @class = "help-inline" })
             </div>
         </div>
@@ -35,20 +35,21 @@
         <div class="control-group">
             @Html.LabelFor(model => model.CellPhone, new { @class = "control-label" })
             <div class="controls">
-                @Html.EditorFor(model => model.CellPhone)
+                @Html.EditorFor(model => model.CellPhone, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CellPhone, null, new { @class = "help-inline" })
             </div>
         </div>
-
+        
+        @*TODO: http://stackoverflow.com/questions/18382311/populating-a-razor-dropdownlist-from-a-listobject-in-mvc*@
         <div class="control-group">
             @Html.LabelFor(model => model.Tariff, "Tariff", new { @class = "control-label" })
             <div class="controls">
                 @Html.DropDownList("TariffId", String.Empty)
-                @Html.ValidationMessageFor(model => model.Tariff, null, new { @class = "help-inline" })
+                @Html.ValidationMessageFor(model => model.TariffId, null, new { @class = "help-inline" })
             </div>
         </div>
 
-        <div class="control-group">
+        @*<div class="control-group">
             @Html.LabelFor(model => model.LoanPurpose, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.LoanPurpose)
@@ -62,7 +63,7 @@
                 @Html.EditorFor(model => model.Currency)
                 @Html.ValidationMessageFor(model => model.Currency, null, new { @class = "help-inline" })
             </div>
-        </div>
+        </div>*@
         
 
         <div class="form-actions no-color">

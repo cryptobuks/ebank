@@ -18,14 +18,14 @@ namespace Domain.Repositories.Fakes
             _collection = new ObservableCollection<T>();
         }
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetAll(bool showRemoved = false)
         {
-            return _collection.AsQueryable();
+            return _collection.Where(e => showRemoved || !e.IsRemoved).AsQueryable();
         }
 
         public IQueryable<T> Where(Func<T, bool> predicate)
         {
-            return _collection.Where(predicate).AsQueryable();
+            return _collection.Where(e => !e.IsRemoved && predicate(e)).AsQueryable();
         }
 
         public void AddOrUpdate(T entity)
@@ -43,7 +43,9 @@ namespace Domain.Repositories.Fakes
 
         public void Remove(T entity)
         {
-            _collection.Remove(entity);
+            //_collection.Remove(entity);
+            entity.IsRemoved = true;
+            AddOrUpdate(entity);
         }
 
         public void SaveChanges()
