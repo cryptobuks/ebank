@@ -2,15 +2,19 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using Domain.Models;
 
 namespace Domain.Repositories.Fakes
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : Entity
     {
         private ObservableCollection<T> _collection;
+        private readonly object _disposingLock;
+        public bool IsDisposed { get; private set; }
 
         public Repository()
         {
+            _disposingLock = new object();
             _collection = new ObservableCollection<T>();
         }
 
@@ -50,8 +54,16 @@ namespace Domain.Repositories.Fakes
         public void Dispose()
         {
             // fake disposing
-            _collection.Clear();
-            _collection = null;
+            lock (_disposingLock)
+            {
+                if (IsDisposed)
+                {
+                    throw new ObjectDisposedException("data context");
+                }
+                _collection.Clear();
+                _collection = null;
+                IsDisposed = true;
+            }
         }
     }
 }

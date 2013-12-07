@@ -21,12 +21,14 @@ namespace Presentation.Controllers
             _processingService = new ProcessingService();
         }
 
+        [Authorize(Roles = "Department head, Consultant")]
         public ActionResult Index()
         {
             var loans = _processingService.GetLoans(la => true);
             return View(loans);
         }
 
+        [Authorize(Roles = "Department head, Consultant")]
         public ActionResult Preview(Guid? loanApplicationId)
         {
             if (loanApplicationId == null)
@@ -41,6 +43,7 @@ namespace Presentation.Controllers
             return View(loanApplication);
         }
 
+        [Authorize(Roles = "Department head, Consultant")]
         public ActionResult Sign(LoanApplication loanApplication)
         {
             if (loanApplication == null)

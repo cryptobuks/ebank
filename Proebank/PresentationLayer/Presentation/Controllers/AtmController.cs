@@ -21,6 +21,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Operator")]
         [ValidateAntiForgeryToken]
         public ActionResult Index(AtmViewModel model)
         {

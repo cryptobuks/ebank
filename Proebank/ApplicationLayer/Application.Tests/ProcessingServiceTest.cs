@@ -23,7 +23,7 @@ namespace Application.Tests
         public static void InitService(TestContext context)
         {
             _service = new ProcessingService();
-
+            _service.SetCurrentDate(new DateTime(2013, 12, 07));
             _customer = new Customer
             {
                 UserName = "test_customer",
@@ -105,30 +105,12 @@ namespace Application.Tests
         [TestMethod]
         public void ProcessEndOfDay()
         {
-            var entry = new Entry
-                {
-                    Amount = 1.0E4M,
-                    Currency = _loan.Application.Currency,
-                    Date = DateTime.Now,
-                    Id = Guid.NewGuid(),
-                    SubType = EntrySubType.ContractService,
-                    Type = EntryType.Accrual
-                };
-
+            _service.RegisterPayment(_loan, 1.0E4M);
+            _service.ProcessEndOfDay();
             var contractServiceAcc = _loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
-            if (contractServiceAcc == null) return;
 
-            contractServiceAcc.Entries.Add(entry);
-            var interestAccount = _loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.Interest);
-            var generalDebtAccount = _loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.GeneralDebt);
-
-            var contractAccountcAmount = contractServiceAcc.Balance;
-            if (interestAccount != null)
-            {
-                var interestAccountAmount = interestAccount.Balance;
-                var payment = Math.Min(contractAccountcAmount, interestAccountAmount);
-            }
-            Assert.Fail("Test is not done completely");
+            Assert.IsNotNull(contractServiceAcc);
+            Assert.AreEqual(0M, contractServiceAcc.Balance);
         }
 
         [TestMethod]

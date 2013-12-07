@@ -6,15 +6,8 @@ using Domain.Models.Customers;
 
 namespace Domain.Models.Loans
 {
-    public class Loan
+    public class Loan : Entity
     {
-        public Loan()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public Guid Id { get; set; }
-
         public virtual Customer Customer { get; set; }
 
         public virtual LoanApplication Application { get; set; }

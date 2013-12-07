@@ -4,15 +4,8 @@ using Domain.Enums;
 
 namespace Domain.Models.Loans
 {
-    public class Tariff
+    public class Tariff : Entity
     {
-        public Tariff()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public Guid Id { get; set; }
-
         [DisplayName("Tariff Name")]
         public string Name { get; set; }
 
@@ -68,6 +61,7 @@ namespace Domain.Models.Loans
 
         public decimal CalculateTotalSum(decimal sum, int term)
         {
+            // TODO: use F#
             var interestRate = term*InterestRate/12;
             return (sum + sum*interestRate);
         }

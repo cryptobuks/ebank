@@ -3,17 +3,14 @@ using System.Collections.ObjectModel;
 
 namespace Domain.Models.Loans
 {
-    public class PaymentSchedule
+    public class PaymentSchedule : Entity
     {
         public PaymentSchedule()
         {
-            Id = Guid.NewGuid();
             Payments = new Collection<Payment>();
         }
 
-        public Guid Id { get; set; }
-
-        public Collection<Payment> Payments { get; private set; }
+        public virtual Collection<Payment> Payments { get; private set; }
 
         public void AddPayment(Payment payment)
         {

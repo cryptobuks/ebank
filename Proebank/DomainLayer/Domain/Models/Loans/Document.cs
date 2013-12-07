@@ -8,15 +8,8 @@ namespace Domain.Models.Loans
     /// <summary>
     /// Класс для представления документа, предъявляемого клиентом
     /// </summary>
-    public class Document 
+    public class Document : Entity
     {
-        public Document()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public Guid Id { get; set; }
-
         public string Number { get; set; }
 
         public string CustomerId { get; set; }

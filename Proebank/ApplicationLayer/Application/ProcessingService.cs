@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Application.LoanProcessing;
 using Domain.Enums;
+using Domain.Models;
 using Domain.Models.Accounts;
 using Domain.Models.Calendars;
 using Domain.Models.Customers;
@@ -16,6 +17,7 @@ namespace Application
     public class ProcessingService
     {
         private readonly IUnityContainer _container;
+        private readonly RepositoryContainer _repositories; 
         private static readonly object DaySync = new object();
         private static readonly object MonthSync = new object();
         private static readonly AccountType[] LoanAccountTypes =
@@ -31,11 +33,22 @@ namespace Application
         {
             _container = new UnityContainer();
             _container.LoadConfiguration();
+            _repositories = new RepositoryContainer();
         }
 
-        private IRepository<T> GetRepository<T>() where T : class
+        private IRepository<T> GetRepository<T>() where T : IEntity
         {
-            return _container.Resolve<IRepository<T>>();
+            var repo = _repositories.Get<T>();
+            if (repo != null && repo.IsDisposed)
+            {
+                _repositories.Remove(repo);
+            }
+            else if (repo == null)
+            {
+                repo = _container.Resolve<IRepository<T>>();
+                _repositories.Add(repo);
+            }
+            return repo;
         }
 
         /// <summary>
@@ -46,8 +59,10 @@ namespace Application
             // TODO: lock any other account operations!
             lock (DaySync)
             {
-                var date = Calendar.CurrentTime.HasValue 
-                    ? Calendar.CurrentTime.Value
+                var calendarRepo = GetRepository<Calendar>();
+                var currentCalendar = calendarRepo.GetAll().First();
+                var date = currentCalendar.CurrentTime.HasValue
+                    ? currentCalendar.CurrentTime.Value
                     : DateTime.UtcNow;
                 ProcessContractServiceAccounts();
                 if (date.Day == DateTime.DaysInMonth(date.Year, date.Month))
@@ -156,42 +171,42 @@ namespace Application
                 var contractAccount = loan.Accounts.Single(acc => acc.Type == AccountType.ContractService);
                 var amount = contractAccount.Balance;
 
-                // at first we transfer money to interest account
-                // then to generalDebtAccount
-                var interestAccount = accounts.Single(acc => acc.Type == AccountType.Interest);
-                var interestPayment = Math.Min(amount, interestAccount.Balance);
-                if (interestPayment > 0M)
+                if (amount > 0M)
                 {
-                    var interestEntryPlus = new Entry
+                    // at first we transfer money to interest account
+                    // then to generalDebtAccount
+                    var interestAccount = accounts.Single(acc => acc.Type == AccountType.Interest);
+                    var interestPayment = Math.Min(amount, interestAccount.Balance);
+                    if (interestPayment > 0M)
                     {
-                        Amount = interestPayment,
-                        Currency = loan.Application.Currency,
-                        Date = DateTime.UtcNow,
-                        Type = EntryType.Payment,
-                        SubType = EntrySubType.Interest
-                    };
-                    var interestEntryMinus = Entry.GetOppositeFor(interestEntryPlus);
-                    AddEntry(interestAccount, interestEntryPlus);
-                    AddEntry(contractAccount, interestEntryMinus);
-                    amount -= interestPayment;
-                    if (amount > 0M)
-                    {
-                        var generalDebtAccount = accounts.Single(acc => acc.Type == AccountType.GeneralDebt);
-                        var generalDebtPayment = Math.Min(amount, generalDebtAccount.Balance);
-                        if (generalDebtPayment > 0M)
+                        var interestEntryPlus = new Entry
                         {
-                            var generalDebtPlus = new Entry
-        {
-                                Amount = generalDebtPayment,
-                                Currency = loan.Application.Currency,
-                                Date = DateTime.UtcNow,
-                                Type = EntryType.Payment,
-                                SubType = EntrySubType.GeneralDebt
-                            };
-                            var generalDebtMinus = Entry.GetOppositeFor(generalDebtPlus);
-                            AddEntry(generalDebtAccount, generalDebtPlus);
-                            AddEntry(contractAccount, generalDebtMinus);
-                        }
+                            Amount = interestPayment,
+                            Currency = loan.Application.Currency,
+                            Date = DateTime.UtcNow,
+                            Type = EntryType.Payment,
+                            SubType = EntrySubType.Interest
+                        };
+                        var interestEntryMinus = Entry.GetOppositeFor(interestEntryPlus);
+                        AddEntry(interestAccount, interestEntryPlus);
+                        AddEntry(contractAccount, interestEntryMinus);
+                        amount -= interestPayment;
+                    }
+                    var generalDebtAccount = accounts.Single(acc => acc.Type == AccountType.GeneralDebt);
+                    var generalDebtPayment = Math.Min(amount, generalDebtAccount.Balance);
+                    if (generalDebtPayment > 0M)
+                    {
+                        var generalDebtPlus = new Entry
+                        {
+                            Amount = generalDebtPayment,
+                            Currency = loan.Application.Currency,
+                            Date = DateTime.UtcNow,
+                            Type = EntryType.Payment,
+                            SubType = EntrySubType.GeneralDebt
+                        };
+                        var generalDebtMinus = Entry.GetOppositeFor(generalDebtPlus);
+                        AddEntry(generalDebtAccount, generalDebtPlus);
+                        AddEntry(contractAccount, generalDebtMinus);
                     }
                 }
             }
@@ -334,16 +349,7 @@ namespace Application
         }
         #endregion
 
-        #region Calendar methods
-
-        private Calendar Calendar
-        {
-            get 
-            {
-                var calendarRepo = GetRepository<Calendar>();
-                return calendarRepo.GetAll().First(); 
-            }
-        }
+        #region BankCalendar methods
 
         // TODO: try TimeSpan if it works well for all time cases
         // TODO: all DateTime.UtcNow should be replaced with exceptions
@@ -369,7 +375,7 @@ namespace Application
                     calendarRepository.AddOrUpdate(calendar2);
                     calendarRepository.SaveChanges();
                 }
-                else throw new Exception("Calendar is locked");
+                else throw new Exception("BankCalendar is locked");
             }
             return result;
         }
@@ -413,27 +419,20 @@ namespace Application
         public void SetCurrentDate(DateTime dateTime)
         {
             var calendarRepo = GetRepository<Calendar>();
-            Calendar calendar = null;
             if (calendarRepo.GetAll().Any())
             {
                 calendarRepo.GetAll().First().CurrentTime = dateTime;
             }
             else
             {
-                calendar = new Calendar
+                var calendar = new Calendar
                 {
                     Id = Calendar.ConstGuid,
                     CurrentTime = dateTime
                 };
-            }
-            if (calendar != null)
-            {
                 calendarRepo.AddOrUpdate(calendar);
             }
-            else
-            {
-                throw new Exception("Something went wrong on setting current date");
-            }
+            calendarRepo.SaveChanges();
         }
         #endregion
 

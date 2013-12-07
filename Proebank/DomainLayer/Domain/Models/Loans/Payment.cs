@@ -2,15 +2,8 @@
 
 namespace Domain.Models.Loans
 {
-    public class Payment
+    public class Payment : Entity
     {
-        public Payment()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public Guid Id { get; set; }
-
         public DateTime ShouldBePaidBefore { get; set; }
 
         public decimal Amount { get; set; }

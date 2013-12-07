@@ -10,15 +10,12 @@ namespace Domain.Models.Accounts
     /// <summary>
     /// Банковский счёт
     /// </summary>
-    public class Account
+    public class Account : Entity
     {
         public Account()
         {
-            Id = Guid.NewGuid();
             Entries = new List<Entry>();
         }
-
-        public Guid Id { get; set; }
 
         public AccountType Type { get; set; }
 
@@ -48,7 +45,6 @@ namespace Domain.Models.Accounts
             return other != null && other.Id.Equals(Id);
         }
 
-        // TODO: check if we need it for readonly property
         [NotMapped]
         public decimal Balance
         {

@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using Domain;
+using Domain.Models.Customers;
 using Domain.Models.Users;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -78,7 +79,7 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new Employee() { UserName = model.UserName };
+                var user = new Customer() { UserName = model.UserName };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

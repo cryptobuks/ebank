@@ -47,6 +47,7 @@ namespace Presentation.Controllers
 		// 
 		// Example: public ActionResult Update([Bind(Include="ExampleProperty1,ExampleProperty2")] Model model)
         [HttpPost]
+        [Authorize(Roles = "Department head")]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Tariff tariff)
         {
@@ -61,6 +62,7 @@ namespace Presentation.Controllers
             return View(tariff);
         }
 
+        [Authorize(Roles = "Department head")]
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -81,6 +83,7 @@ namespace Presentation.Controllers
 		// 
 		// Example: public ActionResult Update([Bind(Include="ExampleProperty1,ExampleProperty2")] Model model)
         [HttpPost]
+        [Authorize(Roles = "Department head")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Tariff tariff)
         {
@@ -93,6 +96,7 @@ namespace Presentation.Controllers
         }
 
         // GET: /Tariffs/Delete/5
+        [Authorize(Roles = "Department head")]
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -109,6 +113,7 @@ namespace Presentation.Controllers
 
         // POST: /Tariffs/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Department head")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {

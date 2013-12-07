@@ -6,15 +6,8 @@ using Domain.Enums;
 
 namespace Domain.Models.Loans
 {
-    public class LoanApplication
+    public class LoanApplication : Entity
     {
-        public LoanApplication()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public Guid Id { get; set; }
-
         [DisplayName("Loan Amount")]
         [Range(0, 100000000)]
         public decimal LoanAmount { get; set; }

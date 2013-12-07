@@ -55,5 +55,7 @@ namespace Domain
                 throw;
             }
         }
+
+        public System.Data.Entity.DbSet<Domain.Models.Users.Employee> Employees { get; set; }
     }
 }

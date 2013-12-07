@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using Domain.Models;
 
 namespace Domain.Repositories.Db
 {
-    // TODO:  where T : IEntity
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : Entity
     {
         private readonly DataContext _ctx;
+        private readonly object _disposingLock;
+        public bool IsDisposed { get; private set; }
 
         public Repository(DataContext context)
         {
+            _disposingLock = new object();
             _ctx = context;
         }
 
@@ -42,7 +45,15 @@ namespace Domain.Repositories.Db
 
         public void Dispose()
         {
-            _ctx.Dispose();
+            lock (_disposingLock)
+            {
+                if (IsDisposed)
+                {
+                    throw new ObjectDisposedException("data context");
+                }
+                _ctx.Dispose();
+                IsDisposed = true;
+            }
         }
     }
 }

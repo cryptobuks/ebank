@@ -1,0 +1,14 @@
+﻿@model Presentation.Models.CreatedEmployeeViewModel
+@{
+    ViewBag.Title = "EmployeeCreated";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New employee  has been created</h2>
+
+<p>Employee's name: <b>@Html.Label(String.Join(" ", Model.Employee.FirstName, Model.Employee.LastName))</b></p>
+<p>Employee's login: <b>@Html.Label(Model.Employee.UserName)</b></p>
+<p>Employee's password: <b>@Html.Label(Model.Password)</b></p>
+<p><a class="btn btn-primary btn-large" href="javascript:window.print()">Print password</a></p>
+@*<p><a class="btn btn-primary btn-large" href="@Url.Action("Index")">Back to List</a></p>*@
+<p><a class="btn btn-primary btn-large" href="@Html.ActionLink("Back to List", "Index")">Back to List</a></p>

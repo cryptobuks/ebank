@@ -66,6 +66,12 @@
     <Compile Include="Migrations\201311272313124_RemovedTariffIdFromLoanApplication.Designer.cs">
       <DependentUpon>201311272313124_RemovedTariffIdFromLoanApplication.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201312062226089_MadePaymentsInScheduleVirtual.cs" />
+    <Compile Include="Migrations\201312062226089_MadePaymentsInScheduleVirtual.Designer.cs">
+      <DependentUpon>201312062226089_MadePaymentsInScheduleVirtual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entity.cs" />
+    <Compile Include="Repositories\RepositoryContainer.cs" />
     <Compile Include="Repositories\Db\Repository.cs" />
     <Compile Include="Repositories\Fakes\Repository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
@@ -131,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201311272313124_RemovedTariffIdFromLoanApplication.resx">
       <DependentUpon>201311272313124_RemovedTariffIdFromLoanApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312062226089_MadePaymentsInScheduleVirtual.resx">
+      <DependentUpon>201312062226089_MadePaymentsInScheduleVirtual.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

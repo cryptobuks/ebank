@@ -7,12 +7,5 @@ namespace Presentation.Controllers
     [Authorize]
     public abstract class BaseController : Controller
     {
-        //public IUnityContainer Container;
-
-        //public BaseController()
-        //{
-        //    Container = new UnityContainer();
-        //    Container.LoadConfiguration();
-        //}
     }
 }

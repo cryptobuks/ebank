@@ -8,15 +8,8 @@ namespace Domain.Models.Accounts
     /// <summary>
     /// Какая-либо операция со счётом (Account): начисление платежей или процентов
     /// </summary>
-    public class Entry
+    public class Entry : Entity
     {
-        public Entry()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public Guid Id { get; set; }
-
         public decimal Amount { get; set; }
 
         public Currency Currency { get; set; }

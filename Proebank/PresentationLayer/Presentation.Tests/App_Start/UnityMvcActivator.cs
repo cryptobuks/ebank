@@ -19,7 +19,6 @@ namespace Presentation.Tests.App_Start
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
 
-            // TODO: Uncomment if you want to use PerRequestLifetimeManager
             Microsoft.Web.Infrastructure.DynamicModuleHelper.DynamicModuleUtility.RegisterModule(typeof(UnityPerRequestHttpModule));
         }
     }

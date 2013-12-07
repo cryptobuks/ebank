@@ -18,11 +18,11 @@ namespace Presentation.Controllers
             _service = new ProcessingService();
         }
 
+        //[Authorize(Roles = "Department head, Consultant, Security service")]
         public ActionResult Index()
         {
             var loanApplications = _service.GetLoanApplications(la => true);//.Include(l => l.Tariff);
             ViewBag.ActiveTab = "All";
-            // TODO: get rid of ToList()
             return View(loanApplications);
         }
 
