@@ -10,7 +10,6 @@ namespace Presentation.Controllers
 
         public ProcessingController()
         {
-            // TODO: remove something or create loan service property
             _service = new ProcessingService();
         }
 

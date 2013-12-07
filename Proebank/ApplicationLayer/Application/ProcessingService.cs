@@ -19,9 +19,11 @@ namespace Application
     public class ProcessingService : IDisposable
     {
         private readonly IUnityContainer _container;
-        private readonly RepositoryContainer _repositories; 
-        private static readonly object DaySync = new object();
-        private static readonly object MonthSync = new object();
+        private readonly RepositoryContainer _repositories;
+        private bool _disposed;
+
+        private static bool DaySync;
+        private static bool MonthSync;
         private static readonly AccountType[] LoanAccountTypes =
         {
             AccountType.ContractService,
@@ -30,8 +32,6 @@ namespace Application
             AccountType.OverdueGeneralDebt, 
             AccountType.OverdueInterest
         };
-
-        private bool _disposed;
 
         public ProcessingService()
         {
@@ -60,29 +60,33 @@ namespace Application
         /// </summary>
         public DateTime ProcessEndOfDay()
         {
-            // TODO: lock any other account operations!
-            lock (DaySync)
+            if (!DaySync)
             {
+                DaySync = true;
                 var date = GetCurrentDate();
                 ProcessContractServiceAccounts();
                 if (date.Day == DateTime.DaysInMonth(date.Year, date.Month))
                 {
                     ProcessEndOfMonth(date);
                 }
+                DaySync = false;
                 return MoveTime(1);
             }
+            return GetCurrentDate();
         }
 
         private void ProcessEndOfMonth(DateTime date)
         {
-            lock (MonthSync)
+            if (!MonthSync)
             {
+                MonthSync = true;
                 var accruals = LoanProcessEndOfMonth(date);
                 foreach (var accrual in accruals)
                 {
                     AddEntry(accrual.Key, accrual.Value);
                 }
                 UpdateMonthlyProcessingTime();
+                MonthSync = false;
             }
         }
 
@@ -168,7 +172,6 @@ namespace Application
 
         private void ProcessContractServiceAccounts()
         {
-            // TODO: transfer from 3819 to other accounts, not only two
             // We filter only loans with below zero balance on contract service account
             var loansWithMoneyOnServiceAccount = GetLoans(loan =>
             {
@@ -178,8 +181,7 @@ namespace Application
             foreach (var loan in loansWithMoneyOnServiceAccount)
             {
                 var accounts = loan.Accounts;
-                // TODO: make filters static
-                var contractAccount = loan.Accounts.Single(acc => acc.Type == AccountType.ContractService);
+                var contractAccount = loan.Accounts.Single(a => a.Type == AccountType.ContractService);
                 var amount = contractAccount.Balance;
 
                 if (amount > 0M)
@@ -298,7 +300,6 @@ namespace Application
                 loanApplicationRepo.AddOrUpdate(loanApplication);
                 loanApplicationRepo.SaveChanges();
             }
-            // TODO: make it without exception (but it will fail test :) )
             else throw new ArgumentException("Loan application is not valid");
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Application.FinancialFunctions;
 using Domain.Enums;
 using Domain.Models.Loans;
 
@@ -8,7 +9,6 @@ namespace Application.LoanProcessing
     {
         internal static PaymentSchedule Calculate(LoanApplication loanApplication)
         {
-            // TODO: make it more complex; check for validness
             var status = loanApplication.Status;
             DateTime? startDate;
             switch (status)
@@ -25,19 +25,31 @@ namespace Application.LoanProcessing
             }
             if (startDate == null)
             {
-                throw new Exception("Loan application of its status must have its time");
+                throw new Exception("Loan application of its status must have its time (created or contracted)");
             }
-            // TODO: very, very poor logic. FIX IT!!!
-            var validStartDate = startDate.Value.AddMonths(1).AddDays(28 - startDate.Value.Day);
-            var finalAmount = loanApplication.LoanAmount*(1 + loanApplication.Tariff.InterestRate);
+
+            var tariff = loanApplication.Tariff;
+            var loanAmount = loanApplication.LoanAmount;
             var term = loanApplication.Term;
+            var finalAmount = Interest.TotalSum(tariff, loanAmount, term);
             var part = finalAmount / term;
             var schedule = new PaymentSchedule();
             for (var i = 1; i <= term; i++)
             {
-                schedule.AddPayment(new Payment { Amount = part, ShouldBePaidBefore = validStartDate.AddMonths(i) });
+                schedule.AddPayment(new Payment { Amount = part, ShouldBePaidBefore = CalculatePaymentDate(startDate.Value, i) });
             }
             return schedule;
+        }
+
+        private static DateTime CalculatePaymentDate(DateTime startDate, int i)
+        {
+            var paymentDate = startDate.AddMonths(i);
+            paymentDate = new DateTime(paymentDate.Year, paymentDate.Month, DateTime.DaysInMonth(paymentDate.Year, paymentDate.Month)).AddDays(1).AddTicks(-1);
+            //while (paymentDate.DayOfWeek == DayOfWeek.Saturday || paymentDate.DayOfWeek == DayOfWeek.Sunday)
+            //{
+            //    paymentDate = paymentDate.AddDays(1);
+            //}
+            return paymentDate;
         }
 
         internal static PaymentSchedule CalculatePaymentScheduleWithoutDateTime(decimal sum, Tariff tariff, int term)
@@ -48,7 +60,7 @@ namespace Application.LoanProcessing
             }
             else
             {
-                var totalSum = tariff.CalculateTotalSum(sum, term);
+                var totalSum = Interest.TotalSum(tariff, sum, term);
                 var partSum = totalSum / term;
 
                 var schedule = new PaymentSchedule();

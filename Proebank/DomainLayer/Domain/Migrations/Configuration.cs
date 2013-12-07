@@ -146,7 +146,7 @@ namespace Domain.Migrations
             {
                 Currency = Currency.EUR,
                 DateOpened = bankCreationDate,
-                Id = _bankAccByr,
+                Id = _bankAccEur,
                 Number = 1,
                 Entries = new List<Entry>(),
                 Type = AccountType.BankBalance
@@ -155,7 +155,7 @@ namespace Domain.Migrations
             {
                 Currency = Currency.USD,
                 DateOpened = bankCreationDate,
-                Id = _bankAccByr,
+                Id = _bankAccUsd,
                 Number = 1,
                 Entries = new List<Entry>(),
                 Type = AccountType.BankBalance

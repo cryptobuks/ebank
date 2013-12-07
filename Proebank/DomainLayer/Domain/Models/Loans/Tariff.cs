@@ -62,13 +62,5 @@ namespace Domain.Models.Loans
             var isTermValid = term >= MinTerm && term <= MaxTerm;
             return isAmountValid && isTermValid;
         }
-
-
-        public decimal CalculateTotalSum(decimal sum, int term)
-        {
-            // TODO: use F#
-            var interestRate = term*InterestRate/12;
-            return (sum + sum*interestRate);
-        }
     }
 }

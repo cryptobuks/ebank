@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Application.FinancialFunctions;
 using Domain.Enums;
 using Domain.Models.Accounts;
@@ -10,15 +11,10 @@ namespace Application.LoanProcessing
     {
         public static Entry CalculateInterestFor(Loan loan, DateTime date)
         {
-            // TODO: very basic logic. Improve later
-            var application = loan.Application;
-            var amount = application.LoanAmount;
-            var interestRate = application.Tariff.InterestRate;
-            // TODO: take from schedule for current date
-            var accrual = amount * interestRate / application.Term;
+            var payments = loan.PaymentSchedule.Payments.Where(p => p.ShouldBePaidBefore.Month == date.Month);
             return new Entry
             {
-                Amount = accrual,
+                Amount = payments.Sum(p => p.Amount),
                 Currency = loan.Application.Currency,
                 Type = EntryType.Accrual,
                 SubType = EntrySubType.Interest,
