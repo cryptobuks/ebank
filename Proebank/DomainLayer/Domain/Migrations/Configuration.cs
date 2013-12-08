@@ -118,9 +118,14 @@ namespace Domain.Migrations
 
             foreach (var user in users)
             {
-                var existingUser = userManager.FindById(user.Id);
-                if (existingUser == null)
+                var existingUser = userManager.FindByName(user.UserName);
+                if (existingUser == null || existingUser.Id != user.Id)
                 {
+                    if (existingUser != null)
+                    {
+                        context.Users.Remove(existingUser);
+                        context.SaveChanges();
+                    }
                     var userResult = userManager.Create(user, "password");
                     if (!userResult.Succeeded)
                     {
