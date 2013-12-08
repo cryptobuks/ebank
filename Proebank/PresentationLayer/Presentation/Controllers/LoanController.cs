@@ -45,7 +45,7 @@ namespace Presentation.Controllers
 
         [Authorize(Roles = "Department head, Consultant")]
         public ActionResult Sign(LoanApplication loanApplication)
-        {
+        { 
             if (loanApplication == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
