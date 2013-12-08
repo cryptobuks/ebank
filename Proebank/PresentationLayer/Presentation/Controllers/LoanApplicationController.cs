@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Web.Configuration;
 using Domain.Enums;
 using Domain.Models.Loans;
 using System;
@@ -90,7 +91,24 @@ namespace Presentation.Controllers
             loanApplication.TimeCreated = DateTime.Now;
             if (ModelState.IsValid)
             {
-                _service.CreateLoanApplication(loanApplication);
+                try
+                {
+                    _service.CreateLoanApplication(loanApplication);
+                }
+                catch (ArgumentException e)
+                {
+                    var validationResult = e.Data["validationResult"] as Dictionary<string, string>;
+                    if (validationResult != null)
+                    {
+                        foreach (var result in validationResult)
+                        {
+                            ModelState.AddModelError(result.Key, result.Value);
+                        }
+                        var tariffList = _service.GetTariffs();
+                        ViewBag.TariffId = new SelectList(tariffList, "Id", "Name");
+                        return View();
+                    }
+                }
                 return RedirectToAction("Index");
             }
 
