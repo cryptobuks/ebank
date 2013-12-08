@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Application.FinancialFunctions;
 using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Loans;
@@ -20,6 +19,11 @@ namespace Application.LoanProcessing
                 SubType = EntrySubType.Interest,
                 Date = date
             };
+        }
+
+        public static decimal TotalSum(Tariff tariff, decimal sum, int term)
+        {
+            return sum + sum*(term*tariff.InterestRate/12);
         }
     }
 }

@@ -76,10 +76,6 @@
       <Project>{14a6d35d-4124-45f5-b962-aec147178892}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Application.FinancialFunctions\Application.FinancialFunctions.fsproj">
-      <Project>{213b79a6-fdfa-4c28-bc91-7af9c70c99f3}</Project>
-      <Name>Application.FinancialFunctions</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,5 +1,4 @@
 ﻿using System;
-using Application.FinancialFunctions;
 using Domain.Enums;
 using Domain.Models.Loans;
 
@@ -31,7 +30,7 @@ namespace Application.LoanProcessing
             var tariff = loanApplication.Tariff;
             var loanAmount = loanApplication.LoanAmount;
             var term = loanApplication.Term;
-            var finalAmount = Interest.TotalSum(tariff, loanAmount, term);
+            var finalAmount = InterestCalculator.TotalSum(tariff, loanAmount, term);
             var part = finalAmount / term;
             var schedule = new PaymentSchedule();
             for (var i = 1; i <= term; i++)
@@ -60,7 +59,7 @@ namespace Application.LoanProcessing
             }
             else
             {
-                var totalSum = Interest.TotalSum(tariff, sum, term);
+                var totalSum = InterestCalculator.TotalSum(tariff, sum, term);
                 var partSum = totalSum / term;
 
                 var schedule = new PaymentSchedule();
