@@ -53,14 +53,5 @@ namespace Domain.Models.Loans
 
         [DisplayName("Currency")]
         public Currency Currency { get; set; }
-
-        public bool Validate(LoanApplication loanApplication)
-        {
-            var amount = loanApplication.LoanAmount;
-            var term = loanApplication.Term;
-            var isAmountValid = amount >= MinAmount && amount <= MaxAmount;
-            var isTermValid = term >= MinTerm && term <= MaxTerm;
-            return isAmountValid && isTermValid;
-        }
     }
 }

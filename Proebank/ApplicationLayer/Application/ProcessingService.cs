@@ -242,7 +242,7 @@ namespace Application
         }
 
         #region Loan service methods
-        public IQueryable<Loan> GetLoans(Func<Loan, bool> filter)
+        public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
         {
             var loanRepository = GetRepository<Loan>();
             return loanRepository.Where(filter);
@@ -270,7 +270,7 @@ namespace Application
 	    #endregion
 
         #region Loan application service methods
-        public IQueryable<LoanApplication> GetLoanApplications(Func<LoanApplication, bool> filter)
+        public IEnumerable<LoanApplication> GetLoanApplications(Func<LoanApplication, bool> filter)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
             return loanApplicationRepo.Where(filter);
@@ -293,6 +293,14 @@ namespace Application
 
         public void CreateLoanApplication(LoanApplication loanApplication)
         {
+            loanApplication.Documents = new List<Document>();
+            loanApplication.TimeCreated = GetCurrentDate();
+            loanApplication.Status = LoanApplicationStatus.New;
+            var selectedTariff = GetTariffs(t => t.Id.Equals(loanApplication.TariffId)).Single();
+            //loanApplication.Tariff = selectedTariff;
+            loanApplication.LoanPurpose = selectedTariff.LoanPurpose;
+            loanApplication.Currency = selectedTariff.Currency;
+
             var loanApplicationRepo = GetRepository<LoanApplication>();
             var validationResult = ValidateLoanApplication(loanApplication);
             if (validationResult)
@@ -330,13 +338,13 @@ namespace Application
         #endregion
 
         #region Tariff service methods
-        public IQueryable<Tariff> GetTariffs()
+        public IEnumerable<Tariff> GetTariffs()
         {
             var tariffRepo = GetRepository<Tariff>();
             return tariffRepo.GetAll();
         }
 
-        public IQueryable<Tariff> GetTariffs(Func<Tariff, bool> filter)
+        public IEnumerable<Tariff> GetTariffs(Func<Tariff, bool> filter)
         {
             var tariffRepo = GetRepository<Tariff>();
             return tariffRepo.Where(filter);
@@ -360,12 +368,23 @@ namespace Application
 
         private bool ValidateLoanApplication(LoanApplication loanApplication)
         {
-            if (loanApplication == null || loanApplication.Tariff == null)
+            //if (loanApplication == null || loanApplication.Tariff == null)
+            if (loanApplication == null || loanApplication.TariffId.Equals(Guid.Empty))
             {
                 throw new ArgumentException("loanApplication");
             }
             var isEnoughMoney = GetBankAccount(loanApplication.Currency).Balance >= loanApplication.LoanAmount;
-            return isEnoughMoney && loanApplication.Tariff.Validate(loanApplication);
+            return isEnoughMoney && Validate(loanApplication);
+        }
+
+        private bool Validate(LoanApplication loanApplication)
+        {
+            var tariff = GetRepository<Tariff>().GetAll().Single(t => t.Id == loanApplication.TariffId);
+            var amount = loanApplication.LoanAmount;
+            var term = loanApplication.Term;
+            var isAmountValid = amount >= tariff.MinAmount && amount <= tariff.MaxAmount;
+            var isTermValid = term >= tariff.MinTerm && term <= tariff.MaxTerm;
+            return isAmountValid && isTermValid;
         }
         #endregion
 

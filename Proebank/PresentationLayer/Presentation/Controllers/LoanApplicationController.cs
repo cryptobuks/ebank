@@ -90,13 +90,6 @@ namespace Presentation.Controllers
             loanApplication.TimeCreated = DateTime.Now;
             if (ModelState.IsValid)
             {
-                loanApplication.Documents = new List<Document>();
-                loanApplication.TimeCreated = DateTime.UtcNow;
-                loanApplication.Status = LoanApplicationStatus.New;
-                var selectedTariff = _service.GetTariffs(t => t.Id.Equals(loanApplication.TariffId)).Single();
-                loanApplication.Tariff = selectedTariff;
-                loanApplication.LoanPurpose = selectedTariff.LoanPurpose;
-                loanApplication.Currency = selectedTariff.Currency;
                 _service.CreateLoanApplication(loanApplication);
                 return RedirectToAction("Index");
             }

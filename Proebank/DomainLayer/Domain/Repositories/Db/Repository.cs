@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using Domain.Models;
@@ -15,14 +16,14 @@ namespace Domain.Repositories.Db
             _ctx = context;
         }
 
-        public IQueryable<T> GetAll(bool showRemoved = false)
+        public IEnumerable<T> GetAll(bool showRemoved = false)
         {
-            return _ctx.Set<T>().Where(e => showRemoved || !e.IsRemoved);
+            return _ctx.Set<T>();//.Where(e => showRemoved || !e.IsRemoved);
         }
 
-        public IQueryable<T> Where(Func<T, bool> predicate)
+        public IEnumerable<T> Where(Func<T, bool> predicate)
         {
-            return _ctx.Set<T>().Where(e => !e.IsRemoved && predicate(e));
+            return _ctx.Set<T>().Where(predicate);//.Where(e => !e.IsRemoved && predicate(e)).AsQueryable();
         }
 
         public void AddOrUpdate(T entity)

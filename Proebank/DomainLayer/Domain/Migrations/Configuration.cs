@@ -185,6 +185,9 @@ namespace Domain.Migrations
                 Type = EntryType.Capital,
                 SubType = EntrySubType.CharterCapital
             });
+            context.Accounts.AddOrUpdate(bankAccountByr);
+            context.Accounts.AddOrUpdate(bankAccountEur);
+            context.Accounts.AddOrUpdate(bankAccountUsd);
             #endregion
 
             #region seed tariffs

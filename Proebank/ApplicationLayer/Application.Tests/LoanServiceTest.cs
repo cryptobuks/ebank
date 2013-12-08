@@ -78,6 +78,7 @@ namespace Application.Tests
                 LoanAmount = 5.5E7M,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,
+                TariffId = _tariff.Id,
                 Term = 3,
                 TimeCreated = DateTime.Now
             };
@@ -89,6 +90,7 @@ namespace Application.Tests
                 LoanAmount = 5.5E11M,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,
+                TariffId = _tariff.Id,
                 Term = 120,
                 TimeCreated = DateTime.Now
             };

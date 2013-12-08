@@ -40,9 +40,8 @@
             </div>
         </div>
         
-        @*TODO: http://stackoverflow.com/questions/18382311/populating-a-razor-dropdownlist-from-a-listobject-in-mvc*@
         <div class="control-group">
-            @Html.LabelFor(model => model.Tariff, "Tariff", new { @class = "control-label" })
+            @Html.LabelFor(model => model.TariffId, "TariffId", new { @class = "control-label" })
             <div class="controls">
                 @Html.DropDownList("TariffId", String.Empty)
                 @Html.ValidationMessageFor(model => model.TariffId, null, new { @class = "help-inline" })

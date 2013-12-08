@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -16,14 +17,14 @@ namespace Domain.Repositories.Fakes
             _collection = new ObservableCollection<T>();
         }
 
-        public IQueryable<T> GetAll(bool showRemoved = false)
+        public IEnumerable<T> GetAll(bool showRemoved = false)
         {
-            return _collection.Where(e => showRemoved || !e.IsRemoved).AsQueryable();
+            return _collection;//.Where(e => showRemoved || !e.IsRemoved);
         }
 
-        public IQueryable<T> Where(Func<T, bool> predicate)
+        public IEnumerable<T> Where(Func<T, bool> predicate)
         {
-            return _collection.Where(e => !e.IsRemoved && predicate(e)).AsQueryable();
+            return _collection.Where(predicate);//.Where(e => !e.IsRemoved && predicate(e));
         }
 
         public void AddOrUpdate(T entity)
