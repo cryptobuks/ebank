@@ -291,11 +291,11 @@ namespace Application
             loanApplicationRepo.SaveChanges();
         }
 
-        public void CreateLoanApplication(LoanApplication loanApplication)
+        public void CreateLoanApplication(LoanApplication loanApplication, bool fromConsultant = false)
         {
             loanApplication.Documents = new List<Document>();
             loanApplication.TimeCreated = GetCurrentDate();
-            loanApplication.Status = LoanApplicationStatus.New;
+            loanApplication.Status = fromConsultant ? LoanApplicationStatus.InitiallyApproved : LoanApplicationStatus.New;
             var selectedTariff = GetTariffs(t => t.Id.Equals(loanApplication.TariffId)).Single();
             //loanApplication.Tariff = selectedTariff;
             loanApplication.LoanPurpose = selectedTariff.LoanPurpose;
@@ -327,6 +327,14 @@ namespace Application
         public void RejectLoanApplication(LoanApplication loanApplication)
         {
             loanApplication.Status = LoanApplicationStatus.Rejected;
+            var loanRepository = GetRepository<LoanApplication>();
+            loanRepository.AddOrUpdate(loanApplication);
+            loanRepository.SaveChanges();
+        }
+
+        public void SendLoanApplicationToCommittee(LoanApplication loanApplication)
+        {
+            loanApplication.Status = LoanApplicationStatus.UnderCommitteeConsideration;
             var loanRepository = GetRepository<LoanApplication>();
             loanRepository.AddOrUpdate(loanApplication);
             loanRepository.SaveChanges();

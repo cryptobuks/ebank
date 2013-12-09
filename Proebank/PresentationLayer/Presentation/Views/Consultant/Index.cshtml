@@ -1,10 +1,14 @@
 ﻿@model IEnumerable<Domain.Models.Loans.LoanApplication>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "New applications";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Committee start page</h2>
+<h2>Consultant page</h2>
+
+<p>
+    @Html.ActionLink("Apply for a new loan", "Create")
+</p>
 
 @Html.Partial("_LoanApplicationsPartial", Model)

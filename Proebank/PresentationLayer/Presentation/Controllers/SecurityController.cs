@@ -74,6 +74,17 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
+        // POST: /Security/SendToCommittee/5
+        [HttpPost, ActionName("SendToCommittee")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Security")]
+        public ActionResult SendToCommittee(Guid id)
+        {
+            var loanapplication = _service.GetLoanApplications(la => la.Id == id).SingleOrDefault();
+            _service.SendLoanApplicationToCommittee(loanapplication);
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -1,0 +1,99 @@
+﻿@using Domain.Enums
+@model IEnumerable<Domain.Models.Loans.LoanApplication>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Tariff.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoanAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Term)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CellPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoanPurpose)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+    @if (Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tariff.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoanAmount)
+                    @Html.DisplayFor(modelItem => item.Currency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Term)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CellPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoanPurpose)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @*<div class="btn-group open">
+                <a class="btn btn-primary" href="#"><i class="fa fa-user fa-fw"></i> Actions</a>
+                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="fa fa-caret-down"></span></a>
+                <ul class="dropdown-menu">
+                    @switch (item.Status)
+                    {
+                        case LoanApplicationStatus.New:
+                            <li><a href="@Url.Action("Approve", new {id = item.Id})" title="Approve" class="btn btn-success btn-xs"><i class="fa fa-thumbs-up fa-lg"></i> Approve</a></li>
+                            <li><a href="@Url.Action("Reject", new {id = item.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-minus-square fa-lg"></i> Reject</a></li>
+                            break;
+                        case LoanApplicationStatus.Approved:
+                            <li><a href="@Url.Action("Contract", new {id = item.Id})" title="Contract" class="btn btn-info btn-xs"><i class="fa fa-star fa-lg"></i> Contract</a></li>
+                            break;
+                    }
+                    <li><a href="@Url.Action("Edit", new { id = item.Id})" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-edit fa-lg fa-lg"></i></a></li>
+                    <li><a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info-circle fa-lg"></i></a></li>
+                    <li><a href="@Url.Action("Delete", new { id = item.Id})" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-lg"></i></a></li>
+                </ul>
+            </div>*@
+                    @switch (item.Status)
+                    {
+                        case LoanApplicationStatus.New:
+                            <a href="@Url.Action("Approve", new {id = item.Id})" title="Approve" class="btn btn-success btn-xs"><i class="fa fa-thumbs-up fa-lg"></i> Approve</a>
+                            <a href="@Url.Action("Reject", new {id = item.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-minus-square fa-lg"></i> Reject</a>
+                            @:|
+                            break;
+                        case LoanApplicationStatus.Approved:
+                            <a href="@Url.Action("Contract", new {id = item.Id})" title="Contract" class="btn btn-info btn-xs"><i class="fa fa-star fa-lg"></i> Contract</a>
+                            break;
+                    }
+                    <a href="@Url.Action("Edit", new {id = item.Id})" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-edit fa-lg fa-lg"></i></a>
+                    <a href="@Url.Action("Details", new {id = item.Id})" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
+                    <a href="@Url.Action("Delete", new {id = item.Id})" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr><td><h4>No pending applications</h4></td></tr>
+    }
+</table>

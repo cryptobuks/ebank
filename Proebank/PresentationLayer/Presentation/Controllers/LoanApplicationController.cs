@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Web.Configuration;
 using Domain.Enums;
+using Domain.Models.Customers;
 using Domain.Models.Loans;
 using System;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Presentation.Controllers
             _service = new ProcessingService();
         }
 
-        //[Authorize(Roles = "Department head, Consultant, Security service")]
+        [Authorize(Roles = "Department head, Consultant, Security service, Credit committee")]
         public ActionResult Index()
         {
             var loanApplications = _service.GetLoanApplications(la => true);//.Include(l => l.Tariff);
@@ -109,7 +110,7 @@ namespace Presentation.Controllers
                         return View();
                     }
                 }
-                return RedirectToAction("Index");
+                return View("Created");
             }
 
             var tariffs = _service.GetTariffs();
