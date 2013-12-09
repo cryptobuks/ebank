@@ -9,7 +9,7 @@ namespace Domain.Models.Loans
     public class LoanApplication : Entity
     {
         [DisplayName("Loan Amount")]
-        [Range(0, 100000000)]
+        [Range(0, 1000000000)]
         public decimal LoanAmount { get; set; }
 
         [DisplayName("Time Created")]
@@ -26,6 +26,8 @@ namespace Domain.Models.Loans
         public int Term { get; set; }
 
         [DisplayName("Cell Phone")]
+        [Required]
+        [Phone]
         public string CellPhone { get; set; }
 
         public virtual Tariff Tariff { get; set; }

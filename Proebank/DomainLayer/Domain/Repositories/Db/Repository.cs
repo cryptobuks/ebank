@@ -18,7 +18,7 @@ namespace Domain.Repositories.Db
 
         public IEnumerable<T> GetAll(bool showRemoved = false)
         {
-            return _ctx.Set<T>();//.Where(e => showRemoved || !e.IsRemoved);
+            return _ctx.Set<T>().Where(e => showRemoved || !e.IsRemoved);
         }
 
         public IEnumerable<T> Where(Func<T, bool> predicate)

@@ -221,7 +221,6 @@
     <Compile Include="Controllers\CommitteeController.cs" />
     <Compile Include="Controllers\ConsultantController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
-    <Compile Include="Controllers\HeadController.cs" />
     <Compile Include="Controllers\OperatorController.cs" />
     <Compile Include="Controllers\LoanCalculatorController.cs" />
     <Compile Include="Controllers\ProcessingController.cs" />
@@ -351,7 +350,6 @@
     <Content Include="Views\Committee\Index.cshtml" />
     <Content Include="Views\Customer\Details.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
-    <Content Include="Views\Head\Index.cshtml" />
     <Content Include="Views\Consultant\Create.cshtml" />
     <Content Include="Views\Consultant\Delete.cshtml" />
     <Content Include="Views\Consultant\Details.cshtml" />

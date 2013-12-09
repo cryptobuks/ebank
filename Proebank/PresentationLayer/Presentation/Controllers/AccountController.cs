@@ -55,30 +55,30 @@ namespace Presentation.Controllers
                     return RedirectToLocal(returnUrl);
                     // не работает, т.к. авторизация не срабатывает до загрузки страницы
                     //Request.Cookies.Add(FormsAuthentication.GetAuthCookie(user.UserName, model.RememberMe));
-                    var role = user.Roles.FirstOrDefault();
-                    if (role == null)
+                    //var role = user.Roles.FirstOrDefault();
+                    //if (role == null)
                         
-                    switch (role.Role.Name)
-                    {
-                        case "Customer":
-                            RedirectToAction("Index", "Customer");
-                            break;
-                        case "Security":
-                            RedirectToAction("Index", "Security");
-                            break;
-                        case "Operator":
-                            RedirectToAction("Index", "Operator");
-                            break;
-                        case "Consultant":
-                            RedirectToAction("Index", "LoanApplication");
-                            break;
-                        case "Credit committee":
-                            RedirectToAction("Index", "Committee");
-                            break;
-                        case "Department head":
-                            RedirectToAction("Index", "Head");
-                            break;
-                    }
+                    //switch (role.Role.Name)
+                    //{
+                    //    case "Customer":
+                    //        RedirectToAction("Index", "Customer");
+                    //        break;
+                    //    case "Security":
+                    //        RedirectToAction("Index", "Security");
+                    //        break;
+                    //    case "Operator":
+                    //        RedirectToAction("Index", "Operator");
+                    //        break;
+                    //    case "Consultant":
+                    //        RedirectToAction("Index", "LoanApplication");
+                    //        break;
+                    //    case "Credit committee":
+                    //        RedirectToAction("Index", "Committee");
+                    //        break;
+                    //    case "Department head":
+                    //        RedirectToAction("Index", "Head");
+                    //        break;
+                    //}
                 }
                 else
                 {
