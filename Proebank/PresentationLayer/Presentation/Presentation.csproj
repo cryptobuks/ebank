@@ -345,10 +345,7 @@
     <Content Include="Views\Committee\Details.cshtml" />
     <Content Include="Views\Committee\Edit.cshtml" />
     <Content Include="Views\Committee\Index.cshtml" />
-    <Content Include="Views\Customer\Create.cshtml" />
-    <Content Include="Views\Customer\Delete.cshtml" />
     <Content Include="Views\Customer\Details.cshtml" />
-    <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Head\Index.cshtml" />
     <Content Include="Views\Consultant\Create.cshtml" />
@@ -359,6 +356,7 @@
     <Content Include="Views\Shared\_LoanApplicationsPartial.cshtml" />
     <Content Include="Views\LoanApplication\Created.cshtml" />
     <Content Include="Views\Consultant\SecondStage.cshtml" />
+    <Content Include="Views\Customer\Schedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
