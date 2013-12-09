@@ -1,15 +1,21 @@
-﻿@model IEnumerable<Domain.Models.Loans.Tariff>
+﻿@using Microsoft.Ajax.Utilities
+@model IEnumerable<Domain.Models.Loans.Tariff>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Tariffs list";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var isDepartmentHead = User.Identity.IsAuthenticated && User.IsInRole("Department head");
 }
 
-<h2>Index</h2>
+<h2>PROebank tariffs</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (isDepartmentHead)
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
@@ -23,12 +29,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MaxAmount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MinTerm)
@@ -48,6 +48,16 @@
         <th>
             @Html.DisplayNameFor(model => model.Currency)
         </th>
+        @if (isDepartmentHead)
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+        }
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -65,12 +75,6 @@
             @Html.DisplayFor(modelItem => item.MaxAmount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CreationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDate)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.MinTerm)
         </td>
         <td>
@@ -85,14 +89,30 @@
         <td>
             @Html.DisplayFor(modelItem => item.LoanPurpose)
         </td>
-        <th>
-            @Html.DisplayNameFor(model => model.Currency)
-        </th>
         <td>
-            <a href="@Url.Action("Edit", new { id = item.Id})" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-edit fa-lg fa-lg"></i></a>
-            <a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
-            <a href="@Url.Action("Delete", new { id = item.Id})" title="Delete" class="btn btn-default btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
+            @Html.DisplayFor(modelItem => item.Currency)
         </td>
+        @if (isDepartmentHead)
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", new {id = item.Id})" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-edit fa-lg fa-lg"></i></a>
+                <a href="@Url.Action("Details", new {id = item.Id})" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
+                <a href="@Url.Action("Delete", new {id = item.Id})" title="Delete" class="btn btn-default btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
+            </td>
+        }
+        else
+        {
+            <td>
+                <a href="@Url.Action("Details", new {id = item.Id})" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
+                <a href="@Url.Action("Create", "LoanApplication")" title="Details" class="btn btn-success btn-xs"><i class="fa fa-plus-circle fa-lg"></i></a>
+            </td>
+        }
     </tr>
 }
 

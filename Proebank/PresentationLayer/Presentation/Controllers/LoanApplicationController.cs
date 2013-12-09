@@ -1,5 +1,7 @@
 ﻿using System.Net;
+using System.Web.Configuration;
 using Domain.Enums;
+using Domain.Models.Customers;
 using Domain.Models.Loans;
 using System;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace Presentation.Controllers
             _service = new ProcessingService();
         }
 
-        //[Authorize(Roles = "Department head, Consultant, Security service")]
+        [Authorize(Roles = "Department head, Consultant, Security service, Credit committee")]
         public ActionResult Index()
         {
             var loanApplications = _service.GetLoanApplications(la => true);//.Include(l => l.Tariff);
@@ -90,8 +92,25 @@ namespace Presentation.Controllers
             loanApplication.TimeCreated = DateTime.Now;
             if (ModelState.IsValid)
             {
-                _service.CreateLoanApplication(loanApplication);
-                return RedirectToAction("Index");
+                try
+                {
+                    _service.CreateLoanApplication(loanApplication);
+                }
+                catch (ArgumentException e)
+                {
+                    var validationResult = e.Data["validationResult"] as Dictionary<string, string>;
+                    if (validationResult != null)
+                    {
+                        foreach (var result in validationResult)
+                        {
+                            ModelState.AddModelError(result.Key, result.Value);
+                        }
+                        var tariffList = _service.GetTariffs();
+                        ViewBag.TariffId = new SelectList(tariffList, "Id", "Name");
+                        return View();
+                    }
+                }
+                return View("Created");
             }
 
             var tariffs = _service.GetTariffs();

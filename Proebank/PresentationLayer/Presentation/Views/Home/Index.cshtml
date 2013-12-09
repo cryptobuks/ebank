@@ -5,7 +5,7 @@
 <div class="jumbotron">
     <h1 id="bankName" onclick="generateName();">PROebank</h1>
     <p class="lead">We will not let you down!</p>
-    <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+    <p><a class="btn btn-primary btn-large" href="@Url.Action("About", "Home")">Learn more &raquo;</a></p>
 </div>
 
 <div class="row">
@@ -19,13 +19,39 @@
         <p>Here you can apply for loan</p>
         <p><a class="btn btn-default" href="@Url.Action("Create", "LoanApplication")">Apply &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Loans</h2>
-        <p>
-            View your loans information
-        </p>
-        <p><a class="btn btn-default" href="@Url.Action("Index", "Loan")">View &raquo;</a></p>
-    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Customer"))
+        {
+            <div class="col-md-4">
+                <h2>Loans</h2>
+                <p>
+                    Visit your personal area
+                </p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "Customer")">View &raquo;</a></p>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-4">
+                <h2>Employee page</h2>
+                <p>
+                    View your information
+                </p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "Home")">View &raquo;</a></p>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-md-4">
+            <h2>Information</h2>
+            <p>
+                See bank contact info
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("Contact", "Home")">View &raquo;</a></p>
+        </div>
+    }
 </div>
 
 <script>

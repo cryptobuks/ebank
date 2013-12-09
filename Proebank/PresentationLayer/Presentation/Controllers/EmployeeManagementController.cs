@@ -17,7 +17,7 @@ using Presentation.Models;
 
 namespace Presentation.Controllers
 {
-    public class EmployeeManagementController : Controller
+    public class EmployeeManagementController : BaseController
     {
         private readonly DataContext _ctx = new DataContext();
 

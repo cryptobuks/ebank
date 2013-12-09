@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Domain;
 using Domain.Models.Customers;
 using Domain.Models.Users;
@@ -51,6 +53,32 @@ namespace Presentation.Controllers
                 {
                     await SignInAsync(user, model.RememberMe);
                     return RedirectToLocal(returnUrl);
+                    // не работает, т.к. авторизация не срабатывает до загрузки страницы
+                    //Request.Cookies.Add(FormsAuthentication.GetAuthCookie(user.UserName, model.RememberMe));
+                    var role = user.Roles.FirstOrDefault();
+                    if (role == null)
+                        
+                    switch (role.Role.Name)
+                    {
+                        case "Customer":
+                            RedirectToAction("Index", "Customer");
+                            break;
+                        case "Security":
+                            RedirectToAction("Index", "Security");
+                            break;
+                        case "Operator":
+                            RedirectToAction("Index", "Operator");
+                            break;
+                        case "Consultant":
+                            RedirectToAction("Index", "LoanApplication");
+                            break;
+                        case "Credit committee":
+                            RedirectToAction("Index", "Committee");
+                            break;
+                        case "Department head":
+                            RedirectToAction("Index", "Head");
+                            break;
+                    }
                 }
                 else
                 {

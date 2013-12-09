@@ -6,7 +6,7 @@ using Domain.Models.Customers;
 namespace Domain.Models.Loans
 {
     /// <summary>
-    /// Класс для представления документа, предъявляемого клиентом
+    /// Customer or his guarantor document
     /// </summary>
     public class Document : Entity
     {

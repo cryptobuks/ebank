@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Domain.Models.Loans.LoanApplication>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Committee start page</h2>
+
+@Html.Partial("_LoanApplicationsPartial", Model)

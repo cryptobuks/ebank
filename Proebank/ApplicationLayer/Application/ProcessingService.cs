@@ -291,11 +291,11 @@ namespace Application
             loanApplicationRepo.SaveChanges();
         }
 
-        public void CreateLoanApplication(LoanApplication loanApplication)
+        public void CreateLoanApplication(LoanApplication loanApplication, bool fromConsultant = false)
         {
             loanApplication.Documents = new List<Document>();
             loanApplication.TimeCreated = GetCurrentDate();
-            loanApplication.Status = LoanApplicationStatus.New;
+            loanApplication.Status = fromConsultant ? LoanApplicationStatus.InitiallyApproved : LoanApplicationStatus.New;
             var selectedTariff = GetTariffs(t => t.Id.Equals(loanApplication.TariffId)).Single();
             //loanApplication.Tariff = selectedTariff;
             loanApplication.LoanPurpose = selectedTariff.LoanPurpose;
@@ -303,21 +303,17 @@ namespace Application
 
             var loanApplicationRepo = GetRepository<LoanApplication>();
             var validationResult = ValidateLoanApplication(loanApplication);
-            if (validationResult)
+            if (validationResult.Count == 0)
             {
                 loanApplicationRepo.AddOrUpdate(loanApplication);
                 loanApplicationRepo.SaveChanges();
             }
-            else throw new ArgumentException("Loan application is not valid");
-        }
-
-        public void ConsiderLoanApplication(LoanApplication loanApplication, bool decision)
-        {
-            var loanApplicationRepo = GetRepository<LoanApplication>();
-            loanApplication.Status = decision
-                    ? LoanApplicationStatus.Approved
-                    : LoanApplicationStatus.Rejected;
-            loanApplicationRepo.AddOrUpdate(loanApplication);
+            else
+            {
+                var ex = new ArgumentException("Loan application is not valid");
+                ex.Data["validationResult"] = validationResult;
+                throw ex;
+            } 
         }
 
         public void ApproveLoanAppication(LoanApplication loanApplication)
@@ -331,6 +327,14 @@ namespace Application
         public void RejectLoanApplication(LoanApplication loanApplication)
         {
             loanApplication.Status = LoanApplicationStatus.Rejected;
+            var loanRepository = GetRepository<LoanApplication>();
+            loanRepository.AddOrUpdate(loanApplication);
+            loanRepository.SaveChanges();
+        }
+
+        public void SendLoanApplicationToCommittee(LoanApplication loanApplication)
+        {
+            loanApplication.Status = LoanApplicationStatus.UnderCommitteeConsideration;
             var loanRepository = GetRepository<LoanApplication>();
             loanRepository.AddOrUpdate(loanApplication);
             loanRepository.SaveChanges();
@@ -366,26 +370,35 @@ namespace Application
             tariffRepo.SaveChanges();
         }
 
-        private bool ValidateLoanApplication(LoanApplication loanApplication)
+        private Dictionary<string, string> ValidateLoanApplication(LoanApplication loanApplication)
         {
             //if (loanApplication == null || loanApplication.Tariff == null)
             if (loanApplication == null || loanApplication.TariffId.Equals(Guid.Empty))
             {
                 throw new ArgumentException("loanApplication");
             }
+            var validationResult = new Dictionary<string, string>();
             var isEnoughMoney = GetBankAccount(loanApplication.Currency).Balance >= loanApplication.LoanAmount;
-            return isEnoughMoney && Validate(loanApplication);
-        }
-
-        private bool Validate(LoanApplication loanApplication)
-        {
             var tariff = GetRepository<Tariff>().GetAll().Single(t => t.Id == loanApplication.TariffId);
             var amount = loanApplication.LoanAmount;
             var term = loanApplication.Term;
             var isAmountValid = amount >= tariff.MinAmount && amount <= tariff.MaxAmount;
             var isTermValid = term >= tariff.MinTerm && term <= tariff.MaxTerm;
-            return isAmountValid && isTermValid;
+            if (!isEnoughMoney)
+            {
+                validationResult.Add("LoanAmount", "Not enough money");
+            }
+            if (!isAmountValid)
+            {
+                validationResult.Add("LoanAmount", "Loan amount is not correct");
+            }
+            if (!isTermValid)
+            {
+                validationResult.Add("Term","Term is not valid");
+            }
+            return validationResult;
         }
+
         #endregion
 
         #region BankCalendar methods
@@ -525,6 +538,15 @@ namespace Application
             accountRepo.AddOrUpdate(account);
         }
         #endregion
+
+        public List<LoanHistory> GetHistory(LoanApplication application)
+        {
+            var nationalBank = GetRepository<LoanHistory>();
+            var doc =
+                application.Documents.Single(
+                    d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary);
+            return nationalBank.GetAll().Where(l => l.Person.Id == doc.Id).ToList();
+        }
 
         public void Dispose()
         {
