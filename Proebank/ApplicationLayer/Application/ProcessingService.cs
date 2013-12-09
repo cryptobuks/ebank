@@ -303,12 +303,17 @@ namespace Application
 
             var loanApplicationRepo = GetRepository<LoanApplication>();
             var validationResult = ValidateLoanApplication(loanApplication);
-            if (validationResult)
+            if (validationResult.Count == 0)
             {
                 loanApplicationRepo.AddOrUpdate(loanApplication);
                 loanApplicationRepo.SaveChanges();
             }
-            else throw new ArgumentException("Loan application is not valid");
+            else
+            {
+                var ex = new ArgumentException("Loan application is not valid");
+                ex.Data["validationResult"] = validationResult;
+                throw ex;
+            } 
         }
 
         public void ApproveLoanAppication(LoanApplication loanApplication)
@@ -357,26 +362,35 @@ namespace Application
             tariffRepo.SaveChanges();
         }
 
-        private bool ValidateLoanApplication(LoanApplication loanApplication)
+        private Dictionary<string, string> ValidateLoanApplication(LoanApplication loanApplication)
         {
             //if (loanApplication == null || loanApplication.Tariff == null)
             if (loanApplication == null || loanApplication.TariffId.Equals(Guid.Empty))
             {
                 throw new ArgumentException("loanApplication");
             }
+            var validationResult = new Dictionary<string, string>();
             var isEnoughMoney = GetBankAccount(loanApplication.Currency).Balance >= loanApplication.LoanAmount;
-            return isEnoughMoney && Validate(loanApplication);
-        }
-
-        private bool Validate(LoanApplication loanApplication)
-        {
             var tariff = GetRepository<Tariff>().GetAll().Single(t => t.Id == loanApplication.TariffId);
             var amount = loanApplication.LoanAmount;
             var term = loanApplication.Term;
             var isAmountValid = amount >= tariff.MinAmount && amount <= tariff.MaxAmount;
             var isTermValid = term >= tariff.MinTerm && term <= tariff.MaxTerm;
-            return isAmountValid && isTermValid;
+            if (!isEnoughMoney)
+            {
+                validationResult.Add("LoanAmount", "Not enough money");
+            }
+            if (!isAmountValid)
+            {
+                validationResult.Add("LoanAmount", "Loan amount is not correct");
+            }
+            if (!isTermValid)
+            {
+                validationResult.Add("Term","Term is not valid");
+            }
+            return validationResult;
         }
+
         #endregion
 
         #region BankCalendar methods
