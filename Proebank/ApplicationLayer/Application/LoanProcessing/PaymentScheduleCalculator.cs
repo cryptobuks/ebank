@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using Domain.Enums;
 using Domain.Models.Loans;
 
 namespace Application.LoanProcessing
 {
-    class PaymentScheduleCalculator
+    public class PaymentScheduleCalculator
     {
         internal static PaymentSchedule Calculate(LoanApplication loanApplication)
         {
@@ -51,24 +52,26 @@ namespace Application.LoanProcessing
             return paymentDate;
         }
 
-        internal static PaymentSchedule CalculatePaymentScheduleWithoutDateTime(decimal sum, Tariff tariff, int term)
+        public static PaymentSchedule CalculatePaymentScheduleWithoutDateTime(decimal sum, Tariff tariff, int term)
         {
-            if (term < tariff.MaxTerm || term > tariff.MinTerm)
+            if (term > tariff.MaxTerm || term < tariff.MinTerm)
             {
-                throw new ArgumentException("Term is not within the range", "term");
+                throw new ArgumentException(String.Format("Term is not within the range of Tariff : {0}", tariff.Name));
             }
-            else
+            if (sum > tariff.MaxAmount || sum < tariff.MinAmount)
             {
-                var totalSum = InterestCalculator.TotalSum(tariff, sum, term);
-                var partSum = totalSum / term;
+                throw new ArgumentException(String.Format("Sum is not within the range of Tariff : {0}",tariff.Name));
+            }
+            
+            var totalSum = InterestCalculator.TotalSum(tariff, sum, term);
+            var partSum = totalSum / term;
 
-                var schedule = new PaymentSchedule();
-                for (var i = 1; i <= term; i++)
-                {
-                    schedule.AddPayment(new Payment { Amount = partSum });
-                }
-                return schedule;
+            var schedule = new PaymentSchedule();
+            for (var i = 1; i <= term; i++)
+            {
+                schedule.AddPayment(new Payment { Amount = partSum});
             }
+            return schedule;
         }
     }
 }

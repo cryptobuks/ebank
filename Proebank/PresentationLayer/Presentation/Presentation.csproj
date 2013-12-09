@@ -223,6 +223,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HeadController.cs" />
     <Compile Include="Controllers\OperatorController.cs" />
+    <Compile Include="Controllers\LoanCalculatorController.cs" />
     <Compile Include="Controllers\ProcessingController.cs" />
     <Compile Include="Controllers\AtmController.cs" />
     <Compile Include="Controllers\LoanApplicationController.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Models\AtmViewModel.cs" />
     <Compile Include="Models\CreatedEmployeeViewModel.cs" />
     <Compile Include="Models\PersonalLoanHistoryViewModel.cs" />
+    <Compile Include="Models\LoanCalculatorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -357,6 +359,8 @@
     <Content Include="Views\LoanApplication\Created.cshtml" />
     <Content Include="Views\Consultant\SecondStage.cshtml" />
     <Content Include="Views\Customer\Schedule.cshtml" />
+    <Content Include="Views\LoanCalculator\Index.cshtml" />
+    <Content Include="Views\LoanCalculator\PaymentSchedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

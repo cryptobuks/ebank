@@ -1,0 +1,35 @@
+﻿@model System.Collections.ObjectModel.Collection<Domain.Models.Loans.Payment>
+
+@{
+    ViewBag.Title = "PaymentSchedule";
+    Layout = "~/Views/LoanCalculator/Index.cshtml";
+}
+
+<h2>PaymentSchedule</h2>
+
+
+<table class="table">
+<tr>
+    <th>
+        @Html.Label("Period")
+    </th>
+    <th>
+        @Html.Label("Pay in month")
+    </th>
+
+</tr>
+    <tr>
+        @{var counter = 0;}
+        @foreach (var payment in Model)
+        {
+            counter++;
+            <tr>
+                <td>@counter</td>
+                <td>
+                    @Html.DisplayFor(modelItem => payment.Amount)
+                </td>
+            </tr>
+        }
+    </tr>
+
+</table>
