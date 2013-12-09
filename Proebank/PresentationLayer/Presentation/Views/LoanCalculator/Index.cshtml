@@ -1,0 +1,91 @@
+﻿@model Presentation.Models.LoanCalculatorModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+         <fieldset class="form-horizontal">
+             <legend>LoanCalculator</legend>
+
+             <table>
+                 <tr class="control-group">
+                     <td>@Html.LabelFor(model=>model.Sum)
+
+                     </td>
+                     <td>
+                         <div class="controls">
+                             @Html.TextBoxFor(model => Model.Sum)
+                             @Html.ValidationMessageFor(model => model.Sum, null, new { @class = "help-inline" })
+                         </div>
+                     </td>
+                 </tr>
+                 <tr class="control-group">
+                     <td>@Html.Label("Choose tariff")
+                     </td>
+                     <td>
+                         <div class="controls">
+                             @Html.DropDownListFor(model => model.TariffId, Model.Tariffs,"Please select...")
+                             
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>@Html.LabelFor(model=>model.Term)</td>
+                     <td>
+                         <div class="controls">
+                             @Html.TextBoxFor(model=>model.Term)
+                             @Html.ValidationMessageFor(model => model.Term, null, new { @class = "help-inline" })
+                         </div>
+                     </td>
+                 </tr>
+             </table>
+             
+             
+             @Html.ValidationMessageFor(model => model.TariffId, null, new { @class = "help-inline" })
+             
+
+             <div class="form-actions no-color">
+                 <input type="submit" value="Calculate" class="btn" />
+             </div>
+         </fieldset>
+
+     if(IsPost)
+     {
+         if (Model.Payments != null)
+         {
+             <h2>PaymentSchedule</h2>
+
+             <table class="table">
+                 <tr>
+                     <th>
+                         @Html.Label("Period")
+                     </th>
+                     <th>
+                         @Html.Label("Pay in month")
+                     </th>
+                 </tr>
+                 <tr>
+                     @{ var counter = 0; }
+                     @foreach (var payment in Model.Payments)
+                     {
+                         counter++;
+                         <tr>
+                             <td>@counter</td>
+                             <td>
+                                 @Html.DisplayFor(modelItem => payment.Amount)
+                             </td>
+                         </tr>
+                     }
+                 </tr>
+
+             </table>
+         }
+     }
+
+}

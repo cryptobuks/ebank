@@ -218,6 +218,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\LoanCalculatorController.cs" />
     <Compile Include="Controllers\ProcessingController.cs" />
     <Compile Include="Controllers\AtmController.cs" />
     <Compile Include="Controllers\LoanApplicationController.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AtmViewModel.cs" />
     <Compile Include="Models\CreatedEmployeeViewModel.cs" />
+    <Compile Include="Models\LoanCalculatorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -325,6 +327,8 @@
     <Content Include="Views\EmployeeManagement\Edit.cshtml" />
     <Content Include="Views\EmployeeManagement\Index.cshtml" />
     <Content Include="Views\EmployeeManagement\EmployeeCreated.cshtml" />
+    <Content Include="Views\LoanCalculator\Index.cshtml" />
+    <Content Include="Views\LoanCalculator\PaymentSchedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
