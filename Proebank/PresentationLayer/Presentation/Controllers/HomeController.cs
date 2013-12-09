@@ -28,7 +28,7 @@ namespace Presentation.Controllers
         [ChildActionOnly]
         public ActionResult MainMenu()
         {
-            ViewBag.Roles = Roles.GetRolesForUser();
+            //ViewBag.Roles = Roles.GetRolesForUser();
             return View("~/Views/Shared/MainMenu.cshtml");
         }
     }
