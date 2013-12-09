@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Domain;
 using Domain.Models.Customers;
 using Domain.Models.Users;
@@ -51,9 +52,12 @@ namespace Presentation.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
+                    return RedirectToLocal(returnUrl);
+                    // не работает, т.к. авторизация не срабатывает до загрузки страницы
+                    //Request.Cookies.Add(FormsAuthentication.GetAuthCookie(user.UserName, model.RememberMe));
                     var role = user.Roles.FirstOrDefault();
                     if (role == null)
-                        return RedirectToLocal(returnUrl);
+                        
                     switch (role.Role.Name)
                     {
                         case "Customer":
@@ -69,7 +73,7 @@ namespace Presentation.Controllers
                             RedirectToAction("Index", "LoanApplication");
                             break;
                         case "Credit committee":
-                            RedirectToAction("CommitteeIndex", "Security");
+                            RedirectToAction("Index", "Committee");
                             break;
                         case "Department head":
                             RedirectToAction("Index", "Head");
