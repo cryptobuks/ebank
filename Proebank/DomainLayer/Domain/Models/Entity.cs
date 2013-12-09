@@ -27,7 +27,9 @@ namespace Domain.Models
         public override bool Equals(object obj)
         {
             var other = obj as Entity;
-            return other != null && other.Id.Equals(Id);
+            return other != null
+                && other.Id.Equals(Id)
+                && other.GetType().FullName == GetType().FullName;
         }
 
         public override int GetHashCode()

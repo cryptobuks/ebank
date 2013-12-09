@@ -74,7 +74,12 @@
     <Compile Include="Migrations\201312070829039_TariffIdIsBack.Designer.cs">
       <DependentUpon>201312070829039_TariffIdIsBack.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201312082346354_LoanHistory.cs" />
+    <Compile Include="Migrations\201312082346354_LoanHistory.Designer.cs">
+      <DependentUpon>201312082346354_LoanHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\Loans\LoanHistory.cs" />
     <Compile Include="Repositories\RepositoryContainer.cs" />
     <Compile Include="Repositories\Db\Repository.cs" />
     <Compile Include="Repositories\Fakes\Repository.cs" />
@@ -147,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201312070829039_TariffIdIsBack.resx">
       <DependentUpon>201312070829039_TariffIdIsBack.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312082346354_LoanHistory.resx">
+      <DependentUpon>201312082346354_LoanHistory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

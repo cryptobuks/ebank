@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var isDepartmentHead = User.Identity.IsAuthenticated && User.IsInRole("Department head");
 }
 
 <h2>Details</h2>
@@ -105,6 +106,13 @@
     </dl>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @if (isDepartmentHead)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id=Model.Id });
+    }
+    else
+    {
+        @Html.ActionLink("Apply", "Create", "LoanApplication")
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>

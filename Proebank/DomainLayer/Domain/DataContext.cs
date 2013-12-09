@@ -28,6 +28,10 @@ namespace Domain
 
         public DbSet<Calendar> Calendars { get; set; }
 
+        public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<LoanHistory> History { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -55,7 +59,5 @@ namespace Domain
                 throw;
             }
         }
-
-        public System.Data.Entity.DbSet<Domain.Models.Users.Employee> Employees { get; set; }
     }
 }

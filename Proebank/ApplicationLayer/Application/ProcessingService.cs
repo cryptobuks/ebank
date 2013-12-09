@@ -291,11 +291,11 @@ namespace Application
             loanApplicationRepo.SaveChanges();
         }
 
-        public void CreateLoanApplication(LoanApplication loanApplication)
+        public void CreateLoanApplication(LoanApplication loanApplication, bool fromConsultant = false)
         {
             loanApplication.Documents = new List<Document>();
             loanApplication.TimeCreated = GetCurrentDate();
-            loanApplication.Status = LoanApplicationStatus.New;
+            loanApplication.Status = fromConsultant ? LoanApplicationStatus.InitiallyApproved : LoanApplicationStatus.New;
             var selectedTariff = GetTariffs(t => t.Id.Equals(loanApplication.TariffId)).Single();
             //loanApplication.Tariff = selectedTariff;
             loanApplication.LoanPurpose = selectedTariff.LoanPurpose;
@@ -316,15 +316,6 @@ namespace Application
             } 
         }
 
-        public void ConsiderLoanApplication(LoanApplication loanApplication, bool decision)
-        {
-            var loanApplicationRepo = GetRepository<LoanApplication>();
-            loanApplication.Status = decision
-                    ? LoanApplicationStatus.Approved
-                    : LoanApplicationStatus.Rejected;
-            loanApplicationRepo.AddOrUpdate(loanApplication);
-        }
-
         public void ApproveLoanAppication(LoanApplication loanApplication)
         {
             var loanRepo = GetRepository<LoanApplication>();
@@ -336,6 +327,14 @@ namespace Application
         public void RejectLoanApplication(LoanApplication loanApplication)
         {
             loanApplication.Status = LoanApplicationStatus.Rejected;
+            var loanRepository = GetRepository<LoanApplication>();
+            loanRepository.AddOrUpdate(loanApplication);
+            loanRepository.SaveChanges();
+        }
+
+        public void SendLoanApplicationToCommittee(LoanApplication loanApplication)
+        {
+            loanApplication.Status = LoanApplicationStatus.UnderCommitteeConsideration;
             var loanRepository = GetRepository<LoanApplication>();
             loanRepository.AddOrUpdate(loanApplication);
             loanRepository.SaveChanges();
@@ -539,6 +538,15 @@ namespace Application
             accountRepo.AddOrUpdate(account);
         }
         #endregion
+
+        public List<LoanHistory> GetHistory(LoanApplication application)
+        {
+            var nationalBank = GetRepository<LoanHistory>();
+            var doc =
+                application.Documents.Single(
+                    d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary);
+            return nationalBank.GetAll().Where(l => l.Person.Id == doc.Id).ToList();
+        }
 
         public void Dispose()
         {

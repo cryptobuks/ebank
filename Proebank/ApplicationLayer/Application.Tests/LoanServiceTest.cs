@@ -111,10 +111,17 @@ namespace Application.Tests
         }
 
         [TestMethod]
-        public void ConsiderLoanApplication()
+        public void ApproveLoanApplication()
         {
-            _service.ConsiderLoanApplication(_validLoanApp, true);
+            _service.ApproveLoanAppication(_validLoanApp);
             Assert.AreEqual(LoanApplicationStatus.Approved, _validLoanApp.Status);
+        }
+
+        [TestMethod]
+        public void RejectLoanApplication()
+        {
+            _service.RejectLoanApplication(_validLoanApp);
+            Assert.AreEqual(LoanApplicationStatus.Rejected, _validLoanApp.Status);
         }
     }
 }

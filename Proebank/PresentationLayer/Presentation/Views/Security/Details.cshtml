@@ -1,0 +1,57 @@
+﻿@model Presentation.Models.PersonalLoanHistoryViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Loan application details and history</h4>
+	<hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Application.LoanAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Application.LoanAmount)
+            @Html.DisplayFor(model => model.Application.Currency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Application.Term)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Application.Term)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Application.CellPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Application.CellPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Application.LoanPurpose)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Application.LoanPurpose)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Approve", "Approve", new { id = Model.Application.Id }) |*@
+    <a href="@Url.Action("Approve", new {id = Model.Application.Id})" title="Approve" class="btn btn-success btn-xs"><i class="fa fa-thumbs-up fa-lg"></i> Approve</a>
+    @*@Html.ActionLink("Reject", "Reject", new { id = Model.Application.Id }) |*@
+    <a href="@Url.Action("Reject", new {id = Model.Application.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-minus-square fa-lg"></i> Reject</a> |
+    <a href="@Url.Action("SendToCommittee", new {id = Model.Application.Id})" title="Send to committee" class="btn btn-danger btn-xs"><i class="fa fa-share-square-o fa-lg"></i> Send to committee</a> |
+    @Html.ActionLink("Back to List", "Index")
+</p>
