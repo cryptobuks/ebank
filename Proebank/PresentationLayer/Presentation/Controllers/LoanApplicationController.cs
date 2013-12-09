@@ -77,6 +77,7 @@ namespace Presentation.Controllers
             return View(loanApplication);
         }
 
+        [AllowAnonymous]
         public ActionResult Create()
         {
             var tariffs = _service.GetTariffs();
@@ -86,6 +87,7 @@ namespace Presentation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult Create(LoanApplication loanApplication)
         {
             loanApplication.Status = LoanApplicationStatus.New;

@@ -16,12 +16,14 @@ namespace Presentation.Controllers
             _service = new ProcessingService();
         }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var tariffs = _service.GetTariffs();
             return View(tariffs);
         }
 
+        [AllowAnonymous]
         public ActionResult Details(Guid? id)
         {
             if (id == null)
