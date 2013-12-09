@@ -311,15 +311,6 @@ namespace Application
             else throw new ArgumentException("Loan application is not valid");
         }
 
-        public void ConsiderLoanApplication(LoanApplication loanApplication, bool decision)
-        {
-            var loanApplicationRepo = GetRepository<LoanApplication>();
-            loanApplication.Status = decision
-                    ? LoanApplicationStatus.Approved
-                    : LoanApplicationStatus.Rejected;
-            loanApplicationRepo.AddOrUpdate(loanApplication);
-        }
-
         public void ApproveLoanAppication(LoanApplication loanApplication)
         {
             var loanRepo = GetRepository<LoanApplication>();
@@ -525,6 +516,15 @@ namespace Application
             accountRepo.AddOrUpdate(account);
         }
         #endregion
+
+        public List<LoanHistory> GetHistory(LoanApplication application)
+        {
+            var nationalBank = GetRepository<LoanHistory>();
+            var doc =
+                application.Documents.Single(
+                    d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary);
+            return nationalBank.GetAll().Where(l => l.Person.Id == doc.Id).ToList();
+        }
 
         public void Dispose()
         {

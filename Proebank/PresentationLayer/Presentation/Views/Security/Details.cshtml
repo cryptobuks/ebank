@@ -1,0 +1,100 @@
+﻿@model Presentation.Models.PersonalLoanHistoryViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LoanApplication</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Application.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tariff.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LoanAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoanAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeContracted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeContracted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Term)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Term)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CellPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CellPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LoanPurpose)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoanPurpose)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Currency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Currency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsRemoved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsRemoved)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Approve", "Approve", new { id = Model.Application.Id }) |
+    @Html.ActionLink("Reject", "Reject", new { id = Model.Application.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

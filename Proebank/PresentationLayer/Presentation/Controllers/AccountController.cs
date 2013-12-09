@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Domain;
@@ -50,7 +51,30 @@ namespace Presentation.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
+                    var role = user.Roles.FirstOrDefault();
+                    if (role == null)
+                        return RedirectToLocal(returnUrl);
+                    switch (role.Role.Name)
+                    {
+                        case "Customer":
+                            RedirectToAction("Index", "Customer");
+                            break;
+                        case "Security":
+                            RedirectToAction("Index", "Security");
+                            break;
+                        case "Operator":
+                            RedirectToAction("Index", "Operator");
+                            break;
+                        case "Consultant":
+                            RedirectToAction("Index", "LoanApplication");
+                            break;
+                        case "Credit committee":
+                            RedirectToAction("CommitteeIndex", "Security");
+                            break;
+                        case "Department head":
+                            RedirectToAction("Index", "Head");
+                            break;
+                    }
                 }
                 else
                 {
