@@ -1,4 +1,5 @@
 ﻿@using Domain.Enums
+@using Glimpse.Core.Extensions
 @model IEnumerable<Domain.Models.Loans.LoanApplication>
 
 @{
@@ -18,11 +19,25 @@
 <a href="@Url.Action("Create")" class="btn btn-default"><i class="fa fa-plus"></i> Create new</a>
 
 <ul class="nav nav-tabs">
-    <li id="loan-application-tab-all"><a href="@Url.Action("Index")">All</a></li>
-    <li id="loan-application-tab-new"><a href="@Url.Action("New")">New</a></li>
-    <li id="loan-application-tab-approved"><a href="@Url.Action("Approved")">Approved</a></li>
-    <li id="loan-application-tab-rejected"><a href="@Url.Action("Rejected")">Rejected</a></li>
-    <li id="loan-application-tab-contracted"><a href="@Url.Action("Contracted")">Contracted</a></li>
+    @if (User.IsInRole("Consultant"))
+    {
+        <li id="loan-application-tab-new"><a href="@Url.Action("New")"><i class="fa fa-file-text fa-2x"></i></a></li>
+        <li id="loan-application-tab-reviewed"><a href="@Url.Action("Reviewed")"><i class="fa fa-unlock fa-2x"></i></a></li>
+        <li id="loan-application-tab-contracted"><a href="@Url.Action("Contracted")"><i class="fa fa-briefcase fa-2x"></i></a></li>
+    }
+    else if (User.IsInRole("Security"))
+    {
+        <li id="loan-application-tab-security"><a href="@Url.Action("OnSecurityReview")"><i class="fa fa-lock fa-2x"></i></a></li>
+    }
+    else if (User.IsInRole("Credit committee"))
+    {
+        <li id="loan-application-tab-committee"><a href="@Url.Action("OnCommitteeReview")"><i class="fa fa-users fa-2x"></i></a></li>
+    }
+    else if (User.IsInRole("Department head"))
+    {
+        <li id="loan-application-tab-all"><a href="@Url.Action("Index")"><i class="fa fa-globe fa-2x"></i></a></li>
+        <li id="loan-application-tab-contracted"><a href="@Url.Action("Contracted")"><i class="fa fa-briefcase fa-2x"></i></a></li>
+    }
 </ul>
 
 <table class="table">
@@ -36,9 +51,12 @@
         <th>
             @Html.DisplayNameFor(model => model.TimeCreated)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeContracted)
-        </th>
+            @if ((string)ViewBag.ActiveTab == "contracted")
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.TimeContracted)
+                </th>
+            }
         <th>
             @Html.DisplayNameFor(model => model.Term)
         </th>
@@ -69,11 +87,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TimeCreated)
             </td>
+            @if (item.Status == LoanApplicationStatus.Contracted)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeContracted)
+                </td>
+            }
             <td>
-                @Html.DisplayFor(modelItem => item.TimeContracted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Term)
+                @Html.DisplayFor(modelItem => item.Term) month(s)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CellPhone)
@@ -88,40 +109,29 @@
                 @Html.DisplayFor(modelItem => item.Currency)
             </td>
             <td>
-                @*<div class="btn-group open">
-                  <a class="btn btn-primary" href="#"><i class="fa fa-user fa-fw"></i> Actions</a>
-                  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class="fa fa-caret-down"></span></a>
-                    <ul class="dropdown-menu">
-                        @switch (item.Status)
-                        {
-                            case LoanApplicationStatus.New:
-                                <li><a href="@Url.Action("Approve", new {id = item.Id})" title="Approve" class="btn btn-success btn-xs"><i class="fa fa-thumbs-up fa-lg"></i> Approve</a></li>
-                                <li><a href="@Url.Action("Reject", new {id = item.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-minus-square fa-lg"></i> Reject</a></li>
-                                break;
-                            case LoanApplicationStatus.Approved:
-                                <li><a href="@Url.Action("Contract", new {id = item.Id})" title="Contract" class="btn btn-info btn-xs"><i class="fa fa-star fa-lg"></i> Contract</a></li>
-                                break;
-                        }
-                        <li><a href="@Url.Action("Edit", new { id = item.Id})" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-edit fa-lg fa-lg"></i></a></li>
-                        <li><a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info-circle fa-lg"></i></a></li>
-                        <li><a href="@Url.Action("Delete", new { id = item.Id})" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-lg"></i></a></li>
-                    </ul>
-                </div>*@
                 @switch (item.Status)
                 {
                     case LoanApplicationStatus.New:
-                        <a href="@Url.Action("Approve", new {id = item.Id})" title="Approve" class="btn btn-success btn-xs"><i class="fa fa-thumbs-up fa-lg"></i> Approve</a>
-                        <a href="@Url.Action("Reject", new {id = item.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-minus-square fa-lg"></i> Reject</a>
-                        @:|
+                    case LoanApplicationStatus.InitiallyApproved:
+                        <a href="@Url.Action("SecondStage", new { id = item.Id })" title="SecondStage" class="btn btn-primary btn-xs"><i class="fa fa-paperclip fa-lg"></i> Fill docs</a>
+                        break;
+                    case LoanApplicationStatus.UnderCommitteeConsideration:
+                    case LoanApplicationStatus.UnderRiskConsideration:
+                        <a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info fa-lg"></i></a>
+                        <a href="@Url.Action("History", new { id = item.Id })" title="History" class="btn btn-default btn-xs"><i class="fa fa-envelope fa-lg"></i></a>
+                        <a href="@Url.Action("Approve", new { id = item.Id })" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-check fa-lg"></i> Fill docs</a>
+                        <a href="@Url.Action("Reject", new { id = item.Id })" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-times fa-lg"></i> Fill docs</a>
                         break;
                     case LoanApplicationStatus.Approved:
-                        <a href="@Url.Action("Contract", new {id = item.Id})" title="Contract" class="btn btn-info btn-xs"><i class="fa fa-star fa-lg"></i> Contract</a>
+                        <a href="@Url.Action("Contract", new { id = item.Id })" title="Contract" class="btn btn-success btn-xs"><i class="fa fa-pencil fa-lg"></i> Sign contract</a>
+                        break;
+                    case LoanApplicationStatus.Rejected:
+                    case LoanApplicationStatus.Annuled:
+                        <a href="@Url.Action("Delete", new { id = item.Id })" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
+                        break;
+                    case LoanApplicationStatus.Contracted:
                         break;
                 }
-                <a href="@Url.Action("Edit", new { id = item.Id})" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-edit fa-lg fa-lg"></i></a>
-                <a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
-                <a href="@Url.Action("Delete", new { id = item.Id})" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
             </td>
         </tr>
     }

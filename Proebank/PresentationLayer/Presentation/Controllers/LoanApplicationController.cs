@@ -20,7 +20,7 @@ namespace Presentation.Controllers
             _service = new ProcessingService();
         }
 
-        [Authorize(Roles = "Department head, Consultant, Security service, Credit committee")]
+        [Authorize(Roles = "Department head, Consultant, Security, Credit committee")]
         public ActionResult Index()
         {
             var loanApplications = _service.GetLoanApplications(la => true);//.Include(l => l.Tariff);
@@ -239,6 +239,31 @@ namespace Presentation.Controllers
                 _service.RejectLoanApplication(loanApplication);
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult SecondStage(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult History(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult Reviewed()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult OnSecurityReview()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult OnCommitteeReview()
+        {
+            throw new NotImplementedException();
         }
     }
 }
