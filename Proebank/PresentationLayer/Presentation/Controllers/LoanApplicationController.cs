@@ -38,10 +38,10 @@ namespace Presentation.Controllers
             }
             if (User.IsInRole("Department head"))
             {
-                ViewBag.ActiveTab = "All";
+            ViewBag.ActiveTab = "All";
                 var loanApplications = _service.GetLoanApplications(true);
-                return View(loanApplications);
-            }
+            return View(loanApplications);
+        }
             else
             {
                 return new HttpUnauthorizedResult();
@@ -236,7 +236,7 @@ namespace Presentation.Controllers
             _service.DeleteLoanApplicationById(id);
             return RedirectToAction("Index");
         }
-        
+
         public ActionResult Contract(Guid? id)
         {
             if (id == null)
@@ -325,6 +325,45 @@ namespace Presentation.Controllers
         {
             _service.SendLoanApplicationToCommittee(application);
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Fill(Guid? id)
+        {
+            if (id == null)
+            {
+                return View();
+            }
+            var loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            var selectedTariffId = "";
+            if (loanApplication == null)
+            {
+                return HttpNotFound();
+            }
+
+            selectedTariffId = loanApplication.TariffId.ToString();
+            var tariffs = _service.GetTariffs();
+            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", selectedTariffId);
+            return View(loanApplication);
+        }
+
+        [HttpPost, ActionName("Fill")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Fill(LoanApplication loanApplication)
+        {
+            var original = _service.GetLoanApplications(l => l.Id.Equals(loanApplication.Id)).Single();
+            var selectedTariffId = "";
+            if (original != null)
+            {
+                loanApplication.TimeCreated = original.TimeCreated;
+                selectedTariffId = original.TariffId.ToString();
+            }
+            if (ModelState.IsValid)
+            {
+                _service.UpsertLoanApplication(loanApplication);
+            }
+            var tariffList = _service.GetTariffs();
+            ViewBag.TariffId = new SelectList(tariffList, "Id", "Name");
+            return View(loanApplication);
         }
     }
 }

@@ -82,6 +82,10 @@
     <Compile Include="Migrations\201312092003240_RequireCellPhone.Designer.cs">
       <DependentUpon>201312092003240_RequireCellPhone.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201312100010475_LoanApplicationFull.cs" />
+    <Compile Include="Migrations\201312100010475_LoanApplicationFull.Designer.cs">
+      <DependentUpon>201312100010475_LoanApplicationFull.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Loans\LoanHistory.cs" />
     <Compile Include="Repositories\RepositoryContainer.cs" />
@@ -162,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201312092003240_RequireCellPhone.resx">
       <DependentUpon>201312092003240_RequireCellPhone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312100010475_LoanApplicationFull.resx">
+      <DependentUpon>201312100010475_LoanApplicationFull.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
