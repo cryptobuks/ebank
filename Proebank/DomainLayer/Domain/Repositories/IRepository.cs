@@ -12,7 +12,6 @@ namespace Domain.Repositories
         void AddOrUpdate(T entity);
         void Remove(T entity);
         void SaveChanges();
-
         bool IsDisposed { get; }
     }
 }

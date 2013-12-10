@@ -40,7 +40,7 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            var history = _service.GetHistory(application);
+            var history = _service.GetHistoryFromNationalBank(application);
             if (history == null)
             {
                 return HttpNotFound();
