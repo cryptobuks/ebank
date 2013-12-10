@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+
+<ul class="nav navbar-nav">
+    @if (User.IsInRole("Consultant"))
+    {
+        <li>@Html.ActionLink("Applications", "Index", "LoanApplication")</li>
+    }
+    else if (User.IsInRole("Operator"))
+    {
+        <li>@Html.ActionLink("Payments", "Index", "Atm")</li>
+    }
+    else if (User.IsInRole("Security"))
+    {
+        <li>@Html.ActionLink("Applications", "Index", "LoanApplication")</li>
+    }
+    else if (User.IsInRole("Credit committee"))
+    {
+        <li>@Html.ActionLink("Applications", "Index", "LoanApplication")</li>
+    }
+    else if (User.IsInRole("Department head"))
+    {
+        <li>@Html.ActionLink("Calendar", "Index", "Processing")</li>
+    }
+    <li>@Html.ActionLink("Tariffs", "Index", "Tariffs")</li>
+    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    <li>@Html.ActionLink("About", "About", "Home")</li>
+</ul>

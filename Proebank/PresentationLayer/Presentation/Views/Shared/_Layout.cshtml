@@ -10,7 +10,7 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -21,17 +21,7 @@
                 @Html.ActionLink("PROebank", "Index", "Home", null, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Applications", "Index", "LoanApplication")</li>
-                    <li>@Html.ActionLink("Tariffs", "Index", "Tariffs")</li>
-                    <li>@Html.ActionLink("Calendar", "Index", "Processing")</li>
-                    <li>@Html.ActionLink("Security", "Index", "Security")</li>
-                    <li>@Html.ActionLink("Comittee", "Index", "Committee")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("LoanCalculator","Index","LoanCalculator")</li>
-                </ul>
+                @Html.Action("MainMenu", "Home")
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

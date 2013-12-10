@@ -219,10 +219,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommitteeController.cs" />
-    <Compile Include="Controllers\ConsultantController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
-    <Compile Include="Controllers\HeadController.cs" />
-    <Compile Include="Controllers\OperatorController.cs" />
     <Compile Include="Controllers\LoanCalculatorController.cs" />
     <Compile Include="Controllers\ProcessingController.cs" />
     <Compile Include="Controllers\AtmController.cs" />
@@ -254,6 +251,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\img\bg.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -340,6 +338,7 @@
     <Content Include="Views\EmployeeManagement\Edit.cshtml" />
     <Content Include="Views\EmployeeManagement\Index.cshtml" />
     <Content Include="Views\EmployeeManagement\EmployeeCreated.cshtml" />
+    <Content Include="Views\Shared\MainMenu.cshtml" />
     <Content Include="Views\Security\Details.cshtml" />
     <Content Include="Views\Security\Index.cshtml" />
     <Content Include="Views\Committee\Create.cshtml" />
@@ -347,22 +346,13 @@
     <Content Include="Views\Committee\Details.cshtml" />
     <Content Include="Views\Committee\Edit.cshtml" />
     <Content Include="Views\Committee\Index.cshtml" />
-    <Content Include="Views\Customer\Create.cshtml" />
-    <Content Include="Views\Customer\Delete.cshtml" />
     <Content Include="Views\Customer\Details.cshtml" />
-    <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
-    <Content Include="Views\Head\Index.cshtml" />
-    <Content Include="Views\Consultant\Create.cshtml" />
-    <Content Include="Views\Consultant\Delete.cshtml" />
-    <Content Include="Views\Consultant\Details.cshtml" />
-    <Content Include="Views\Consultant\Edit.cshtml" />
-    <Content Include="Views\Consultant\Index.cshtml" />
-    <Content Include="Views\Shared\_LoanApplicationsPartial.cshtml" />
     <Content Include="Views\LoanApplication\Created.cshtml" />
-    <Content Include="Views\Consultant\SecondStage.cshtml" />
+    <Content Include="Views\Customer\Schedule.cshtml" />
     <Content Include="Views\LoanCalculator\Index.cshtml" />
     <Content Include="Views\LoanCalculator\PaymentSchedule.cshtml" />
+    <Content Include="Views\LoanApplication\Fill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

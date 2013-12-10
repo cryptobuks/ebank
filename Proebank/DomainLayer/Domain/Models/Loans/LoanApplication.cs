@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Domain.Enums;
 
 namespace Domain.Models.Loans
 {
     public class LoanApplication : Entity
     {
-        [DisplayName("Loan Amount")]
-        [Range(0, 100000000)]
+        [DisplayName("Loan amount")]
+        [Range(0, 1000000000)]
         public decimal LoanAmount { get; set; }
 
-        [DisplayName("Time Created")]
+        [DisplayName("Time created")]
         //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy hh:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime TimeCreated { get; set; }
 
-        [DisplayName("Time Contracted")]
+        [DisplayName("Time contracted")]
         //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy hh:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? TimeContracted { get; set; }
@@ -25,14 +27,16 @@ namespace Domain.Models.Loans
         [DisplayName("Term")]
         public int Term { get; set; }
 
-        [DisplayName("Cell Phone")]
+        [DisplayName("Cell phone")]
+        [Required]
+        [Phone]
         public string CellPhone { get; set; }
 
         public virtual Tariff Tariff { get; set; }
 
         public Guid TariffId { get; set; }
 
-        [DisplayName("Loan Purpose")]
+        [DisplayName("Loan purpose")]
         public LoanPurpose LoanPurpose { get; set; }
 
         [DisplayName("Status")]
@@ -43,5 +47,64 @@ namespace Domain.Models.Loans
 
         [DisplayName("Currency")]
         public Currency Currency { get; set; }
+
+        [DisplayName("Middle income (last 6 month)")]
+        public decimal MiddleIncome { get; set; }
+
+        [DisplayName("Children count")]
+        [Range(0, int.MaxValue)]
+        public int ChildrenCount { get; set; }
+
+        [DisplayName("Higher education")]
+        public bool HigherEducation { get; set; }
+
+        [DisplayName("Married")]
+        public bool IsMarried { get; set; }
+
+        [DisplayName("Lenght of work")]
+        [Range(0, int.MaxValue)]
+        public int LenghtOfWork { get; set; }
+
+        [DisplayName("Bithday")]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? Bithday { get; set; }
+
+        [DisplayName("Homeowner")]
+        public bool IsHomeowner { get; set; }
+
+        [DisplayName("Passport")]
+        [NotMapped]
+        public string Passport
+        {
+            get
+            {
+                var passport = Documents
+                    .SingleOrDefault(
+                        d => d.DocType.Equals(DocType.Passport) && d.TariffDocType.Equals(TariffDocType.DebtorPrimary));
+                var number = "";
+                if (passport != null)
+                {
+                    number = passport.Number;
+                }
+                return number;
+            }
+            set
+            {
+                var passport = Documents
+                    .SingleOrDefault(
+                        d => d.DocType.Equals(DocType.Passport) && d.TariffDocType.Equals(TariffDocType.DebtorPrimary));
+                if (passport == null)
+                {
+                    passport = new Document
+                    {
+                        Customer = null,
+                        DocType = DocType.Passport,
+                        TariffDocType = TariffDocType.DebtorPrimary,
+                        Number = value
+                    };
+                    Documents.Add(passport);
+                }
+            }
+        }
     }
 }
