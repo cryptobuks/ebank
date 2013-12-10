@@ -16,6 +16,13 @@
     <fieldset class="form-horizontal">
 
         <div class="control-group">
+            @Html.LabelFor(model => model.Passport, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Passport, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Passport, null, new { @class = "help-inline" })
+            </div>
+        </div>
+        <div class="control-group">
             @Html.LabelFor(model => model.LoanAmount, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.LoanAmount, new { @class = "form-control" })

@@ -78,6 +78,10 @@ namespace Domain.Models.Loans
         {
             get
             {
+                if (Documents == null)
+                {
+                    return null;
+                }
                 var passport = Documents
                     .SingleOrDefault(
                         d => d.DocType.Equals(DocType.Passport) && d.TariffDocType.Equals(TariffDocType.DebtorPrimary));
@@ -90,6 +94,10 @@ namespace Domain.Models.Loans
             }
             set
             {
+                if (Documents == null)
+                {
+                    this.Documents = new List<Document>();
+                }
                 var passport = Documents
                     .SingleOrDefault(
                         d => d.DocType.Equals(DocType.Passport) && d.TariffDocType.Equals(TariffDocType.DebtorPrimary));
