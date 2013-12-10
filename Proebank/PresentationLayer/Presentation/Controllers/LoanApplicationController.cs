@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.ObjectModel;
+using System.Net;
 using System.Web.Configuration;
 using Domain.Enums;
 using Domain.Models.Customers;
@@ -51,8 +52,16 @@ namespace Presentation.Controllers
         public ActionResult New()
         {
             var loanApplications = _service
-                .GetLoanApplications(a => a.Status == LoanApplicationStatus.New || a.Status == LoanApplicationStatus.InitiallyApproved);
+                .GetLoanApplications(a => a.Status == LoanApplicationStatus.New);
             ViewBag.ActiveTab = "New";
+            return View("Index", loanApplications);
+        }
+
+        public ActionResult PreApproved()
+        {
+            var loanApplications = _service
+                .GetLoanApplications(a => a.Status == LoanApplicationStatus.InitiallyApproved);
+            ViewBag.ActiveTab = "PreApproved";
             return View("Index", loanApplications);
         }
 
@@ -177,7 +186,14 @@ namespace Presentation.Controllers
                         return View();
                     }
                 }
-                return View("Created");
+                if (!User.Identity.IsAuthenticated || User.IsInRole("Customer"))
+                {
+                    return View("Created");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
             var tariffs = _service.GetTariffs();
@@ -356,6 +372,10 @@ namespace Presentation.Controllers
             {
                 loanApplication.TimeCreated = original.TimeCreated;
                 selectedTariffId = original.TariffId.ToString();
+                loanApplication.CellPhone = original.CellPhone;
+                loanApplication.Currency = original.Currency;
+                loanApplication.Status = LoanApplicationStatus.InitiallyApproved;
+                loanApplication.Documents = loanApplication.Documents ?? new Collection<Document>();
             }
             if (ModelState.IsValid)
             {
@@ -363,7 +383,7 @@ namespace Presentation.Controllers
             }
             var tariffList = _service.GetTariffs();
             ViewBag.TariffId = new SelectList(tariffList, "Id", "Name");
-            return View(loanApplication);
+            return RedirectToAction("Index");
         }
     }
 }
