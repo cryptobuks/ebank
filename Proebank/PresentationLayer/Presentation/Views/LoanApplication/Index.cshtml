@@ -16,7 +16,10 @@
 <h2>@ViewBag.ActiveTab Applications</h2>
 
 
-<a href="@Url.Action("Create")" class="btn btn-default"><i class="fa fa-plus"></i> Create new</a>
+@if (User.IsInRole("Consultant"))
+{
+    <a href="@Url.Action("Create")" class="btn btn-default"><i class="fa fa-plus"></i> Create new</a>
+}
 
 <ul class="nav nav-tabs">
     @if (User.IsInRole("Consultant"))
