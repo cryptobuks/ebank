@@ -331,15 +331,33 @@ namespace Presentation.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult SendToSecurity(LoanApplication application)
+        public ActionResult SendToSecurity(Guid? id)
         {
-            _service.SendLoanApplicationToCommittee(application);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            if (loanApplication == null)
+            {
+                return HttpNotFound();
+            }
+            _service.SendLoanApplicationToSecurity(loanApplication);
             return RedirectToAction("Index");
         }
 
-        public ActionResult SendToCommittee(LoanApplication application)
+        public ActionResult SendToCommittee(Guid? id)
         {
-            _service.SendLoanApplicationToCommittee(application);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            if (loanApplication == null)
+            {
+                return HttpNotFound();
+            }
+            _service.SendLoanApplicationToCommittee(loanApplication);
             return RedirectToAction("Index");
         }
 

@@ -346,6 +346,14 @@ namespace Application
             loanRepository.AddOrUpdate(loanApplication);
             loanRepository.SaveChanges();
         }
+
+        public void SendLoanApplicationToSecurity(LoanApplication loanApplication)
+        {
+            loanApplication.Status = LoanApplicationStatus.UnderRiskConsideration;
+            var loanRepository = GetRepository<LoanApplication>();
+            loanRepository.AddOrUpdate(loanApplication);
+            loanRepository.SaveChanges();
+        }
         #endregion
 
         #region Tariff service methods
