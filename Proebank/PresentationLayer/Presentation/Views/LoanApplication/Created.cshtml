@@ -6,7 +6,7 @@
 <h4>Bank consultant will call you after.</h4>
 
 <a class="btn btn-primary" href="@Url.Action("Index", "Home")">Return to Home</a>
-@if (User == null || User.IsInRole("Customer"))
+@if (!User.Identity.IsAuthenticated || User.IsInRole("Customer"))
 {
     <a class="btn btn-primary" href="@Url.Action("Index", "Customer")">Personal area</a>
 }

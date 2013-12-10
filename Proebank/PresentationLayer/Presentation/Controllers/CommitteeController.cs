@@ -26,31 +26,6 @@ namespace Presentation.Controllers
             return View(loanapplications.ToList());
         }
 
-        // GET: /Committee/Details/5
-        [Authorize(Roles = "Credit committee")]
-        public ActionResult Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var application = _service.GetLoanApplications(la => la.Id == id).SingleOrDefault();
-            if (application == null)
-            {
-                return HttpNotFound();
-            }
-            var history = _service.GetHistory(application);
-            if (history == null)
-            {
-                return HttpNotFound();
-            }
-            var customerId =
-                application.Documents.Single(
-                    d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary).CustomerId;
-            var viewModel = new PersonalLoanHistoryViewModel { Id = customerId, Application = application, History = history };
-            return View(viewModel);
-        }
-
         // POST: /Security/Approve/5
         [HttpPost, ActionName("Approve")]
         [ValidateAntiForgeryToken]

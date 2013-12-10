@@ -7,7 +7,7 @@ namespace Domain.Migrations
     {
         public override void Up()
         {
-            Sql("DELETE FROM dbo.LoanApplications WHERE CellPhone IS NULL");
+            //Sql("DELETE FROM dbo.LoanApplications WHERE CellPhone IS NULL");
         }
         
         public override void Down()

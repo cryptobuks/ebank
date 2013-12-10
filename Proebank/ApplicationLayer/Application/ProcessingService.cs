@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Diagnostics;
 using System.Linq;
 using Application.LoanProcessing;
@@ -270,6 +271,12 @@ namespace Application
 	    #endregion
 
         #region Loan application service methods
+        public IEnumerable<LoanApplication> GetLoanApplications(bool showRemoved = false)
+        {
+            var loanApplicationRepo = GetRepository<LoanApplication>();
+            return loanApplicationRepo.GetAll(showRemoved);
+        }
+
         public IEnumerable<LoanApplication> GetLoanApplications(Func<LoanApplication, bool> filter)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
@@ -539,13 +546,37 @@ namespace Application
         }
         #endregion
 
-        public List<LoanHistory> GetHistory(LoanApplication application)
+        public List<LoanHistory> GetHistoryFromNationalBank(LoanApplication application)
         {
             var nationalBank = GetRepository<LoanHistory>();
             var doc =
                 application.Documents.Single(
                     d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary);
-            return nationalBank.GetAll().Where(l => l.Person.Id == doc.Id).ToList();
+            var history = nationalBank.GetAll().Where(l => l.Person.Id == doc.Id).ToList();
+            if (!history.Any())
+            {
+                var gen = new Random();
+                if (gen.NextDouble() > 0.4)
+                {
+                    var started = new DateTime(2013 - gen.Next(0, 5), gen.Next(1, 12), gen.Next(1, 25));
+                    var closed = started.AddMonths(gen.Next(3, 60));
+                    var isClosed = closed <= GetCurrentDate();
+                    foreach (var i in Enumerable.Range(1, gen.Next(2, 6)))
+                    {
+                        var histItem = new LoanHistory
+                        {
+                            Amount = gen.Next(1, 500)*10000,
+                            HadProblems = gen.NextDouble() > 0.85,
+                            Person = doc,
+                            WhenOpened = started,
+                            WhenClosed = isClosed ? closed : (DateTime?) null,
+                        };
+                        history.Add(histItem);
+                    }
+                    nationalBank.SaveChanges();
+                }
+            }
+            return history;
         }
 
         public void Dispose()
