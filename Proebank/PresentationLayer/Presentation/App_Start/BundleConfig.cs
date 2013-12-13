@@ -28,6 +28,9 @@ namespace Presentation
 
             bundles.Add(new StyleBundle("~/font-awesome").Include(
                 "~/Content/font-awesome.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Chart").Include(
+            "~/Scripts/Chart.js"));
         }
     }
 }

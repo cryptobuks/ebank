@@ -229,6 +229,7 @@
     <Compile Include="Controllers\LoanController.cs" />
     <Compile Include="Controllers\EmployeeManagementController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\TariffsController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
@@ -273,6 +274,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
@@ -320,7 +322,6 @@
     <Content Include="Views\LoanApplication\Delete.cshtml" />
     <Content Include="Views\LoanApplication\Details.cshtml" />
     <Content Include="Views\LoanApplication\Edit.cshtml" />
-    <Content Include="Views\LoanApplication\Index.cshtml" />
     <Content Include="Views\Tariffs\Create.cshtml" />
     <Content Include="Views\Tariffs\Delete.cshtml" />
     <Content Include="Views\Tariffs\Details.cshtml" />
@@ -353,6 +354,7 @@
     <Content Include="Views\LoanCalculator\Index.cshtml" />
     <Content Include="Views\LoanCalculator\PaymentSchedule.cshtml" />
     <Content Include="Views\LoanApplication\Fill.cshtml" />
+    <Content Include="Views\Statistic\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
