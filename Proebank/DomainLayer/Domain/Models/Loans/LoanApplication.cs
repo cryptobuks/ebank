@@ -35,7 +35,7 @@ namespace Domain.Models.Loans
 
         public virtual Tariff Tariff { get; set; }
 
-        public Guid TariffId { get; set; }
+        public virtual Guid TariffId { get; set; }
 
         [DisplayName("Loan purpose")]
         public LoanPurpose LoanPurpose { get; set; }
@@ -50,6 +50,7 @@ namespace Domain.Models.Loans
         public Currency Currency { get; set; }
 
         [DisplayName("Middle income (last 6 month)")]
+        [Range(0, (double)decimal.MaxValue)]
         public decimal MiddleIncome { get; set; }
 
         [DisplayName("Children count")]
@@ -62,13 +63,13 @@ namespace Domain.Models.Loans
         [DisplayName("Married")]
         public bool IsMarried { get; set; }
 
-        [DisplayName("Lenght of work")]
+        [DisplayName("Length of work")]
         [Range(0, int.MaxValue)]
-        public int LenghtOfWork { get; set; }
+        public int LengthOfWork { get; set; }
 
-        [DisplayName("Bithday")]
+        [DisplayName("Birthday")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime? Bithday { get; set; }
+        public DateTime? Birthday { get; set; }
 
         [DisplayName("Homeowner")]
         public bool IsHomeowner { get; set; }

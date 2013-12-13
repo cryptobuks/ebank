@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Domain.Enums;
 using Domain.Models.Accounts;
@@ -87,7 +86,7 @@ namespace Domain.Migrations
                         return new Customer
                         {
                             Address = "test address",
-                            BirthDate = new DateTime(1990, 06, 30),
+                            DateOfBirth = new DateTime(1990, 06, 30),
                             Email = "test_customer@mail.by",
                             FirstName = "Karl",
                             Id = _customerUserId.ToString(),
@@ -130,7 +129,7 @@ namespace Domain.Migrations
                     }
                 }
                 userManager.AddToRole(user.Id, GetUserRoleFromUserId(user.Id));
-            } 
+            }
             #endregion
 
             #region seed bank account
@@ -209,23 +208,23 @@ namespace Domain.Migrations
 
             #region seed tariffs
             var tariff0 = new Tariff
-                {
-                    Id = Guid.Parse("DEF8A3B2-8439-4714-8084-CA30364D1E92"),
-                    Name = "Common Tariff",
-                    CreationDate = new DateTime(2013, 9, 1),
-                    Currency = Currency.BYR,
-                    EndDate = null,
-                    InitialFee = 0M,
-                    InterestRate = 0.5M,
-                    IsGuarantorNeeded = false,
-                    MinAmount = 10000,
-                    MaxAmount = 100000000,
-                    LoanPurpose = LoanPurpose.Common,
-                    MinAge = 18,
-                    MaxAge = 60,
-                    MinTerm = 1,
-                    MaxTerm = 24
-                };
+            {
+                Id = Guid.Parse("DEF8A3B2-8439-4714-8084-CA30364D1E92"),
+                Name = "Common Tariff",
+                CreationDate = new DateTime(2013, 9, 1),
+                Currency = Currency.BYR,
+                EndDate = null,
+                InitialFee = 0M,
+                InterestRate = 0.5M,
+                IsGuarantorNeeded = false,
+                MinAmount = 10000,
+                MaxAmount = 100000000,
+                LoanPurpose = LoanPurpose.Common,
+                MinAge = 18,
+                MaxAge = 60,
+                MinTerm = 1,
+                MaxTerm = 24
+            };
             var tariff1 = new Tariff
             {
                 Id = Guid.Parse("52A139D6-E673-4F72-B5D6-10D1F33FB878"),
@@ -245,7 +244,7 @@ namespace Domain.Migrations
                 MaxTerm = 36
             };
             context.Tariffs.AddOrUpdate(t => t.Id, tariff0);
-            context.Tariffs.AddOrUpdate(t => t.Id, tariff1); 
+            context.Tariffs.AddOrUpdate(t => t.Id, tariff1);
             #endregion
 
             context.SaveChanges();

@@ -22,9 +22,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Security")]
         public ActionResult Index()
         {
-            var loanapplications = _service.GetLoanApplications(la =>
-                la.Status == LoanApplicationStatus.UnderRiskConsideration && !la.IsRemoved);
-            return View(loanapplications.ToList());
+            var loanapplications = _service.GetLoanApplications()
+                .Where(la => la.Status == LoanApplicationStatus.UnderRiskConsideration && !la.IsRemoved);
+            return View(loanapplications);
         }
 
         // GET: /Security/Details/5
@@ -35,7 +35,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var application = _service.GetLoanApplications(la => la.Id == id).SingleOrDefault();
+            var application = _service.GetLoanApplications().SingleOrDefault(la => la.Id == id);
             if (application == null)
             {
                 return HttpNotFound();
@@ -58,7 +58,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Security")]
         public ActionResult Approved(Guid id)
         {
-            var loanapplication = _service.GetLoanApplications(la => la.Id == id).SingleOrDefault();
+            var loanapplication = _service.GetLoanApplications().SingleOrDefault(la => la.Id == id);
             _service.ApproveLoanAppication(loanapplication);
             return RedirectToAction("Index");
         }
@@ -69,7 +69,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Security")]
         public ActionResult Rejected(Guid id)
         {
-            var loanapplication = _service.GetLoanApplications(la => la.Id == id).SingleOrDefault();
+            var loanapplication = _service.GetLoanApplications().SingleOrDefault(la => la.Id == id);
             _service.RejectLoanApplication(loanapplication);
             return RedirectToAction("Index");
         }
@@ -80,7 +80,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Security")]
         public ActionResult SendToCommittee(Guid id)
         {
-            var loanapplication = _service.GetLoanApplications(la => la.Id == id).SingleOrDefault();
+            var loanapplication = _service.GetLoanApplications().SingleOrDefault(la => la.Id == id);
             _service.SendLoanApplicationToCommittee(loanapplication);
             return RedirectToAction("Index");
         }

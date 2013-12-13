@@ -18,7 +18,7 @@ namespace Domain.Models.Customers
 
         public string MiddleName { get; set; }
 
-        public DateTime? BirthDate { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         public string IdentificationNumber { get; set; }
 

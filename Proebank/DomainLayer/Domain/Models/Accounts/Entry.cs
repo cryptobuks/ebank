@@ -25,17 +25,13 @@ namespace Domain.Models.Accounts
             return other != null && other.Id.Equals(Id);
         }
 
-        public static Entry GetOppositeFor(Entry entry)
+        public static void GetOppositeFor(Entry entry, Entry destiny)
         {
-            var opposite = new Entry
-            {
-                Amount = entry.Amount*-1,
-                Currency = entry.Currency,
-                Date = entry.Date,
-                SubType = entry.SubType,
-                Type = entry.Type
-            };
-            return opposite;
+            destiny.Amount = entry.Amount*-1;
+            destiny.Currency = entry.Currency;
+            destiny.Date = entry.Date;
+            destiny.SubType = entry.SubType;
+            destiny.Type = entry.Type;
         }
     }
 }

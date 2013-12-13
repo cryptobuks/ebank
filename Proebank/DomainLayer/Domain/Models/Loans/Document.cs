@@ -19,7 +19,5 @@ namespace Domain.Models.Loans
         public TariffDocType TariffDocType { get; set; }
 
         public virtual Customer Customer { get; set; }
-
-        public virtual IEnumerable<LoanApplication> LoanApplications { get; set; }
     }
 }

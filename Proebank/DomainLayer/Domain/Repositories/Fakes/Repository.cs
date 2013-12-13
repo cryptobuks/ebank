@@ -12,6 +12,11 @@ namespace Domain.Repositories.Fakes
         private ObservableCollection<T> _collection;
         public bool IsDisposed { get; private set; }
 
+        public T Create()
+        {
+            return (T)Activator.CreateInstance(typeof (T));
+        }
+
         public Repository()
         {
             _collection = new ObservableCollection<T>();

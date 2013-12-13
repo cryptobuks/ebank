@@ -7,6 +7,7 @@ namespace Domain.Repositories
 {
     public interface IRepository<T> : IDisposable where T : IEntity
     {
+        T Create();
         IQueryable<T> GetAll(bool showRemoved = false);
         void AddOrUpdate(T entity);
         void Remove(T entity);

@@ -10,7 +10,7 @@ namespace Domain.Models.Loans
             Payments = new Collection<Payment>();
         }
 
-        public virtual Collection<Payment> Payments { get; private set; }
+        public Collection<Payment> Payments { get; private set; }
 
         public void AddPayment(Payment payment)
         {

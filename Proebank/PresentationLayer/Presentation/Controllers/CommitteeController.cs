@@ -21,9 +21,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Credit committee")]
         public ActionResult Index()
         {
-            var loanapplications = _service.GetLoanApplications(la =>
-                la.Status == LoanApplicationStatus.UnderCommitteeConsideration && !la.IsRemoved);
-            return View(loanapplications.ToList());
+            var loanapplications = _service.GetLoanApplications()
+                .Where(la => la.Status == LoanApplicationStatus.UnderCommitteeConsideration && !la.IsRemoved);
+            return View(loanapplications);
         }
 
         // POST: /Security/Approve/5
@@ -32,7 +32,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Credit committee")]
         public ActionResult Approved(Guid id)
         {
-            var loanapplication = _service.GetLoanApplications(la => la.Id == id).SingleOrDefault();
+            var loanapplication = _service.GetLoanApplications().SingleOrDefault(la => la.Id == id);
             _service.ApproveLoanAppication(loanapplication);
             return RedirectToAction("Index");
         }
@@ -43,7 +43,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Credit committee")]
         public ActionResult Rejected(Guid id)
         {
-            var loanapplication = _service.GetLoanApplications(la => la.Id == id).SingleOrDefault();
+            var loanapplication = _service.GetLoanApplications().SingleOrDefault(la => la.Id == id);
             _service.RejectLoanApplication(loanapplication);
             return RedirectToAction("Index");
         }

@@ -35,7 +35,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _processingService.GetLoanApplications(la => la.Id.Equals(loanApplicationId.Value)).SingleOrDefault();
+            var loanApplication = _processingService.GetLoanApplications().SingleOrDefault(la => la.Id.Equals(loanApplicationId.Value));
             if (loanApplication == null || loanApplication.Status != LoanApplicationStatus.Approved)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -51,7 +51,7 @@ namespace Presentation.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var laId = loanApplication.Id;
-            loanApplication = _processingService.GetLoanApplications(la => la.Id.Equals(laId)).Single();
+            loanApplication = _processingService.GetLoanApplications().Single(la => la.Id.Equals(laId));
 
             // check customer here because of using default UserStore and UserManager
             var doc = loanApplication.Documents.Single(d => d.TariffDocType == TariffDocType.DebtorPrimary);

@@ -40,7 +40,7 @@ namespace Application.Tests
                 FirstName = "Stanley",
                 MiddleName = "Matthew",
                 Address = "Minsk",
-                BirthDate = new DateTime(1972, 10, 17),
+                DateOfBirth = new DateTime(1972, 10, 17),
                 Email = null,
                 IdentificationNumber = "317041972A0PB1",
                 Phone = "+375111111111",
