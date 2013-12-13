@@ -16,15 +16,9 @@ namespace Domain.Repositories.Db
             _ctx = context;
         }
 
-        public IEnumerable<T> GetAll(bool showRemoved = false)
+        public IQueryable<T> GetAll(bool showRemoved = false)
         {
-            return _ctx.Set<T>().Where(e => showRemoved || !e.IsRemoved);
-        }
-
-        public IEnumerable<T> Where(Func<T, bool> predicate, bool showRemoved = false)
-        {
-            return GetAll(showRemoved).Where(predicate);
-            //return _ctx.Set<T>().Where(predicate);//.Where(e => !e.IsRemoved && predicate(e)).AsQueryable();
+            return _ctx.Set<T>().Where(e => !e.IsRemoved || showRemoved);
         }
 
         public void AddOrUpdate(T entity)

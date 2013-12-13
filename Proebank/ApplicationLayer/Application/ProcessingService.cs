@@ -132,7 +132,7 @@ namespace Application
         private Account GetBankAccount(Currency currency)
         {
             var accountRepo = GetRepository<Account>();
-            return accountRepo.Where(acc => acc.Type == AccountType.BankBalance &&  acc.Currency == currency).Single();
+            return accountRepo.GetAll().Single(acc => acc.Type == AccountType.BankBalance &&  acc.Currency == currency);
         }
 
         /// <summary>
@@ -243,10 +243,16 @@ namespace Application
         }
 
         #region Loan service methods
+        public IEnumerable<Loan> GetLoans()
+        {
+            var loanRepository = GetRepository<Loan>();
+            return loanRepository.GetAll();
+        }
+
         public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
         {
             var loanRepository = GetRepository<Loan>();
-            return loanRepository.Where(filter);
+            return loanRepository.GetAll().Where(filter);
         }
 
         private void UpsertLoan(Loan loan)
@@ -280,7 +286,7 @@ namespace Application
         public IEnumerable<LoanApplication> GetLoanApplications(Func<LoanApplication, bool> filter)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
-            return loanApplicationRepo.Where(filter);
+            return loanApplicationRepo.GetAll().Where(filter);
         }
 
         public void UpsertLoanApplication(LoanApplication loanApplication)
@@ -293,7 +299,7 @@ namespace Application
         public void DeleteLoanApplicationById(Guid id)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
-            var loanApplication = loanApplicationRepo.Where(la => la.Id.Equals(id)).Single();
+            var loanApplication = loanApplicationRepo.GetAll().Single(la => la.Id.Equals(id));
             loanApplicationRepo.Remove(loanApplication);
             loanApplicationRepo.SaveChanges();
         }
@@ -366,7 +372,7 @@ namespace Application
         public IEnumerable<Tariff> GetTariffs(Func<Tariff, bool> filter)
         {
             var tariffRepo = GetRepository<Tariff>();
-            return tariffRepo.Where(filter);
+            return tariffRepo.GetAll().Where(filter);
         }
 
         public void UpsertTariff(Tariff tariff)
@@ -510,7 +516,7 @@ namespace Application
         public Account CreateAccount(Currency currency, AccountType accountType)
         {
             var accountRepo = GetRepository<Account>();
-            var accountWithSameType = accountRepo.Where(a => a.Type.Equals(accountType));
+            var accountWithSameType = accountRepo.GetAll().Where(a => a.Type.Equals(accountType));
             var nextNumber = accountWithSameType.Any()
                 ? accountWithSameType.Max(a => a.Number) + 1
                 : 1;
