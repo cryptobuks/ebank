@@ -21,9 +21,10 @@ namespace Domain.Repositories.Db
             return _ctx.Set<T>().Where(e => showRemoved || !e.IsRemoved);
         }
 
-        public IEnumerable<T> Where(Func<T, bool> predicate)
+        public IEnumerable<T> Where(Func<T, bool> predicate, bool showRemoved = false)
         {
-            return _ctx.Set<T>().Where(predicate);//.Where(e => !e.IsRemoved && predicate(e)).AsQueryable();
+            return GetAll(showRemoved).Where(predicate);
+            //return _ctx.Set<T>().Where(predicate);//.Where(e => !e.IsRemoved && predicate(e)).AsQueryable();
         }
 
         public void AddOrUpdate(T entity)

@@ -19,12 +19,12 @@ namespace Domain.Repositories.Fakes
 
         public IEnumerable<T> GetAll(bool showRemoved = false)
         {
-            return _collection;//.Where(e => showRemoved || !e.IsRemoved);
+            return _collection.Where(e => showRemoved || !e.IsRemoved);
         }
 
-        public IEnumerable<T> Where(Func<T, bool> predicate)
+        public IEnumerable<T> Where(Func<T, bool> predicate, bool showRemoved = false)
         {
-            return _collection.Where(predicate);//.Where(e => !e.IsRemoved && predicate(e));
+            return GetAll().Where(predicate);
         }
 
         public void AddOrUpdate(T entity)
