@@ -16,29 +16,20 @@ namespace Domain.Migrations
 {
     public sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
-        private readonly Guid _customerUserId;
-        private readonly Guid _consultantUserId;
-        private readonly Guid _operatorUserId;
-        private readonly Guid _securityUserId;
-        private readonly Guid _committeeUserId;
-        private readonly Guid _headUserId;
-        private readonly Guid _bankAccByr;
-        private readonly Guid _bankAccEur;
-        private readonly Guid _bankAccUsd;
+        private readonly Guid _customerUserId = Guid.Parse("59A9C686-2CA7-4C2A-B397-FCA49554F8AA");
+        private readonly Guid _consultantUserId = Guid.Parse("4819B14F-3098-455C-B8AD-D2FFD53FCAC2");
+        private readonly Guid _operatorUserId = Guid.Parse("59B964BD-E155-485C-AB01-7C23F1C72534");
+        private readonly Guid _securityUserId = Guid.Parse("CAF1154E-37ED-45E7-80BE-FC490AEB53A8");
+        private readonly Guid _committeeUserId = Guid.Parse("894BBEDC-F68A-4683-9003-63F72F9652A5");
+        private readonly Guid _headUserId = Guid.Parse("219D15DF-1849-4C98-9B3D-8B709572036F");
+        private readonly Guid _bankAccByr = Guid.Parse("9B913259-EA90-4D2D-9DF8-2E6780D27F90");
+        private readonly Guid _bankAccEur = Guid.Parse("A15D1E0C-CC36-4538-B305-6256C8550EBC");
+        private readonly Guid _bankAccUsd = Guid.Parse("F9DB5805-E738-4236-B0C8-A24D839BF60F");
 
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-            _customerUserId = Guid.Parse("59A9C686-2CA7-4C2A-B397-FCA49554F8AA");
-            _consultantUserId = Guid.Parse("4819B14F-3098-455C-B8AD-D2FFD53FCAC2");
-            _operatorUserId = Guid.Parse("59B964BD-E155-485C-AB01-7C23F1C72534");
-            _securityUserId = Guid.Parse("CAF1154E-37ED-45E7-80BE-FC490AEB53A8");
-            _committeeUserId = Guid.Parse("894BBEDC-F68A-4683-9003-63F72F9652A5");
-            _headUserId = Guid.Parse("219D15DF-1849-4C98-9B3D-8B709572036F");
-            _bankAccByr = Guid.Parse("9B913259-EA90-4D2D-9DF8-2E6780D27F90");
-            _bankAccEur = Guid.Parse("A15D1E0C-CC36-4538-B305-6256C8550EBC");
-            _bankAccUsd = Guid.Parse("F9DB5805-E738-4236-B0C8-A24D839BF60F");
         }
 
         protected override void Seed(DataContext context)
@@ -49,13 +40,18 @@ namespace Domain.Migrations
             var bankCreationDate = new DateTime(2013, 8, 15);
 
             #region seed calendar
-            var calendarEntry = new Calendar
+
+            if (!context.Calendars.Any(c => c.Id == Calendar.ConstGuid))
+            {
+                var calendarEntry = new Calendar
                 {
                     Id = Calendar.ConstGuid,
                     CurrentTime = bankCreationDate,
                     ProcessingLock = false
                 };
-            context.Calendars.AddOrUpdate(c => c.Id, calendarEntry); 
+                context.Calendars.AddOrUpdate(c => c.Id, calendarEntry);
+            }
+
             #endregion
 
             #region seed users and users' roles
@@ -138,61 +134,77 @@ namespace Domain.Migrations
             #endregion
 
             #region seed bank account
-            var bankAccountByr = new Account
-            {
-                Currency = Currency.BYR,
-                DateOpened = bankCreationDate,
-                Id = _bankAccByr,
-                Number = 1,
-                Entries = new List<Entry>(),
-                Type = AccountType.BankBalance
-            };
-            var bankAccountEur = new Account
-            {
-                Currency = Currency.EUR,
-                DateOpened = bankCreationDate,
-                Id = _bankAccEur,
-                Number = 1,
-                Entries = new List<Entry>(),
-                Type = AccountType.BankBalance
-            };
-            var bankAccountUsd = new Account
-            {
-                Currency = Currency.USD,
-                DateOpened = bankCreationDate,
-                Id = _bankAccUsd,
-                Number = 1,
-                Entries = new List<Entry>(),
-                Type = AccountType.BankBalance
-            };
 
-            bankAccountByr.Entries.Add(new Entry()
+            var bankAccountByr = context.Accounts.SingleOrDefault(acc => acc.Id == _bankAccByr);
+            if (bankAccountByr == null)
             {
-                Amount = 1E14M,
-                Date = bankCreationDate,
-                Currency = Currency.BYR,
-                Type = EntryType.Capital,
-                SubType = EntrySubType.CharterCapital
-            });
-            bankAccountEur.Entries.Add(new Entry()
+                bankAccountByr = new Account
+                {
+                    Currency = Currency.BYR,
+                    DateOpened = bankCreationDate,
+                    Id = _bankAccByr,
+                    Number = 1,
+                    Entries = new List<Entry>(),
+                    Type = AccountType.BankBalance
+                };
+
+                bankAccountByr.Entries.Add(new Entry()
+                {
+                    Amount = 1E14M,
+                    Date = bankCreationDate,
+                    Currency = Currency.BYR,
+                    Type = EntryType.Capital,
+                    SubType = EntrySubType.CharterCapital
+                });
+                context.Accounts.AddOrUpdate(bankAccountByr);
+            }
+
+            var bankAccountEur = context.Accounts.SingleOrDefault(acc => acc.Id == _bankAccByr);
+            if (bankAccountEur == null)
             {
-                Amount = 1E8M,
-                Date = bankCreationDate,
-                Currency = Currency.EUR,
-                Type = EntryType.Capital,
-                SubType = EntrySubType.CharterCapital
-            });
-            bankAccountUsd.Entries.Add(new Entry()
+                bankAccountEur = new Account
+                {
+                    Currency = Currency.EUR,
+                    DateOpened = bankCreationDate,
+                    Id = _bankAccEur,
+                    Number = 1,
+                    Entries = new List<Entry>(),
+                    Type = AccountType.BankBalance
+                };
+                bankAccountEur.Entries.Add(new Entry()
+                {
+                    Amount = 1E8M,
+                    Date = bankCreationDate,
+                    Currency = Currency.EUR,
+                    Type = EntryType.Capital,
+                    SubType = EntrySubType.CharterCapital
+                });
+                context.Accounts.AddOrUpdate(bankAccountEur);
+            }
+
+            var bankAccountUsd = context.Accounts.SingleOrDefault(acc => acc.Id == _bankAccUsd);
+            if (bankAccountUsd == null)
             {
-                Amount = 1E8M,
-                Date = bankCreationDate,
-                Currency = Currency.USD,
-                Type = EntryType.Capital,
-                SubType = EntrySubType.CharterCapital
-            });
-            context.Accounts.AddOrUpdate(bankAccountByr);
-            context.Accounts.AddOrUpdate(bankAccountEur);
-            context.Accounts.AddOrUpdate(bankAccountUsd);
+                bankAccountUsd = new Account
+                {
+                    Currency = Currency.USD,
+                    DateOpened = bankCreationDate,
+                    Id = _bankAccUsd,
+                    Number = 1,
+                    Entries = new List<Entry>(),
+                    Type = AccountType.BankBalance
+                };
+                bankAccountUsd.Entries.Add(new Entry()
+                {
+                    Amount = 1E8M,
+                    Date = bankCreationDate,
+                    Currency = Currency.USD,
+                    Type = EntryType.Capital,
+                    SubType = EntrySubType.CharterCapital
+                });
+                context.Accounts.AddOrUpdate(bankAccountUsd);
+            }
+
             #endregion
 
             #region seed tariffs
