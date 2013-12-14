@@ -175,11 +175,13 @@ namespace Application
         private void ProcessContractServiceAccounts()
         {
             // We filter only loans with below zero balance on contract service account
-            var loansWithMoneyOnServiceAccount = GetLoans(loan =>
-            {
-                var contractServiceAcc = loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
-                return contractServiceAcc != null && contractServiceAcc.Balance > 0;
-            });
+            var loansWithMoneyOnServiceAccount = GetLoans()
+                .AsEnumerable()
+                .Where(loan =>
+                {
+                    var contractServiceAcc = loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
+                    return contractServiceAcc != null && contractServiceAcc.Balance > 0;
+                });
             foreach (var loan in loansWithMoneyOnServiceAccount)
             {
                 var accounts = loan.Accounts;
@@ -249,16 +251,16 @@ namespace Application
         }
 
         #region Loan service methods
-        public IEnumerable<Loan> GetLoans()
+        public IQueryable<Loan> GetLoans()
         {
             var loanRepository = GetRepository<Loan>();
             return loanRepository.GetAll();
         }
 
-        public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
+        public Loan FindLoan(Guid? id)
         {
             var loanRepository = GetRepository<Loan>();
-            return loanRepository.GetAll().Where(filter);
+            return loanRepository.Find(id);
         }
 
         private void UpsertLoan(Loan loan)
@@ -289,6 +291,12 @@ namespace Application
             return loanApplicationRepo.GetAll(showRemoved);
         }
 
+        public LoanApplication LoanApplication(Guid? id)
+        {
+            var loanApplicationRepo = GetRepository<LoanApplication>();
+            return loanApplicationRepo.Find(id);
+        }
+
         public void UpsertLoanApplication(LoanApplication loanApplication)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
@@ -299,7 +307,7 @@ namespace Application
         public void DeleteLoanApplicationById(Guid id)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
-            var loanApplication = loanApplicationRepo.GetAll().Single(la => la.Id.Equals(id));
+            var loanApplication = loanApplicationRepo.GetAll().Single(la => la.Id == id);
             loanApplicationRepo.Remove(loanApplication);
             loanApplicationRepo.SaveChanges();
         }
@@ -379,7 +387,7 @@ namespace Application
         public void DeleteTariffById(Guid id)
         {
             var tariffRepo = GetRepository<Tariff>();
-            var tariff = tariffRepo.GetAll().Single(t => t.Id.Equals(id));
+            var tariff = tariffRepo.GetAll().Single(t => t.Id == id);
             tariff.EndDate = GetCurrentDate();
             tariffRepo.Remove(tariff);
             tariffRepo.SaveChanges();

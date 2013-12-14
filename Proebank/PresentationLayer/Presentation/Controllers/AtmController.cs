@@ -13,9 +13,11 @@ namespace Presentation.Controllers
         {
             _service = new ProcessingService();
         }
+
+        [Authorize(Roles = "Operator")]
         public ActionResult Index()
         {
-            var loans = _service.GetLoans(l => true);
+            var loans = _service.GetLoans();
             ViewBag.LoanId = new SelectList(loans, "Id", "Id");
             return View();
         }
@@ -27,7 +29,7 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var loan = _service.GetLoans(l => l.Id == model.LoanId).FirstOrDefault();
+                var loan = _service.GetLoans().FirstOrDefault(l => l.Id == model.LoanId);
                 if (loan != null)
                 {
                     _service.RegisterPayment(loan, model.Amount);

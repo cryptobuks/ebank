@@ -5,10 +5,6 @@ using Domain.Enums;
 using Domain.Models.Loans;
 using Application;
 using System.Net;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity;
-using Domain.Models.Customers;
-using Domain;
 
 namespace Presentation.Controllers
 {
@@ -24,7 +20,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Department head, Consultant")]
         public ActionResult Index()
         {
-            var loans = _processingService.GetLoans(la => true);
+            var loans = _processingService.GetLoans();
             return View(loans);
         }
 
