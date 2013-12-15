@@ -20,11 +20,6 @@ namespace Domain.Models.Accounts
 
         public EntrySubType SubType { get; set; }
 
-        public bool SameIdentityAs(Entry other)
-        {
-            return other != null && other.Id.Equals(Id);
-        }
-
         public static void GetOppositeFor(Entry entry, Entry destiny)
         {
             destiny.Amount = entry.Amount*-1;

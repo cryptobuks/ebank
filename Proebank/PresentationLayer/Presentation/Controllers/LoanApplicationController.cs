@@ -39,14 +39,11 @@ namespace Presentation.Controllers
             }
             if (User.IsInRole("Department head"))
             {
-            ViewBag.ActiveTab = "All";
+                ViewBag.ActiveTab = "All";
                 var loanApplications = _service.GetLoanApplications(true);
-            return View(loanApplications);
-        }
-            else
-            {
-                return new HttpUnauthorizedResult();
+                return View(loanApplications);
             }
+            return new HttpUnauthorizedResult();
         }
 
         public ActionResult New()
@@ -154,7 +151,7 @@ namespace Presentation.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var loanApplication = _service.GetLoanApplications()
-                .Single(l => l.Id.Equals(id));
+                .Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -163,10 +160,10 @@ namespace Presentation.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Create()
+        public ActionResult Create(Guid? id)
         {
             var tariffs = _service.GetTariffs();
-            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
+            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", tariffs.FirstOrDefault(t => t.Id == id));
             return View();
         }
 
@@ -218,7 +215,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanapplication = _service.GetLoanApplications().Single(l => l.Id.Equals(id));
+            var loanapplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanapplication == null)
             {
                 return HttpNotFound();
@@ -248,7 +245,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications().Single(l => l.Id.Equals(id));
+            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();

@@ -24,6 +24,11 @@ namespace Domain.Repositories.Db
             return _ctx.Set<T>().Create();
         }
 
+        public T Find(Guid? id)
+        {
+            return _ctx.Set<T>().Find(id);
+        }
+
         public IQueryable<T> GetAll(bool showRemoved = false)
         {
             return _ctx.Set<T>().Where(e => !e.IsRemoved || showRemoved);

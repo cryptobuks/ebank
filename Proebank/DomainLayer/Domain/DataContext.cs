@@ -14,13 +14,9 @@ namespace Domain
 {
     public class DataContext : IdentityDbContext<IdentityUser>
     {
-        private readonly Guid _id;
-
         public DataContext()
             : base("Proebank")
         {
-            _id = Guid.NewGuid();
-            Debug.WriteLine("DataContext {0} created", _id);
         }
 
         public DbSet<Account> Accounts { get; set; }
@@ -102,27 +98,21 @@ namespace Domain
                 .HasColumnType("datetime2").IsOptional();
         }
 
-        public override int SaveChanges()
-        {
-            try
-            {
-                return base.SaveChanges();
-            }
-            catch (DbEntityValidationException dbExc)
-            {
-                foreach (var validationError in dbExc.EntityValidationErrors
-                    .SelectMany(validationErrors => validationErrors.ValidationErrors))
-                {
-                    Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                }
-                throw;
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            Debug.WriteLine("DataContext {0} disposed", _id);
-            base.Dispose(disposing);
-        }
+        //public override int SaveChanges()
+        //{
+        //    try
+        //    {
+        //        return base.SaveChanges();
+        //    }
+        //    catch (DbEntityValidationException dbExc)
+        //    {
+        //        foreach (var validationError in dbExc.EntityValidationErrors
+        //            .SelectMany(validationErrors => validationErrors.ValidationErrors))
+        //        {
+        //            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+        //        }
+        //        throw;
+        //    }
+        //}
     }
 }
