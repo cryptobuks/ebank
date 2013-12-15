@@ -160,10 +160,10 @@ namespace Presentation.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Create()
+        public ActionResult Create(Guid? id)
         {
             var tariffs = _service.GetTariffs();
-            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
+            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", tariffs.FirstOrDefault(t => t.Id == id));
             return View();
         }
 
