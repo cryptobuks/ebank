@@ -11,7 +11,7 @@ namespace Domain.Models.Loans
         public string Name { get; set; }
         
         [DisplayName("Interest Rate")]
-        [DisplayFormat(DataFormatString = "{0:P}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:P}")]
         public decimal InterestRate { get; set; }
 
         [DisplayName("Min Amount")]
@@ -23,17 +23,21 @@ namespace Domain.Models.Loans
         [DisplayName("Creation Date")]
         public DateTime CreationDate { get; set; }
 
-        [DisplayName("Start Date")]
-        public DateTime? StartDate { get; set; }
-
-        [DisplayName("End Date")]
-        public DateTime? EndDate { get; set; }
+        [DisplayName("Active?")]
+        public bool IsActive { get; set; }
 
         [DisplayName("Min Term")]
         public int MinTerm { get; set; }
 
         [DisplayName("Max Term")]
         public int MaxTerm { get; set; }
+
+        [DisplayName("Payment frequency, in months")]
+        [Range(1, 12)]
+        public int PmtFrequency { get; set; }
+
+        [DisplayName("Payment type")]
+        public PaymentCalculationType PmtType { get; set; }
 
         [DisplayName("Min Age")]
         public ushort MinAge { get; set; }

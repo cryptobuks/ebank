@@ -13,8 +13,6 @@ namespace Domain.Models.Loans
     {
         public string Number { get; set; }
 
-        public DocType DocType { get; set; }
-
         public TariffDocType TariffDocType { get; set; }
 
         public virtual Customer Customer { get; set; }

@@ -19,7 +19,8 @@ namespace Presentation.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var tariffs = _service.GetTariffs();
+            var isHead = User.IsInRole("Department head");
+            var tariffs = _service.GetTariffs().Where(t => isHead || t.IsActive);
             return View(tariffs);
         }
 

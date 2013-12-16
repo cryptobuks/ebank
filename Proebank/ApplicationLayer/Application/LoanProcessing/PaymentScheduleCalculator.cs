@@ -21,7 +21,7 @@ namespace Application.LoanProcessing
                     startDate = loanApplication.TimeCreated;
                     break;
                 default:
-                    throw new ArgumentException("schedule should not be calculated for application of status=" + loanApplication.Status);
+                    throw new ArgumentException("schedule should not be calculated for application in status " + loanApplication.Status);
             }
             if (startDate == null)
             {
@@ -45,22 +45,26 @@ namespace Application.LoanProcessing
         {
             var paymentDate = startDate.AddMonths(i);
             paymentDate = new DateTime(paymentDate.Year, paymentDate.Month, DateTime.DaysInMonth(paymentDate.Year, paymentDate.Month)).AddDays(1).AddTicks(-1);
-            //while (paymentDate.DayOfWeek == DayOfWeek.Saturday || paymentDate.DayOfWeek == DayOfWeek.Sunday)
-            //{
-            //    paymentDate = paymentDate.AddDays(1);
-            //}
+            if (paymentDate.DayOfWeek == DayOfWeek.Saturday || paymentDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                paymentDate = paymentDate.AddDays(paymentDate.DayOfWeek == DayOfWeek.Saturday ? 2 : 1);
+            }
             return paymentDate;
         }
 
         public static PaymentSchedule CalculatePaymentScheduleWithoutDateTime(decimal sum, Tariff tariff, int term)
         {
+            if (tariff == null)
+            {
+                throw new ArgumentNullException("tariff");
+            }
             if (term > tariff.MaxTerm || term < tariff.MinTerm)
             {
                 throw new ArgumentException(String.Format("Term is not within the range of Tariff : {0}", tariff.Name));
             }
             if (sum > tariff.MaxAmount || sum < tariff.MinAmount)
             {
-                throw new ArgumentException(String.Format("Sum is not within the range of Tariff : {0}",tariff.Name));
+                throw new ArgumentException(String.Format("Sum is not within the range of Tariff : {0}", tariff.Name));
             }
             
             var totalSum = InterestCalculator.TotalSum(tariff, sum, term);

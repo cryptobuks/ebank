@@ -50,7 +50,6 @@ namespace Application.Tests
             _passport = new Document
             {
                 Customer = _customer,
-                DocType = DocType.Passport,
                 TariffDocType = TariffDocType.DebtorPrimary,
                 Number = "MP2345678"
             };
@@ -58,7 +57,7 @@ namespace Application.Tests
             {
                 CreationDate = new DateTime(2013, 07, 01),
                 Currency = Currency.BYR,
-                EndDate = null,
+                IsActive = true,
                 InitialFee = 0,
                 InterestRate = 0.75M,
                 IsGuarantorNeeded = false,

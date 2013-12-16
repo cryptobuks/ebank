@@ -211,9 +211,9 @@ namespace Domain.Migrations
             {
                 Id = Guid.Parse("DEF8A3B2-8439-4714-8084-CA30364D1E92"),
                 Name = "Common Tariff",
-                CreationDate = new DateTime(2013, 9, 1),
+                CreationDate = new DateTime(2013, 8, 1),
                 Currency = Currency.BYR,
-                EndDate = null,
+                IsActive = true,
                 InitialFee = 0M,
                 InterestRate = 0.5M,
                 IsGuarantorNeeded = false,
@@ -229,9 +229,9 @@ namespace Domain.Migrations
             {
                 Id = Guid.Parse("52A139D6-E673-4F72-B5D6-10D1F33FB878"),
                 Name = "Car Tariff",
-                CreationDate = new DateTime(2013, 9, 1),
+                CreationDate = new DateTime(2013, 8, 1),
                 Currency = Currency.BYR,
-                EndDate = null,
+                IsActive = true,
                 InitialFee = 0M,
                 InterestRate = 0.4M,
                 IsGuarantorNeeded = false,
@@ -243,8 +243,52 @@ namespace Domain.Migrations
                 MinTerm = 6,
                 MaxTerm = 36
             };
-            context.Tariffs.AddOrUpdate(t => t.Id, tariff0);
-            context.Tariffs.AddOrUpdate(t => t.Id, tariff1);
+
+            var tariff2 = new Tariff
+            {
+                Id = Guid.Parse("C590CE02-A11A-4702-A7E2-23AE53E3FDDD"),
+                Name = "Euro loan",
+                CreationDate = new DateTime(2013, 8, 1),
+                Currency = Currency.EUR,
+                IsActive = true,
+                InitialFee = 0M,
+                InterestRate = 0.05M,
+                IsGuarantorNeeded = false,
+                MinAmount = 500,
+                MaxAmount = 10000,
+                LoanPurpose = LoanPurpose.Education,
+                MinAge = 18,
+                MaxAge = 65,
+                MinTerm = 3,
+                MaxTerm = 48
+            };
+
+            var tariff3 = new Tariff
+            {
+                Id = Guid.Parse("DF1093E5-8343-47E9-B194-504D40FC97B1"),
+                Name = "US Dollar loan",
+                CreationDate = new DateTime(2013, 8, 1),
+                Currency = Currency.USD,
+                IsActive = true,
+                InitialFee = 0M,
+                InterestRate = 0.08M,
+                IsGuarantorNeeded = false,
+                MinAmount = 500,
+                MaxAmount = 10000,
+                LoanPurpose = LoanPurpose.Common,
+                MinAge = 18,
+                MaxAge = 65,
+                MinTerm = 3,
+                MaxTerm = 48
+            };
+            if (context.Tariffs.SingleOrDefault(t => t.Id == tariff0.Id) == null)
+                context.Tariffs.AddOrUpdate(t => t.Id, tariff0);
+            if (context.Tariffs.SingleOrDefault(t => t.Id == tariff1.Id) == null)
+                context.Tariffs.AddOrUpdate(t => t.Id, tariff1);
+            if (context.Tariffs.SingleOrDefault(t => t.Id == tariff2.Id) == null)
+                context.Tariffs.AddOrUpdate(t => t.Id, tariff2);
+            if (context.Tariffs.SingleOrDefault(t => t.Id == tariff3.Id) == null)
+                context.Tariffs.AddOrUpdate(t => t.Id, tariff3);
             #endregion
 
             context.SaveChanges();

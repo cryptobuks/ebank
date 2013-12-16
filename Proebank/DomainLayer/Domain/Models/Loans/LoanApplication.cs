@@ -84,9 +84,7 @@ namespace Domain.Models.Loans
                 {
                     return null;
                 }
-                var passport = Documents
-                    .SingleOrDefault(
-                        d => d.DocType.Equals(DocType.Passport) && d.TariffDocType.Equals(TariffDocType.DebtorPrimary));
+                var passport = Documents.SingleOrDefault(d => d.TariffDocType.Equals(TariffDocType.DebtorPrimary));
                 var number = "";
                 if (passport != null)
                 {
@@ -100,15 +98,12 @@ namespace Domain.Models.Loans
                 {
                     this.Documents = new List<Document>();
                 }
-                var passport = Documents
-                    .SingleOrDefault(
-                        d => d.DocType.Equals(DocType.Passport) && d.TariffDocType.Equals(TariffDocType.DebtorPrimary));
+                var passport = Documents.SingleOrDefault(d => d.TariffDocType.Equals(TariffDocType.DebtorPrimary));
                 if (passport == null)
                 {
                     passport = new Document
                     {
                         Customer = null,
-                        DocType = DocType.Passport,
                         TariffDocType = TariffDocType.DebtorPrimary,
                         Number = value
                     };

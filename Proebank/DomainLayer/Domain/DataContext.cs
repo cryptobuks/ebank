@@ -90,12 +90,6 @@ namespace Domain
             modelBuilder.Entity<Tariff>()
                 .Property(f => f.CreationDate)
                 .HasColumnType("datetime2");
-            modelBuilder.Entity<Tariff>()
-                .Property(f => f.EndDate)
-                .HasColumnType("datetime2").IsOptional();
-            modelBuilder.Entity<Tariff>()
-                .Property(f => f.StartDate)
-                .HasColumnType("datetime2").IsOptional();
         }
 
         //public override int SaveChanges()

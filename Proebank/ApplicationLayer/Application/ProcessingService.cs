@@ -388,7 +388,7 @@ namespace Application
         {
             var tariffRepo = GetRepository<Tariff>();
             var tariff = tariffRepo.GetAll().Single(t => t.Id == id);
-            tariff.EndDate = GetCurrentDate();
+            tariff.IsActive = false;
             tariffRepo.Remove(tariff);
             tariffRepo.SaveChanges();
         }
@@ -565,9 +565,7 @@ namespace Application
         public List<LoanHistory> GetHistoryFromNationalBank(LoanApplication application)
         {
             var nationalBank = GetRepository<LoanHistory>();
-            var doc =
-                application.Documents.Single(
-                    d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary);
+            var doc = application.Documents.Single(d => d.TariffDocType == TariffDocType.DebtorPrimary);
             var history = nationalBank.GetAll().Where(l => l.Person.Id == doc.Id).ToList();
             if (!history.Any())
             {

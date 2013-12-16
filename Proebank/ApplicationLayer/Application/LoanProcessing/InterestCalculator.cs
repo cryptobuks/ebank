@@ -20,7 +20,7 @@ namespace Application.LoanProcessing
 
         public static decimal TotalSum(Tariff tariff, decimal sum, int term)
         {
-            return sum + sum*(term*tariff.InterestRate/12);
+            return sum + sum * (term * tariff.InterestRate / 12);
         }
     }
 }

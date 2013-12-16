@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataInitializer.cs" />
+    <Compile Include="Enums\PaymentCalculationType.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Loans\LoanHistory.cs" />
     <Compile Include="Repositories\RepositoryContainer.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Enums\AccountType.cs" />
     <Compile Include="Enums\Currency.cs" />
-    <Compile Include="Enums\DocType.cs" />
     <Compile Include="Enums\EmployeeRole.cs" />
     <Compile Include="Enums\EntrySubType.cs" />
     <Compile Include="Enums\EntryType.cs" />

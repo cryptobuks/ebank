@@ -57,10 +57,10 @@
         </div>
 
         <div class="control-group">
-            @Html.LabelFor(model => model.EndDate, new { @class = "control-label" })
+            @Html.LabelFor(model => model.IsActive, new { @class = "control-label" })
             <div class="controls">
-                @Html.EditorFor(model => model.EndDate)
-                @Html.ValidationMessageFor(model => model.EndDate, null, new { @class = "help-inline" })
+                @Html.EditorFor(model => model.IsActive)
+                @Html.ValidationMessageFor(model => model.IsActive, null, new { @class = "help-inline" })
             </div>
         </div>
 
