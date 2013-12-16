@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using Domain.Enums;
 using Domain.Models.Customers;
 
@@ -11,8 +12,6 @@ namespace Domain.Models.Loans
     public class Document : Entity
     {
         public string Number { get; set; }
-
-        public string CustomerId { get; set; }
 
         public DocType DocType { get; set; }
 

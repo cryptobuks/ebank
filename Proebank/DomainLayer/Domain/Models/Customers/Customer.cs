@@ -9,9 +9,6 @@ namespace Domain.Models.Customers
     /// </summary>
     public class Customer : IdentityUser
     {
-        public Customer()
-        { }
-        
         public string LastName { get; set; }
 
         public string FirstName { get; set; }

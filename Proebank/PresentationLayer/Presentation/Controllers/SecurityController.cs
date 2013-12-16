@@ -47,7 +47,7 @@ namespace Presentation.Controllers
             }
             var customerId =
                 application.Documents.Single(
-                    d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary).CustomerId;
+                    d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary).Customer.Id;
             var viewModel = new PersonalLoanHistoryViewModel { Id = customerId, Application = application, History = history };
             return View(viewModel);
         }

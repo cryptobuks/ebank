@@ -49,7 +49,6 @@ namespace Application.Tests
             };
             _passport = new Document
             {
-                CustomerId = _customer.Id,
                 Customer = _customer,
                 DocType = DocType.Passport,
                 TariffDocType = TariffDocType.DebtorPrimary,
