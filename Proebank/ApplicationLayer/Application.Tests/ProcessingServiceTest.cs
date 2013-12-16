@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Application.LoanProcessing;
 using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Customers;
@@ -67,7 +68,9 @@ namespace Application.Tests
                 MaxTerm = 36,
                 MinTerm = 3,
                 MinAmount = 1.0E6M,
-                Name = "NeverSeeMeAgain"
+                Name = "NeverSeeMeAgain",
+                PmtFrequency = 1,
+                PmtType = PaymentCalculationType.Annuity
             };
             _validLoanApp = new LoanApplication
             {
@@ -145,6 +148,35 @@ namespace Application.Tests
             {
                 Assert.IsFalse(_service.CloseLoanContract(_loan));
             }
+        }
+
+        [TestMethod]
+        public void CalculateAnnuityPaymentSchedule()
+        {
+            var schedule = PaymentScheduleCalculator.CalculateAnnuitySchedule(_tariff, _loan.Application.LoanAmount,
+                _loan.Application.Term, _loan.Application.TimeContracted);
+            Assert.IsNotNull(schedule);
+            Assert.IsNotNull(schedule.Payments);
+            Assert.AreEqual(_loan.Application.Term, schedule.Payments.Count);
+            var delta = schedule.MainDebtOverallAmount - _loan.Application.LoanAmount;
+            Assert.IsTrue(delta >= 0M);
+            Assert.IsTrue(delta < 0.1M);
+        }
+
+        [TestMethod]
+        public void CalculateStandardPaymentSchedule()
+        {
+            var pmtType = _tariff.PmtType;
+            _tariff.PmtType = PaymentCalculationType.Standard;
+            var schedule = PaymentScheduleCalculator.CalculateAnnuitySchedule(_tariff, _loan.Application.LoanAmount,
+                _loan.Application.Term, _loan.Application.TimeContracted);
+            _tariff.PmtType = pmtType;
+            Assert.IsNotNull(schedule);
+            Assert.IsNotNull(schedule.Payments);
+            Assert.AreEqual(_loan.Application.Term, schedule.Payments.Count);
+            var delta = schedule.MainDebtOverallAmount - _loan.Application.LoanAmount;
+            Assert.IsTrue(delta >= 0M);
+            Assert.IsTrue(delta < 0.1M);
         }
     }
 }

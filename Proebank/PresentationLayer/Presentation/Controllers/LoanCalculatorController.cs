@@ -40,11 +40,9 @@ namespace Presentation.Controllers
             {
                 try
                 {
-                    var paymentSchedule =
-                        PaymentScheduleCalculator.CalculatePaymentScheduleWithoutDateTime(loanCalculatorModel.Sum,
-                                                                                          tariff,
-                                                                                          loanCalculatorModel.Term);
-                    loanCalculatorModel.Payments = paymentSchedule.Payments;
+                    var schedule =
+                        PaymentScheduleCalculator.Calculate(loanCalculatorModel.Sum, tariff, loanCalculatorModel.Term);
+                    loanCalculatorModel.Payments = schedule.Payments;
                 }
                 catch (ArgumentException e)
                 {
@@ -64,7 +62,7 @@ namespace Presentation.Controllers
         //    var tariffId = Guid.Parse(Tariffs);
         //    var tariff = _processingService.GetTariffs(t => t.Id == tariffId).Single();
 
-        //    var paymentSchedule = PaymentScheduleCalculator.CalculatePaymentScheduleWithoutDateTime(sum, tariff, term);
+        //    var paymentSchedule = PaymentScheduleCalculator.CalculateWithoutDate(sum, tariff, term);
 
 
         //    return View(paymentSchedule.Payments);
