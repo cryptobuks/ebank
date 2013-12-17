@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Domain.Models.Loans
 {
@@ -16,5 +17,8 @@ namespace Domain.Models.Loans
         {
             Payments.Add(payment);
         }
+
+        public decimal MainDebtOverallAmount { get { return Payments.Sum(p => p.MainDebtAmount); } }
+        public decimal InterestOverallAmount { get { return Payments.Sum(p => p.AccruedInterestAmount); } }
     }
 }

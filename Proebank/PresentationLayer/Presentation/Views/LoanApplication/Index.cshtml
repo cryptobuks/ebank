@@ -55,12 +55,12 @@
         <th>
             @Html.DisplayNameFor(model => model.TimeCreated)
         </th>
-            @if ((string)ViewBag.ActiveTab == "contracted")
-            {
-                <th>
-                    @Html.DisplayNameFor(model => model.TimeContracted)
-                </th>
-            }
+        @if ((string)ViewBag.ActiveTab == "contracted")
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.TimeContracted)
+            </th>
+        }
         <th>
             @Html.DisplayNameFor(model => model.Term)
         </th>
@@ -75,7 +75,6 @@
         </th>
         <th></th>
     </tr>
-
     @foreach (var item in Model)
     {
         <tr>
@@ -115,19 +114,19 @@
                         break;
                     case LoanApplicationStatus.Filled:
                         <div class="btn-group">
-                          <a class="btn btn-primary"><i class="fa fa-user fa-fw"></i> Actions</a>
-                          <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-                            <span class="fa fa-caret-down"></span></a>
-                          <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("SendToSecurity", new { id = item.Id })" title="to security service" class="btn btn-primary btn-xs"><i class="fa fa-lock fa-lg"></i> Send to Security</a></li>
-                            <li><a href="@Url.Action("SendToCommittee", new { id = item.Id })" title="to loan committrr" class="btn btn-primary btn-xs"><i class="fa fa-users fa-lg"></i> Committee</a></li>
-                          </ul>
+                            <a class="btn btn-primary"><i class="fa fa-user fa-fw"></i> Actions</a>
+                            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span class="fa fa-caret-down"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("SendToSecurity", new { id = item.Id })" title="to security service" class="btn btn-default btn-xs"><i class="fa fa-lock fa-lg"></i> Send to Security</a></li>
+                                <li><a href="@Url.Action("SendToCommittee", new { id = item.Id })" title="to loan committrr" class="btn btn-default btn-xs"><i class="fa fa-users fa-lg"></i> Send to Committee</a></li>
+                            </ul>
                         </div>
                         break;
                     case LoanApplicationStatus.UnderCommitteeConsideration:
                     case LoanApplicationStatus.UnderRiskConsideration:
                         <a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info fa-lg"></i></a>
-                        <a href="@Url.Action("History", new { id = item.Id })" title="History" class="btn btn-default btn-xs"><i class="fa fa-envelope fa-lg"></i></a>
+                        <a href="@Url.Action("History", new { id = item.Id })" title="History" class="btn btn-default btn-xs"><i class="fa fa-eye fa-lg"></i></a>
                         <a href="@Url.Action("Approve", new { id = item.Id })" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-check fa-lg"></i> Approve</a>
                         <a href="@Url.Action("Reject", new { id = item.Id })" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-times fa-lg"></i> Reject</a>
                         break;

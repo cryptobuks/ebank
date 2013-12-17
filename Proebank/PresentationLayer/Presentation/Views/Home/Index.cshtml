@@ -31,6 +31,16 @@
                 <p><a class="btn btn-default" href="@Url.Action("Index", "Customer")">View &raquo;</a></p>
             </div>
         }
+        if (User.IsInRole("Department head"))
+        {
+            <div class="col-md-4">
+                <h2>Calendar</h2>
+                <p>
+                    Move bank time
+                </p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "Processing")">View &raquo;</a></p>
+            </div>
+        }
         else
         {
             <div class="col-md-4">

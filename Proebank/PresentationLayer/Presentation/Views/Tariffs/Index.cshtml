@@ -54,7 +54,7 @@
                 @Html.DisplayNameFor(model => model.CreationDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                @Html.DisplayNameFor(model => model.IsActive)
             </th>
         }
         <th></th>
@@ -98,7 +98,7 @@
                 @Html.DisplayFor(modelItem => item.CreationDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
+                @Html.DisplayFor(modelItem => item.IsActive)
             </td>
             <td>
                 <a href="@Url.Action("Edit", new {id = item.Id})" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-edit fa-lg fa-lg"></i></a>

@@ -36,28 +36,26 @@ namespace Application.Tests
             _customer = new Customer
             {
                 UserName = "test_customer",
-                LastName = "Mitchell",
-                FirstName = "Stanley",
-                MiddleName = "Matthew",
+                //LastName = "Mitchell",
+                //FirstName = "Stanley",
+                //MiddleName = "Matthew",
                 Address = "Minsk",
-                DateOfBirth = new DateTime(1972, 10, 17),
+                //DateOfBirth = new DateTime(1972, 10, 17),
                 Email = null,
-                IdentificationNumber = "317041972A0PB1",
+                //IdentificationNumber = "317041972A0PB1",
                 Phone = "+375111111111",
             };
             _passport = new PersonalData
             {
-                CustomerId = _customer.Id,
                 Customer = _customer,
-                DocType = DocType.Passport,
-                TariffDocType = TariffDocType.DebtorPrimary,
-                Number = "MP2345678"
+                //TariffDocType = TariffDocType.DebtorPrimary,
+                //Number = "MP2345678"
             };
             _tariff = new Tariff
             {
                 CreationDate = new DateTime(2013, 07, 01),
                 Currency = Currency.BYR,
-                EndDate = null,
+                IsActive = true,
                 InitialFee = 0,
                 InterestRate = 0.75M,
                 IsGuarantorNeeded = false,
@@ -74,7 +72,7 @@ namespace Application.Tests
             {
                 CellPhone = "+375291000000",
                 Currency = Currency.BYR,
-                Documents = new Collection<PersonalData> { _passport },
+                //Documents = new Collection<PersonalData> { _passport },
                 LoanAmount = 5.5E7M,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,
@@ -86,7 +84,7 @@ namespace Application.Tests
             {
                 CellPhone = "+375291000000",
                 Currency = Currency.BYR,
-                Documents = new Collection<PersonalData> { _passport },
+                //Documents = new Collection<PersonalData> { _passport },
                 LoanAmount = 5.5E11M,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,

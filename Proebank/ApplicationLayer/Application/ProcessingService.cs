@@ -174,9 +174,9 @@ namespace Application
 
         private void ProcessContractServiceAccounts()
         {
-            // We filter only loans with below zero balance on contract service account
+            // We filter only loans with positive balance on contract service account
             var loansWithMoneyOnServiceAccount = GetLoans()
-                .AsEnumerable()
+                .ToList()
                 .Where(loan =>
                 {
                     var contractServiceAcc = loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
@@ -387,7 +387,7 @@ namespace Application
         {
             var tariffRepo = GetRepository<Tariff>();
             var tariff = tariffRepo.GetAll().Single(t => t.Id == id);
-            tariff.EndDate = GetCurrentDate();
+            tariff.IsActive = false;
             tariffRepo.Remove(tariff);
             tariffRepo.SaveChanges();
         }
