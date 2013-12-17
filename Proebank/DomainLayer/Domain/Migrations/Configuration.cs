@@ -151,7 +151,7 @@ namespace Domain.Migrations
                     Type = AccountType.BankBalance
                 };
 
-                bankAccountByr.Entries.Add(new Entry()
+                bankAccountByr.Entries.Add(new Entry
                 {
                     Amount = 1E14M,
                     Date = bankCreationDate,
@@ -174,7 +174,7 @@ namespace Domain.Migrations
                     Entries = new List<Entry>(),
                     Type = AccountType.BankBalance
                 };
-                bankAccountEur.Entries.Add(new Entry()
+                bankAccountEur.Entries.Add(new Entry
                 {
                     Amount = 1E8M,
                     Date = bankCreationDate,
@@ -197,7 +197,7 @@ namespace Domain.Migrations
                     Entries = new List<Entry>(),
                     Type = AccountType.BankBalance
                 };
-                bankAccountUsd.Entries.Add(new Entry()
+                bankAccountUsd.Entries.Add(new Entry
                 {
                     Amount = 1E8M,
                     Date = bankCreationDate,
