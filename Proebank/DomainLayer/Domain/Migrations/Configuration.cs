@@ -86,13 +86,17 @@ namespace Domain.Migrations
                         return new Customer
                         {
                             Address = "test address",
-                            DateOfBirth = new DateTime(1990, 06, 30),
+                            PersonalData = new PersonalData()
+                            {
+                                DateOfBirth = new DateTime(1990, 06, 30),
+                                FirstName = "Karl",
+                                Identification = "AA1234567890XX",
+                                Passport = "XX0101010",
+                                LastName = "Malone",
+                                MiddleName = "Anthony",
+                            },
                             Email = "test_customer@mail.by",
-                            FirstName = "Karl",
                             Id = _customerUserId.ToString(),
-                            IdentificationNumber = "AA1234567",
-                            LastName = "Malone",
-                            MiddleName = "Anthony",
                             Phone = "+375291234567",
                             UserName = userName
                         };

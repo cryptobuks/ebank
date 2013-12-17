@@ -50,7 +50,7 @@ namespace Presentation.Controllers
             loanApplication = _processingService.GetLoanApplications().Single(la => la.Id.Equals(laId));
 
             // check customer here because of using default UserStore and UserManager
-            var doc = loanApplication.Documents.Single(d => d.TariffDocType == TariffDocType.DebtorPrimary);
+            var doc = loanApplication.PersonalData;
             var loan = _processingService.CreateLoanContract(doc.Customer, loanApplication);
             if (loan == null)
             {

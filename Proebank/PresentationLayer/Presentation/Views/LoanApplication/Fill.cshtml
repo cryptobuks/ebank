@@ -40,18 +40,18 @@
         </div>
 
         <div class="control-group">
-            @Html.LabelFor(model => model.TariffId, "TariffId", new { @class = "control-label" })
+            @Html.LabelFor(model => model.Tariff, "TariffId", new { @class = "control-label" })
             <div class="controls">
                 @Html.DropDownList("TariffId", String.Empty)
-                @Html.ValidationMessageFor(model => model.TariffId, null, new { @class = "help-inline" })
+                @Html.ValidationMessageFor(model => model.Tariff, null, new { @class = "help-inline" })
             </div>
         </div>
 
         <div class="control-group">
-            @Html.LabelFor(model => model.Passport, new { @class = "control-label" })
+            @Html.LabelFor(model => model.PersonalData, new { @class = "control-label" })
             <div class="controls">
-                @Html.EditorFor(model => model.Passport, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Passport, null, new { @class = "help-inline" })
+                @Html.EditorFor(model => model.PersonalData, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PersonalData, null, new { @class = "help-inline" })
             </div>
         </div>
 

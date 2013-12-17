@@ -60,7 +60,7 @@ namespace Domain
             modelBuilder.Entity<Calendar>()
                 .Property(f => f.LastMonthlyProcessingTime)
                 .HasColumnType("datetime2").IsOptional();
-            modelBuilder.Entity<Customer>()
+            modelBuilder.Entity<PersonalData>()
                 .Property(f => f.DateOfBirth)
                 .HasColumnType("datetime2").IsOptional();
             modelBuilder.Entity<Employee>()

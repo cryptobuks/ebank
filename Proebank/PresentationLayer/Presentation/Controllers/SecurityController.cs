@@ -45,9 +45,7 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            var customerId =
-                application.Documents.Single(
-                    d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary).CustomerId;
+            var customerId = application.PersonalData.CustomerId;
             var viewModel = new PersonalLoanHistoryViewModel { Id = customerId, Application = application, History = history };
             return View(viewModel);
         }

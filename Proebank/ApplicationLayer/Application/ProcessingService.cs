@@ -314,7 +314,6 @@ namespace Application
 
         public void CreateLoanApplication(LoanApplication loanApplication, bool fromConsultant = false)
         {
-            loanApplication.Documents = new List<Document>();
             loanApplication.TimeCreated = GetCurrentDate();
             loanApplication.Status = fromConsultant ? LoanApplicationStatus.Filled : LoanApplicationStatus.New;
             var selectedTariff = GetTariffs().Single(t => t.Id.Equals(loanApplication.TariffId));
@@ -565,10 +564,8 @@ namespace Application
         public List<LoanHistory> GetHistoryFromNationalBank(LoanApplication application)
         {
             var nationalBank = GetRepository<LoanHistory>();
-            var doc =
-                application.Documents.Single(
-                    d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary);
-            var history = nationalBank.GetAll().Where(l => l.Person.Id == doc.Id).ToList();
+            var personId = application.PersonalData.Identification;
+            var history = nationalBank.GetAll().Where(l => l.Person.Identification == personId).ToList();
             if (!history.Any())
             {
                 var gen = new Random();
@@ -583,7 +580,7 @@ namespace Application
                         {
                             Amount = gen.Next(1, 500)*10000,
                             HadProblems = gen.NextDouble() > 0.85,
-                            Person = doc,
+                            Person = application.PersonalData,
                             WhenOpened = started,
                             WhenClosed = isClosed ? closed : (DateTime?) null,
                         };

@@ -9,7 +9,7 @@ namespace Domain.Models.Loans
 {
     public class LoanHistory : Entity
     {
-        public Document Person { get; set; }
+        public virtual PersonalData Person { get; set; }
         public DateTime WhenOpened { get; set; }
         public DateTime? WhenClosed { get; set; }
         public decimal Amount { get; set; }

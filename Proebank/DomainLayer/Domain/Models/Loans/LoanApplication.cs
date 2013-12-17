@@ -43,8 +43,9 @@ namespace Domain.Models.Loans
         [DisplayName("Status")]
         public LoanApplicationStatus Status { get; set; }
 
-        [DisplayName("Documents")]
-        public virtual ICollection<Document> Documents { get; set; }
+        public virtual PersonalData PersonalData { get; set; }
+
+        public virtual PersonalData Guarantor { get; set; }
 
         [DisplayName("Currency")]
         public Currency Currency { get; set; }
@@ -73,48 +74,5 @@ namespace Domain.Models.Loans
 
         [DisplayName("Homeowner")]
         public bool IsHomeowner { get; set; }
-
-        [DisplayName("Passport")]
-        [NotMapped]
-        public string Passport
-        {
-            get
-            {
-                if (Documents == null)
-                {
-                    return null;
-                }
-                var passport = Documents
-                    .SingleOrDefault(
-                        d => d.DocType.Equals(DocType.Passport) && d.TariffDocType.Equals(TariffDocType.DebtorPrimary));
-                var number = "";
-                if (passport != null)
-                {
-                    number = passport.Number;
-                }
-                return number;
-            }
-            set
-            {
-                if (Documents == null)
-                {
-                    this.Documents = new List<Document>();
-                }
-                var passport = Documents
-                    .SingleOrDefault(
-                        d => d.DocType.Equals(DocType.Passport) && d.TariffDocType.Equals(TariffDocType.DebtorPrimary));
-                if (passport == null)
-                {
-                    passport = new Document
-                    {
-                        Customer = null,
-                        DocType = DocType.Passport,
-                        TariffDocType = TariffDocType.DebtorPrimary,
-                        Number = value
-                    };
-                    Documents.Add(passport);
-                }
-            }
-        }
     }
 }

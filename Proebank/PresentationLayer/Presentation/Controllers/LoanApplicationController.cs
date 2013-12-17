@@ -40,7 +40,7 @@ namespace Presentation.Controllers
             if (User.IsInRole("Department head"))
             {
                 ViewBag.ActiveTab = "All";
-                var loanApplications = _service.GetLoanApplications(true);
+                var loanApplications = _service.GetLoanApplications(true).ToList();
                 return View(loanApplications);
             }
             return new HttpUnauthorizedResult();
@@ -50,7 +50,8 @@ namespace Presentation.Controllers
         {
             var loanApplications = _service
                 .GetLoanApplications()
-                .Where(a => a.Status == LoanApplicationStatus.New);
+                .Where(a => a.Status == LoanApplicationStatus.New)
+                .ToList();
             ViewBag.ActiveTab = "New";
             return View("Index", loanApplications);
         }
@@ -59,7 +60,8 @@ namespace Presentation.Controllers
         {
             var loanApplications = _service
                 .GetLoanApplications()
-                .Where(a => a.Status == LoanApplicationStatus.Filled);
+                .Where(a => a.Status == LoanApplicationStatus.Filled)
+                .ToList();
             ViewBag.ActiveTab = "PreApproved";
             return View("Index", loanApplications);
         }
@@ -68,7 +70,8 @@ namespace Presentation.Controllers
         {
             var loanApplications = _service
                 .GetLoanApplications()
-                .Where(a => a.Status == LoanApplicationStatus.Approved || a.Status == LoanApplicationStatus.Rejected);
+                .Where(a => a.Status == LoanApplicationStatus.Approved || a.Status == LoanApplicationStatus.Rejected)
+                .ToList();
             ViewBag.ActiveTab = "Reviewed";
             return View("Index", loanApplications);
         }
@@ -77,7 +80,8 @@ namespace Presentation.Controllers
         {
             var loanApplications = _service
                 .GetLoanApplications()
-                .Where(a => a.Status == LoanApplicationStatus.UnderRiskConsideration);
+                .Where(a => a.Status == LoanApplicationStatus.UnderRiskConsideration)
+                .ToList();
             ViewBag.ActiveTab = "Security";
             return View("Index", loanApplications);
         }
@@ -86,7 +90,8 @@ namespace Presentation.Controllers
         {
             var loanApplications = _service
                 .GetLoanApplications()
-                .Where(a => a.Status == LoanApplicationStatus.UnderCommitteeConsideration);
+                .Where(a => a.Status == LoanApplicationStatus.UnderCommitteeConsideration)
+                .ToList();
             ViewBag.ActiveTab = "Committee";
             return View("Index", loanApplications);
         }
@@ -95,7 +100,8 @@ namespace Presentation.Controllers
         {
             var loanApplications = _service
                 .GetLoanApplications()
-                .Where(a => a.Status == LoanApplicationStatus.Contracted);
+                .Where(a => a.Status == LoanApplicationStatus.Contracted)
+                .ToList();
             ViewBag.ActiveTab = "Contracted";
             return View("Index", loanApplications);
         }
@@ -130,7 +136,8 @@ namespace Presentation.Controllers
         {
             var loanApplications = _service
                 .GetLoanApplications()
-                .Where(a => a.Status == LoanApplicationStatus.Approved);
+                .Where(a => a.Status == LoanApplicationStatus.Approved)
+                .ToList();
             ViewBag.ActiveTab = "Approved";
             return View("Index", loanApplications);
         }
@@ -139,7 +146,8 @@ namespace Presentation.Controllers
         {
             var loanApplications = _service
                 .GetLoanApplications()
-                .Where(a => a.Status == LoanApplicationStatus.Rejected);
+                .Where(a => a.Status == LoanApplicationStatus.Rejected)
+                .ToList();
             ViewBag.ActiveTab = "Rejected";
             return View("Index", loanApplications);
         }
@@ -162,7 +170,7 @@ namespace Presentation.Controllers
         [AllowAnonymous]
         public ActionResult Create(Guid? id)
         {
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs().ToList();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", tariffs.FirstOrDefault(t => t.Id == id));
             return View();
         }
@@ -204,7 +212,7 @@ namespace Presentation.Controllers
                 }
             }
 
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs().ToList();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
@@ -220,8 +228,8 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            var tariffs = _service.GetTariffs();
-            ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
+            var tariffs = _service.GetTariffs().ToList();
+            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             return View(loanapplication);
         }
 
@@ -234,7 +242,7 @@ namespace Presentation.Controllers
                 _service.UpsertLoanApplication(loanApplication);
                 return RedirectToAction("Index");
             }
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs().ToList();
             ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
@@ -383,7 +391,7 @@ namespace Presentation.Controllers
             }
 
             selectedTariffId = loanApplication.TariffId.ToString();
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs().ToList();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", selectedTariffId);
             return View(loanApplication);
         }
@@ -398,10 +406,10 @@ namespace Presentation.Controllers
                 // saving of loanApplication doesn't save docs
                 var applicationWithDbRef = _service.GetLoanApplications().Single(l => l.Id.Equals(loanApplication.Id));
                 applicationWithDbRef.Status = LoanApplicationStatus.Filled;
-                applicationWithDbRef.Documents = loanApplication.Documents;
+                applicationWithDbRef.PersonalData = loanApplication.PersonalData;
                 _service.UpsertLoanApplication(applicationWithDbRef);
             }
-            var tariffList = _service.GetTariffs();
+            var tariffList = _service.GetTariffs().ToList();
             ViewBag.TariffId = new SelectList(tariffList, "Id", "Name");
             return RedirectToAction("Index");
         }
