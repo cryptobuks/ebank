@@ -33,6 +33,8 @@ namespace Domain
 
         public DbSet<LoanHistory> History { get; set; }
 
+        public DbSet<PersonalData> PersonalData { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

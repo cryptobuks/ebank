@@ -10,9 +10,6 @@ namespace Domain.Models.Users
     /// </summary>
     public class Employee : IdentityUser
     {
-        public Employee()
-        { }
-
         public string LastName { get; set; }
 
         public string FirstName { get; set; }
