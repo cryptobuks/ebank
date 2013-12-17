@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using Domain.Enums;
@@ -83,7 +84,7 @@ namespace Application.LoanProcessing
                 schedule.AddPayment(pmt);
                 remainMainDebt -= pmtMainDebt;
             }
-            return schedule;
+            return RoundPayments(schedule,2);
         }
 
         private static PaymentSchedule CalculateStandardSchedule(Tariff tariff, decimal loanAmount, int term, DateTime? startDate)
@@ -104,7 +105,7 @@ namespace Application.LoanProcessing
                 schedule.AddPayment(pmt);
                 remainMainDebt -= pmtMainDebt;
             }
-            return schedule;
+            return RoundPayments(schedule,2);
         }
 
         private static DateTime? CalculatePaymentDate(DateTime? startDate, int i)
@@ -130,6 +131,23 @@ namespace Application.LoanProcessing
                 result *= x;
             }
             return result;
+        }
+
+
+        private static PaymentSchedule RoundPayments(PaymentSchedule paymentSchedule, int digitsAfterZero)
+        {
+            var resultPaymentSchedule = new PaymentSchedule();
+            foreach (var payment in paymentSchedule.Payments)
+            {
+                if (payment == null) continue;
+                resultPaymentSchedule.AddPayment(new Payment()
+                    {
+                        MainDebtAmount = Math.Round(payment.MainDebtAmount, digitsAfterZero),
+                        AccruedInterestAmount = Math.Round(payment.AccruedInterestAmount, digitsAfterZero),
+                        OverdueAmount = Math.Round(payment.OverdueAmount, digitsAfterZero)
+                    });
+            }
+            return resultPaymentSchedule;
         }
     }
 }
