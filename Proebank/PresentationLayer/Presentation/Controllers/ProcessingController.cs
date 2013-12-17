@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using Application;
 
 namespace Presentation.Controllers
@@ -24,6 +26,17 @@ namespace Presentation.Controllers
         public ActionResult MoveNextDay()
         {
             var newDate = _service.ProcessEndOfDay();
+            return RedirectToAction("Index", newDate);
+        }
+
+        [Authorize(Roles = "Department head")]
+        public ActionResult MoveNextWeek()
+        {
+            var newDate = new DateTime();
+            for (var i = 0; i < 7; i++)
+            {
+                newDate = _service.ProcessEndOfDay();
+            }
             return RedirectToAction("Index", newDate);
         }
     }
