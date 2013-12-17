@@ -129,23 +129,24 @@
 
 </table>
 
-<canvas id="myChart" width="400" height="400"></canvas>
+@{
+    var listStatus = Model.Select(x => x.Status).GroupBy(y => y).ToList();
+    string xStatus = listStatus.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+    string yStatus = listStatus.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+}
+
+<canvas id="status" width="400" height="400"></canvas>
 <script type="text/javascript">
-    var ctx = document.getElementById("myChart").getContext("2d");
+    var ctx = document.getElementById("status").getContext("2d");
     var data = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        labels: '@xStatus'.split(', '),
         datasets: [
             {
                 fillColor: "rgba(220,220,220,0.5)",
-                strokeColor: "rgba(220,220,220,1)",
-                data: [65, 59, 90, 81, 56, 55, 40]
-            },
-            {
-                fillColor: "rgba(151,187,205,0.5)",
-                strokeColor: "rgba(151,187,205,1)",
-                data: [28, 48, 40, 19, 96, 27, 100]
+                strokeColor: "rgba(120,120,120,1)",
+                data: [@yStatus]
             }
         ]
     }
-    var myNewChart = new Chart(ctx).Bar(data);
+    var myNewChart = new Chart(ctx).Bar(data, { scaleOverride : true, scaleSteps : parseInt(@yStatus.Max().ToString()), scaleStepWidth : 1 });
 </script>
