@@ -144,16 +144,41 @@ namespace Presentation.Controllers
         [AllowAnonymous]
         public ActionResult Create(Guid? id)
         {
-            var tariffs = _service.GetTariffs().ToList();
-            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", tariffs.FirstOrDefault(t => t.Id == id));
+            if (User.IsInRole("Consultant"))
+            {
+                return RedirectToAction("Fill");
+            }
+
+
+            var tariffs = _service.GetTariffs();
+            ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name", tariffs.FirstOrDefault(t => t.Id == id));
+
+            if (TempData["loanApplication"] != null)
+            {
+                LoanApplication loanApplication = (LoanApplication)TempData["loanApplication"];
+                return View(loanApplication);
+            }
+            
             return View();
+
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public ActionResult Create(LoanApplication loanApplication)
+        public ActionResult Create(LoanApplication loanApplication, string btnUseLoanCalculator)
         {
+            if (btnUseLoanCalculator != null && btnUseLoanCalculator == "Use Loan Calculator")
+            {
+                    if (ModelState.IsValid)
+                    {
+                        TempData.Add("loanApplication", loanApplication);
+                        return RedirectToAction("Index", "LoanCalculator");
+                    }
+            }
+            else
+            {
             loanApplication.Status = LoanApplicationStatus.New;
             loanApplication.TimeCreated = DateTime.Now;
             if (ModelState.IsValid)
@@ -172,7 +197,7 @@ namespace Presentation.Controllers
                             ModelState.AddModelError(result.Key, result.Value);
                         }
                         var tariffList = _service.GetTariffs();
-                        ViewBag.TariffId = new SelectList(tariffList, "Id", "Name");
+                            ViewBag.Tariffs = new SelectList(tariffList, "Id", "Name");
                         return View();
                     }
                 }
@@ -185,11 +210,13 @@ namespace Presentation.Controllers
                     return RedirectToAction("Index");
                 }
             }
+            }
 
-            var tariffs = _service.GetTariffs().ToList();
-            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
+            var tariffs = _service.GetTariffs();
+            ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
+
 
         public ActionResult Edit(Guid? id)
         {
@@ -254,7 +281,7 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            return RedirectToAction("Preview", "Loan", new { loanApplicationId = loanApplication.Id});
+            return RedirectToAction("Preview", "Loan", new { loanApplicationId = loanApplication.Id });
         }
 
         public ActionResult Approve(Guid? id)
@@ -351,21 +378,23 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
+
         public ActionResult Fill(Guid? id)
         {
+            var tariffs = _service.GetTariffs();
             if (id == null)
             {
-                return View();
+                //if filling base data by Consultant
+                ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
+                return View(new LoanApplication());
             }
             var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
-            var selectedTariffId = "";
             if (loanApplication == null)
             {
                 return HttpNotFound();
             }
 
-            selectedTariffId = loanApplication.TariffId.ToString();
-            var tariffs = _service.GetTariffs().ToList();
+            var selectedTariffId = loanApplication.TariffId.ToString();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", selectedTariffId);
             return View(loanApplication);
         }
@@ -376,14 +405,23 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 // connect to db to refresh connection
                 // saving of loanApplication doesn't save docs
-                var applicationWithDbRef = _service.GetLoanApplications().Single(l => l.Id.Equals(loanApplication.Id));
+                var applicationWithDbRef = _service.GetLoanApplications().FirstOrDefault(l => l.Id.Equals(loanApplication.Id));
+                if (applicationWithDbRef != null)
+                {
                 applicationWithDbRef.Status = LoanApplicationStatus.Filled;
                 applicationWithDbRef.PersonalData = loanApplication.PersonalData;
                 _service.UpsertLoanApplication(applicationWithDbRef);
             }
-            var tariffList = _service.GetTariffs().ToList();
+                else
+                {
+                    loanApplication.Status = LoanApplicationStatus.Filled;
+                    _service.CreateLoanApplication(loanApplication, true);
+                }
+            }
+            var tariffList = _service.GetTariffs();
             ViewBag.TariffId = new SelectList(tariffList, "Id", "Name");
             return RedirectToAction("Index");
         }
