@@ -19,29 +19,54 @@ namespace Presentation.Controllers
             _processingService = new ProcessingService();
         }
 
+
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var loanCalculatorModel = new LoanCalculatorModel();
+            
+            if (TempData["loanApplication"] != null)
+            {
+                var loanApplication = (LoanApplication) TempData["loanApplication"];
+                loanCalculatorModel.LoanAmount = loanApplication.LoanAmount;
+                loanCalculatorModel.Term = loanApplication.Term;
+                loanCalculatorModel.TariffId = loanApplication.TariffId;
+            }
+            
             var tariffs = _processingService.GetTariffs();
-            loanCalculatorModel.Tariffs = new SelectList(tariffs, "Id", "Name");
+            ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name");
             return View(loanCalculatorModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(LoanCalculatorModel loanCalculatorModel)
+        [AllowAnonymous]
+        public ActionResult Index(LoanCalculatorModel loanCalculatorModel, string btnToApplication)
         {
+            if (btnToApplication != null && btnToApplication == "To Application")
+            {
+                if (ModelState.IsValid)
+                {
+                    var loanApplication = new LoanApplication
+                        {
+                            LoanAmount = loanCalculatorModel.LoanAmount,
+                            Term = loanCalculatorModel.Term,
+                            TariffId = loanCalculatorModel.TariffId
+                        };
+                    TempData.Add("loanApplication",loanApplication);
+                    return RedirectToAction("Create", "LoanApplication");
+                }
+            }
             var tariffs = _processingService.GetTariffs();
-            var tariffsList = tariffs as IList<Tariff> ?? tariffs.ToList();
-            loanCalculatorModel.Tariffs = new SelectList(tariffsList, "Id", "Name");
-            var tariff = tariffsList.FirstOrDefault(t => t.Id == loanCalculatorModel.TariffId);
-            
+            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
+            var tariff = tariffs.FirstOrDefault(t => t.Id == loanCalculatorModel.TariffId);
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     var paymentSchedule =
-                        PaymentScheduleCalculator.CalculatePaymentScheduleWithoutDateTime(loanCalculatorModel.Sum,
+                        PaymentScheduleCalculator.CalculatePaymentScheduleWithoutDateTime(loanCalculatorModel.LoanAmount,
                                                                                           tariff,
                                                                                           loanCalculatorModel.Term);
                     loanCalculatorModel.Payments = paymentSchedule.Payments;
@@ -55,19 +80,50 @@ namespace Presentation.Controllers
             return View(loanCalculatorModel);
         }
 
-        //[HttpPost]
-        //public ActionResult PaymentSchedule(string sumTextBox, string termTextBox, string Tariffs)
+        //[AllowAnonymous]
+        //public ActionResult Applying(LoanApplication loanApplication)
         //{
-        //    var sum = Convert.ToDecimal(sumTextBox);
-        //    var term = Convert.ToInt32(termTextBox);
-
-        //    var tariffId = Guid.Parse(Tariffs);
-        //    var tariff = _processingService.GetTariffs(t => t.Id == tariffId).Single();
-
-        //    var paymentSchedule = PaymentScheduleCalculator.CalculatePaymentScheduleWithoutDateTime(sum, tariff, term);
+        //    TempData.Add("loanApplication",loanApplication);
+        //    return RedirectToAction("Index",loanApplication);
+        //}
 
 
-        //    return View(paymentSchedule.Payments);
+        //public ActionResult Index()
+        //{
+
+        //    var loanCalculatorModel = new LoanCalculatorModel();
+        //    var tariffs = _processingService.GetTariffs();
+        //    loanCalculatorModel.Tariffs = new SelectList(tariffs, "Id", "Name");
+        //    return View(loanCalculatorModel);
+        //}
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Index(LoanCalculatorModel loanCalculatorModel)
+        //{
+        //    var tariffs = _processingService.GetTariffs();
+        //    var tariffsList = tariffs as IList<Tariff> ?? tariffs.ToList();
+        //    loanCalculatorModel.Tariffs = new SelectList(tariffsList, "Id", "Name");
+        //    var tariff = tariffsList.FirstOrDefault(t => t.Id == loanCalculatorModel.TariffId);
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var paymentSchedule =
+        //                PaymentScheduleCalculator.CalculatePaymentScheduleWithoutDateTime(loanCalculatorModel.Sum,
+        //                                                                                  tariff,
+        //                                                                                  loanCalculatorModel.Term);
+        //            loanCalculatorModel.Payments = paymentSchedule.Payments;
+        //        }
+        //        catch (ArgumentException e)
+        //        {
+        //            ModelState.AddModelError("TariffId", e.Message);
+        //            return View(loanCalculatorModel);
+        //        }
+        //    }
+        //    return View(loanCalculatorModel);
         //}
     }
 }

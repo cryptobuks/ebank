@@ -8,7 +8,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -39,19 +39,36 @@
                 @Html.ValidationMessageFor(model => model.CellPhone, null, new { @class = "help-inline" })
             </div>
         </div>
-        
+
         <div class="control-group">
             @Html.LabelFor(model => model.TariffId, "Tariff", new { @class = "control-label" })
             <div class="controls">
-                @Html.DropDownList("TariffId", String.Empty)
+                @*  @Html.DropDownList("TariffId", String.Empty)*@
+                @Html.DropDownListFor(model => model.TariffId, (IEnumerable<SelectListItem>)ViewBag.Tariffs, "Please select...")
                 @Html.ValidationMessageFor(model => model.TariffId, null, new { @class = "help-inline" })
             </div>
         </div>
+
+        <br />
+        <table>
+            <tr>
+                <td>
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Create" class="btn btn-success" />
+                    </div>
+                </td>
+                <td>
+                    <div class="form-actions no-color">
+                        <input type="submit" name="btnUseLoanCalculator" value="Use Loan Calculator" class="btn btn-success" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+
         
-        <br/>
-        <div class="form-actions no-color">
-            <input type="submit" value="Create" class="btn btn-success" />
-        </div>
+
+
+
     </fieldset>
 }
 

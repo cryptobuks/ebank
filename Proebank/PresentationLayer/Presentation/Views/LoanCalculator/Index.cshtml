@@ -1,4 +1,6 @@
-﻿@model Presentation.Models.LoanCalculatorModel
+﻿@using System.Globalization
+@using Domain.Models.Loans
+@model Presentation.Models.LoanCalculatorModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,13 +17,13 @@
 
              <table>
                  <tr class="control-group">
-                     <td>@Html.LabelFor(model=>model.Sum)
+                     <td>@Html.LabelFor(model=>model.LoanAmount)
 
                      </td>
                      <td>
                          <div class="controls">
-                             @Html.TextBoxFor(model => Model.Sum)
-                             @Html.ValidationMessageFor(model => model.Sum, null, new { @class = "help-inline" })
+                             @Html.TextBoxFor(model => Model.LoanAmount)
+                             @Html.ValidationMessageFor(model => model.LoanAmount, null, new { @class = "help-inline" })
                          </div>
                      </td>
                  </tr>
@@ -30,8 +32,7 @@
                      </td>
                      <td>
                          <div class="controls">
-                             @Html.DropDownListFor(model => model.TariffId, Model.Tariffs,"Please select...")
-                             
+                             @Html.DropDownListFor(m=>m.TariffId,(IEnumerable<SelectListItem>)ViewBag.Tariffs,"Please select...")
                          </div>
                      </td>
                  </tr>
@@ -45,14 +46,24 @@
                      </td>
                  </tr>
              </table>
-             
-             
              @Html.ValidationMessageFor(model => model.TariffId, null, new { @class = "help-inline" })
              
-
-             <div class="form-actions no-color">
+             <table>
+                 <tr>
+                     <td>
+                         <div class="form-actions no-color">
                  <input type="submit" value="Calculate" class="btn" />
              </div>
+                     </td>
+                     <td>
+                         <div class="form-actions no-color">
+                 <input type="submit" name="btnToApplication" value="To Application" class="btn" />
+             </div>
+
+                     </td>
+                 </tr>
+             </table>
+             
          </fieldset>
 
      if(IsPost)
@@ -78,7 +89,7 @@
                          <tr>
                              <td>@counter</td>
                              <td>
-                                 @Html.DisplayFor(modelItem => payment.Amount)
+                                 @Html.Label("Amount",payment.Amount.ToString(CultureInfo.InvariantCulture))
                              </td>
                          </tr>
                      }

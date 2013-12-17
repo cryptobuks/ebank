@@ -12,15 +12,12 @@ namespace Presentation.Models
     {
         public Guid TariffId { get; set; }
 
-        public IEnumerable<SelectListItem> Tariffs { get; set; }
-        
-        [Display(Name = "Sum")]
-        public decimal Sum { get; set; }
+        [Display(Name = "Loan Amount")]
+        public decimal LoanAmount { get; set; }
 
         [Display(Name = "Term(in month)")]
         public int Term { get; set; }
 
-        [Display(Name = "Paymnets")]
         public IEnumerable<Payment> Payments { get; set; }
     }
 }

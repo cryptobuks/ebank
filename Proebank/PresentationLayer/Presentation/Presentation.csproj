@@ -353,7 +353,6 @@
     <Content Include="Views\LoanApplication\Created.cshtml" />
     <Content Include="Views\Customer\Schedule.cshtml" />
     <Content Include="Views\LoanCalculator\Index.cshtml" />
-    <Content Include="Views\LoanCalculator\PaymentSchedule.cshtml" />
     <Content Include="Views\LoanApplication\Fill.cshtml" />
     <Content Include="Views\Statistic\Index.cshtml" />
     <Content Include="Views\LoanApplication\Index.cshtml" />
