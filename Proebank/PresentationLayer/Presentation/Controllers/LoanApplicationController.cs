@@ -106,32 +106,6 @@ namespace Presentation.Controllers
             return View("Index", loanApplications);
         }
 
-
-        //// GET: /Committee/Details/5
-        //[Authorize(Roles = "Credit committee")]
-        //public ActionResult Details(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var application = _service.GetLoanApplications(la => la.Id == id).SingleOrDefault();
-        //    if (application == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    var history = _service.GetHistoryFromNationalBank(application);
-        //    if (history == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    var customerId =
-        //        application.Documents.Single(
-        //            d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary).CustomerId;
-        //    var viewModel = new PersonalLoanHistoryViewModel { Id = customerId, Application = application, History = history };
-        //    return View(viewModel);
-        //}
-
         public ActionResult Approved()
         {
             var loanApplications = _service

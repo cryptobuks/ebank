@@ -1,14 +1,5 @@
 ﻿@model Domain.Models.Loans.PersonalData
 
-
-        <div class="control-group">
-            @Html.LabelFor(model => model.IsRemoved, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.IsRemoved)
-                @Html.ValidationMessageFor(model => model.IsRemoved, null, new { @class = "help-inline" })
-            </div>
-        </div>
-
         <div class="control-group">
             @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
             <div class="controls">
@@ -54,13 +45,5 @@
             <div class="controls">
                 @Html.EditorFor(model => model.Identification)
                 @Html.ValidationMessageFor(model => model.Identification, null, new { @class = "help-inline" })
-            </div>
-        </div>
-
-        <div class="control-group">
-            @Html.LabelFor(model => model.CustomerId, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.CustomerId)
-                @Html.ValidationMessageFor(model => model.CustomerId, null, new { @class = "help-inline" })
             </div>
         </div>

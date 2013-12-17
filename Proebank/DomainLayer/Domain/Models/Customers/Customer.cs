@@ -11,9 +11,6 @@ namespace Domain.Models.Customers
     /// </summary>
     public class Customer : IdentityUser
     {
-        public Customer()
-        { }
-
         [Required]
         public virtual PersonalData PersonalData { get; set; }
 

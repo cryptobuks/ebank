@@ -174,55 +174,53 @@ namespace Application
 
         private void ProcessContractServiceAccounts()
         {
-            // We filter only loans with positive balance on contract service account
-            var loansWithMoneyOnServiceAccount = GetLoans()
-                .ToList()
-                .Where(loan =>
-                {
-                    var contractServiceAcc = loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
-                    return contractServiceAcc != null && contractServiceAcc.Balance > 0;
-                });
+            var loansWithMoneyOnServiceAccount = GetLoans();
             foreach (var loan in loansWithMoneyOnServiceAccount)
             {
-                var accounts = loan.Accounts;
-                var contractAccount = loan.Accounts.Single(a => a.Type == AccountType.ContractService);
-                var amount = contractAccount.Balance;
-
-                if (amount > 0M)
+                var contractServiceAcc = loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
+                // We filter only loans with positive balance on contract service account
+                if (contractServiceAcc != null && contractServiceAcc.Balance > 0)
                 {
-                    // at first we transfer money to interest account
-                    // then to generalDebtAccount
-                    var interestAccount = accounts.Single(acc => acc.Type == AccountType.Interest);
-                    var interestPayment = Math.Min(amount, interestAccount.Balance);
-                    var repo = GetRepository<Entry>();
-                    if (interestPayment > 0M)
+                    var accounts = loan.Accounts;
+                    var contractAccount = loan.Accounts.Single(a => a.Type == AccountType.ContractService);
+                    var amount = contractAccount.Balance;
+
+                    if (amount > 0M)
                     {
-                        var interestEntryPlus = repo.Create();
-                        interestEntryPlus.Amount = interestPayment;
-                        interestEntryPlus.Currency = loan.Application.Currency;
-                        interestEntryPlus.Date = GetCurrentDate();
-                        interestEntryPlus.Type = EntryType.Payment;
-                        interestEntryPlus.SubType = EntrySubType.Interest;
-                        var interestEntryMinus = repo.Create();
-                        Entry.GetOppositeFor(interestEntryPlus, interestEntryMinus);
-                        AddEntry(interestAccount, interestEntryPlus);
-                        AddEntry(contractAccount, interestEntryMinus);
-                        amount -= interestPayment;
-                    }
-                    var generalDebtAccount = accounts.Single(acc => acc.Type == AccountType.GeneralDebt);
-                    var generalDebtPayment = Math.Min(amount, generalDebtAccount.Balance);
-                    if (generalDebtPayment > 0M)
-                    {
-                        var generalDebtPlus = repo.Create();
-                        generalDebtPlus.Amount = generalDebtPayment;
-                        generalDebtPlus.Currency = loan.Application.Currency;
-                        generalDebtPlus.Date = GetCurrentDate();
-                        generalDebtPlus.Type = EntryType.Payment;
-                        generalDebtPlus.SubType = EntrySubType.GeneralDebt;
-                        var generalDebtMinus = repo.Create();
-                        Entry.GetOppositeFor(generalDebtPlus, generalDebtMinus);
-                        AddEntry(generalDebtAccount, generalDebtPlus);
-                        AddEntry(contractAccount, generalDebtMinus);
+                        // at first we transfer money to interest account
+                        // then to generalDebtAccount
+                        var interestAccount = accounts.Single(acc => acc.Type == AccountType.Interest);
+                        var interestPayment = Math.Min(amount, interestAccount.Balance);
+                        var repo = GetRepository<Entry>();
+                        if (interestPayment > 0M)
+                        {
+                            var interestEntryPlus = repo.Create();
+                            interestEntryPlus.Amount = interestPayment;
+                            interestEntryPlus.Currency = loan.Application.Currency;
+                            interestEntryPlus.Date = GetCurrentDate();
+                            interestEntryPlus.Type = EntryType.Payment;
+                            interestEntryPlus.SubType = EntrySubType.Interest;
+                            var interestEntryMinus = repo.Create();
+                            Entry.GetOppositeFor(interestEntryPlus, interestEntryMinus);
+                            AddEntry(interestAccount, interestEntryPlus);
+                            AddEntry(contractAccount, interestEntryMinus);
+                            amount -= interestPayment;
+                        }
+                        var generalDebtAccount = accounts.Single(acc => acc.Type == AccountType.GeneralDebt);
+                        var generalDebtPayment = Math.Min(amount, generalDebtAccount.Balance);
+                        if (generalDebtPayment > 0M)
+                        {
+                            var generalDebtPlus = repo.Create();
+                            generalDebtPlus.Amount = generalDebtPayment;
+                            generalDebtPlus.Currency = loan.Application.Currency;
+                            generalDebtPlus.Date = GetCurrentDate();
+                            generalDebtPlus.Type = EntryType.Payment;
+                            generalDebtPlus.SubType = EntrySubType.GeneralDebt;
+                            var generalDebtMinus = repo.Create();
+                            Entry.GetOppositeFor(generalDebtPlus, generalDebtMinus);
+                            AddEntry(generalDebtAccount, generalDebtPlus);
+                            AddEntry(contractAccount, generalDebtMinus);
+                        }
                     }
                 }
             }
