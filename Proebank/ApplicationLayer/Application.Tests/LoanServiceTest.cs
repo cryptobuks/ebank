@@ -16,7 +16,7 @@ namespace Application.Tests
     {
         private static ProcessingService _service;
         private static Customer _customer;
-        private static Document _passport;
+        private static PersonalData _passport;
         private static Tariff _tariff;
         private static LoanApplication _validLoanApp;
         private static LoanApplication _invalidLoanApp;
@@ -40,12 +40,12 @@ namespace Application.Tests
                 FirstName = "Stanley",
                 MiddleName = "Matthew",
                 Address = "Minsk",
-                BirthDate = new DateTime(1972, 10, 17),
+                DateOfBirth = new DateTime(1972, 10, 17),
                 Email = null,
                 IdentificationNumber = "317041972A0PB1",
                 Phone = "+375111111111",
             };
-            _passport = new Document
+            _passport = new PersonalData
             {
                 CustomerId = _customer.Id,
                 Customer = _customer,
@@ -74,7 +74,7 @@ namespace Application.Tests
             {
                 CellPhone = "+375291000000",
                 Currency = Currency.BYR,
-                Documents = new Collection<Document> { _passport },
+                Documents = new Collection<PersonalData> { _passport },
                 LoanAmount = 5.5E7M,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,
@@ -86,7 +86,7 @@ namespace Application.Tests
             {
                 CellPhone = "+375291000000",
                 Currency = Currency.BYR,
-                Documents = new Collection<Document> { _passport },
+                Documents = new Collection<PersonalData> { _passport },
                 LoanAmount = 5.5E11M,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,

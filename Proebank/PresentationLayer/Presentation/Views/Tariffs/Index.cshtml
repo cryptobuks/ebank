@@ -110,7 +110,7 @@
         {
             <td>
                 <a href="@Url.Action("Details", new {id = item.Id})" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
-                <a href="@Url.Action("Create", "LoanApplication")" title="Details" class="btn btn-success btn-xs"><i class="fa fa-plus-circle fa-lg"></i></a>
+                <a href="@Url.Action("Create", "LoanApplication", new {id = item.Id})" title="Details" class="btn btn-success btn-xs"><i class="fa fa-plus-circle fa-lg"></i></a>
             </td>
         }
     </tr>

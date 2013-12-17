@@ -3,7 +3,7 @@
     public enum LoanApplicationStatus : int
     {
         New,    // filled on site
-        InitiallyApproved,  // can go to bank to complete application
+        Filled,  // filled in bank
         UnderRiskConsideration,  // after filling of documents details application goes to security (risks consideration) service
         UnderCommitteeConsideration,  // special consideration
         Approved,   // can sign contract - positive decision from security service

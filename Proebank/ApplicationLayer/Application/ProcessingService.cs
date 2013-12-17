@@ -98,33 +98,36 @@ namespace Application
             var schedule = LoanCalculatePaymentSchedule(application);
             var accounts = new List<Account>(LoanAccountTypes
                 .Select(accountType =>
-                    CreateAccount(application.Currency, accountType)));
+                {
+                    var account = GetRepository<Account>().Create();
+                    account.Currency = application.Currency;
+                    account.Type = accountType;
+                    account.Entries = new Collection<Entry>();
+                    return account;
+                }));
             var generalDebtAcc = accounts.Single(a => a.Type == AccountType.GeneralDebt);
             var entryDate = GetCurrentDate();
-            var initialEntry = new Entry
-            {
-                Amount = application.LoanAmount,
-                Currency = application.Currency,
-                Date = entryDate,
-                Type = EntryType.Transfer,
-                SubType = EntrySubType.GeneralDebt,
-            };
+            var initialEntry = GetRepository<Entry>().Create();
+            initialEntry.Amount = application.LoanAmount;
+            initialEntry.Currency = application.Currency;
+            initialEntry.Date = entryDate;
+            initialEntry.Type = EntryType.Transfer;
+            initialEntry.SubType = EntrySubType.GeneralDebt;
             application.Status = LoanApplicationStatus.Contracted;
 
-            var bankEntry = Entry.GetOppositeFor(initialEntry);
+            var bankEntry = GetRepository<Entry>().Create();
+            Entry.GetOppositeFor(initialEntry, bankEntry);
             bankEntry.Type = EntryType.Transfer;
             bankEntry.SubType = EntrySubType.BankLoanIssued;
             AddEntry(generalDebtAcc, initialEntry);
             AddEntry(bankAccount, bankEntry);
 
-            var loan = new Loan
-            {
-                Customer = customer,
-                Application = application,
-                IsClosed = false,
-                PaymentSchedule = schedule,
-                Accounts = accounts,
-            };
+            var loan = GetRepository<Loan>().Create();
+            loan.Customer = customer;
+            loan.Application = application;
+            loan.IsClosed = false;
+            loan.PaymentSchedule = schedule;
+            loan.Accounts = accounts;
             UpsertLoan(loan);
             return loan;
         }
@@ -145,14 +148,12 @@ namespace Application
         {
             var accounts = loan.Accounts;
             var contractAccount = accounts.First(a => a.Type == AccountType.ContractService);
-            var entry = new Entry
-            {
-                Amount = amount,
-                Currency = loan.Application.Currency,
-                Date = GetCurrentDate(),
-                Type = EntryType.Payment,
-                SubType = EntrySubType.ContractService
-            };
+            var entry = GetRepository<Entry>().Create();
+            entry.Amount = amount;
+            entry.Currency = loan.Application.Currency;
+            entry.Date = GetCurrentDate();
+            entry.Type = EntryType.Payment;
+            entry.SubType = EntrySubType.ContractService;
             AddEntry(contractAccount, entry);
             return entry;
         }
@@ -174,11 +175,13 @@ namespace Application
         private void ProcessContractServiceAccounts()
         {
             // We filter only loans with below zero balance on contract service account
-            var loansWithMoneyOnServiceAccount = GetLoans(loan =>
-            {
-                var contractServiceAcc = loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
-                return contractServiceAcc != null && contractServiceAcc.Balance > 0;
-            });
+            var loansWithMoneyOnServiceAccount = GetLoans()
+                .AsEnumerable()
+                .Where(loan =>
+                {
+                    var contractServiceAcc = loan.Accounts.FirstOrDefault(acc => acc.Type == AccountType.ContractService);
+                    return contractServiceAcc != null && contractServiceAcc.Balance > 0;
+                });
             foreach (var loan in loansWithMoneyOnServiceAccount)
             {
                 var accounts = loan.Accounts;
@@ -191,17 +194,17 @@ namespace Application
                     // then to generalDebtAccount
                     var interestAccount = accounts.Single(acc => acc.Type == AccountType.Interest);
                     var interestPayment = Math.Min(amount, interestAccount.Balance);
+                    var repo = GetRepository<Entry>();
                     if (interestPayment > 0M)
                     {
-                        var interestEntryPlus = new Entry
-                        {
-                            Amount = interestPayment,
-                            Currency = loan.Application.Currency,
-                            Date = GetCurrentDate(),
-                            Type = EntryType.Payment,
-                            SubType = EntrySubType.Interest
-                        };
-                        var interestEntryMinus = Entry.GetOppositeFor(interestEntryPlus);
+                        var interestEntryPlus = repo.Create();
+                        interestEntryPlus.Amount = interestPayment;
+                        interestEntryPlus.Currency = loan.Application.Currency;
+                        interestEntryPlus.Date = GetCurrentDate();
+                        interestEntryPlus.Type = EntryType.Payment;
+                        interestEntryPlus.SubType = EntrySubType.Interest;
+                        var interestEntryMinus = repo.Create();
+                        Entry.GetOppositeFor(interestEntryPlus, interestEntryMinus);
                         AddEntry(interestAccount, interestEntryPlus);
                         AddEntry(contractAccount, interestEntryMinus);
                         amount -= interestPayment;
@@ -210,15 +213,14 @@ namespace Application
                     var generalDebtPayment = Math.Min(amount, generalDebtAccount.Balance);
                     if (generalDebtPayment > 0M)
                     {
-                        var generalDebtPlus = new Entry
-                        {
-                            Amount = generalDebtPayment,
-                            Currency = loan.Application.Currency,
-                            Date = GetCurrentDate(),
-                            Type = EntryType.Payment,
-                            SubType = EntrySubType.GeneralDebt
-                        };
-                        var generalDebtMinus = Entry.GetOppositeFor(generalDebtPlus);
+                        var generalDebtPlus = repo.Create();
+                        generalDebtPlus.Amount = generalDebtPayment;
+                        generalDebtPlus.Currency = loan.Application.Currency;
+                        generalDebtPlus.Date = GetCurrentDate();
+                        generalDebtPlus.Type = EntryType.Payment;
+                        generalDebtPlus.SubType = EntrySubType.GeneralDebt;
+                        var generalDebtMinus = repo.Create();
+                        Entry.GetOppositeFor(generalDebtPlus, generalDebtMinus);
                         AddEntry(generalDebtAccount, generalDebtPlus);
                         AddEntry(contractAccount, generalDebtMinus);
                     }
@@ -235,24 +237,30 @@ namespace Application
         private Dictionary<Account, Entry> LoanProcessEndOfMonth(DateTime currentDate)
         {
             var loanRepository = GetRepository<Loan>();
+            var entryRepository = GetRepository<Entry>();
             return loanRepository.GetAll()
                 .Where(l => !l.IsClosed)
                 .ToDictionary(
                     loan => loan.Accounts.Single(acc => acc.Type == AccountType.Interest),
-                    loan => InterestCalculator.CalculateInterestFor(loan, currentDate));
+                    loan =>
+                    {
+                        var entry = entryRepository.Create();
+                        InterestCalculator.CalculateInterestFor(loan, currentDate, entry);
+                        return entry;
+                    });
         }
 
         #region Loan service methods
-        public IEnumerable<Loan> GetLoans()
+        public IQueryable<Loan> GetLoans()
         {
             var loanRepository = GetRepository<Loan>();
             return loanRepository.GetAll();
         }
 
-        public IEnumerable<Loan> GetLoans(Func<Loan, bool> filter)
+        public Loan FindLoan(Guid? id)
         {
             var loanRepository = GetRepository<Loan>();
-            return loanRepository.GetAll().Where(filter);
+            return loanRepository.Find(id);
         }
 
         private void UpsertLoan(Loan loan)
@@ -277,16 +285,16 @@ namespace Application
 	    #endregion
 
         #region Loan application service methods
-        public IEnumerable<LoanApplication> GetLoanApplications(bool showRemoved = false)
+        public IQueryable<LoanApplication> GetLoanApplications(bool showRemoved = false)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
             return loanApplicationRepo.GetAll(showRemoved);
         }
 
-        public IEnumerable<LoanApplication> GetLoanApplications(Func<LoanApplication, bool> filter)
+        public LoanApplication LoanApplication(Guid? id)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
-            return loanApplicationRepo.GetAll().Where(filter);
+            return loanApplicationRepo.Find(id);
         }
 
         public void UpsertLoanApplication(LoanApplication loanApplication)
@@ -299,18 +307,17 @@ namespace Application
         public void DeleteLoanApplicationById(Guid id)
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
-            var loanApplication = loanApplicationRepo.GetAll().Single(la => la.Id.Equals(id));
+            var loanApplication = loanApplicationRepo.GetAll().Single(la => la.Id == id);
             loanApplicationRepo.Remove(loanApplication);
             loanApplicationRepo.SaveChanges();
         }
 
         public void CreateLoanApplication(LoanApplication loanApplication, bool fromConsultant = false)
         {
-            loanApplication.Documents = new List<Document>();
             loanApplication.TimeCreated = GetCurrentDate();
-            loanApplication.Status = fromConsultant ? LoanApplicationStatus.InitiallyApproved : LoanApplicationStatus.New;
-            var selectedTariff = GetTariffs(t => t.Id.Equals(loanApplication.TariffId)).Single();
-            //loanApplication.Tariff = selectedTariff;
+            loanApplication.Status = fromConsultant ? LoanApplicationStatus.Filled : LoanApplicationStatus.New;
+            var selectedTariff = GetTariffs().Single(t => t.Id.Equals(loanApplication.TariffId));
+            loanApplication.Tariff = selectedTariff;
             loanApplication.LoanPurpose = selectedTariff.LoanPurpose;
             loanApplication.Currency = selectedTariff.Currency;
 
@@ -363,16 +370,10 @@ namespace Application
         #endregion
 
         #region Tariff service methods
-        public IEnumerable<Tariff> GetTariffs()
+        public IQueryable<Tariff> GetTariffs()
         {
             var tariffRepo = GetRepository<Tariff>();
             return tariffRepo.GetAll();
-        }
-
-        public IEnumerable<Tariff> GetTariffs(Func<Tariff, bool> filter)
-        {
-            var tariffRepo = GetRepository<Tariff>();
-            return tariffRepo.GetAll().Where(filter);
         }
 
         public void UpsertTariff(Tariff tariff)
@@ -385,7 +386,7 @@ namespace Application
         public void DeleteTariffById(Guid id)
         {
             var tariffRepo = GetRepository<Tariff>();
-            var tariff = tariffRepo.GetAll().Single(t => t.Id.Equals(id));
+            var tariff = tariffRepo.GetAll().Single(t => t.Id == id);
             tariff.EndDate = GetCurrentDate();
             tariffRepo.Remove(tariff);
             tariffRepo.SaveChanges();
@@ -563,10 +564,8 @@ namespace Application
         public List<LoanHistory> GetHistoryFromNationalBank(LoanApplication application)
         {
             var nationalBank = GetRepository<LoanHistory>();
-            var doc =
-                application.Documents.Single(
-                    d => d.DocType == DocType.Passport && d.TariffDocType == TariffDocType.DebtorPrimary);
-            var history = nationalBank.GetAll().Where(l => l.Person.Id == doc.Id).ToList();
+            var personId = application.PersonalData.Identification;
+            var history = nationalBank.GetAll().Where(l => l.Person.Identification == personId).ToList();
             if (!history.Any())
             {
                 var gen = new Random();
@@ -581,7 +580,7 @@ namespace Application
                         {
                             Amount = gen.Next(1, 500)*10000,
                             HadProblems = gen.NextDouble() > 0.85,
-                            Person = doc,
+                            Person = application.PersonalData,
                             WhenOpened = started,
                             WhenClosed = isClosed ? closed : (DateTime?) null,
                         };

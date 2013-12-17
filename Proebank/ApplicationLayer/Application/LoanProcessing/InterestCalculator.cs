@@ -8,17 +8,14 @@ namespace Application.LoanProcessing
 {
     static class InterestCalculator
     {
-        public static Entry CalculateInterestFor(Loan loan, DateTime date)
+        public static void CalculateInterestFor(Loan loan, DateTime date, Entry destinyEntry)
         {
             var payments = loan.PaymentSchedule.Payments.Where(p => p.ShouldBePaidBefore.Month == date.Month);
-            return new Entry
-            {
-                Amount = payments.Sum(p => p.Amount),
-                Currency = loan.Application.Currency,
-                Type = EntryType.Accrual,
-                SubType = EntrySubType.Interest,
-                Date = date
-            };
+            destinyEntry.Amount = payments.Sum(p => p.Amount);
+            destinyEntry.Currency = loan.Application.Currency;
+            destinyEntry.Type = EntryType.Accrual;
+            destinyEntry.SubType = EntrySubType.Interest;
+            destinyEntry.Date = date;
         }
 
         public static decimal TotalSum(Tariff tariff, decimal sum, int term)

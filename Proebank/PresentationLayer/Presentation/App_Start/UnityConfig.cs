@@ -1,4 +1,5 @@
 using System;
+using Domain;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Presentation.Controllers;

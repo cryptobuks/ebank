@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Domain.Models.Loans;
-using Domain;
+using Application;
 
 namespace Presentation.Controllers
 {
     public class CustomerController : Controller
     {
-        private DataContext db = new DataContext();
+        private readonly ProcessingService _service = new ProcessingService();
 
         // GET: /Customer/
         [Authorize(Roles = "Customer")]
         public ActionResult Index()
         {
-            return View(db.Loans.ToList());
+            return View(_service.GetLoans());
         }
 
         // GET: /Customer/Details/5
@@ -30,7 +27,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loan = db.Loans.Find(id);
+            var loan = _service.FindLoan(id);
             if (loan == null)
             {
                 return HttpNotFound();
@@ -46,7 +43,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loan = db.Loans.Find(id);
+            var loan = _service.FindLoan(id);
             if (loan == null)
             {
                 return HttpNotFound("Loan was not found");
@@ -63,7 +60,7 @@ namespace Presentation.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _service.Dispose();
             }
             base.Dispose(disposing);
         }

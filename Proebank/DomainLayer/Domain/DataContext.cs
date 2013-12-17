@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
@@ -41,23 +42,77 @@ namespace Domain
                 .ToTable("Employees");
             modelBuilder.Entity<Customer>()
                 .ToTable("Customers");
+            modelBuilder.Entity<Account>()
+                .Property(f => f.DateOpened)
+                .HasColumnType("datetime2");
+            modelBuilder.Entity<Account>()
+                .Property(f => f.DateClosed)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<Entry>()
+                .Property(f => f.Date)
+                .HasColumnType("datetime2");
+            modelBuilder.Entity<Calendar>()
+                .Property(f => f.CurrentTime)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<Calendar>()
+                .Property(f => f.LastDailyProcessingTime)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<Calendar>()
+                .Property(f => f.LastMonthlyProcessingTime)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<PersonalData>()
+                .Property(f => f.DateOfBirth)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<Employee>()
+                .Property(f => f.FiredOn)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<Employee>()
+                .Property(f => f.HiredOn)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<LoanApplication>()
+                .Property(f => f.Birthday)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<LoanApplication>()
+                .Property(f => f.TimeContracted)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<LoanApplication>()
+                .Property(f => f.TimeCreated)
+                .HasColumnType("datetime2");
+            modelBuilder.Entity<LoanHistory>()
+                .Property(f => f.WhenClosed)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<LoanHistory>()
+                .Property(f => f.WhenOpened)
+                .HasColumnType("datetime2");
+            modelBuilder.Entity<Payment>()
+                .Property(f => f.ShouldBePaidBefore)
+                .HasColumnType("datetime2");
+            modelBuilder.Entity<Tariff>()
+                .Property(f => f.CreationDate)
+                .HasColumnType("datetime2");
+            modelBuilder.Entity<Tariff>()
+                .Property(f => f.EndDate)
+                .HasColumnType("datetime2").IsOptional();
+            modelBuilder.Entity<Tariff>()
+                .Property(f => f.StartDate)
+                .HasColumnType("datetime2").IsOptional();
         }
 
-        public override int SaveChanges()
-        {
-            try
-            {
-                return base.SaveChanges();
-            }
-            catch (DbEntityValidationException dbExc)
-            {
-                foreach (var validationError in dbExc.EntityValidationErrors
-                    .SelectMany(validationErrors => validationErrors.ValidationErrors))
-                {
-                    Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                }
-                throw;
-            }
-        }
+        //public override int SaveChanges()
+        //{
+        //    try
+        //    {
+        //        return base.SaveChanges();
+        //    }
+        //    catch (DbEntityValidationException dbExc)
+        //    {
+        //        foreach (var validationError in dbExc.EntityValidationErrors
+        //            .SelectMany(validationErrors => validationErrors.ValidationErrors))
+        //        {
+        //            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+        //        }
+        //        throw;
+        //    }
+        //}
     }
 }

@@ -17,7 +17,7 @@ namespace Application.Tests
         private static Loan _loan;
         private static LoanApplication _validLoanApp;
         private static Tariff _tariff;
-        private static Document _passport;
+        private static PersonalData _passport;
         private static Customer _customer;
 
         [ClassInitialize]
@@ -42,12 +42,12 @@ namespace Application.Tests
                 FirstName = "Stanley",
                 MiddleName = "Matthew",
                 Address = "Minsk",
-                BirthDate = new DateTime(1972, 10, 17),
+                DateOfBirth = new DateTime(1972, 10, 17),
                 Email = null,
                 IdentificationNumber = "317041972A0PB1",
                 Phone = "+375111111111",
             };
-            _passport = new Document
+            _passport = new PersonalData
             {
                 CustomerId = _customer.Id,
                 Customer = _customer,
@@ -75,7 +75,7 @@ namespace Application.Tests
             {
                 CellPhone = "+375291000000",
                 Currency = _tariff.Currency,
-                Documents = new Collection<Document> { _passport },
+                Documents = new Collection<PersonalData> { _passport },
                 LoanAmount = 5.5E7M,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,
@@ -101,7 +101,7 @@ namespace Application.Tests
             {
                 CellPhone = "+37529-CREATE-LOAN-CONTRACT",
                 Currency = _tariff.Currency,
-                Documents = new Collection<Document> { _passport },
+                Documents = new Collection<PersonalData> { _passport },
                 LoanAmount = 1000000,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,

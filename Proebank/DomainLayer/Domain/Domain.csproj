@@ -34,10 +34,11 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -58,34 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataInitializer.cs" />
-    <Compile Include="Migrations\201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.cs" />
-    <Compile Include="Migrations\201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.Designer.cs">
-      <DependentUpon>201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201311272313124_RemovedTariffIdFromLoanApplication.cs" />
-    <Compile Include="Migrations\201311272313124_RemovedTariffIdFromLoanApplication.Designer.cs">
-      <DependentUpon>201311272313124_RemovedTariffIdFromLoanApplication.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201312062226089_MadePaymentsInScheduleVirtual.cs" />
-    <Compile Include="Migrations\201312062226089_MadePaymentsInScheduleVirtual.Designer.cs">
-      <DependentUpon>201312062226089_MadePaymentsInScheduleVirtual.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201312070829039_TariffIdIsBack.cs" />
-    <Compile Include="Migrations\201312070829039_TariffIdIsBack.Designer.cs">
-      <DependentUpon>201312070829039_TariffIdIsBack.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201312082346354_LoanHistory.cs" />
-    <Compile Include="Migrations\201312082346354_LoanHistory.Designer.cs">
-      <DependentUpon>201312082346354_LoanHistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201312092003240_RequireCellPhone.cs" />
-    <Compile Include="Migrations\201312092003240_RequireCellPhone.Designer.cs">
-      <DependentUpon>201312092003240_RequireCellPhone.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201312100010475_LoanApplicationFull.cs" />
-    <Compile Include="Migrations\201312100010475_LoanApplicationFull.Designer.cs">
-      <DependentUpon>201312100010475_LoanApplicationFull.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Loans\LoanHistory.cs" />
     <Compile Include="Repositories\RepositoryContainer.cs" />
@@ -101,27 +74,11 @@
     <Compile Include="Enums\LoanApplicationStatus.cs" />
     <Compile Include="Enums\LoanPurpose.cs" />
     <Compile Include="Enums\TariffDocType.cs" />
-    <Compile Include="Migrations\201311090038256_Init.cs" />
-    <Compile Include="Migrations\201311090038256_Init.Designer.cs">
-      <DependentUpon>201311090038256_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201311150659497_AddedTariffStartTime.cs" />
-    <Compile Include="Migrations\201311150659497_AddedTariffStartTime.Designer.cs">
-      <DependentUpon>201311150659497_AddedTariffStartTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201311190445302_AddedCalendar.cs" />
-    <Compile Include="Migrations\201311190445302_AddedCalendar.Designer.cs">
-      <DependentUpon>201311190445302_AddedCalendar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201311202222426_userInLoan.cs" />
-    <Compile Include="Migrations\201311202222426_userInLoan.Designer.cs">
-      <DependentUpon>201311202222426_userInLoan.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accounts\Account.cs" />
     <Compile Include="Models\Loans\Payment.cs" />
     <Compile Include="Models\Customers\Customer.cs" />
-    <Compile Include="Models\Loans\Document.cs" />
+    <Compile Include="Models\Loans\PersonalData.cs" />
     <Compile Include="Models\Employees\Employee.cs" />
     <Compile Include="Models\Accounts\Entry.cs" />
     <Compile Include="Models\Loans\LoanApplication.cs" />
@@ -136,42 +93,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201311090038256_Init.resx">
-      <DependentUpon>201311090038256_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311150659497_AddedTariffStartTime.resx">
-      <DependentUpon>201311150659497_AddedTariffStartTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311190445302_AddedCalendar.resx">
-      <DependentUpon>201311190445302_AddedCalendar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311202222426_userInLoan.resx">
-      <DependentUpon>201311202222426_userInLoan.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.resx">
-      <DependentUpon>201311272225235_RemovedIsSecondaryDocNeededFromLoanApplication.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311272313124_RemovedTariffIdFromLoanApplication.resx">
-      <DependentUpon>201311272313124_RemovedTariffIdFromLoanApplication.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201312062226089_MadePaymentsInScheduleVirtual.resx">
-      <DependentUpon>201312062226089_MadePaymentsInScheduleVirtual.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201312070829039_TariffIdIsBack.resx">
-      <DependentUpon>201312070829039_TariffIdIsBack.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201312082346354_LoanHistory.resx">
-      <DependentUpon>201312082346354_LoanHistory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201312092003240_RequireCellPhone.resx">
-      <DependentUpon>201312092003240_RequireCellPhone.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201312100010475_LoanApplicationFull.resx">
-      <DependentUpon>201312100010475_LoanApplicationFull.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

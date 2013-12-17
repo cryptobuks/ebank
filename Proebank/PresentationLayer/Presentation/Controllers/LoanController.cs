@@ -5,10 +5,6 @@ using Domain.Enums;
 using Domain.Models.Loans;
 using Application;
 using System.Net;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity;
-using Domain.Models.Customers;
-using Domain;
 
 namespace Presentation.Controllers
 {
@@ -24,7 +20,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Department head, Consultant")]
         public ActionResult Index()
         {
-            var loans = _processingService.GetLoans(la => true);
+            var loans = _processingService.GetLoans();
             return View(loans);
         }
 
@@ -35,7 +31,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _processingService.GetLoanApplications(la => la.Id.Equals(loanApplicationId.Value)).SingleOrDefault();
+            var loanApplication = _processingService.GetLoanApplications().SingleOrDefault(la => la.Id.Equals(loanApplicationId.Value));
             if (loanApplication == null || loanApplication.Status != LoanApplicationStatus.Approved)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -51,10 +47,10 @@ namespace Presentation.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var laId = loanApplication.Id;
-            loanApplication = _processingService.GetLoanApplications(la => la.Id.Equals(laId)).Single();
+            loanApplication = _processingService.GetLoanApplications().Single(la => la.Id.Equals(laId));
 
             // check customer here because of using default UserStore and UserManager
-            var doc = loanApplication.Documents.Single(d => d.TariffDocType == TariffDocType.DebtorPrimary);
+            var doc = loanApplication.PersonalData;
             var loan = _processingService.CreateLoanContract(doc.Customer, loanApplication);
             if (loan == null)
             {

@@ -39,20 +39,19 @@ namespace Presentation.Controllers
             }
             if (User.IsInRole("Department head"))
             {
-            ViewBag.ActiveTab = "All";
-                var loanApplications = _service.GetLoanApplications(true);
-            return View(loanApplications);
-        }
-            else
-            {
-                return new HttpUnauthorizedResult();
+                ViewBag.ActiveTab = "All";
+                var loanApplications = _service.GetLoanApplications(true).ToList();
+                return View(loanApplications);
             }
+            return new HttpUnauthorizedResult();
         }
 
         public ActionResult New()
         {
             var loanApplications = _service
-                .GetLoanApplications(a => a.Status == LoanApplicationStatus.New);
+                .GetLoanApplications()
+                .Where(a => a.Status == LoanApplicationStatus.New)
+                .ToList();
             ViewBag.ActiveTab = "New";
             return View("Index", loanApplications);
         }
@@ -60,7 +59,9 @@ namespace Presentation.Controllers
         public ActionResult PreApproved()
         {
             var loanApplications = _service
-                .GetLoanApplications(a => a.Status == LoanApplicationStatus.InitiallyApproved);
+                .GetLoanApplications()
+                .Where(a => a.Status == LoanApplicationStatus.Filled)
+                .ToList();
             ViewBag.ActiveTab = "PreApproved";
             return View("Index", loanApplications);
         }
@@ -68,7 +69,9 @@ namespace Presentation.Controllers
         public ActionResult Reviewed()
         {
             var loanApplications = _service
-                .GetLoanApplications(a => a.Status == LoanApplicationStatus.Approved || a.Status == LoanApplicationStatus.Rejected);
+                .GetLoanApplications()
+                .Where(a => a.Status == LoanApplicationStatus.Approved || a.Status == LoanApplicationStatus.Rejected)
+                .ToList();
             ViewBag.ActiveTab = "Reviewed";
             return View("Index", loanApplications);
         }
@@ -76,7 +79,9 @@ namespace Presentation.Controllers
         public ActionResult OnSecurityReview()
         {
             var loanApplications = _service
-                .GetLoanApplications(a => a.Status == LoanApplicationStatus.UnderRiskConsideration);
+                .GetLoanApplications()
+                .Where(a => a.Status == LoanApplicationStatus.UnderRiskConsideration)
+                .ToList();
             ViewBag.ActiveTab = "Security";
             return View("Index", loanApplications);
         }
@@ -84,14 +89,19 @@ namespace Presentation.Controllers
         public ActionResult OnCommitteeReview()
         {
             var loanApplications = _service
-                .GetLoanApplications(a => a.Status == LoanApplicationStatus.UnderCommitteeConsideration);
+                .GetLoanApplications()
+                .Where(a => a.Status == LoanApplicationStatus.UnderCommitteeConsideration)
+                .ToList();
             ViewBag.ActiveTab = "Committee";
             return View("Index", loanApplications);
         }
 
         public ActionResult Contracted()
         {
-            var loanApplications = _service.GetLoanApplications(a => a.Status == LoanApplicationStatus.Contracted);
+            var loanApplications = _service
+                .GetLoanApplications()
+                .Where(a => a.Status == LoanApplicationStatus.Contracted)
+                .ToList();
             ViewBag.ActiveTab = "Contracted";
             return View("Index", loanApplications);
         }
@@ -125,14 +135,19 @@ namespace Presentation.Controllers
         public ActionResult Approved()
         {
             var loanApplications = _service
-                .GetLoanApplications(a => a.Status == LoanApplicationStatus.Approved);
+                .GetLoanApplications()
+                .Where(a => a.Status == LoanApplicationStatus.Approved)
+                .ToList();
             ViewBag.ActiveTab = "Approved";
             return View("Index", loanApplications);
         }
 
         public ActionResult Rejected()
         {
-            var loanApplications = _service.GetLoanApplications(a => a.Status == LoanApplicationStatus.Rejected);
+            var loanApplications = _service
+                .GetLoanApplications()
+                .Where(a => a.Status == LoanApplicationStatus.Rejected)
+                .ToList();
             ViewBag.ActiveTab = "Rejected";
             return View("Index", loanApplications);
         }
@@ -143,7 +158,8 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LoanApplication loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            var loanApplication = _service.GetLoanApplications()
+                .Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -152,10 +168,10 @@ namespace Presentation.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Create()
+        public ActionResult Create(Guid? id)
         {
-            var tariffs = _service.GetTariffs();
-            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
+            var tariffs = _service.GetTariffs().ToList();
+            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", tariffs.FirstOrDefault(t => t.Id == id));
             return View();
         }
 
@@ -196,7 +212,7 @@ namespace Presentation.Controllers
                 }
             }
 
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs().ToList();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
@@ -207,13 +223,13 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanapplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            var loanapplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanapplication == null)
             {
                 return HttpNotFound();
             }
-            var tariffs = _service.GetTariffs();
-            ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
+            var tariffs = _service.GetTariffs().ToList();
+            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             return View(loanapplication);
         }
 
@@ -226,7 +242,7 @@ namespace Presentation.Controllers
                 _service.UpsertLoanApplication(loanApplication);
                 return RedirectToAction("Index");
             }
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs().ToList();
             ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
@@ -237,7 +253,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -259,7 +275,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -273,7 +289,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -286,7 +302,7 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Approve(Guid id)
         {
-            LoanApplication loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            LoanApplication loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication != null)
             {
                 _service.ApproveLoanAppication(loanApplication);
@@ -300,7 +316,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LoanApplication loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            LoanApplication loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -313,7 +329,7 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Reject(Guid id)
         {
-            LoanApplication loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            LoanApplication loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication != null)
             {
                 _service.RejectLoanApplication(loanApplication);
@@ -337,7 +353,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -352,7 +368,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -367,7 +383,7 @@ namespace Presentation.Controllers
             {
                 return View();
             }
-            var loanApplication = _service.GetLoanApplications(l => l.Id.Equals(id)).Single();
+            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             var selectedTariffId = "";
             if (loanApplication == null)
             {
@@ -375,7 +391,7 @@ namespace Presentation.Controllers
             }
 
             selectedTariffId = loanApplication.TariffId.ToString();
-            var tariffs = _service.GetTariffs();
+            var tariffs = _service.GetTariffs().ToList();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", selectedTariffId);
             return View(loanApplication);
         }
@@ -384,22 +400,16 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Fill(LoanApplication loanApplication)
         {
-            var original = _service.GetLoanApplications(l => l.Id.Equals(loanApplication.Id)).Single();
-            var selectedTariffId = "";
-            if (original != null)
-            {
-                loanApplication.TimeCreated = original.TimeCreated;
-                selectedTariffId = original.TariffId.ToString();
-                loanApplication.CellPhone = original.CellPhone;
-                loanApplication.Currency = original.Currency;
-                loanApplication.Status = LoanApplicationStatus.InitiallyApproved;
-                loanApplication.Documents = loanApplication.Documents ?? new Collection<Document>();
-            }
             if (ModelState.IsValid)
             {
-                _service.UpsertLoanApplication(loanApplication);
+                // connect to db to refresh connection
+                // saving of loanApplication doesn't save docs
+                var applicationWithDbRef = _service.GetLoanApplications().Single(l => l.Id.Equals(loanApplication.Id));
+                applicationWithDbRef.Status = LoanApplicationStatus.Filled;
+                applicationWithDbRef.PersonalData = loanApplication.PersonalData;
+                _service.UpsertLoanApplication(applicationWithDbRef);
             }
-            var tariffList = _service.GetTariffs();
+            var tariffList = _service.GetTariffs().ToList();
             ViewBag.TariffId = new SelectList(tariffList, "Id", "Name");
             return RedirectToAction("Index");
         }

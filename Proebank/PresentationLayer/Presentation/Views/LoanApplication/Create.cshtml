@@ -41,28 +41,12 @@
         </div>
         
         <div class="control-group">
-            @Html.LabelFor(model => model.TariffId, "TariffId", new { @class = "control-label" })
+            @Html.LabelFor(model => model.TariffId, "Tariff", new { @class = "control-label" })
             <div class="controls">
                 @Html.DropDownList("TariffId", String.Empty)
                 @Html.ValidationMessageFor(model => model.TariffId, null, new { @class = "help-inline" })
             </div>
         </div>
-
-        @*<div class="control-group">
-            @Html.LabelFor(model => model.LoanPurpose, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.LoanPurpose)
-                @Html.ValidationMessageFor(model => model.LoanPurpose, null, new { @class = "help-inline" })
-            </div>
-        </div>
-        
-        <div class="control-group">
-            @Html.LabelFor(model => model.Currency, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.Currency)
-                @Html.ValidationMessageFor(model => model.Currency, null, new { @class = "help-inline" })
-            </div>
-        </div>*@
         
         <br/>
         <div class="form-actions no-color">

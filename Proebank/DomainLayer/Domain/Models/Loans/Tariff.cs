@@ -9,7 +9,6 @@ namespace Domain.Models.Loans
     {
         [DisplayName("Tariff Name")]
         public string Name { get; set; }
-
         
         [DisplayName("Interest Rate")]
         [DisplayFormat(DataFormatString = "{0:P}", ApplyFormatInEditMode = true)]

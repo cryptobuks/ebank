@@ -30,7 +30,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var tariff = _service.GetTariffs(t => t.Id.Equals(id)).Single();
+            var tariff = _service.GetTariffs().Single(t => t.Id == id);
             if (tariff == null)
             {
                 return HttpNotFound();
@@ -71,7 +71,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tariff tariff = _service.GetTariffs(t => t.Id.Equals(id)).Single();
+            var tariff = _service.GetTariffs().Single(t => t.Id == id);
             if (tariff == null)
             {
                 return HttpNotFound();
@@ -105,7 +105,7 @@ namespace Presentation.Controllers
             {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tariff tariff = _service.GetTariffs(t => t.Id.Equals(id)).Single();
+            var tariff = _service.GetTariffs().Single(t => t.Id == id);
             if (tariff == null)
             {
                 return HttpNotFound();

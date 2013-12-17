@@ -17,6 +17,16 @@ namespace Domain.Repositories.Fakes
             _collection = new ObservableCollection<T>();
         }
 
+        public T Create()
+        {
+            return (T)Activator.CreateInstance(typeof(T));
+        }
+
+        public T Find(Guid? id)
+        {
+            return _collection.SingleOrDefault(e => e.Id == id);
+        }
+
         public IQueryable<T> GetAll(bool showRemoved = false)
         {
             return _collection.Where(e => !e.IsRemoved || showRemoved).AsQueryable();

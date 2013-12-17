@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using Domain.Models;
 
 namespace Domain.Repositories.Db
@@ -9,11 +11,22 @@ namespace Domain.Repositories.Db
     public class Repository<T> : IRepository<T> where T : Entity
     {
         private readonly DataContext _ctx;
+
         public bool IsDisposed { get; private set; }
 
-        public Repository(DataContext context)
+        public Repository()
         {
-            _ctx = context;
+            _ctx = DataContextManager.GetContext();
+        }
+
+        public T Create()
+        {
+            return _ctx.Set<T>().Create();
+        }
+
+        public T Find(Guid? id)
+        {
+            return _ctx.Set<T>().Find(id);
         }
 
         public IQueryable<T> GetAll(bool showRemoved = false)
@@ -59,6 +72,17 @@ namespace Domain.Repositories.Db
         ~Repository()
         {
             Dispose(false);
+        }
+    }
+
+    public static class DataContextManager
+    {
+        private static readonly Lazy<DataContext> Container = new Lazy<DataContext>(() => new DataContext());
+        private static DataContext _context;
+
+        internal static DataContext GetContext()
+        {
+            return _context ?? (_context = Container.Value);
         }
     }
 }
