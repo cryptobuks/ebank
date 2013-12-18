@@ -28,7 +28,7 @@
                     <div class="control-group">
                         @Html.LabelFor(model => model.LoanId, new { @class = "control-label" })
                         <div class="controls">
-                            @Html.DropDownList("LoanId", String.Empty)
+                            @Html.EditorFor(model => model.LoanId, String.Empty)
                             @Html.ValidationMessageFor(model => model.LoanId, null, new { @class = "help-inline" })
                         </div>
                     </div>
