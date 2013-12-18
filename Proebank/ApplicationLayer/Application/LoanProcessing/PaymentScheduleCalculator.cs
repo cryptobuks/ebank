@@ -60,9 +60,7 @@ namespace Application.LoanProcessing
             var loanAmount = loanApplication.LoanAmount;
             var term = loanApplication.Term;
 
-            var schedule = Calculate(loanAmount, tariff, term, startDate);
-            schedule = RoundPayments(schedule, 2);
-            return schedule;
+            return Calculate(loanAmount, tariff, term, startDate);
         }
 
         public static PaymentSchedule CalculateAnnuitySchedule(Tariff tariff, decimal loanAmount, int term, DateTime? startDate)
@@ -74,29 +72,35 @@ namespace Application.LoanProcessing
 
             var schedule = new PaymentSchedule();
             var remainMainDebt = loanAmount;
-            if (startDate.HasValue)
-            {
-                var firstPmt = CalculateFirstPmt(loanAmount, tariff, startDate.Value);
-                schedule.AddPayment(firstPmt);
-                startDate = firstPmt.AccruedOn;
-            }
             for (var i = 0; i < term; i++)
             {
                 var pmtInterest = remainMainDebt * rate;
                 var pmtMainDebt = monthlyPayment - pmtInterest;
+                var accruedDate = CalculatePaymentDate(startDate, i);
+                var payBefore = CalculatePaymentDate(startDate, i + 1);
+                if (startDate.HasValue && payBefore > startDate.Value.AddMonths(term))
+                {
+                    payBefore = startDate.Value.AddMonths(term);
+                }
+                if (i == 0 && startDate.HasValue)
+                {
+                    pmtInterest *= ((30 - startDate.Value.Day + 1) / 30M);
+                }
+                if (i + 1 == term && startDate.HasValue)
+                {
+                    pmtInterest += pmtInterest * ((startDate.Value.Day - 1) / 30M);
+                }
                 var pmt = new Payment
                 {
                     MainDebtAmount = pmtMainDebt,
                     AccruedInterestAmount = pmtInterest,
-                    AccruedOn = CalculatePaymentDate(startDate, i),
-                    ShouldBePaidBefore = CalculatePaymentDate(startDate, i + 1)
+                    AccruedOn = accruedDate,
+                    ShouldBePaidBefore = payBefore
                 };
                 schedule.AddPayment(pmt);
                 remainMainDebt -= pmtMainDebt;
             }
-            // TODO: test and add final payment if needed
-
-            return schedule;
+            return RoundPayments(schedule, 2);
         }
 
         private static PaymentSchedule CalculateStandardSchedule(Tariff tariff, decimal loanAmount, int term, DateTime? startDate)
@@ -108,17 +112,31 @@ namespace Application.LoanProcessing
             for (var i = 0; i < term; i++)
             {
                 var pmtInterest = remainMainDebt * rate;
+                var payBefore = CalculatePaymentDate(startDate, i + 1);
+                if (i == 0 && startDate.HasValue)
+                {
+                    pmtInterest *= ((30 - startDate.Value.Day + 1) / 30M);
+                }
+                if (i + 1 == term && startDate.HasValue)
+                {
+                    pmtInterest += pmtInterest * ((startDate.Value.Day - 1) / 30M);
+                }
+                if (startDate.HasValue && payBefore > startDate.Value.AddMonths(term))
+                {
+                    payBefore = startDate.Value.AddMonths(term);
+                }
+
                 var pmt = new Payment
                 {
                     MainDebtAmount = pmtMainDebt,
                     AccruedInterestAmount = pmtInterest,
                     AccruedOn = CalculatePaymentDate(startDate, i),
-                    ShouldBePaidBefore = CalculatePaymentDate(startDate, i + 1)
+                    ShouldBePaidBefore = payBefore
                 };
                 schedule.AddPayment(pmt);
                 remainMainDebt -= pmtMainDebt;
             }
-            return schedule;
+            return RoundPayments(schedule, 2);
         }
 
         private static Payment CalculateFirstPmt(decimal loanAmount, Tariff tariff, DateTime startDate)
@@ -151,8 +169,8 @@ namespace Application.LoanProcessing
             if (startDate == null) return null;
             var date = startDate.Value;
             var paymentDate = date.AddMonths(i);
-            // This is for getting the first day of the month. It is not needed anymore
-            //paymentDate = new DateTime(paymentDate.Year, paymentDate.Month, DateTime.DaysInMonth(paymentDate.Year, paymentDate.Month)).AddDays(1).AddTicks(-1);
+            // This is for getting the first day of the month
+            paymentDate = new DateTime(paymentDate.Year, paymentDate.Month, DateTime.DaysInMonth(paymentDate.Year, paymentDate.Month)).AddDays(1).AddTicks(-1);
             if (paymentDate.DayOfWeek == DayOfWeek.Saturday || paymentDate.DayOfWeek == DayOfWeek.Sunday)
             {
                 paymentDate = paymentDate.AddDays(paymentDate.DayOfWeek == DayOfWeek.Saturday ? 2 : 1);
@@ -174,16 +192,50 @@ namespace Application.LoanProcessing
         private static PaymentSchedule RoundPayments(PaymentSchedule paymentSchedule, int digitsAfterZero)
         {
             var resultPaymentSchedule = new PaymentSchedule();
-            foreach (var payment in paymentSchedule.Payments)
+            var deltaMainDebt = 0M;
+            var deltaInterest = 0M;
+            var deltaOverdueMainDebt = 0M;
+            var deltaOverdueInterest = 0M;
+            if (paymentSchedule.Payments.Any())
             {
-                if (payment == null) continue;
-                resultPaymentSchedule.AddPayment(new Payment
+                var lastPmt = paymentSchedule.Payments.Last();
+                foreach (var payment in paymentSchedule.Payments)
+                {
+                    if (payment == null) continue;
+
+                    var newMainDebt = 0M;
+                    var newInterest = 0M;
+                    var newOverdueMainDebt = 0M;
+                    var newOverdueInterest = 0M;
+
+                    if (payment != lastPmt)
                     {
-                        MainDebtAmount = Math.Round(payment.MainDebtAmount, digitsAfterZero),
-                        AccruedInterestAmount = Math.Round(payment.AccruedInterestAmount, digitsAfterZero),
-                        OverdueMainDebtAmount = Math.Round(payment.OverdueMainDebtAmount, digitsAfterZero),
-                        OverdueInterestAmount = Math.Round(payment.OverdueInterestAmount, digitsAfterZero)
-                    });
+                        newMainDebt = Math.Round(payment.MainDebtAmount, digitsAfterZero);
+                        newInterest = Math.Round(payment.AccruedInterestAmount, digitsAfterZero);
+                        newOverdueMainDebt = Math.Round(payment.OverdueMainDebtAmount, digitsAfterZero);
+                        newOverdueInterest = Math.Round(payment.OverdueInterestAmount, digitsAfterZero);
+
+                        deltaMainDebt += payment.MainDebtAmount - newMainDebt;
+                        deltaInterest += payment.AccruedInterestAmount - newInterest;
+                        deltaOverdueMainDebt += payment.OverdueMainDebtAmount - newOverdueMainDebt;
+                        deltaOverdueInterest += payment.OverdueInterestAmount - newOverdueInterest;
+                    }
+                    else
+                    {
+                        newMainDebt = Math.Round(payment.MainDebtAmount + deltaMainDebt, digitsAfterZero);
+                        newInterest = Math.Round(payment.AccruedInterestAmount + deltaInterest, digitsAfterZero);
+                        newOverdueMainDebt = Math.Round(payment.OverdueMainDebtAmount + deltaOverdueMainDebt, digitsAfterZero);
+                        newOverdueInterest = Math.Round(payment.OverdueInterestAmount + deltaOverdueInterest, digitsAfterZero);
+                    }
+
+                    resultPaymentSchedule.AddPayment(new Payment
+                        {
+                            MainDebtAmount = newMainDebt,
+                            AccruedInterestAmount = newInterest,
+                            OverdueMainDebtAmount = newOverdueMainDebt,
+                            OverdueInterestAmount = newOverdueInterest
+                        });
+                }
             }
             return resultPaymentSchedule;
         }
