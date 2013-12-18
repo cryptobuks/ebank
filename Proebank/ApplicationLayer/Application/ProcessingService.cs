@@ -565,7 +565,7 @@ namespace Application
         }
         #endregion
 
-        public List<LoanHistory> GetHistoryFromNationalBank(LoanApplication application)
+        public IEnumerable<LoanHistory> GetHistoryFromNationalBank(LoanApplication application)
         {
             var nationalBank = GetRepository<LoanHistory>();
             var personId = application.PersonalData.Identification;
@@ -573,29 +573,27 @@ namespace Application
             if (!history.Any())
             {
                 var gen = new Random();
-                if (gen.NextDouble() > 0.4)
+
+                foreach (var i in Enumerable.Range(1, gen.Next(2, 6)))
                 {
-                    foreach (var i in Enumerable.Range(1, gen.Next(2, 6)))
+                    var started = new DateTime(2013 - gen.Next(0, 5), gen.Next(1, 12), gen.Next(1, 25));
+                    var closed = started.AddMonths(gen.Next(3, 60));
+                    var isClosed = closed <= GetCurrentDate();
+                    var histItem = new LoanHistory
                     {
-                        var started = new DateTime(2013 - gen.Next(0, 5), gen.Next(1, 12), gen.Next(1, 25));
-                        var closed = started.AddMonths(gen.Next(3, 60));
-                        var isClosed = closed <= GetCurrentDate();
-                        var histItem = new LoanHistory
-                        {
-                            Amount = gen.Next(1, 500)*10000,
-                            Currency = Currency.BYR,
-                            HadProblems = gen.NextDouble() > 0.85,
-                            Person = application.PersonalData,
-                            WhenOpened = started,
-                            WhenClosed = isClosed ? closed : (DateTime?) null,
-                        };
-                        history.Add(histItem);
-                        nationalBank.AddOrUpdate(histItem);
-                    }
-                    nationalBank.SaveChanges();
+                        Amount = gen.Next(1, 500)*10000,
+                        Currency = Currency.BYR,
+                        HadProblems = gen.NextDouble() > 0.85,
+                        Person = application.PersonalData,
+                        WhenOpened = started,
+                        WhenClosed = isClosed ? closed : (DateTime?) null,
+                    };
+                    history.Add(histItem);
+                    nationalBank.AddOrUpdate(histItem);
                 }
+                nationalBank.SaveChanges();
             }
-            return history;
+            return history.OrderBy(l => l.WhenOpened);
         }
 
         public void Dispose()
