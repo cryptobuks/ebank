@@ -168,7 +168,7 @@ namespace Application
         public Loan CreateLoanContract(Customer customer, LoanApplication application)
         {
             var bankAccount = GetBankAccount(application.Currency);
-            var schedule = LoanCalculatePaymentSchedule(application);
+            var schedule = PaymentScheduleCalculator.Calculate(application);
             var accounts = new List<Account>(LoanAccountTypes
                 .Select(accountType =>
                 {
@@ -245,11 +245,6 @@ namespace Application
             return canBeClosed;
         }
 
-        private PaymentSchedule LoanCalculatePaymentSchedule(LoanApplication loanApplication)
-        {
-            return PaymentScheduleCalculator.Calculate(loanApplication);
-        }
-
         private Dictionary<Account, Entry> LoanProcessEndOfMonth(DateTime currentDate)
         {
             var loanRepository = GetRepository<Loan>();
@@ -311,12 +306,6 @@ namespace Application
         {
             var loanApplicationRepo = GetRepository<LoanApplication>();
             return loanApplicationRepo.GetAll(showRemoved);
-        }
-
-        public LoanApplication FindLoanApplication(Guid? id)
-        {
-            var loanRepository = GetRepository<LoanApplication>();
-            return loanRepository.Find(id);
         }
 
         public void UpsertLoanApplication(LoanApplication loanApplication)

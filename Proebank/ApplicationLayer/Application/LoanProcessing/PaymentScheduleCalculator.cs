@@ -60,7 +60,9 @@ namespace Application.LoanProcessing
             var loanAmount = loanApplication.LoanAmount;
             var term = loanApplication.Term;
 
-            return Calculate(loanAmount, tariff, term, startDate);
+            var schedule = Calculate(loanAmount, tariff, term, startDate);
+            schedule = RoundPayments(schedule, 2);
+            return schedule;
         }
 
         public static PaymentSchedule CalculateAnnuitySchedule(Tariff tariff, decimal loanAmount, int term, DateTime? startDate)
@@ -69,8 +71,15 @@ namespace Application.LoanProcessing
             var helpCoeff = PowDecimal(1 + rate, term);
             var annuityCoeff = (rate * helpCoeff) / (helpCoeff - 1);
             var monthlyPayment = loanAmount * annuityCoeff;
+
             var schedule = new PaymentSchedule();
             var remainMainDebt = loanAmount;
+            if (startDate.HasValue)
+            {
+                var firstPmt = CalculateFirstPmt(loanAmount, tariff, startDate.Value);
+                schedule.AddPayment(firstPmt);
+                startDate = firstPmt.AccruedOn;
+            }
             for (var i = 0; i < term; i++)
             {
                 var pmtInterest = remainMainDebt * rate;
@@ -79,13 +88,15 @@ namespace Application.LoanProcessing
                 {
                     MainDebtAmount = pmtMainDebt,
                     AccruedInterestAmount = pmtInterest,
-                    AccruedOn = CalculatePaymentDate(startDate, i + 1),
-                    ShouldBePaidBefore = CalculatePaymentDate(startDate, i + 2)
+                    AccruedOn = CalculatePaymentDate(startDate, i),
+                    ShouldBePaidBefore = CalculatePaymentDate(startDate, i + 1)
                 };
                 schedule.AddPayment(pmt);
                 remainMainDebt -= pmtMainDebt;
             }
-            return RoundPayments(schedule,2);
+            // TODO: test and add final payment if needed
+
+            return schedule;
         }
 
         private static PaymentSchedule CalculateStandardSchedule(Tariff tariff, decimal loanAmount, int term, DateTime? startDate)
@@ -101,13 +112,38 @@ namespace Application.LoanProcessing
                 {
                     MainDebtAmount = pmtMainDebt,
                     AccruedInterestAmount = pmtInterest,
-                    AccruedOn = CalculatePaymentDate(startDate, i + 1),
-                    ShouldBePaidBefore = CalculatePaymentDate(startDate, i + 2)
+                    AccruedOn = CalculatePaymentDate(startDate, i),
+                    ShouldBePaidBefore = CalculatePaymentDate(startDate, i + 1)
                 };
                 schedule.AddPayment(pmt);
                 remainMainDebt -= pmtMainDebt;
             }
-            return RoundPayments(schedule,2);
+            return schedule;
+        }
+
+        private static Payment CalculateFirstPmt(decimal loanAmount, Tariff tariff, DateTime startDate)
+        {
+            var rate = tariff.InterestRate/12;
+            // startDate is included to the interest accruals
+            // first payment contains only interest - http://calculator-credit.ru/articles/credit-calc.html, see #6 description
+            var interestValue = loanAmount*rate*((30 - startDate.Day + 1) / 30M);   // this says loans on 31 have no interest accruals
+            var accruedOnYear = startDate.Year;
+            var accruedOnMonth = startDate.Month;
+            var daysInMonth = DateTime.DaysInMonth(accruedOnYear, accruedOnMonth);
+            var accruedOnDay = daysInMonth >= 30 ? 30 : daysInMonth;
+            // latest time on that day
+            var accruedDate = new DateTime(accruedOnYear, accruedOnMonth, accruedOnDay).AddDays(1).AddTicks(-1);
+            var pmt = new Payment
+            {
+                AccruedInterestAmount = interestValue,
+                AccruedOn = accruedDate,
+                IsPaid = false,
+                MainDebtAmount = 0M,
+                OverdueInterestAmount = 0M,
+                OverdueMainDebtAmount = 0M,
+                ShouldBePaidBefore = accruedDate.AddMonths(tariff.PmtFrequency),
+            };
+            return pmt;
         }
 
         private static DateTime? CalculatePaymentDate(DateTime? startDate, int i)
@@ -135,18 +171,18 @@ namespace Application.LoanProcessing
             return result;
         }
 
-
         private static PaymentSchedule RoundPayments(PaymentSchedule paymentSchedule, int digitsAfterZero)
         {
             var resultPaymentSchedule = new PaymentSchedule();
             foreach (var payment in paymentSchedule.Payments)
             {
                 if (payment == null) continue;
-                resultPaymentSchedule.AddPayment(new Payment()
+                resultPaymentSchedule.AddPayment(new Payment
                     {
                         MainDebtAmount = Math.Round(payment.MainDebtAmount, digitsAfterZero),
                         AccruedInterestAmount = Math.Round(payment.AccruedInterestAmount, digitsAfterZero),
-                        OverdueAmount = Math.Round(payment.OverdueAmount, digitsAfterZero)
+                        OverdueMainDebtAmount = Math.Round(payment.OverdueMainDebtAmount, digitsAfterZero),
+                        OverdueInterestAmount = Math.Round(payment.OverdueInterestAmount, digitsAfterZero)
                     });
             }
             return resultPaymentSchedule;
