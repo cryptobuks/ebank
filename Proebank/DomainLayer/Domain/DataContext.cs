@@ -72,9 +72,6 @@ namespace Domain
                 .Property(f => f.HiredOn)
                 .HasColumnType("datetime2").IsOptional();
             modelBuilder.Entity<LoanApplication>()
-                .Property(f => f.Birthday)
-                .HasColumnType("datetime2").IsOptional();
-            modelBuilder.Entity<LoanApplication>()
                 .Property(f => f.TimeContracted)
                 .HasColumnType("datetime2").IsOptional();
             modelBuilder.Entity<LoanApplication>()
@@ -94,21 +91,21 @@ namespace Domain
                 .HasColumnType("datetime2");
         }
 
-        //public override int SaveChanges()
-        //{
-        //    try
-        //    {
-        //        return base.SaveChanges();
-        //    }
-        //    catch (DbEntityValidationException dbExc)
-        //    {
-        //        foreach (var validationError in dbExc.EntityValidationErrors
-        //            .SelectMany(validationErrors => validationErrors.ValidationErrors))
-        //        {
-        //            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-        //        }
-        //        throw;
-        //    }
-        //}
+        public override int SaveChanges()
+        {
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException dbExc)
+            {
+                foreach (var validationError in dbExc.EntityValidationErrors
+                    .SelectMany(validationErrors => validationErrors.ValidationErrors))
+                {
+                    Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                }
+                throw;
+            }
+        }
     }
 }

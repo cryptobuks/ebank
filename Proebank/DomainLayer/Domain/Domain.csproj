@@ -59,6 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataInitializer.cs" />
+    <Compile Include="Enums\Education.cs" />
+    <Compile Include="Enums\MaritalStatus.cs" />
     <Compile Include="Enums\PaymentCalculationType.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Loans\LoanHistory.cs" />

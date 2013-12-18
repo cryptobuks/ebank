@@ -13,26 +13,30 @@ namespace Domain.Models.Loans
     public class PersonalData : Entity
     {
         [DisplayName("Last name")]
-        [RegularExpression("[a-zA-Z]{2,30}", ErrorMessage = "Not valid name")]
+        [RegularExpression("[a-zA-Z]{1,30}", ErrorMessage = "Not valid name")]
         public string LastName { get; set; }
 
         [DisplayName("First name")]
-        [RegularExpression("[a-zA-Z]{2,30}", ErrorMessage = "Not valid name")]
+        [RegularExpression("[a-zA-Z]{1,30}", ErrorMessage = "Not valid name")]
         public string FirstName { get; set; }
 
         [DisplayName("Middle name")]
-        [RegularExpression("[a-zA-Z]{2,30}", ErrorMessage = "Not valid name")]
+        [RegularExpression("[a-zA-Z]{1,30}", ErrorMessage = "Not valid name")]
         public string MiddleName { get; set; }
 
+        [DisplayName("Date of birth")]
         public DateTime? DateOfBirth { get; set; }
 
-        [DisplayName("Passport")]
+        [DisplayName("Passport number")]
         [RegularExpression("([A-Z]{2}[0-9]{7})", ErrorMessage = "Enter only UPPERCASE latin characters and numbers")]
         public string Passport { get; set; }
 
         [DisplayName("Identification No.")]
         [RegularExpression("([A-Z0-9]{14})", ErrorMessage = "Enter only UPPERCASE latin characters and numbers")]
         public string Identification { get; set; }
+
+        [DisplayName("Address")]
+        public string Address { get; set; }
 
         public virtual Customer Customer { get; set; }
     }

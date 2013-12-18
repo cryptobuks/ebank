@@ -15,6 +15,10 @@
         @Html.ActionLink("Create New", "Create")
     </p>
 }
+else
+{
+    <p><a class="btn btn-default" href="@Url.Action("Index", "LoanCalculator")">View calculator &raquo;</a></p>
+}
 
 <table class="table">
     <tr>

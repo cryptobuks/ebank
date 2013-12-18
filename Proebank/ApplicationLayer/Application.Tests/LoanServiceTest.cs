@@ -36,21 +36,21 @@ namespace Application.Tests
             _customer = new Customer
             {
                 UserName = "test_customer",
-                //LastName = "Mitchell",
-                //FirstName = "Stanley",
-                //MiddleName = "Matthew",
-                Address = "Minsk",
-                //DateOfBirth = new DateTime(1972, 10, 17),
                 Email = null,
-                //IdentificationNumber = "317041972A0PB1",
                 Phone = "+375111111111",
             };
             _passport = new PersonalData
             {
                 Customer = _customer,
-                //TariffDocType = TariffDocType.DebtorPrimary,
-                //Number = "MP2345678"
+                Address = "Minsk",
+                LastName = "Mitchell",
+                FirstName = "Stanley",
+                MiddleName = "Matthew",
+                DateOfBirth = new DateTime(1972, 10, 17),
+                Identification = "317041972A0PB1",
+                Passport = "MP2345678"
             };
+            _customer.PersonalData = _passport;
             _tariff = new Tariff
             {
                 CreationDate = new DateTime(2013, 07, 01),
@@ -72,9 +72,9 @@ namespace Application.Tests
             {
                 CellPhone = "+375291000000",
                 Currency = Currency.BYR,
-                //Documents = new Collection<PersonalData> { _passport },
                 LoanAmount = 5.5E7M,
                 LoanPurpose = LoanPurpose.Common,
+                PersonalData = _passport,
                 Tariff = _tariff,
                 TariffId = _tariff.Id,
                 Term = 3,
@@ -84,9 +84,9 @@ namespace Application.Tests
             {
                 CellPhone = "+375291000000",
                 Currency = Currency.BYR,
-                //Documents = new Collection<PersonalData> { _passport },
                 LoanAmount = 5.5E11M,
                 LoanPurpose = LoanPurpose.Common,
+                PersonalData = _passport,
                 Tariff = _tariff,
                 TariffId = _tariff.Id,
                 Term = 120,

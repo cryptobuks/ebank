@@ -338,14 +338,16 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult SecondStage(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public ActionResult History(Guid id)
         {
-            throw new NotImplementedException();
+            //var la = _service.FindLoanApplication(id);
+            var la = _service.Find<LoanApplication>(id);
+            if (la == null)
+            {
+                return HttpNotFound("There is no loan application with provided id");
+            }
+            var history = _service.GetHistoryFromNationalBank(la);
+            return View(history);
         }
 
         public ActionResult SendToSecurity(Guid? id)

@@ -8,7 +8,7 @@ namespace Domain.Models.Loans
 {
     public class Loan : Entity
     {
-        public virtual Customer Customer { get; set; }
+        //public virtual Customer Customer { get; set; }
 
         public virtual LoanApplication Application { get; set; }
 
@@ -18,5 +18,7 @@ namespace Domain.Models.Loans
 
         [DisplayName("Is Closed")]
         public bool IsClosed { get; set; }
+
+        public string CustomerId { get; set; }
     }
 }

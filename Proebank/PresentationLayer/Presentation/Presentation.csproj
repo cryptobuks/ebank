@@ -77,6 +77,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Glimpse.Mvc5.1.5.1\lib\net45\Glimpse.Mvc5.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\packages\iTextSharp.4.1.2\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.Identity.EntityFramework.1.0.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
@@ -137,6 +140,9 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorPDF">
+      <HintPath>..\..\packages\RazorPDF.1.0.0\lib\net45\RazorPDF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -235,6 +241,7 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\TariffsController.cs" />
+    <Compile Include="Extensions\CustomerHelper.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -257,6 +264,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\img\bg.jpg" />
+    <Content Include="Content\img\logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -360,6 +368,10 @@
     <Content Include="Views\Statistic\Index.cshtml" />
     <Content Include="Views\LoanApplication\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PersonalData.cshtml" />
+    <Content Include="Views\Loan\Pdf.cshtml" />
+    <Content Include="Views\Shared\_PdfLayout.cshtml" />
+    <Content Include="Views\LoanApplication\History.cshtml" />
+    <Content Include="Views\Loan\PdfContract.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

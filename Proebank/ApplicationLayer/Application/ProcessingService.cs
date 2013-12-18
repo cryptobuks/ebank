@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using Application.LoanProcessing;
@@ -94,7 +95,6 @@ namespace Application
         public Loan CreateLoanContract(Customer customer, LoanApplication application)
         {
             var bankAccount = GetBankAccount(application.Currency);
-
             var schedule = LoanCalculatePaymentSchedule(application);
             var accounts = new List<Account>(LoanAccountTypes
                 .Select(accountType =>
@@ -123,7 +123,7 @@ namespace Application
             AddEntry(bankAccount, bankEntry);
 
             var loan = GetRepository<Loan>().Create();
-            loan.Customer = customer;
+            loan.CustomerId = customer.Id;
             loan.Application = application;
             loan.IsClosed = false;
             loan.PaymentSchedule = schedule;
@@ -248,6 +248,12 @@ namespace Application
                     });
         }
 
+        public T Find<T>(Guid? id) where T : Entity
+        {
+            var repository = GetRepository<T>();
+            return repository.Find(id);
+        }
+
         #region Loan service methods
         public IQueryable<Loan> GetLoans()
         {
@@ -289,10 +295,10 @@ namespace Application
             return loanApplicationRepo.GetAll(showRemoved);
         }
 
-        public LoanApplication LoanApplication(Guid? id)
+        public LoanApplication FindLoanApplication(Guid? id)
         {
-            var loanApplicationRepo = GetRepository<LoanApplication>();
-            return loanApplicationRepo.Find(id);
+            var loanRepository = GetRepository<LoanApplication>();
+            return loanRepository.Find(id);
         }
 
         public void UpsertLoanApplication(LoanApplication loanApplication)
@@ -569,20 +575,22 @@ namespace Application
                 var gen = new Random();
                 if (gen.NextDouble() > 0.4)
                 {
-                    var started = new DateTime(2013 - gen.Next(0, 5), gen.Next(1, 12), gen.Next(1, 25));
-                    var closed = started.AddMonths(gen.Next(3, 60));
-                    var isClosed = closed <= GetCurrentDate();
                     foreach (var i in Enumerable.Range(1, gen.Next(2, 6)))
                     {
+                        var started = new DateTime(2013 - gen.Next(0, 5), gen.Next(1, 12), gen.Next(1, 25));
+                        var closed = started.AddMonths(gen.Next(3, 60));
+                        var isClosed = closed <= GetCurrentDate();
                         var histItem = new LoanHistory
                         {
                             Amount = gen.Next(1, 500)*10000,
+                            Currency = Currency.BYR,
                             HadProblems = gen.NextDouble() > 0.85,
                             Person = application.PersonalData,
                             WhenOpened = started,
                             WhenClosed = isClosed ? closed : (DateTime?) null,
                         };
                         history.Add(histItem);
+                        nationalBank.AddOrUpdate(histItem);
                     }
                     nationalBank.SaveChanges();
                 }

@@ -1,0 +1,50 @@
+﻿@using Domain.Models.Loans
+@model IEnumerable<LoanHistory>
+
+@{
+    ViewBag.Title = "NutsBank";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>NutsBank response</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Person.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WhenOpened)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WhenClosed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HadProblems)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currency)
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhenOpened)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhenClosed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HadProblems)
+            </td>
+        </tr>
+    }
+</table>

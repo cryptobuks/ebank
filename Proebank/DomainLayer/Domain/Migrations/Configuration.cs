@@ -92,10 +92,10 @@ namespace Domain.Migrations
                         case "Customer":
                             return new Customer
                             {
-                                Address = "test address",
                                 PersonalData = new PersonalData()
                                 {
                                     Id = _customerUserDataId,
+                                    Address = "test address",
                                     DateOfBirth = new DateTime(1990, 06, 30),
                                     FirstName = "Karl",
                                     Identification = "AA1234567890XX",

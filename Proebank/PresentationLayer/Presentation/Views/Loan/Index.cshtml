@@ -16,7 +16,7 @@
             <table class="table">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Customer.PersonalData.LastName)
+                        @Html.DisplayNameFor(model => model.CustomerId)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Application.LoanAmount)
@@ -36,7 +36,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Customer.PersonalData.LastName)
+                            @Html.DisplayFor(modelItem => item.CustomerId)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Application.Currency)

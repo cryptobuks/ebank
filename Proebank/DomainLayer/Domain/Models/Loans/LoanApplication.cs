@@ -33,6 +33,10 @@ namespace Domain.Models.Loans
         [Phone]
         public string CellPhone { get; set; }
 
+        [DisplayName("E-mail")]
+        [EmailAddress]
+        public string Email { get; set; }
+
         public virtual Tariff Tariff { get; set; }
 
         public virtual Guid TariffId { get; set; }
@@ -58,21 +62,17 @@ namespace Domain.Models.Loans
         [Range(0, int.MaxValue)]
         public int ChildrenCount { get; set; }
 
-        [DisplayName("Higher education")]
-        public bool HigherEducation { get; set; }
+        [DisplayName("Education status")]
+        public Education HigherEducation { get; set; }
 
-        [DisplayName("Married")]
-        public bool IsMarried { get; set; }
+        [DisplayName("Marital status")]
+        public MaritalStatus IsMarried { get; set; }
 
         [DisplayName("Length of work")]
         [Range(0, int.MaxValue)]
         public int LengthOfWork { get; set; }
-
-        [DisplayName("Birthday")]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime? Birthday { get; set; }
-
-        [DisplayName("Homeowner")]
+        
+        [DisplayName("Home owner?")]
         public bool IsHomeowner { get; set; }
     }
 }

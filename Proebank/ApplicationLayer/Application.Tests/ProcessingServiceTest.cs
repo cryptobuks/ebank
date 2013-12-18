@@ -39,21 +39,21 @@ namespace Application.Tests
             _customer = new Customer
             {
                 UserName = "test_customer",
-                //LastName = "Mitchell",
-                //FirstName = "Stanley",
-                //MiddleName = "Matthew",
-                Address = "Minsk",
-                //DateOfBirth = new DateTime(1972, 10, 17),
                 Email = null,
-                //IdentificationNumber = "317041972A0PB1",
                 Phone = "+375111111111",
             };
             _passport = new PersonalData
             {
                 Customer = _customer,
-                //TariffDocType = TariffDocType.DebtorPrimary,
-                //Number = "MP2345678"
+                Address = "Minsk",
+                Passport = "MP2345678",
+                LastName = "Mitchell",
+                FirstName = "Stanley",
+                MiddleName = "Matthew",
+                DateOfBirth = new DateTime(1972, 10, 17),
+                Identification = "317041972A0PB1",
             };
+            _customer.PersonalData = _passport;
             _tariff = new Tariff
             {
                 CreationDate = new DateTime(2013, 07, 01),

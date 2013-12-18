@@ -18,7 +18,7 @@ namespace Presentation.Controllers
 
         public ActionResult Index()
         {
-            var list = _service.GetLoanApplications();
+            var list = _service.GetLoanApplications().ToList();
             return View(list);
         }
     }

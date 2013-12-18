@@ -10,5 +10,6 @@
         Rejected,   // application doesn't meet requirements
         Annuled,    // too long in approved
         Contracted, // completed
+        ContractPrinted,   // goes after approved before signing
     }
 }

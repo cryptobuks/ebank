@@ -14,11 +14,6 @@
         <p>proTariffs for you!</p>
         <p><a class="btn btn-default" href="@Url.Action("Index", "Tariffs")">Learn more &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>New application</h2>
-        <p>Here you can apply for loan</p>
-        <p><a class="btn btn-default" href="@Url.Action("Create", "LoanApplication")">Apply &raquo;</a></p>
-    </div>
     @if (User.Identity.IsAuthenticated)
     {
         if (User.IsInRole("Customer"))
@@ -44,24 +39,29 @@
         else
         {
             <div class="col-md-4">
-                <h2>Employee page</h2>
+                <h2>Loan applications</h2>
                 <p>
-                    View your information
+                    View current loan applications in different statuses
                 </p>
-                <p><a class="btn btn-default" href="@Url.Action("Index", "Home")">View &raquo;</a></p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "LoanApplication")">View &raquo;</a></p>
             </div>
         }
     }
     else
     {
         <div class="col-md-4">
-            <h2>Bank contacts</h2>
+            <h2>Loan calculator</h2>
             <p>
-                See bank contact info
+                Select the most suitable loan conditions for you
             </p>
-            <p><a class="btn btn-default" href="@Url.Action("Contact", "Home")">View &raquo;</a></p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "LoanCalculator")">View &raquo;</a></p>
         </div>
     }
+    <div class="col-md-4">
+        <h2>New application</h2>
+        <p>Here you can apply for loan</p>
+        <p><a class="btn btn-default" href="@Url.Action("Create", "LoanApplication")">Apply &raquo;</a></p>
+    </div>
 </div>
 
 <script>
