@@ -13,6 +13,7 @@ namespace Presentation.Controllers
     public class LoanCalculatorController : BaseController
     {
         private readonly ProcessingService _processingService;
+        private static string _cellPhone;
 
         public LoanCalculatorController()
         {
@@ -31,6 +32,12 @@ namespace Presentation.Controllers
                 loanCalculatorModel.LoanAmount = loanApplication.LoanAmount;
                 loanCalculatorModel.Term = loanApplication.Term;
                 loanCalculatorModel.TariffId = loanApplication.TariffId;
+                //cell phone isn't used in Loan Calculator, but required
+                _cellPhone = loanApplication.CellPhone;
+            }
+            else
+            {
+                _cellPhone = null;
             }
 
             var tariffs = _processingService.GetTariffs();
@@ -53,6 +60,9 @@ namespace Presentation.Controllers
                             Term = loanCalculatorModel.Term,
                             TariffId = loanCalculatorModel.TariffId
                         };
+                    if (_cellPhone != null)
+                        loanApplication.CellPhone = _cellPhone;
+
                     TempData.Add("loanApplication", loanApplication);
                     return RedirectToAction("Create", "LoanApplication");
                 }
