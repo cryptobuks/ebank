@@ -64,7 +64,7 @@ namespace Presentation.Controllers
                         loanApplication.CellPhone = _cellPhone;
 
                     TempData.Add("loanApplication", loanApplication);
-                    return RedirectToAction("Create", "LoanApplication");
+                    return RedirectToAction((User.IsInRole("Consultant") ? "Fill" : "Create"), "LoanApplication");
                 }
             }
             var tariffs = _processingService.GetTariffs();

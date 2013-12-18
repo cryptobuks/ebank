@@ -382,20 +382,31 @@ namespace Presentation.Controllers
         public ActionResult Fill(Guid? id)
         {
             var tariffs = _service.GetTariffs();
+
+            LoanApplication loanApplication;
             if (id == null)
             {
                 //if filling base data by Consultant
-                ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
-                return View(new LoanApplication());
+                loanApplication = new LoanApplication();
+                if (TempData["loanApplication"] != null) //if response from Calculator
+                {
+                    loanApplication = (LoanApplication) TempData["loanApplication"];
+                }
+                else
+                {
+                    loanApplication = new LoanApplication();
+                }
+                ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
+                return View(loanApplication);
             }
-            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
             }
 
             var selectedTariffId = loanApplication.TariffId.ToString();
-            ViewBag.TariffId = new SelectList(tariffs, "Id", "Name", selectedTariffId);
+            ViewBag.Tariff = new SelectList(tariffs, "Id", "Name", selectedTariffId);
             return View(loanApplication);
         }
 
@@ -422,7 +433,7 @@ namespace Presentation.Controllers
                 }
             }
             var tariffList = _service.GetTariffs();
-            ViewBag.TariffId = new SelectList(tariffList, "Id", "Name");
+            ViewBag.Tariff = new SelectList(tariffList, "Id", "Name");
             return RedirectToAction("Index");
         }
     }
