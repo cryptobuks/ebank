@@ -149,7 +149,6 @@ namespace Presentation.Controllers
                 return RedirectToAction("Fill");
             }
 
-
             var tariffs = _service.GetTariffs();
             ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name", tariffs.FirstOrDefault(t => t.Id == id));
 
@@ -158,9 +157,8 @@ namespace Presentation.Controllers
                 LoanApplication loanApplication = (LoanApplication)TempData["loanApplication"];
                 return View(loanApplication);
             }
-            
-            return View();
 
+            return View();
         }
 
 
@@ -171,45 +169,45 @@ namespace Presentation.Controllers
         {
             if (btnUseLoanCalculator != null && btnUseLoanCalculator == "Use Loan Calculator")
             {
-                    if (ModelState.IsValid)
-                    {
-                        TempData.Add("loanApplication", loanApplication);
-                        return RedirectToAction("Index", "LoanCalculator");
-                    }
+                if (ModelState.IsValid)
+                {
+                    TempData.Add("loanApplication", loanApplication);
+                    return RedirectToAction("Index", "LoanCalculator");
+                }
             }
             else
             {
-            loanApplication.Status = LoanApplicationStatus.New;
-            loanApplication.TimeCreated = DateTime.Now;
-            if (ModelState.IsValid)
-            {
-                try
+                loanApplication.Status = LoanApplicationStatus.New;
+                loanApplication.TimeCreated = DateTime.Now;
+                if (ModelState.IsValid)
                 {
-                    _service.CreateLoanApplication(loanApplication);
-                }
-                catch (ArgumentException e)
-                {
-                    var validationResult = e.Data["validationResult"] as Dictionary<string, string>;
-                    if (validationResult != null)
+                    try
                     {
-                        foreach (var result in validationResult)
+                        _service.CreateLoanApplication(loanApplication);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        var validationResult = e.Data["validationResult"] as Dictionary<string, string>;
+                        if (validationResult != null)
                         {
-                            ModelState.AddModelError(result.Key, result.Value);
-                        }
-                        var tariffList = _service.GetTariffs();
+                            foreach (var result in validationResult)
+                            {
+                                ModelState.AddModelError(result.Key, result.Value);
+                            }
+                            var tariffList = _service.GetTariffs();
                             ViewBag.Tariffs = new SelectList(tariffList, "Id", "Name");
-                        return View();
+                            return View();
+                        }
+                    }
+                    if (!User.Identity.IsAuthenticated || User.IsInRole("Customer"))
+                    {
+                        return View("Created");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
                     }
                 }
-                if (!User.Identity.IsAuthenticated || User.IsInRole("Customer"))
-                {
-                    return View("Created");
-                }
-                else
-                {
-                    return RedirectToAction("Index");
-                }
-            }
             }
 
             var tariffs = _service.GetTariffs();
@@ -413,10 +411,10 @@ namespace Presentation.Controllers
                 var applicationWithDbRef = _service.GetLoanApplications().FirstOrDefault(l => l.Id.Equals(loanApplication.Id));
                 if (applicationWithDbRef != null)
                 {
-                applicationWithDbRef.Status = LoanApplicationStatus.Filled;
-                applicationWithDbRef.PersonalData = loanApplication.PersonalData;
-                _service.UpsertLoanApplication(applicationWithDbRef);
-            }
+                    applicationWithDbRef.Status = LoanApplicationStatus.Filled;
+                    applicationWithDbRef.PersonalData = loanApplication.PersonalData;
+                    _service.UpsertLoanApplication(applicationWithDbRef);
+                }
                 else
                 {
                     loanApplication.Status = LoanApplicationStatus.Filled;
