@@ -82,6 +82,7 @@
     <Compile Include="LoanServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProcessingServiceTest.cs" />
+    <Compile Include="ScoringSystemTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
