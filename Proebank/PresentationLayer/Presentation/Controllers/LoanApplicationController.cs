@@ -301,13 +301,37 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Approve(Guid id)
         {
-            LoanApplication loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            var loanApplication = _service.Find<LoanApplication>(id);
             if (loanApplication != null)
             {
                 _service.ApproveLoanAppication(loanApplication);
             }
             return RedirectToAction("Index");
         }
+
+        //[HttpPost, ActionName("ThumbsUp")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ThumbsUp(Guid id)
+        //{
+        //    var loanApplication = _service.Find<LoanApplication>(id);
+        //    if (loanApplication != null)
+        //    {
+        //        _service.ThumbsUpLoanAppication(loanApplication);
+        //    }
+        //    return RedirectToAction("Index");
+        //}
+
+        //[HttpPost, ActionName("ThumbsDown")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ThumbsDown(Guid id)
+        //{
+        //    var loanApplication = _service.Find<LoanApplication>(id);
+        //    if (loanApplication != null)
+        //    {
+        //        _service.ThumbsDownLoanAppication(loanApplication);
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
         public ActionResult Reject(Guid? id)
         {

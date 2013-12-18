@@ -46,7 +46,7 @@ namespace Presentation.Controllers
                 return HttpNotFound();
             }
             var customerId = application.PersonalData.Customer.Id;
-            var viewModel = new PersonalLoanHistoryViewModel { Id = customerId, Application = application, History = history };
+            var viewModel = new PersonalLoanHistoryViewModel { Id = customerId, Application = application, History = history.ToList() };
             return View(viewModel);
         }
 

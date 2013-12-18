@@ -34,6 +34,10 @@ namespace Presentation.Controllers
                 {
                     _service.RegisterPayment(loan, model.Amount);
                 }
+                else
+                {
+                    ModelState.AddModelError("LoanId", "Loan is not found");
+                }
             }
             ViewBag.PaymentRegistered = true;
             return RedirectToAction("Index");

@@ -11,7 +11,7 @@ namespace Domain.Models.Loans
             Payments = new Collection<Payment>();
         }
 
-        public Collection<Payment> Payments { get; private set; }
+        public virtual Collection<Payment> Payments { get; private set; }
 
         public void AddPayment(Payment payment)
         {

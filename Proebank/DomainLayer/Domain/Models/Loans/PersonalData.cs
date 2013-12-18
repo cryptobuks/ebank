@@ -24,7 +24,9 @@ namespace Domain.Models.Loans
         [RegularExpression("[a-zA-Z]{1,30}", ErrorMessage = "Not valid name")]
         public string MiddleName { get; set; }
 
+        
         [DisplayName("Date of birth")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? DateOfBirth { get; set; }
 
         [DisplayName("Passport number")]

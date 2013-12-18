@@ -74,5 +74,9 @@ namespace Domain.Models.Loans
         
         [DisplayName("Home owner?")]
         public bool IsHomeowner { get; set; }
+
+        public int SecurityFor { get; set; }
+
+        public int SecurityAgainst { get; set; }
     }
 }

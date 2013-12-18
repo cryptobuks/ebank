@@ -79,7 +79,8 @@ namespace Application.LoanProcessing
                 {
                     MainDebtAmount = pmtMainDebt,
                     AccruedInterestAmount = pmtInterest,
-                    ShouldBePaidBefore = CalculatePaymentDate(startDate, i + 1)
+                    AccruedOn = CalculatePaymentDate(startDate, i + 1),
+                    ShouldBePaidBefore = CalculatePaymentDate(startDate, i + 2)
                 };
                 schedule.AddPayment(pmt);
                 remainMainDebt -= pmtMainDebt;
@@ -100,7 +101,8 @@ namespace Application.LoanProcessing
                 {
                     MainDebtAmount = pmtMainDebt,
                     AccruedInterestAmount = pmtInterest,
-                    ShouldBePaidBefore = CalculatePaymentDate(startDate, i + 1)
+                    AccruedOn = CalculatePaymentDate(startDate, i + 1),
+                    ShouldBePaidBefore = CalculatePaymentDate(startDate, i + 2)
                 };
                 schedule.AddPayment(pmt);
                 remainMainDebt -= pmtMainDebt;

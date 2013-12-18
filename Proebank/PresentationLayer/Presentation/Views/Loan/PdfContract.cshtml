@@ -4,47 +4,82 @@
     Layout = "~/Views/Shared/_PdfLayout.cshtml";
 }
 
-<paragraph style="font-family:Helvetica;font-size:18;font-style:italic;">
+@*<paragraph style="font-family:Helvetica;font-size:18;font-style:italic;">
         <chunk red="255" green="0" blue="0">@ViewBag.Title</chunk>
-</paragraph>
-<paragraph>
-    <chunk style="font-family:Times;font-weight:bold;">Report Date: </chunk>
-    <chunk style="font-family:Times;">@DateTime.Now.ToString("MM/dd/yyyy")</chunk>
-</paragraph>
-<paragraph>
-    <chunk style="font-family:Times;font-weight:bold;">Report Time: </chunk>
-    <chunk style="font-family:Times;">@DateTime.Now.ToString("hh:mm tt")</chunk>
-</paragraph>
-
-<table width="100%" cellpadding="1.0" cellspacing="1.0"  widths="3;8;4;4">
-    <row>
-            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Date</cell>
-            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Main debt</cell>
-            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true" horizontalalign="right">%</cell>
-            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true" horizontalalign="right">Overall</cell>
-    </row>
-</table>
-<newline />
-<paragraph leading="14.0" font="unknown" align="Default">
-    You can also add images.
-</paragraph>
-
+</paragraph>*@
 <image url="@Context.Server.MapPath("~/Content/img/logo.png")"/>
-
-<paragraph leading="14.0" font="unknown" align="Default">
-    and do lists.
+<newline />
+<newline />
+<newline />
+<paragraph>
+    <chunk style="font-family:Times;">This contract has been formed between the LENDER and the BORROWER whose details are given as follows </chunk>
+</paragraph>
+<newline />
+<paragraph>
+    <chunk style="font-family:Times;font-weight:bold;">LENDER details: </chunk>
+</paragraph>
+<paragraph>
+    <chunk style="font-family:Times;">PROebank</chunk>
+</paragraph>
+<paragraph>
+    <chunk style="font-family:Times;">Phone: 7763226500</chunk>
+</paragraph>
+<paragraph>
+    <chunk style="font-family:Times;">Address: Minsk, Belarus</chunk>
+</paragraph>
+<newline />
+<paragraph>
+    <chunk style="font-family:Times;font-weight:bold;">BORROWER details: </chunk>
+</paragraph>
+<paragraph>
+    <chunk style="font-family:Times;">Name: @Model.PersonalData.FirstName @Model.PersonalData.LastName</chunk>
+</paragraph>
+<paragraph>
+    <chunk style="font-family:Times;">Personal number: @Model.PersonalData.Identification</chunk>
+</paragraph>
+<paragraph>
+    <chunk style="font-family:Times;">Address: @Model.PersonalData.Address</chunk>
+</paragraph>
+<newline />
+<paragraph>
+    <chunk style="font-family:Times;font-weight:bold;">LOAN details: </chunk>
+</paragraph>
+<paragraph>
+    <chunk style="font-family:Times;">Name: @Model.LoanAmount @Model.Currency</chunk>
+</paragraph>
+<paragraph>
+    <chunk style="font-family:Times;">Tariff: @Model.Tariff.Name</chunk>
 </paragraph>
 
 <newline />
 
+<paragraph>
+    <chunk style="font-family:Times;font-weight:bold;">Terms and conditions: </chunk>
+</paragraph>
+<newline />
 <list numbered="true" symbolindent="15" font="unknown">
     <listitem leading="18.0" font="Times" size="12.0" align="Default" indentationleft="15.0">
-        <chunk font="Times" size="12.0">First item</chunk>
+        <chunk font="Times" size="12.0">The LENDER agrees to offer a loan of the above said amount to the BORROWER on the condition that the BORROWER must not delay the repayment after end of contract.</chunk>
     </listitem>
     <listitem leading="18.0" font="Times" size="12.0" align="Default" indentationleft="15.0">
-        <chunk font="Times" size="12.0">Second item</chunk>
-    </listitem>
-    <listitem leading="18.0" font="Times" size="12.0" align="Default" indentationleft="15.0">
-        <chunk font="Times" size="12.0">Last item</chunk>
+        <chunk font="Times" size="12.0">The BORROWER must not use the loan money for any illegal activity or purchase.</chunk>
     </listitem>
 </list>
+<newline />
+<chunk font="Times" size="12.0">Signatures of the parties:</chunk>
+<newline />
+<newline />
+<newline />
+<chunk font="Times" size="12.0">PROebank: ______________</chunk>
+<newline />
+<newline />
+<newline />
+<chunk font="Times" size="12.0">@Model.PersonalData.FirstName @Model.PersonalData.LastName: ______________</chunk>
+
+@*<table width="100%" cellpadding="1.0" cellspacing="1.0"  widths="5;5">
+    <row>
+        <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">User Name</cell>
+        <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true" horizontalalign="right">Lucky Number</cell>
+    </row>
+    @foreach (var pmt in @Model)
+</table>*@

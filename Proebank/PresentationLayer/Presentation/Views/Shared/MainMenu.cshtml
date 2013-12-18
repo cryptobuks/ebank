@@ -22,6 +22,9 @@
     else if (User.IsInRole("Department head"))
     {
         <li>@Html.ActionLink("Calendar", "Index", "Processing")</li>
+        <li>@Html.ActionLink("Loans", "Index", "Loan")</li>
+        <li>@Html.ActionLink("Statistics", "Index", "Statistic")</li>
+        <li>@Html.ActionLink("Applications", "Index", "LoanApplication")</li>
     }
     <li>@Html.ActionLink("Tariffs", "Index", "Tariffs")</li>
     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
