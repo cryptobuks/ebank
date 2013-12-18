@@ -10,12 +10,15 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using Application;
 using Presentation.Models;
+using PagedList;
+using PagedList.Mvc;  
 
 namespace Presentation.Controllers
 {
     public class LoanApplicationController : BaseController
     {
         private readonly ProcessingService _service;
+        private const int PAGE_SIZE = 5;
 
         public LoanApplicationController()
         {
@@ -46,84 +49,84 @@ namespace Presentation.Controllers
             return new HttpUnauthorizedResult();
         }
 
-        public ActionResult New()
+        public ActionResult New(int? page)
         {
             var loanApplications = _service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.New)
                 .ToList();
             ViewBag.ActiveTab = "New";
-            return View("Index", loanApplications);
+            return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
-        public ActionResult PreApproved()
+        public ActionResult PreApproved(int? page)
         {
             var loanApplications = _service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Filled)
                 .ToList();
             ViewBag.ActiveTab = "PreApproved";
-            return View("Index", loanApplications);
+            return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
-        public ActionResult Reviewed()
+        public ActionResult Reviewed(int? page)
         {
             var loanApplications = _service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Approved || a.Status == LoanApplicationStatus.Rejected)
                 .ToList();
             ViewBag.ActiveTab = "Reviewed";
-            return View("Index", loanApplications);
+            return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
-        public ActionResult OnSecurityReview()
+        public ActionResult OnSecurityReview(int? page)
         {
             var loanApplications = _service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.UnderRiskConsideration)
                 .ToList();
             ViewBag.ActiveTab = "Security";
-            return View("Index", loanApplications);
+            return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
-        public ActionResult OnCommitteeReview()
+        public ActionResult OnCommitteeReview(int? page)
         {
             var loanApplications = _service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.UnderCommitteeConsideration)
                 .ToList();
             ViewBag.ActiveTab = "Committee";
-            return View("Index", loanApplications);
+            return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
-        public ActionResult Contracted()
+        public ActionResult Contracted(int? page)
         {
             var loanApplications = _service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Contracted)
                 .ToList();
             ViewBag.ActiveTab = "Contracted";
-            return View("Index", loanApplications);
+            return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
-        public ActionResult Approved()
+        public ActionResult Approved(int? page)
         {
             var loanApplications = _service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Approved)
                 .ToList();
             ViewBag.ActiveTab = "Approved";
-            return View("Index", loanApplications);
+            return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
-        public ActionResult Rejected()
+        public ActionResult Rejected(int? page)
         {
             var loanApplications = _service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Rejected)
                 .ToList();
             ViewBag.ActiveTab = "Rejected";
-            return View("Index", loanApplications);
+            return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         public ActionResult Details(Guid? id)
@@ -415,10 +418,6 @@ namespace Presentation.Controllers
                 if (TempData["loanApplication"] != null) //if response from Calculator
                 {
                     loanApplication = (LoanApplication) TempData["loanApplication"];
-                }
-                else
-                {
-                    loanApplication = new LoanApplication();
                 }
                 ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
                 return View(loanApplication);

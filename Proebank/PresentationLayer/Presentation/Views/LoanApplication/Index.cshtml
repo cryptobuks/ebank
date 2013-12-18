@@ -1,6 +1,8 @@
 ﻿@using Domain.Enums
 @using Glimpse.Core.Extensions
-@model IEnumerable<Domain.Models.Loans.LoanApplication>
+@using PagedList
+@using PagedList.Mvc
+@model IPagedList<Domain.Models.Loans.LoanApplication>
 
 @{
     ViewBag.Title = @ViewBag.ActiveTab + " applications";
@@ -48,31 +50,31 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Tariff.Name)
+            @Html.DisplayNameFor(model => model.First().Tariff.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LoanAmount)
+            @Html.DisplayNameFor(model => model.First().LoanAmount)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TimeCreated)
+            @Html.DisplayNameFor(model => model.First().TimeCreated)
         </th>
         @if (isHead && (string)ViewBag.ActiveTab == "contracted")
         {
             <th>
-                @Html.DisplayNameFor(model => model.TimeContracted)
+                @Html.DisplayNameFor(model => model.First().TimeContracted)
             </th>
         }
         <th>
-            @Html.DisplayNameFor(model => model.Term)
+            @Html.DisplayNameFor(model => model.First().Term)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CellPhone)
+            @Html.DisplayNameFor(model => model.First().CellPhone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LoanPurpose)
+            @Html.DisplayNameFor(model => model.First().LoanPurpose)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.First().Status)
         </th>
         <th></th>
     </tr>
@@ -143,3 +145,4 @@
         </tr>
     }
 </table>
+@Html.PagedListPager(Model, page => Url.Action("New",new{page}),new PagedListRenderOptions(){Display = PagedListDisplayMode.IfNeeded})
