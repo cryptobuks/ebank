@@ -43,11 +43,11 @@
                 <p><a class="btn btn-default" href="@Url.Action("Index", "Loan")">View &raquo;</a></p>
             </div>
             <div class="col-md-4">
-                <h2>Loan applications</h2>
+                <h2>Statistic</h2>
                 <p>
-                    View current loan applications in different statuses
+                    View loan statistics
                 </p>
-                <p><a class="btn btn-default" href="@Url.Action("Index", "LoanApplication")">View &raquo;</a></p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "Statistic")">View &raquo;</a></p>
             </div>
         }
         else if (User.IsInRole("Operator"))
