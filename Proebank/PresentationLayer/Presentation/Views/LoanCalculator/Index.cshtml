@@ -75,23 +75,61 @@
     <table class="table">
         <tr>
             <th>
-                @Html.Label("Period")
+                @Html.Label("Period(monthly)")
             </th>
             <th>
-                @Html.Label("Pay in month")
+                @Html.Label("Total amount")
+            </th>
+            <th>
+                @Html.Label("Main debtor amount")
+            </th>
+            <th>
+                @Html.Label("Accrued Interest Amount")
+            </th>
+            <th>
+                @Html.Label("Overdue Amount")
             </th>
         </tr>
-        @{ var counter = 0; }
+        @{
+            var counter = 0;
+            decimal totalAmount = 0M;
+            decimal mainDebtAmount = 0M;
+            decimal accuedInterestAmount = 0M;
+            decimal overdueAmount = 0M;           
+        }
         @foreach (var payment in Model.Payments)
         {
             counter++;
+            totalAmount += payment.Amount;
+            mainDebtAmount += payment.MainDebtAmount;
+            accuedInterestAmount += payment.AccruedInterestAmount;
+            overdueAmount += payment.OverdueAmount;
             <tr>
                 <td>@counter</td>
                 <td>
                     @Html.Label("Amount", payment.Amount.ToString(CultureInfo.InvariantCulture))
                 </td>
+                <td>
+                    @Html.Label("MainDebtAmount", payment.MainDebtAmount.ToString(CultureInfo.InvariantCulture))
+                </td>
+                <td>
+                    @Html.Label("AccruedInterestAmount", payment.AccruedInterestAmount.ToString(CultureInfo.InvariantCulture))
+                </td>
+                <td>
+                    @Html.Label("OverdueAmount", payment.OverdueAmount.ToString(CultureInfo.InvariantCulture))
+                </td>
             </tr>
         }
+        <tfoot>
+            <tr>
+                <td>TOTAL:</td>
+                <td>@Convert.ToString(totalAmount)</td>
+                <td>@Convert.ToString(mainDebtAmount)</td>
+                <td>@Convert.ToString(accuedInterestAmount)</td>
+                <td>@Convert.ToString(overdueAmount)</td>
+            </tr>
+        </tfoot>
+
 
     </table>
         }
