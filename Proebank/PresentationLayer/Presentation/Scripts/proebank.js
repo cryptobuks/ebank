@@ -1,7 +1,9 @@
 ﻿$(window).load(function () {
-    $(".datepicker").datepicker({
-        dateFormat: 'dd-mm-yy'
-    });
-
+    if (jQuery.ui) {
+        $(".datepicker").datepicker({
+            dateFormat: 'dd-mm-yy'
+        });
+    }
+    
     $('input, select').addClass('form-control');
 });

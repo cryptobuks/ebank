@@ -18,7 +18,12 @@ namespace Presentation.Controllers
         public ActionResult Index()
         {
             var loans = _service.GetLoans();
-            ViewBag.LoanId = new SelectList(loans, "Id", "Id");
+            var nameLoan = loans.Select(l => new
+            {
+                Name = l.Application.PersonalData.FirstName + " " + l.Application.PersonalData.LastName + " (" + l.Application.Tariff.Name + ")",
+                Id = l.Id
+            }).ToList();
+            ViewBag.LoanId = new SelectList(nameLoan, "Id", "Name");
             return View();
         }
 
