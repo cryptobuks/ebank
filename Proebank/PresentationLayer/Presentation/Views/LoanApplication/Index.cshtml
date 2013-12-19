@@ -58,7 +58,7 @@
         <th>
             @Html.DisplayNameFor(model => model.First().TimeCreated)
         </th>
-        @if (isHead && (string)ViewBag.ActiveTab == "contracted")
+        @if (isHead)
         {
             <th>
                 @Html.DisplayNameFor(model => model.First().TimeContracted)
@@ -91,7 +91,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TimeCreated)
             </td>
-            @if (isHead && item.Status == LoanApplicationStatus.Contracted)
+            @if (isHead)
             {
                 <td>
                     @Html.DisplayFor(modelItem => item.TimeContracted)

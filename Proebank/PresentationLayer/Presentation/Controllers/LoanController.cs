@@ -86,6 +86,7 @@ namespace Presentation.Controllers
                     };
                     password = System.Web.Security.Membership.GeneratePassword(10, 1);
                     customerManager.Create(customer, password);
+                    customerManager.AddToRole(customer.Id, "Customer");
                 }
                 else
                 {
