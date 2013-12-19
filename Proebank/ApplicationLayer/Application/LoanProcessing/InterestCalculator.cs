@@ -12,13 +12,12 @@ namespace Application.LoanProcessing
         {
             var payments =
                 loan.PaymentSchedule.Payments.Where(
-                    p => p.ShouldBePaidBefore.HasValue && p.ShouldBePaidBefore.Value.Month == date.Month);
+                    p => p.AccruedOn.HasValue && p.AccruedOn.Value.Month == date.Month);
             destinyEntry.Amount = payments.Sum(p => p.Amount);
             destinyEntry.Currency = loan.Application.Currency;
             destinyEntry.Type = EntryType.Accrual;
             destinyEntry.SubType = EntrySubType.Interest;
             destinyEntry.Date = date;
-            // TODO: add overdue
         }
     }
 }

@@ -282,8 +282,26 @@ namespace Application
             var entryRepository = GetRepository<Entry>();
             return loanRepository.GetAll()
                 .Where(l => !l.IsClosed)
+                .ToList()
                 .ToDictionary(
                     loan => loan.Accounts.Single(acc => acc.Type == AccountType.Interest),
+                    loan =>
+                    {
+                        var entry = entryRepository.Create();
+                        InterestCalculator.CalculateInterestFor(loan, currentDate, entry);
+                        return entry;
+                    });
+        }
+
+        private Dictionary<Account, Entry> LoanProcessEndOfMonthFines(DateTime currentDate)
+        {
+            var loanRepository = GetRepository<Loan>();
+            var entryRepository = GetRepository<Entry>();
+            return loanRepository.GetAll()
+                .Where(l => !l.IsClosed)
+                .ToList()
+                .ToDictionary(
+                    loan => loan.Accounts.Single(acc => acc.Type == AccountType.OverdueInterest),
                     loan =>
                     {
                         var entry = entryRepository.Create();
