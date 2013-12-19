@@ -55,12 +55,15 @@
                         <input type="submit" value="Calculate" class="btn" />
                     </div>
                 </td>
-                <td>
-                    <div class="form-actions no-color">
-                        <input type="submit" name="btnToApplication" value="To Application" class="btn" />
-                    </div>
+                @if (User.IsInRole("Consultant") || !User.Identity.IsAuthenticated)
+                {
+                    <td>
+                        <div class="form-actions no-color">
+                            <input type="submit" name="btnToApplication" value="To Application" class="btn" />
+                        </div>
 
-                </td>
+                    </td>
+                }
             </tr>
         </table>
 
