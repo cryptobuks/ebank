@@ -424,8 +424,9 @@ namespace Presentation.Controllers
 
         public ActionResult Fill(Guid? id)
         {
-            var tariffs = _service.GetTariffs();
-
+            var tariffs = _service.GetTariffs().ToList();
+            var tariffGuarantor = tariffs.Select(t => new {Id = t.Id, isGuarantorNeeded = t.IsGuarantorNeeded});
+            ViewBag.tariffGuarantor = tariffGuarantor;
             LoanApplication loanApplication;
             if (id == null)
             {
