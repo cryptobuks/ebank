@@ -104,7 +104,7 @@ namespace Presentation.Controllers
                 {
                     return HttpNotFound("Failed to create loan");
                 }
-                var pdfResult = new PdfResult(new LoginViewModel {UserName = customer.UserName, Password = password},
+                var pdfResult = new PdfResult(new LoanPdfViewModel { UserName = customer.UserName, Password = password, Loan = loan},
                     "Pdf");
                 pdfResult.ViewBag.Title = "PROebank credentials";
                 return pdfResult;

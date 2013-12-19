@@ -48,8 +48,9 @@ namespace Application
             if (repo != null && repo.IsDisposed)
             {
                 _repositories.Remove(repo);
+                repo = null;
             }
-            else if (repo == null)
+            if (repo == null)
             {
                 repo = _container.Resolve<IRepository<T>>();
                 _repositories.Add(repo);

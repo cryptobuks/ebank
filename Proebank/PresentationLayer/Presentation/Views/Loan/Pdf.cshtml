@@ -1,4 +1,4 @@
-﻿@model Presentation.Models.LoginViewModel
+﻿@model Presentation.Models.LoanPdfViewModel
 
 @{
     Layout = "~/Views/Shared/_PdfLayout.cshtml";
@@ -24,4 +24,37 @@ else
         <chunk style="font-family:Times;">@Model.Password</chunk>
     </paragraph>
 }
+
+<paragraph>
+    <chunk style="font-family:Times;font-weight:bold;">Loan contract id: </chunk>
+    <chunk style="font-family:Times;">@Model.Loan.Id</chunk>
+</paragraph>
+
+<paragraph>
+    <chunk style="font-family:Times;font-weight:bold;">Loan schedule: </chunk>
+</paragraph>
+<table width="70%" cellpadding="1.0" cellspacing="1.0"  widths="12;8;8;8">
+    <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Date to pay before</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Payment amount</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true" horizontalalign="right">Main debt part</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true" horizontalalign="right">Interest part</cell>
+    </row>
+    @foreach (var item in Model.Loan.PaymentSchedule.Payments)
+    {
+    <row>
+            <cell horizontalalign="center">@item.ShouldBePaidBefore</cell>
+            <cell horizontalalign="center">@item.Amount</cell>
+            <cell horizontalalign="center">@item.MainDebtAmount</cell>
+            <cell horizontalalign="center">@item.AccruedInterestAmount</cell>
+    </row>
+    }
+    <hr/>
+    <row>
+            <cell></cell>
+            <cell horizontalalign="center">@(Model.Loan.PaymentSchedule.MainDebtOverallAmount + Model.Loan.PaymentSchedule.InterestOverallAmount)</cell>
+            <cell horizontalalign="center">@Model.Loan.PaymentSchedule.MainDebtOverallAmount</cell>
+            <cell horizontalalign="center">@Model.Loan.PaymentSchedule.InterestOverallAmount</cell>
+    </row>
+</table>
 
