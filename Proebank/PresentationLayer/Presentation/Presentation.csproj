@@ -256,6 +256,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AtmViewModel.cs" />
     <Compile Include="Models\CreatedEmployeeViewModel.cs" />
+    <Compile Include="Models\LoanPdfViewModel.cs" />
     <Compile Include="Models\PersonalLoanHistoryViewModel.cs" />
     <Compile Include="Models\LoanCalculatorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

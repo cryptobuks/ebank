@@ -207,7 +207,6 @@ namespace Application.LoanProcessing
                     var newInterest = 0M;
                     var newOverdueMainDebt = 0M;
                     var newOverdueInterest = 0M;
-
                     if (payment != lastPmt)
                     {
                         newMainDebt = Math.Round(payment.MainDebtAmount, digitsAfterZero);
@@ -233,7 +232,9 @@ namespace Application.LoanProcessing
                             MainDebtAmount = newMainDebt,
                             AccruedInterestAmount = newInterest,
                             OverdueMainDebtAmount = newOverdueMainDebt,
-                            OverdueInterestAmount = newOverdueInterest
+                            OverdueInterestAmount = newOverdueInterest,
+                            AccruedOn = payment.AccruedOn,
+                            ShouldBePaidBefore = payment.ShouldBePaidBefore,
                         });
                 }
             }

@@ -86,6 +86,7 @@ namespace Presentation.Controllers
                     };
                     password = System.Web.Security.Membership.GeneratePassword(10, 1);
                     customerManager.Create(customer, password);
+                    customerManager.AddToRole(customer.Id, "Customer");
                 }
                 else
                 {
@@ -103,7 +104,7 @@ namespace Presentation.Controllers
                 {
                     return HttpNotFound("Failed to create loan");
                 }
-                var pdfResult = new PdfResult(new LoginViewModel {UserName = customer.UserName, Password = password},
+                var pdfResult = new PdfResult(new LoanPdfViewModel { UserName = customer.UserName, Password = password, Loan = loan},
                     "Pdf");
                 pdfResult.ViewBag.Title = "PROebank credentials";
                 return pdfResult;

@@ -48,8 +48,9 @@ namespace Application
             if (repo != null && repo.IsDisposed)
             {
                 _repositories.Remove(repo);
+                repo = null;
             }
-            else if (repo == null)
+            if (repo == null)
             {
                 repo = _container.Resolve<IRepository<T>>();
                 _repositories.Add(repo);
@@ -186,6 +187,7 @@ namespace Application
 
         public Loan CreateLoanContract(Customer customer, LoanApplication application)
         {
+            var today = GetCurrentDate();
             var bankAccount = GetBankAccount(application.Currency);
             var schedule = PaymentScheduleCalculator.Calculate(application);
             var accounts = new List<Account>(LoanAccountTypes
@@ -194,6 +196,8 @@ namespace Application
                     var account = GetRepository<Account>().Create();
                     account.Currency = application.Currency;
                     account.Type = accountType;
+                    account.DateOpened = today;
+                    account.Number = CreateAccountNumber(accountType);
                     account.Entries = new Collection<Entry>();
                     return account;
                 }));
@@ -223,6 +227,13 @@ namespace Application
             loan.Accounts = accounts;
             UpsertLoan(loan);
             return loan;
+        }
+
+        private int CreateAccountNumber(AccountType accountType)
+        {
+            var accRepo = GetRepository<Account>();
+            var currentMax = accRepo.GetAll().Where(acc => acc.Type == accountType).Max(a => a.Number);
+            return currentMax + 1;
         }
 
         private Account GetBankAccount(Currency currency)
