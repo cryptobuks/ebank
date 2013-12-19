@@ -86,9 +86,6 @@
             <th>
                 @Html.Label("Accrued Interest Amount")
             </th>
-            <th>
-                @Html.Label("Overdue Amount")
-            </th>
         </tr>
         @{
             var counter = 0;
@@ -103,7 +100,6 @@
             totalAmount += payment.Amount;
             mainDebtAmount += payment.MainDebtAmount;
             accuedInterestAmount += payment.AccruedInterestAmount;
-            overdueAmount += payment.OverdueAmount;
             <tr>
                 <td>@counter</td>
                 <td>
@@ -115,9 +111,6 @@
                 <td>
                     @Html.Label("AccruedInterestAmount", payment.AccruedInterestAmount.ToString(CultureInfo.InvariantCulture))
                 </td>
-                <td>
-                    @Html.Label("OverdueAmount", payment.OverdueAmount.ToString(CultureInfo.InvariantCulture))
-                </td>
             </tr>
         }
         <tfoot>
@@ -126,7 +119,6 @@
                 <td>@Convert.ToString(totalAmount)</td>
                 <td>@Convert.ToString(mainDebtAmount)</td>
                 <td>@Convert.ToString(accuedInterestAmount)</td>
-                <td>@Convert.ToString(overdueAmount)</td>
             </tr>
         </tfoot>
 
