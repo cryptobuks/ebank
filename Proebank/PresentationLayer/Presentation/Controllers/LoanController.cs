@@ -41,9 +41,13 @@ namespace Presentation.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var loanApplication = _processingService.GetLoanApplications().SingleOrDefault(la => la.Id.Equals(loanApplicationId.Value));
-            if (loanApplication == null || loanApplication.Status != LoanApplicationStatus.Approved)
+            if (loanApplication == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (loanApplication.Status != LoanApplicationStatus.Approved)
+            {
+                return RedirectToAction("Index", "LoanApplication");
             }
             return View(loanApplication);
         }

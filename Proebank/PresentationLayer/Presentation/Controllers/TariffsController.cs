@@ -20,7 +20,7 @@ namespace Presentation.Controllers
         public ActionResult Index()
         {
             var isHead = User.IsInRole("Department head");
-            var tariffs = _service.GetTariffs().Where(t => isHead || t.IsActive);
+            var tariffs = _service.GetTariffs().Where(t => isHead || t.IsActive).ToList();
             return View(tariffs);
         }
 

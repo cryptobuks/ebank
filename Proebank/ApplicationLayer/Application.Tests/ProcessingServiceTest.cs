@@ -66,7 +66,7 @@ namespace Application.Tests
                 MaxAmount = 1.0E8M,
                 MinAge = 18,
                 MaxTerm = 36,
-                MinTerm = 3,
+                MinTerm = 1,
                 MinAmount = 1.0E6M,
                 Name = "NeverSeeMeAgain",
                 PmtFrequency = 1,
@@ -76,11 +76,10 @@ namespace Application.Tests
             {
                 CellPhone = "+375291000000",
                 Currency = _tariff.Currency,
-                //Documents = new Collection<PersonalData> { _passport },
                 LoanAmount = 5.5E7M,
                 LoanPurpose = LoanPurpose.Common,
                 Tariff = _tariff,
-                Term = 3,
+                Term = 2,
                 TimeCreated = DateTime.Now
             };
             _loan = _service.CreateLoanContract(_customer, _validLoanApp);
@@ -153,6 +152,7 @@ namespace Application.Tests
         [TestMethod]
         public void CalculateAnnuityPaymentSchedule()
         {
+            _loan.Application.TimeContracted = new DateTime(2013, 12, 19, 14, 0, 0);
             var schedule = PaymentScheduleCalculator.CalculateAnnuitySchedule(_tariff, _loan.Application.LoanAmount,
                 _loan.Application.Term, _loan.Application.TimeContracted);
             Assert.IsNotNull(schedule);
@@ -160,7 +160,7 @@ namespace Application.Tests
             Assert.AreEqual(_loan.Application.Term, schedule.Payments.Count);
             var delta = schedule.MainDebtOverallAmount - _loan.Application.LoanAmount;
             Assert.IsTrue(delta >= 0M);
-            Assert.IsTrue(delta < 0.1M);
+            Assert.IsTrue(delta < 0.02M);
         }
 
         [TestMethod]
@@ -176,7 +176,7 @@ namespace Application.Tests
             Assert.AreEqual(_loan.Application.Term, schedule.Payments.Count);
             var delta = schedule.MainDebtOverallAmount - _loan.Application.LoanAmount;
             Assert.IsTrue(delta >= 0M);
-            Assert.IsTrue(delta < 0.1M);
+            Assert.IsTrue(delta < 0.02M);
         }
     }
 }

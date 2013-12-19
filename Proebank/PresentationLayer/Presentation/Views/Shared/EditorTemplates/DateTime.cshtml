@@ -1,0 +1,14 @@
+﻿@model DateTime?
+
+@{
+    String modelValue = "";
+    if (Model.HasValue)
+    {
+        if (Model.Value != DateTime.MinValue)
+        {
+            modelValue = Model.Value.ToString("dd-MM-yyyy");
+        }
+    }
+}
+
+@Html.TextBox("", modelValue, new { @class = "datepicker form-control" })
