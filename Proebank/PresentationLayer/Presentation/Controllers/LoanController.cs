@@ -122,5 +122,21 @@ namespace Presentation.Controllers
             return pdfResult;
             //return RedirectToAction("Index", loan);
         }
+
+        public ActionResult Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var loan = _processingService.GetLoans()
+                .Single(l => l.Id == id);
+            if (loan == null)
+            {
+                return View();
+                //return HttpNotFound("There is no loan with such Id");
+            }
+            return View(loan);
+        }
     }
 }

@@ -130,7 +130,7 @@
         <div class="form-actions no-color">
             <input type="submit" value="Update" class="btn btn-success" />
         </div>
-        @if (Model.Tariff != null && Model.Tariff.IsGuarantorNeeded)
+        @if (Model != null && Model.Tariff != null && Model.Tariff.IsGuarantorNeeded)
         {
             <h4>Guarantor personal information</h4>
             <div class="control-group">

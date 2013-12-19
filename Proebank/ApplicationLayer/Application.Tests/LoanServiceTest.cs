@@ -56,7 +56,6 @@ namespace Application.Tests
                 CreationDate = new DateTime(2013, 07, 01),
                 Currency = Currency.BYR,
                 IsActive = true,
-                InitialFee = 0,
                 InterestRate = 0.75M,
                 IsGuarantorNeeded = false,
                 LoanPurpose = LoanPurpose.Common,

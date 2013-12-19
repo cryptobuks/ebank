@@ -45,8 +45,8 @@ namespace Domain.Models.Loans
         [DisplayName("Max Age")]
         public ushort? MaxAge { get; set; }
 
-        [DisplayName("Initial Fee")]
-        public decimal InitialFee { get; set; }
+        //[DisplayName("Initial Fee")]
+        //public decimal InitialFee { get; set; }
 
         [DisplayName("Guarantor")]
         public bool IsGuarantorNeeded { get; set; }

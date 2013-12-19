@@ -34,11 +34,11 @@
     }
     else if (User.IsInRole("Security"))
     {
-        <li id="loan-application-tab-security"><a href="@Url.Action("OnSecurityReview")"><i class="fa fa-lock fa-2x"></i></a></li>
+        <li id="loan-application-tab-security"><a href="@Url.Action("Security")"><i class="fa fa-lock fa-2x"></i></a></li>
     }
     else if (User.IsInRole("Credit committee"))
     {
-        <li id="loan-application-tab-committee"><a href="@Url.Action("OnCommitteeReview")"><i class="fa fa-users fa-2x"></i></a></li>
+        <li id="loan-application-tab-committee"><a href="@Url.Action("Committee")"><i class="fa fa-users fa-2x"></i></a></li>
     }
     else if (isHead)
     {
@@ -147,4 +147,4 @@
         </tr>
     }
 </table>
-@Html.PagedListPager(Model, page => Url.Action("New",new{page}),new PagedListRenderOptions(){Display = PagedListDisplayMode.IfNeeded})
+@Html.PagedListPager(Model, page => Url.Action(ViewBag.ActiveTab, new{page}),new PagedListRenderOptions(){Display = PagedListDisplayMode.IfNeeded})

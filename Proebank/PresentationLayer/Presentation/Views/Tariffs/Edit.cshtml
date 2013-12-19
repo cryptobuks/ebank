@@ -82,14 +82,6 @@
         </div>
 
         <div class="control-group">
-            @Html.LabelFor(model => model.InitialFee, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.InitialFee)
-                @Html.ValidationMessageFor(model => model.InitialFee, null, new { @class = "help-inline" })
-            </div>
-        </div>
-
-        <div class="control-group">
             @Html.LabelFor(model => model.IsGuarantorNeeded, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.IsGuarantorNeeded)

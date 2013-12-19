@@ -34,19 +34,27 @@ namespace Presentation.Controllers
             }
             if (User.IsInRole("Security"))
             {
-                return RedirectToAction("OnSecurityReview");
+                return RedirectToAction("Security");
             }
             if (User.IsInRole("Credit committee"))
             {
-                return RedirectToAction("OnCommitteeReview");
+                return RedirectToAction("Committee");
             }
             if (User.IsInRole("Department head"))
             {
-                ViewBag.ActiveTab = "All";
-                var loanApplications = _service.GetLoanApplications(true).ToList();
-                return View(loanApplications);
+                return RedirectToAction("All");
             }
             return new HttpUnauthorizedResult();
+        }
+
+        [Authorize(Roles = "Department head")]
+        public ActionResult All(int? page)
+        {
+            var loanApplications = _service
+                .GetLoanApplications(true)
+                .ToList();
+            ViewBag.ActiveTab = "All";
+            return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         public ActionResult New(int? page)
@@ -79,7 +87,7 @@ namespace Presentation.Controllers
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
-        public ActionResult OnSecurityReview(int? page)
+        public ActionResult Security(int? page)
         {
             var loanApplications = _service
                 .GetLoanApplications()
@@ -89,7 +97,7 @@ namespace Presentation.Controllers
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
-        public ActionResult OnCommitteeReview(int? page)
+        public ActionResult Committee(int? page)
         {
             var loanApplications = _service
                 .GetLoanApplications()
@@ -468,7 +476,7 @@ namespace Presentation.Controllers
                             {
                                 ModelState.AddModelError(result.Key, result.Value);
                             }
-                            return View();
+                            return View(loanApplication);
                         }
                     }
                 }
