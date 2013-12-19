@@ -1,63 +1,61 @@
 ﻿@model Presentation.Models.AtmViewModel
-
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>ATM</title>
     @Styles.Render("~/Content/css")
+    <link href="@Url.Content("~/Content/atm.css")" rel="stylesheet" />
 </head>
-    <body>
-        <div class="alert" hidden="true">
-                  <button type="button" class="close" data-dismiss="alert">&times;</button>
-                  <strong>Предупреждение!</strong> Best check yo self, you're not looking too good.
-              </div>
-        <div>
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+<body>
+    <div class="alert" hidden="true">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Предупреждение!</strong> Best check yo self, you're not looking too good.
+    </div>
+    <div class="atm">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-                <fieldset class="form-horizontal">
-                    <legend>Choose you loan id</legend>
-
-                    <div class="control-group">
-                        @Html.LabelFor(model => model.LoanId, new { @class = "control-label" })
-                        <div class="controls">
-                            @Html.EditorFor(model => model.LoanId, String.Empty)
-                            @Html.ValidationMessageFor(model => model.LoanId, null, new { @class = "help-inline" })
-                        </div>
+            <fieldset class="form-horizontal">
+                <legend>Choose you loan id</legend>
+                <div class="control-group">
+                    @Html.LabelFor(model => model.LoanId, "TariffId", new {@class = "control-label"})
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.LoanId, (IEnumerable<SelectListItem>) ViewBag.LoanId, String.Empty)
+                        @Html.ValidationMessageFor(model => model.LoanId, null, new {@class = "help-inline"})
                     </div>
+                </div>
 
-                    <div class="control-group">
-                        @Html.LabelFor(model => model.Amount, new { @class = "control-label" })
-                        <div class="controls">
-                            @Html.EditorFor(model => model.Amount)
-                            @Html.ValidationMessageFor(model => model.Amount, null, new { @class = "help-inline" })
-                        </div>
+                <div class="control-group">
+                    @Html.LabelFor(model => model.Amount, new {@class = "control-label"})
+                    <div class="controls">
+                        @Html.EditorFor(model => model.Amount)
+                        @Html.ValidationMessageFor(model => model.Amount, null, new {@class = "help-inline"})
                     </div>
-
+                </div>
+                <br/>
+                <div class="control-group">
                     <div class="form-actions no-color">
                         <input type="submit" value="Create" class="btn" />
                     </div>
-                </fieldset>
-            }
-        </div>
-
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @if (ViewBag.PaymentRegistered != null && ViewBag.PaymentRegistered)
-        {
-            <script>
-                $(document).ready(function() {
-                    $(".alert").alert();
-                });
-            </script>
+                </div>
+            </fieldset>
         }
-    </body>
-
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/proebank")
+    @if (ViewBag.PaymentRegistered != null && ViewBag.PaymentRegistered)
+    {
+        <script>
+           $(document).ready(function () {
+                $(".alert").alert();
+            });
+        </script>
+    }
+</body>
 </html>
