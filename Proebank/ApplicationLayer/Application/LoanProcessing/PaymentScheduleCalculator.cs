@@ -139,31 +139,6 @@ namespace Application.LoanProcessing
             return RoundPayments(schedule, 2);
         }
 
-        private static Payment CalculateFirstPmt(decimal loanAmount, Tariff tariff, DateTime startDate)
-        {
-            var rate = tariff.InterestRate/12;
-            // startDate is included to the interest accruals
-            // first payment contains only interest - http://calculator-credit.ru/articles/credit-calc.html, see #6 description
-            var interestValue = loanAmount*rate*((30 - startDate.Day + 1) / 30M);   // this says loans on 31 have no interest accruals
-            var accruedOnYear = startDate.Year;
-            var accruedOnMonth = startDate.Month;
-            var daysInMonth = DateTime.DaysInMonth(accruedOnYear, accruedOnMonth);
-            var accruedOnDay = daysInMonth >= 30 ? 30 : daysInMonth;
-            // latest time on that day
-            var accruedDate = new DateTime(accruedOnYear, accruedOnMonth, accruedOnDay).AddDays(1).AddTicks(-1);
-            var pmt = new Payment
-            {
-                AccruedInterestAmount = interestValue,
-                AccruedOn = accruedDate,
-                IsPaid = false,
-                MainDebtAmount = 0M,
-                OverdueInterestAmount = 0M,
-                OverdueMainDebtAmount = 0M,
-                ShouldBePaidBefore = accruedDate.AddMonths(tariff.PmtFrequency),
-            };
-            return pmt;
-        }
-
         private static DateTime? CalculatePaymentDate(DateTime? startDate, int i)
         {
             if (startDate == null) return null;
