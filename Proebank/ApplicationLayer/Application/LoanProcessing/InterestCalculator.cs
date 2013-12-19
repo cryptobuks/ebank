@@ -18,6 +18,7 @@ namespace Application.LoanProcessing
             destinyEntry.Type = EntryType.Accrual;
             destinyEntry.SubType = EntrySubType.Interest;
             destinyEntry.Date = date;
+            // TODO: add overdue
         }
     }
 }

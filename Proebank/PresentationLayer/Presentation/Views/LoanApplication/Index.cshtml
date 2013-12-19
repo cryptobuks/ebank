@@ -30,7 +30,7 @@
         <li id="loan-application-tab-new"><a href="@Url.Action("New")"><i class="fa fa-file-text fa-2x"></i></a></li>
         <li id="loan-application-tab-preapproved"><a href="@Url.Action("PreApproved")"><i class="fa fa-paperclip fa-2x"></i></a></li>
         <li id="loan-application-tab-reviewed"><a href="@Url.Action("Reviewed")"><i class="fa fa-certificate fa-2x"></i></a></li>
-        <li id="loan-application-tab-contracted"><a href="@Url.Action("Contracted")"><i class="fa fa-briefcase fa-2x"></i></a></li>
+        @*<li id="loan-application-tab-contracted"><a href="@Url.Action("Contracted")"><i class="fa fa-briefcase fa-2x"></i></a></li>*@
     }
     else if (User.IsInRole("Security"))
     {

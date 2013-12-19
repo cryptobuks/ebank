@@ -4,26 +4,24 @@
     Layout = "~/Views/Shared/_PdfLayout.cshtml";
 }
 
-<paragraph style="font-family:Helvetica;font-size:18;font-style:italic;">
-        <chunk red="255" green="0" blue="0">@ViewBag.Title</chunk>
-</paragraph>
+<image url="@Context.Server.MapPath("~/Content/img/logo.png")"/>
+<newline />
+<newline />
 <paragraph>
     <chunk style="font-family:Times;font-weight:bold;">User name: </chunk>
     <chunk style="font-family:Times;">@Model.UserName</chunk>
 </paragraph>
-<paragraph>
-    <chunk style="font-family:Times;font-weight:bold;">Password: </chunk>
-    <chunk style="font-family:Times;">@Model.Password</chunk>
-</paragraph>
-<newline />
-<paragraph leading="14.0" font="unknown" align="Default">
-    You can also add images.
-</paragraph>
+@if (String.IsNullOrEmpty(Model.Password))
+{
+    <paragraph>
+        <chunk style="font-family:Times;font-weight:bold;">Use your previous password</chunk>
+    </paragraph>
+}
+else
+{
+    <paragraph>
+        <chunk style="font-family:Times;font-weight:bold;">Password: </chunk>
+        <chunk style="font-family:Times;">@Model.Password</chunk>
+    </paragraph>
+}
 
-<image url="@Context.Server.MapPath("~/Content/img/logo.png")"/>
-
-<paragraph leading="14.0" font="unknown" align="Default">
-    and do lists.
-</paragraph>
-
-<newline />

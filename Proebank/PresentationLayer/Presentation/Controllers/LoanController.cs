@@ -96,15 +96,19 @@ namespace Presentation.Controllers
             }
             _processingService = new ProcessingService();
             loanApplication = _processingService.Find<LoanApplication>(laId);
-            var loan = _processingService.CreateLoanContract(customer, loanApplication);
-            if (loan == null)
+            if (loanApplication.Status == LoanApplicationStatus.Approved)
             {
-                return HttpNotFound("Failed to create loan");
+                var loan = _processingService.CreateLoanContract(customer, loanApplication);
+                if (loan == null)
+                {
+                    return HttpNotFound("Failed to create loan");
+                }
+                var pdfResult = new PdfResult(new LoginViewModel {UserName = customer.UserName, Password = password},
+                    "Pdf");
+                pdfResult.ViewBag.Title = "PROebank credentials";
+                return pdfResult;
             }
-            var pdfResult = new PdfResult(new LoginViewModel { UserName = customer.UserName, Password = password }, "Pdf");
-            pdfResult.ViewBag.Title = "PROebank credentials";
-            return pdfResult;
-            //return RedirectToAction("Index", loan);
+            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Department head, Consultant")]

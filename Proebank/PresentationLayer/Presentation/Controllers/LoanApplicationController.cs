@@ -57,6 +57,7 @@ namespace Presentation.Controllers
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
+        [Authorize(Roles = "Consultant, Department head")]
         public ActionResult New(int? page)
         {
             var loanApplications = _service
@@ -67,6 +68,7 @@ namespace Presentation.Controllers
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
+        [Authorize(Roles = "Consultant, Department head")]
         public ActionResult PreApproved(int? page)
         {
             var loanApplications = _service
@@ -77,6 +79,7 @@ namespace Presentation.Controllers
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
+        [Authorize(Roles = "Consultant, Department head")]
         public ActionResult Reviewed(int? page)
         {
             var loanApplications = _service
@@ -87,6 +90,7 @@ namespace Presentation.Controllers
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
+        [Authorize(Roles = "Security, Department head")]
         public ActionResult Security(int? page)
         {
             var loanApplications = _service
@@ -97,6 +101,7 @@ namespace Presentation.Controllers
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
+        [Authorize(Roles = "Credit committee, Department head")]
         public ActionResult Committee(int? page)
         {
             var loanApplications = _service
@@ -107,6 +112,7 @@ namespace Presentation.Controllers
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
+        [Authorize(Roles = "Department head")]
         public ActionResult Contracted(int? page)
         {
             var loanApplications = _service
@@ -117,6 +123,7 @@ namespace Presentation.Controllers
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
+        [Authorize(Roles = "Consultant, Department head")]
         public ActionResult Approved(int? page)
         {
             var loanApplications = _service
@@ -127,6 +134,7 @@ namespace Presentation.Controllers
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
+        [Authorize(Roles = "Consultant, Department head")]
         public ActionResult Rejected(int? page)
         {
             var loanApplications = _service
@@ -147,7 +155,7 @@ namespace Presentation.Controllers
                 .Single(l => l.Id == id);
             if (loanApplication == null)
             {
-                return HttpNotFound();
+                return View();
             }
             return View(loanApplication);
         }

@@ -67,7 +67,10 @@ namespace Application
                 DaySync = true;
                 var date = GetCurrentDate();
                 ProcessContractServiceAccounts();
-                if (date.Day == DateTime.DaysInMonth(date.Year, date.Month))
+                var endOfMonth = DateTime.DaysInMonth(date.Year, date.Month) >= 30
+                    ? 30
+                    : DateTime.DaysInMonth(date.Year, date.Month);
+                if (date.Day == endOfMonth)
                 {
                     ProcessEndOfMonth(date);
                 }
@@ -127,24 +130,24 @@ namespace Application
                             Entry.GetOppositeFor(generalDebtPlus, generalDebtMinus);
                             AddEntry(generalDebtAccount, generalDebtPlus);
                             AddEntry(contractServiceAcc, generalDebtMinus);
+                            amount -= generalDebtPayment;
+                        }
+                        var overdueInterestPayment = Math.Min(amount, overdueInterestAccount.Balance);
+                        if (overdueInterestPayment > 0M)
+                        {
+                            var overdueInterestPlus = repo.Create();
+                            overdueInterestPlus.Amount = overdueInterestPayment;
+                            overdueInterestPlus.Currency = loan.Application.Currency;
+                            overdueInterestPlus.Date = today;
+                            overdueInterestPlus.Type = EntryType.Payment;
+                            overdueInterestPlus.SubType = EntrySubType.Fine;
+                            var overdueInterestMinus = repo.Create();
+                            Entry.GetOppositeFor(overdueInterestPlus, overdueInterestMinus);
+                            AddEntry(overdueInterestAccount, overdueInterestPlus);
+                            AddEntry(contractServiceAcc, overdueInterestMinus);
+                            amount -= overdueInterestPayment;
                         }
                     }
-                }
-
-                var schedule = loan.PaymentSchedule;
-                var pmt = schedule.Payments.SingleOrDefault(p =>
-                    p.AccruedOn.HasValue && p.AccruedOn.Value.Year == today.Year &&
-                    p.AccruedOn.Value.DayOfYear == today.DayOfYear);
-                if (pmt != null)
-                {
-                    // TODO: fix with daily interest parts
-                    var interestEntryPlus = repo.Create();
-                    interestEntryPlus.Amount = pmt.AccruedInterestAmount;
-                    interestEntryPlus.Currency = loan.Application.Currency;
-                    interestEntryPlus.Date = today;
-                    interestEntryPlus.Type = EntryType.Accrual;
-                    interestEntryPlus.SubType = EntrySubType.Interest;
-                    AddEntry(interestAccount, interestEntryPlus);
                 }
             }
             UpdateDailyProcessingTime();
@@ -163,6 +166,22 @@ namespace Application
                 UpdateMonthlyProcessingTime();
                 MonthSync = false;
             }
+            //
+            //var schedule = loan.PaymentSchedule;
+            //var pmt = schedule.Payments.SingleOrDefault(p =>
+            //    p.AccruedOn.HasValue && p.AccruedOn.Value.Year == today.Year &&
+            //    p.AccruedOn.Value.DayOfYear == today.DayOfYear);
+            //if (pmt != null)
+            //{
+            //    // TODO: fix with daily interest parts
+            //    var interestEntryPlus = repo.Create();
+            //    interestEntryPlus.Amount = pmt.AccruedInterestAmount;
+            //    interestEntryPlus.Currency = loan.Application.Currency;
+            //    interestEntryPlus.Date = today;
+            //    interestEntryPlus.Type = EntryType.Accrual;
+            //    interestEntryPlus.SubType = EntrySubType.Interest;
+            //    AddEntry(interestAccount, interestEntryPlus);
+            //}
         }
 
         public Loan CreateLoanContract(Customer customer, LoanApplication application)
