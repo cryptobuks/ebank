@@ -198,6 +198,7 @@ namespace Application
             var loan = GetRepository<Loan>().Create();
             loan.CustomerId = customer.Id;
             loan.Application = application;
+            loan.Application.TimeContracted = GetCurrentDate();
             loan.IsClosed = false;
             loan.PaymentSchedule = schedule;
             loan.Accounts = accounts;
