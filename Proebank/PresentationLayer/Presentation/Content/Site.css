@@ -40,3 +40,7 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+h1, h2, h3, h4, h4, h5 {
+    text-shadow: 2px 2px 1px #000;
+}
