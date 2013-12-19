@@ -12,16 +12,28 @@
     <hr />
     @if (Model != null)
     {
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.IsClosed)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.IsClosed)
-            </dd>
-            @*add account info, payment schedule, link to application details (or place details here?) and so on*@
-        </dl>
+        <h2>Loan information</h2>
+        <h4>Loan tariff: @Model.Application.Tariff.Name</h4>
+        <h4>Loan term: @Model.Application.Term</h4>
+        <h4>Currency: @Model.Application.Currency</h4>
+        foreach (var i in Model.Accounts)
+        {
+            <br />
+            <div>Account information</div>
+            <div>Number: @i.NumberText</div>
+            <div>Balance: @i.Balance</div>
+            <div>Opened: @i.DateOpened</div>
+            <div>Cloded: @i.DateClosed</div>
+            foreach (var j in i.Entries)
+            {
+                <br />
+                <div>Entery</div>
+                <div>Date: @j.Date</div>
+                <div>Amount: @j.Amount</div>
+                <div>Entiry type: @j.Type</div>
+                <div>Entiry currency: @j.Currency</div>
+            }
+        }
     }
 </div>
 <p>

@@ -33,7 +33,7 @@ namespace Domain.Models.Loans
         public int MaxTerm { get; set; }
 
         [DisplayName("Payment frequency, in months")]
-        [Range(1, 12)]
+        [Range(0, 12)]
         public int PmtFrequency { get; set; }
 
         [DisplayName("Payment type")]

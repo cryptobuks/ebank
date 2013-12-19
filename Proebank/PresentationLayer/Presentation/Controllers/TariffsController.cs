@@ -90,6 +90,7 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Tariff tariff)
         {
+            tariff.PmtFrequency = 1;
             if (ModelState.IsValid)
             {
                 _service.UpsertTariff(tariff);
