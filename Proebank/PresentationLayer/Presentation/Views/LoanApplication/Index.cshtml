@@ -117,6 +117,8 @@
                         break;
                     case LoanApplicationStatus.Filled:
                         <a href="@Url.Action("SendToSecurity", new { id = item.Id })" title="to security service" class="btn btn-default btn-xs"><i class="fa fa-lock fa-lg"></i> Send to Security</a>
+                        <a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info fa-lg"></i></a>
+                        <a href="@Url.Action("Edit", new { id = item.Id })" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-pencil fa-lg"></i></a>
                         break;
                     case LoanApplicationStatus.UnderCommitteeConsideration:
                         <a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-default btn-xs"><i class="fa fa-info fa-lg"></i></a>
