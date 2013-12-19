@@ -437,6 +437,9 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Fill(LoanApplication loanApplication)
         {
+            var tariffList = _service.GetTariffs();
+            ViewBag.Tariff = new SelectList(tariffList, "Id", "Name");
+
             if (ModelState.IsValid)
             {
 
@@ -452,11 +455,24 @@ namespace Presentation.Controllers
                 else
                 {
                     loanApplication.Status = LoanApplicationStatus.Filled;
-                    _service.CreateLoanApplication(loanApplication, true);
+                    try
+                    {
+                        _service.CreateLoanApplication(loanApplication, true);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        var validationResult = e.Data["validationResult"] as Dictionary<string, string>;
+                        if (validationResult != null)
+                        {
+                            foreach (var result in validationResult)
+                            {
+                                ModelState.AddModelError(result.Key, result.Value);
+                            }
+                            return View();
+                        }
+                    }
                 }
             }
-            var tariffList = _service.GetTariffs();
-            ViewBag.Tariff = new SelectList(tariffList, "Id", "Name");
             return RedirectToAction("Index");
         }
     }

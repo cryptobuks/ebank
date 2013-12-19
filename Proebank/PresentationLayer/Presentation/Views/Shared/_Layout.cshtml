@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - PROebank</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/font-awesome")
+    @Styles.Render("~/bundles/jquery-ui")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/Chart")
 </head>
@@ -33,9 +34,10 @@
             <p>&copy; @DateTime.Now.Year - PROebank</p>
         </footer>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/proebank")
     @RenderSection("scripts", required: false)
 </body>
 </html>
