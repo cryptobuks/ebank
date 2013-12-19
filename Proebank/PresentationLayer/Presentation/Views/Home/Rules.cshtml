@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Rules";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Welcome to our Bank</h1>
+
+<h2>@ViewBag.Title</h2>
+<p>The rules for loan obtaining:</p>
+<p>1. For obtaining a loan, first of all, you need to choose a tariff. All kinds of tariffs you can see here @Html.ActionLink("Tariffs","Index","Tariffs").</p>
+<p>2. When you have chosen the suitable tariff, you are able to apply for a loan.</p>
+<p>3. For applying, you can fill out the loan application right here @Html.ActionLink("Applying","Create","LoanApplication").</p>
+<p>4. When you done with application, you need to wait for a while, until our customer service consider your application and call you back.</p>
+<p>5. After that, you will be invited to our bank to fill out the rest of information.</p>
+<p>6. You will be notified by phone about all documents, you are required to take with you.</p>
+

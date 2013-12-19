@@ -379,6 +379,7 @@
     <Content Include="Views\Shared\_PdfLayout.cshtml" />
     <Content Include="Views\LoanApplication\History.cshtml" />
     <Content Include="Views\Loan\PdfContract.cshtml" />
+    <Content Include="Views\Home\Rules.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

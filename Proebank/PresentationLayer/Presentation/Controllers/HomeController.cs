@@ -31,5 +31,10 @@ namespace Presentation.Controllers
             //ViewBag.Roles = Roles.GetRolesForUser();
             return View("~/Views/Shared/MainMenu.cshtml");
         }
+
+        public ActionResult Rules()
+        {
+            return View();
+        }
     }
 }
