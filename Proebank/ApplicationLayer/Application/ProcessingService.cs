@@ -232,7 +232,8 @@ namespace Application
         private int CreateAccountNumber(AccountType accountType)
         {
             var accRepo = GetRepository<Account>();
-            var currentMax = accRepo.GetAll().Where(acc => acc.Type == accountType).Max(a => a.Number);
+            var accounts = accRepo.GetAll().Where(acc => acc.Type == accountType);
+            var currentMax = accounts.Any() ? accounts.Max(a => a.Number) : -1;
             return currentMax + 1;
         }
 
