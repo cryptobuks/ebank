@@ -101,8 +101,6 @@ namespace Application
                     if (amount > 0M)
                     {
                         // at first we transfer money to interest account
-                        // then to generalDebtAccount
-                        
                         var interestPayment = Math.Min(amount, interestAccount.Balance);
                         if (interestPayment > 0M)
                         {
@@ -118,6 +116,7 @@ namespace Application
                             AddEntry(contractServiceAcc, interestEntryMinus);
                             amount -= interestPayment;
                         }
+                        // then to generalDebtAccount
                         var generalDebtPayment = Math.Min(amount, generalDebtAccount.Balance);
                         if (generalDebtPayment > 0M)
                         {

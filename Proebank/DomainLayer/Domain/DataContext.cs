@@ -14,9 +14,13 @@ namespace Domain
 {
     public class DataContext : IdentityDbContext<IdentityUser>
     {
+        private readonly Guid _id;
+
         public DataContext()
             : base("Proebank")
         {
+            _id = Guid.NewGuid();
+            Debug.WriteLine("Data context created: {0}", _id);
         }
 
         public DbSet<Account> Accounts { get; set; }
@@ -106,6 +110,17 @@ namespace Domain
                 }
                 throw;
             }
+        }
+
+        public override string ToString()
+        {
+            return _id.ToString();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            Debug.WriteLine("Data context disposed({0}) : {1}", disposing, _id);
         }
     }
 }
