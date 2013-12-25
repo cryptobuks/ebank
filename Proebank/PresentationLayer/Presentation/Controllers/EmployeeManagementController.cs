@@ -19,8 +19,6 @@ namespace Presentation.Controllers
 {
     public class EmployeeManagementController : BaseController
     {
-        private readonly DataContext _ctx = new DataContext();
-
         // GET: /EmployeeManagement/
         [Authorize(Roles = "Department head")]
         public ActionResult Index()

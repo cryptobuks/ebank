@@ -10,46 +10,46 @@ namespace Domain.Repositories.Db
 {
     public class Repository<T> : IRepository<T> where T : Entity
     {
-        private readonly DataContext _ctx;
+        private readonly IUnitOfWork _uow;
 
         public bool IsDisposed { get; private set; }
 
-        public Repository()
+        public Repository(IUnitOfWork unitOfWork)
         {
-            _ctx = DataContextManager.GetContext();
+            _uow = unitOfWork;
         }
 
         public T Create()
         {
-            return _ctx.Set<T>().Create();
+            return _uow.Context.Set<T>().Create();
         }
 
         public T Find(Guid? id)
         {
-            return _ctx.Set<T>().Find(id);
+            return _uow.Context.Set<T>().Find(id);
         }
 
         public IQueryable<T> GetAll(bool showRemoved = false)
         {
-            return _ctx.Set<T>().Where(e => !e.IsRemoved || showRemoved);
+            return _uow.Context.Set<T>().Where(e => !e.IsRemoved || showRemoved);
         }
 
         public void AddOrUpdate(T entity)
         {
-            var set = _ctx.Set<T>();
+            var set = _uow.Context.Set<T>();
             set.AddOrUpdate(entity);
         }
 
         public void Remove(T entity)
         {
-            //_ctx.Set<T>().Remove(entity);
+            //_uow.Context.Set<T>().Remove(entity);
             entity.IsRemoved = true;
             AddOrUpdate(entity);
         }
 
         public void SaveChanges()
         {
-            _ctx.SaveChanges();
+            _uow.Context.SaveChanges();
         }
 
         public void Dispose()
@@ -63,7 +63,7 @@ namespace Domain.Repositories.Db
             {
                 if (disposing)
                 {
-                    _ctx.Dispose();
+                    _uow.Context.Dispose();
                 }
                 IsDisposed = true;
             }
@@ -72,17 +72,6 @@ namespace Domain.Repositories.Db
         ~Repository()
         {
             Dispose(false);
-        }
-    }
-
-    public static class DataContextManager
-    {
-        private static readonly Lazy<DataContext> Container = new Lazy<DataContext>(() => new DataContext());
-        private static DataContext _context;
-
-        internal static DataContext GetContext()
-        {
-            return _context ?? (_context = Container.Value);
         }
     }
 }

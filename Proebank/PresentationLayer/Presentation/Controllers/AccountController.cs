@@ -18,8 +18,8 @@ namespace Presentation.Controllers
     {
         public AccountController()
         {
-            var context = new DataContext();
-            var userStore = new UserStore<IdentityUser>(context);
+            //var context = new DataContext();
+            var userStore = new UserStore<IdentityUser>(UnitOfWork.Value.Context);
             UserManager = new UserManager<IdentityUser>(userStore);
         }
 

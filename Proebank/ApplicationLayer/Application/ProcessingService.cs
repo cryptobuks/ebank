@@ -15,6 +15,7 @@ using Domain.Models.Loans;
 using Domain.Repositories;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
+using Domain;
 
 namespace Application
 {
@@ -35,27 +36,27 @@ namespace Application
             AccountType.OverdueInterest
         };
 
-        public ProcessingService()
+        public ProcessingService(IUnitOfWork container)
         {
-            _container = new UnityContainer();
-            _container.LoadConfiguration();
+            _container = container;
             _repositories = new RepositoryContainer();
         }
 
         private IRepository<T> GetRepository<T>() where T : Entity
         {
-            var repo = _repositories.Get<T>();
-            if (repo != null && repo.IsDisposed)
-            {
-                _repositories.Remove(repo);
-                repo = null;
-            }
-            if (repo == null)
-            {
-                repo = _container.Resolve<IRepository<T>>();
-                _repositories.Add(repo);
-            }
-            return repo;
+            return _container.Resolve<IRepository<T>>();
+            //var repo = _repositories.Get<T>();
+            //if (repo != null && repo.IsDisposed)
+            //{
+            //    _repositories.Remove(repo);
+            //    repo = null;
+            //}
+            //if (repo == null)
+            //{
+            //    repo = _container.Resolve<IRepository<T>>();
+            //    _repositories.Add(repo);
+            //}
+            //return repo;
         }
 
         /// <summary>

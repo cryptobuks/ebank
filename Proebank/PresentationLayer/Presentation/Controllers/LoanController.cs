@@ -23,7 +23,7 @@ namespace Presentation.Controllers
 
         public LoanController()
         {
-            _processingService = new ProcessingService();
+            _processingService = new ProcessingService(UnitOfWork);
         }
 
         [Authorize(Roles = "Department head, Consultant")]

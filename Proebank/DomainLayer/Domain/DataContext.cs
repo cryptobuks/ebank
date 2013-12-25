@@ -16,7 +16,7 @@ namespace Domain
     {
         private readonly Guid _id;
 
-        public DataContext()
+        protected DataContext()
             : base("Proebank")
         {
             _id = Guid.NewGuid();
