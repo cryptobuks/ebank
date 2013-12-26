@@ -1,4 +1,5 @@
 using System;
+using Domain;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Presentation.Controllers;
@@ -34,7 +35,7 @@ namespace Presentation.Tests.App_Start
         public static void RegisterTypes(IUnityContainer container)
         {
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
-            container.LoadConfiguration();
+            //container.LoadConfiguration();
 
             container.RegisterType<AccountController>(new InjectionConstructor());
         }

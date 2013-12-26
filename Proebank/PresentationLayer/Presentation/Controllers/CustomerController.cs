@@ -5,18 +5,21 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Application;
+using Domain.Models.Loans;
+using Microsoft.Practices.Unity;
 
 namespace Presentation.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomerController : BaseController
     {
-        private readonly ProcessingService _service = new ProcessingService();
+        [Dependency]
+        protected ProcessingService Service { get; set; }
 
         // GET: /Customer/
         [Authorize(Roles = "Customer")]
         public ActionResult Index()
         {
-            return View(_service.GetLoans());
+            return View(Service.GetLoans());
         }
 
         // GET: /Customer/Details/5
@@ -27,7 +30,8 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loan = _service.FindLoan(id);
+            
+            var loan = Service.Find<Loan>(id);
             if (loan == null)
             {
                 return HttpNotFound();
@@ -43,7 +47,8 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loan = _service.FindLoan(id);
+            
+            var loan = Service.Find<Loan>(id);
             if (loan == null)
             {
                 return HttpNotFound("Loan was not found");
@@ -54,15 +59,6 @@ namespace Presentation.Controllers
                 return HttpNotFound("Schedule not found for loan");
             }
             return View(schedule.Payments);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _service.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

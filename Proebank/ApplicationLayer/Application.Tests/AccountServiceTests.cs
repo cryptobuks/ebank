@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Application.Tests
@@ -6,18 +7,19 @@ namespace Application.Tests
     [TestClass]
     public class AccountServiceTests
     {
-        private static ProcessingService _service;
+        [Dependency]
+        protected ProcessingService Service { get; set; }
 
-        [ClassInitialize]
-        public static void InitService(TestContext context)
-        {
-            _service = new ProcessingService();
-        }
+        //[ClassInitialize]
+        //public static void InitService(TestContext context)
+        //{
+        //    Service = new ProcessingService();
+        //}
 
         [TestMethod]
         public void CreateAccount()
         {
-            var account = _service.CreateAccount(Currency.BYR, AccountType.ContractService);
+            var account = Service.CreateAccount(Currency.BYR, AccountType.ContractService);
             Assert.IsNotNull(account);
         }
 

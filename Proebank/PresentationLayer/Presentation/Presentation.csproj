@@ -61,24 +61,25 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Glimpse.Ado.1.7.0\lib\net45\Glimpse.Ado.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.AspNet, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Glimpse.AspNet, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Glimpse.AspNet.1.6.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+      <HintPath>..\..\packages\Glimpse.AspNet.1.7.0\lib\net45\Glimpse.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.Core, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Glimpse.Core, Version=1.8.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Glimpse.1.8.0\lib\net45\Glimpse.Core.dll</HintPath>
+      <HintPath>..\..\packages\Glimpse.1.8.1\lib\net45\Glimpse.Core.dll</HintPath>
     </Reference>
     <Reference Include="Glimpse.EF6, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Glimpse.EF6.1.6.0\lib\net45\Glimpse.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.Mvc5, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Glimpse.Mvc5, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Glimpse.Mvc5.1.5.1\lib\net45\Glimpse.Mvc5.dll</HintPath>
+      <HintPath>..\..\packages\Glimpse.Mvc5.1.5.2\lib\net45\Glimpse.Mvc5.dll</HintPath>
     </Reference>
-    <Reference Include="itextsharp">
-      <HintPath>..\..\packages\iTextSharp.4.1.2\lib\itextsharp.dll</HintPath>
+    <Reference Include="itextsharp, Version=5.4.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\iTextSharp.5.4.5\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

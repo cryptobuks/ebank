@@ -23,7 +23,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Department head")]
         public ActionResult Index()
         {
-            return View(_ctx.Employees.ToList());
+            return View(Context.Set<Employee>().ToList());
         }
 
         // GET: /EmployeeManagement/Details/5
@@ -33,7 +33,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = _ctx.Employees.Find(id);
+            var employee = Context.Set<Employee>().Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -56,13 +56,13 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(_ctx));
+                var userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(Context));
                 var password = GeneratePassword();
                 employee.HiredOn = DateTime.UtcNow;
                 var userResult = userManager.Create(employee, password);
                 if (userResult.Succeeded)
                 {
-                    _ctx.SaveChanges();
+                    UnitOfWork.SaveChanges();
                     Debug.WriteLine("Generated password is: " + password);
                     return EmployeeCreated(new CreatedEmployeeViewModel {Employee = employee, Password = password});
                 }
@@ -92,7 +92,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = _ctx.Employees.Find(id);
+            Employee employee = Context.Set<Employee>().Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -109,8 +109,8 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                _ctx.Entry(employee).State = EntityState.Modified;
-                _ctx.SaveChanges();
+                Context.Entry(employee).State = EntityState.Modified;
+                UnitOfWork.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(employee);
@@ -123,7 +123,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = _ctx.Employees.Find(id);
+            var employee = Context.Set<Employee>().Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -136,9 +136,9 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Employee employee = _ctx.Employees.Find(id);
-            _ctx.Users.Remove(employee);
-            _ctx.SaveChanges();
+            Employee employee = Context.Set<Employee>().Find(id);
+            Context.Set<IdentityUser>().Remove(employee);
+            UnitOfWork.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -151,15 +151,6 @@ namespace Presentation.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             return View("EmployeeCreated", user);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _ctx.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
