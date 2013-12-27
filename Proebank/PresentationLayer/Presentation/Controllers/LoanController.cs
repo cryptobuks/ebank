@@ -85,19 +85,24 @@ namespace Presentation.Controllers
                 customer.PersonalData = doc;
             }
             loanApplication = Service.Find<LoanApplication>(laId);
-            if (loanApplication.Status == LoanApplicationStatus.Approved)
+            switch (loanApplication.Status)
             {
-                var loan = Service.CreateLoanContract(customer, loanApplication);
-                if (loan == null)
-                {
-                    return HttpNotFound("Failed to create loan");
-                }
-                var pdfViewModel = new LoanPdfViewModel {UserName = customer.UserName, Password = password, Loan = loan};
-                var pdfResult = new PdfResult(pdfViewModel, "Pdf");
-                pdfResult.ViewBag.Title = "PROebank credentials";
-                return pdfResult;
+                case LoanApplicationStatus.Approved:
+                    var loan = Service.CreateLoanContract(customer, loanApplication, User.Identity.GetUserId());
+                    if (loan == null)
+                    {
+                        return HttpNotFound("Failed to create loan");
+                    }
+                    var pdfViewModel = new LoanPdfViewModel { UserName = customer.UserName, Password = password, Loan = loan };
+                    var pdfResult = new PdfResult(pdfViewModel, "Pdf");
+                    pdfResult.ViewBag.Title = "PROebank credentials";
+                    return pdfResult;
+                case LoanApplicationStatus.ContractPrinted:
+                    Service.SignLoanContract(loanApplication.Id);
+                    return RedirectToAction("Index");   // TODO: maybe another page
+                default:
+                    return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Department head, Consultant")]
@@ -113,9 +118,9 @@ namespace Presentation.Controllers
             var pdfResult = new PdfResult(loanApplication, "PdfContract");
             pdfResult.ViewBag.Title = "PROebank loan contract";
             return pdfResult;
-            //return RedirectToAction("Index", loan);
         }
 
+        [Authorize(Roles = "Department head, Consultant")]
         public ActionResult Details(Guid? id)
         {
             if (id == null)
@@ -127,7 +132,11 @@ namespace Presentation.Controllers
             {
                 return View();
             }
-            return View(loan);
+            var viewModel = new LoanDetailsViewModel(loan)
+            {
+                Customer = UnitOfWork.Context.Set<Customer>().Find(loan.CustomerId)
+            };
+            return View(viewModel);
         }
     }
 }

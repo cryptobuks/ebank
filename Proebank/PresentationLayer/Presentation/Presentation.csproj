@@ -155,6 +155,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -258,6 +259,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AtmViewModel.cs" />
     <Compile Include="Models\CreatedEmployeeViewModel.cs" />
+    <Compile Include="Models\LoanDetailsViewModel.cs" />
     <Compile Include="Models\LoanPdfViewModel.cs" />
     <Compile Include="Models\PersonalLoanHistoryViewModel.cs" />
     <Compile Include="Models\LoanCalculatorModel.cs" />

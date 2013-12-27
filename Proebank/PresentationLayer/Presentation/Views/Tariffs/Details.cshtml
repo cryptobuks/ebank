@@ -42,14 +42,17 @@
         <dd>
             @Html.DisplayFor(model => model.MaxAmount)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
+        
+        @if (isDepartmentHead)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </dt>
+        
+            <dd>
+                @Html.DisplayFor(model => model.CreationDate)
+            </dd>
+        }
 
         <dt>
             @Html.DisplayNameFor(model => model.IsActive)
@@ -100,11 +103,11 @@
 <p>
     @if (isDepartmentHead)
     {
-        @Html.ActionLink("Edit", "Edit", new { id=Model.Id });
+        @*@Html.ActionLink("Edit", "Edit", new { id=Model.Id });*@
     }
     else
     {
-        @Html.ActionLink("Apply", "Create", "LoanApplication")
+        @*@Html.ActionLink("Apply", "Create", "LoanApplication")*@
     }
     @Html.ActionLink("Back to List", "Index")
 </p>

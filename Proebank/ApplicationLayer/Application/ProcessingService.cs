@@ -168,50 +168,6 @@ namespace Application
             //}
         }
 
-        public Loan CreateLoanContract(Customer customer, LoanApplication application)
-        {
-            var today = GetCurrentDate();
-            var bankAccount = GetBankAccount(application.Currency);
-            var schedule = PaymentScheduleCalculator.Calculate(application);
-            var accounts = new List<Account>(LoanAccountTypes
-                .Select(accountType =>
-                {
-                    var account = _unitOfWork.GetDbSet<Account>().Create();
-                    account.Currency = application.Currency;
-                    account.Type = accountType;
-                    account.DateOpened = today;
-                    account.Number = CreateAccountNumber(accountType);
-                    account.Entries = new Collection<Entry>();
-                    return account;
-                }));
-            var generalDebtAcc = accounts.Single(a => a.Type == AccountType.GeneralDebt);
-            var entryDate = GetCurrentDate();
-            var initialEntry = _unitOfWork.GetDbSet<Entry>().Create();
-            initialEntry.Amount = application.LoanAmount;
-            initialEntry.Currency = application.Currency;
-            initialEntry.Date = entryDate;
-            initialEntry.Type = EntryType.Transfer;
-            initialEntry.SubType = EntrySubType.GeneralDebt;
-            application.Status = LoanApplicationStatus.Contracted;
-
-            var bankEntry = _unitOfWork.GetDbSet<Entry>().Create();
-            Entry.GetOppositeFor(initialEntry, bankEntry);
-            bankEntry.Type = EntryType.Transfer;
-            bankEntry.SubType = EntrySubType.BankLoanIssued;
-            AddEntry(generalDebtAcc, initialEntry);
-            AddEntry(bankAccount, bankEntry);
-
-            var loan = _unitOfWork.GetDbSet<Loan>().Create();
-            loan.CustomerId = customer.Id;
-            loan.Application = application;
-            loan.Application.TimeContracted = GetCurrentDate();
-            loan.IsClosed = false;
-            loan.PaymentSchedule = schedule;
-            loan.Accounts = accounts;
-            UpsertLoan(loan);
-            return loan;
-        }
-
         private int CreateAccountNumber(AccountType accountType)
         {
             var accRepo = _unitOfWork.GetDbSet<Account>();
@@ -313,6 +269,71 @@ namespace Application
             var loanRepo = _unitOfWork.GetDbSet<Loan>();
             loanRepo.AddOrUpdate(loan);
             _unitOfWork.SaveChanges();
+        }
+
+        public Loan CreateLoanContract(Customer customer, LoanApplication application, string employeeId)
+        {
+            var today = GetCurrentDate();
+            var bankAccount = GetBankAccount(application.Currency);
+            var schedule = PaymentScheduleCalculator.Calculate(application);
+            var accountsSet = _unitOfWork.GetDbSet<Account>();
+            var entrySet = _unitOfWork.GetDbSet<Entry>();
+
+            var accounts = new List<Account>(LoanAccountTypes
+                .Select(accountType =>
+                {
+                    var account = accountsSet.Create();
+                    account.Currency = application.Currency;
+                    account.Type = accountType;
+                    account.DateOpened = today;
+                    account.Number = CreateAccountNumber(accountType);
+                    account.Entries = new Collection<Entry>();
+                    return account;
+                }));
+            var generalDebtAcc = accounts.Single(a => a.Type == AccountType.GeneralDebt);
+            var entryDate = GetCurrentDate();
+            var initialEntry = entrySet.Create();
+            initialEntry.Amount = application.LoanAmount;
+            initialEntry.Currency = application.Currency;
+            initialEntry.Date = entryDate;
+            initialEntry.Type = EntryType.Transfer;
+            initialEntry.SubType = EntrySubType.GeneralDebt;
+            application.Status = LoanApplicationStatus.ContractPrinted;
+
+            var bankEntry = entrySet.Create();
+            Entry.GetOppositeFor(initialEntry, bankEntry);
+            bankEntry.Type = EntryType.Transfer;
+            bankEntry.SubType = EntrySubType.BankLoanIssued;
+            AddEntry(generalDebtAcc, initialEntry);
+            AddEntry(bankAccount, bankEntry);
+
+            var loan = new Loan
+            {
+                CustomerId = customer.Id,
+                Application = application,
+                IsClosed = false,
+                PaymentSchedule = schedule,
+                Accounts = accounts,
+                IsContractSigned = false,
+                EmployeeId = employeeId
+            };
+            loan.Application.TimeContracted = GetCurrentDate();
+            //_unitOfWork.GetDbSet<Loan>().Attach(loan);
+            UpsertLoan(loan);
+            return loan;
+        }
+
+        public void SignLoanContract(Guid laId)
+        {
+            var loanSet = _unitOfWork.GetDbSet<Loan>();
+            var loan = loanSet.SingleOrDefault(l => l.Application.Id == laId);
+            if (loan != null)
+            {
+                loan.IsContractSigned = true;
+                UpsertLoan(loan);
+                var loanHistorySet = _unitOfWork.GetDbSet<LoanHistory>();
+                loanHistorySet.Add(new LoanHistory(loan));
+            }
         }
 
         private bool CanLoanBeClosed(Loan loan)
@@ -631,22 +652,5 @@ namespace Application
             }
             return history.OrderBy(l => l.WhenOpened);
         }
-
-        //public void Dispose()
-        //{
-        //    Dispose(true);
-        //}
-
-        //private void Dispose(bool disposing)
-        //{
-        //    if (!_disposed)
-        //    {
-        //        if (disposing)
-        //        {
-        //            //_unitOfWork.Dispose();
-        //        }
-        //        _disposed = true;
-        //    }
-        //}
     }
 }

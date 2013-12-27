@@ -8,7 +8,7 @@
         UnderCommitteeConsideration,  // special consideration
         Approved,   // can sign contract - positive decision from security service
         Rejected,   // application doesn't meet requirements
-        Annuled,    // too long in approved
+        Annuled,    // too long in Approved or ContractPrinted
         Contracted, // completed
         ContractPrinted,   // goes after approved before signing
     }

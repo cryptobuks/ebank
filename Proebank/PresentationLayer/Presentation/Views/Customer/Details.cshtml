@@ -1,34 +1,66 @@
-﻿@model Domain.Models.Loans.Loan
+﻿@model Presentation.Models.LoanDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Loan details</h2>
 
 <div>
-    <h4>Loan</h4>
-	<hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.IsClosed)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsClosed)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsRemoved)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsRemoved)
-        </dd>
-
-    </dl>
+    <hr />
+    @if (Model != null)
+    {
+        var personalData = @Model.Customer.PersonalData;
+        <div class="col-md-6">
+            <h3>Loan tariff: @Model.TariffName</h3>
+            <h3>Term: @Model.Term month(s)</h3>
+            <h3>Amount: @Model.Amount @Model.Currency</h3>
+            <h3>Customer: @personalData.LastName @personalData.FirstName @personalData.MiddleName</h3>
+        </div>
+        <div class="col-md-6">
+            <table class="table">
+                <tr>
+                    <th>Account</th>
+                    <th>Number</th>
+                    <th>Balance</th>
+                </tr>
+                @foreach (var account in Model.Accounts)
+                {
+                    <tr>
+                        <td>@account.Type</td>
+                        <td>@account.NumberText</td>
+                        <td>@account.Balance @account.Currency</td>
+                    </tr>
+                }
+            </table>
+            <br/>
+        </div>
+        <div>
+            <h4>Accrual/payment history</h4>
+            <table class="table">
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Account</th>
+                    <th>Type</th>
+                    <th>Subtype</th>
+                </tr>
+                @foreach (var entry in Model.Entries)
+                {
+                    var trClass = entry.Item2.Amount > 0 ? "success" : "warning";
+                    <tr class="@trClass">
+                        <td>@entry.Item2.Date</td>
+                        <td>@entry.Item2.Amount @entry.Item2.Currency</td>
+                        <td>@entry.Item1.NumberText (@entry.Item1.Type)</td>
+                        <td>@entry.Item2.Type</td>
+                        <td>@entry.Item2.SubType</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back", "Index")
 </p>
