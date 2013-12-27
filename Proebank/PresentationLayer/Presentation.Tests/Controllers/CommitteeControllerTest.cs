@@ -8,17 +8,17 @@ namespace Presentation.Tests.Controllers
     [TestClass]
     public class CommitteeControllerTest
     {
-        [TestMethod]
-        public void Index()
-        {
-            // Arrange
-            var controller = new CommitteeController();
+        //[TestMethod]
+        //public void Index()
+        //{
+        //    // Arrange
+        //    var controller = new CommitteeController();
 
-            // Act
-            var result = controller.Index() as ViewResult;
+        //    // Act
+        //    var result = controller.Index() as ViewResult;
 
-            // Assert
-            Assert.IsNotNull(result);
-        }
+        //    // Assert
+        //    Assert.IsNotNull(result);
+        //}
     }
 }

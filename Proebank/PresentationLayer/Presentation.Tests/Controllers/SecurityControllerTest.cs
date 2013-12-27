@@ -8,17 +8,17 @@ namespace Presentation.Tests.Controllers
     [TestClass]
     public class SecurityControllerTest
     {
-        [TestMethod]
-        public void Index()
-        {
-            // Arrange
-            var controller = new SecurityController();
+        //[TestMethod]
+        //public void Index()
+        //{
+        //    // Arrange
+        //    var controller = new SecurityController();
 
-            // Act
-            var result = controller.Index() as ViewResult;
+        //    // Act
+        //    var result = controller.Index() as ViewResult;
 
-            // Assert
-            Assert.IsNotNull(result);
-        }
+        //    // Assert
+        //    Assert.IsNotNull(result);
+        //}
     }
 }

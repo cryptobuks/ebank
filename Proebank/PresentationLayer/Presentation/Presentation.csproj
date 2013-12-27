@@ -77,9 +77,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Glimpse.Mvc5.1.5.2\lib\net45\Glimpse.Mvc5.dll</HintPath>
     </Reference>
-    <Reference Include="itextsharp, Version=5.4.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+    <Reference Include="itextsharp, Version=4.1.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\iTextSharp.5.4.5\lib\itextsharp.dll</HintPath>
+      <HintPath>..\..\packages\iTextSharp.4.1.2\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -148,7 +148,8 @@
     <Reference Include="PagedList.Mvc">
       <HintPath>..\..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="RazorPDF">
+    <Reference Include="RazorPDF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RazorPDF.1.0.0\lib\net45\RazorPDF.dll</HintPath>
     </Reference>
     <Reference Include="System" />

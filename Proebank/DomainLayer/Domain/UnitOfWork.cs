@@ -1,4 +1,6 @@
 ﻿using System.Data.Entity;
+using Domain.Contexts;
+using Domain.Contexts.Factories;
 using Domain.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -6,51 +8,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 
 namespace Domain
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly DataContext _ctx;
+        private readonly IDataContextFactory _dbFactory;
+        private DataContext _ctx;
 
-        public IdentityDbContext<IdentityUser> Context { get { return _ctx; } }
-
-        public UnitOfWork(DataContext context)
+        public DataContext Context
         {
-            _ctx = context;
+            get { return _ctx ?? (_ctx = _dbFactory.Get()); }
+            set { _ctx = value; }
+        }
+
+        public UnitOfWork(IDataContextFactory dbFactory)
+        {
+            _dbFactory = dbFactory;
         }
 
         public void SaveChanges()
         {
-            _ctx.SaveChanges();
+            Context.SaveChanges();
         }
 
-        public Task<int> SaveChangesAsync()
+        public IDbSet<T> GetDbSet<T>() where T : Entity
         {
-            return _ctx.SaveChangesAsync();
-        }
-
-        public DbSet<T> GetRepository<T>() where T : Entity
-        {
-            return _ctx.Set<T>();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Context.Dispose();
-            }
-        }
-
-        ~UnitOfWork()
-        {
-            Dispose(false);
+            return Context.Set<T>();
         }
     }
 }

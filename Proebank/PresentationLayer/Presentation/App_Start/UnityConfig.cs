@@ -1,7 +1,8 @@
 using System;
 using Domain;
+using Domain.Contexts;
+using Domain.Contexts.Factories;
 using Domain.Repositories;
-using Domain.Repositories.Db;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Presentation.Controllers;
@@ -38,8 +39,9 @@ namespace Presentation.App_Start
         {
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
             // container.LoadConfiguration();
-
-            container.RegisterType<IUnitOfWork, UnitOfWork>(new PerRequestLifetimeManager());
+            container.RegisterType<IUnitOfWork, UnitOfWork>();
+            container.RegisterType<IDataContextFactory, DbDataContextFactory>(new PerRequestLifetimeManager());
+            container.RegisterType<DataContext, DbDataContext>(new PerRequestLifetimeManager());
             container.RegisterType<AccountController>(new InjectionConstructor());
         }
     }

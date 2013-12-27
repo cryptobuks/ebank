@@ -1,5 +1,8 @@
 ﻿using System.Data.Entity;
+using System.Runtime.CompilerServices;
+using Domain.Contexts;
 using Domain.Models;
+using Domain.Repositories;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -9,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
-        IdentityDbContext<IdentityUser> Context { get; }
-        DbSet<T> GetRepository<T>() where T : Entity;
+        DataContext Context { get; set; }
+        IDbSet<T> GetDbSet<T>() where T : Entity;
         void SaveChanges();
     }
 }

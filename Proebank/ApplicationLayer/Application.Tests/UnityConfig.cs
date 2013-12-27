@@ -1,20 +1,20 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Domain;
 using Domain.Contexts;
 using Domain.Contexts.Factories;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
-using Presentation.Controllers;
+using Moq;
 
-namespace Presentation.Tests.App_Start
+namespace Application.Tests
 {
-    /// <summary>
-    /// Specifies the Unity configuration for the main container.
-    /// </summary>
     public class UnityConfig
     {
         #region Unity Container
-        private static readonly Lazy<IUnityContainer> Container = new Lazy<IUnityContainer>(() =>
+        private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
         {
             var container = new UnityContainer();
             RegisterTypes(container);
@@ -26,7 +26,7 @@ namespace Presentation.Tests.App_Start
         /// </summary>
         public static IUnityContainer GetConfiguredContainer()
         {
-            return Container.Value;
+            return container.Value;
         }
         #endregion
 
@@ -37,12 +37,11 @@ namespace Presentation.Tests.App_Start
         public static void RegisterTypes(IUnityContainer container)
         {
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
-            //container.LoadConfiguration();
+            // container.LoadConfiguration();
 
             container.RegisterType<IUnitOfWork, UnitOfWork>();
             container.RegisterType<IDataContextFactory, FakeDataContextFactory>();
             container.RegisterType<DataContext, FakeDataContext>();
-            container.RegisterType<AccountController>(new InjectionConstructor());
         }
     }
 }

@@ -58,7 +58,7 @@ namespace Presentation.Controllers
             var laId = loanApplication.Id;
             String password = null;
             // check customer here because of using default UserStore and UserManager
-            var loanApplicationSet = UnitOfWork.GetRepository<LoanApplication>();
+            var loanApplicationSet = UnitOfWork.GetDbSet<LoanApplication>();
             loanApplication = loanApplicationSet.Find(laId);
             var doc = loanApplication.PersonalData;
             var customerManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(Context));
