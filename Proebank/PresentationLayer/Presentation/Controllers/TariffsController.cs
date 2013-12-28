@@ -4,23 +4,20 @@ using System.Net;
 using System.Web.Mvc;
 using Domain.Models.Loans;
 using Application;
+using Microsoft.Practices.Unity;
 
 namespace Presentation.Controllers
 {
     public class TariffsController : BaseController
     {
-        private readonly ProcessingService _service;
-
-        public TariffsController()
-        {
-            _service = new ProcessingService();
-        }
+        [Dependency]
+        protected ProcessingService Service { get; set; }
 
         [AllowAnonymous]
         public ActionResult Index()
         {
             var isHead = User.IsInRole("Department head");
-            var tariffs = _service.GetTariffs().Where(t => isHead || t.IsActive).ToList();
+            var tariffs = Service.GetTariffs().Where(t => isHead || t.IsActive).ToList();
             return View(tariffs);
         }
 
@@ -31,7 +28,8 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var tariff = _service.GetTariffs().Single(t => t.Id == id);
+            
+            var tariff = Service.Find<Tariff>(id);
             if (tariff == null)
             {
                 return HttpNotFound();
@@ -56,9 +54,10 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 tariff.Id = Guid.NewGuid();
-                tariff.CreationDate = DateTime.UtcNow;
-                _service.UpsertTariff(tariff);
+                tariff.CreationDate = Service.GetCurrentDate();
+                Service.UpsertTariff(tariff);
                 return RedirectToAction("Index");
             }
 
@@ -72,7 +71,8 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var tariff = _service.GetTariffs().Single(t => t.Id == id);
+            
+            var tariff = Service.Find<Tariff>(id);
             if (tariff == null)
             {
                 return HttpNotFound();
@@ -93,7 +93,8 @@ namespace Presentation.Controllers
             tariff.PmtFrequency = 1;
             if (ModelState.IsValid)
             {
-                _service.UpsertTariff(tariff);
+                
+                Service.UpsertTariff(tariff);
                 return RedirectToAction("Index");
             }
             return View(tariff);
@@ -107,7 +108,8 @@ namespace Presentation.Controllers
             {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var tariff = _service.GetTariffs().Single(t => t.Id == id);
+            
+            var tariff = Service.Find<Tariff>(id);
             if (tariff == null)
             {
                 return HttpNotFound();
@@ -121,7 +123,8 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            _service.DeleteTariffById(id);
+            
+            Service.DeleteTariffById(id);
             return RedirectToAction("Index");
         }
     }

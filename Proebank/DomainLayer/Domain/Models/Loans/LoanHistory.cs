@@ -16,5 +16,26 @@ namespace Domain.Models.Loans
         public decimal Amount { get; set; }
         public Currency Currency { get; set; }
         public bool HadProblems { get; set; }
+
+        public LoanHistory()
+        {
+        }
+
+        public LoanHistory(Loan loan)
+        {
+            if (loan != null)
+            {
+                var application = loan.Application;
+                if (application != null && application.TimeContracted.HasValue)
+                {
+                    Person = application.PersonalData;
+                    WhenOpened = application.TimeContracted.Value;
+                    Amount = application.LoanAmount;
+                    Currency = application.Currency;
+                }
+                else throw new ArgumentException("loan.Application");
+            }
+            else throw new ArgumentException("loan");
+        }
     }
 }

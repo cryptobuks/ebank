@@ -1,23 +1,20 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Application;
+using Microsoft.Practices.Unity;
 using Presentation.Models;
 
 namespace Presentation.Controllers
 {
     public class AtmController : BaseController
     {
-        private readonly ProcessingService _service;
-
-        public AtmController()
-        {
-            _service = new ProcessingService();
-        }
+        [Dependency]
+        protected ProcessingService Service { get; set; }
 
         [Authorize(Roles = "Operator")]
         public ActionResult Index()
         {
-            var loans = _service.GetLoans();
+            var loans = Service.GetLoans();
             var nameLoan = loans.Select(l => new
             {
                 Name = l.Application.PersonalData.FirstName + " " + l.Application.PersonalData.LastName + " (" + l.Application.Tariff.Name + ")",
@@ -34,10 +31,10 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var loan = _service.GetLoans().FirstOrDefault(l => l.Id == model.LoanId);
+                var loan = Service.GetLoans().FirstOrDefault(l => l.Id == model.LoanId);
                 if (loan != null)
                 {
-                    _service.RegisterPayment(loan, model.Amount);
+                    Service.RegisterPayment(loan, model.Amount);
                 }
                 else
                 {

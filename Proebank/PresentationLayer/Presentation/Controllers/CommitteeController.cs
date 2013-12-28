@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Application;
 using Domain.Enums;
+using Domain.Models.Loans;
+using Microsoft.Practices.Unity;
 using Presentation.Models;
 using Domain;
 
@@ -15,13 +17,14 @@ namespace Presentation.Controllers
 {
     public class CommitteeController : BaseController
     {
-        private readonly ProcessingService _service = new ProcessingService();
+        [Dependency]
+        protected ProcessingService Service { get; set; }
 
         // GET: /Committee/
         [Authorize(Roles = "Credit committee")]
         public ActionResult Index()
         {
-            var loanapplications = _service.GetLoanApplications()
+            var loanapplications = Service.GetLoanApplications()
                 .Where(la => la.Status == LoanApplicationStatus.UnderCommitteeConsideration && !la.IsRemoved);
             return View(loanapplications);
         }
@@ -32,8 +35,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Credit committee")]
         public ActionResult Approved(Guid id)
         {
-            var loanapplication = _service.GetLoanApplications().SingleOrDefault(la => la.Id == id);
-            _service.ApproveLoanAppication(loanapplication);
+            
+            var loanapplication = Service.Find<LoanApplication>(id);
+            Service.ApproveLoanAppication(loanapplication);
             return RedirectToAction("Index");
         }
 
@@ -43,18 +47,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Credit committee")]
         public ActionResult Rejected(Guid id)
         {
-            var loanapplication = _service.GetLoanApplications().SingleOrDefault(la => la.Id == id);
-            _service.RejectLoanApplication(loanapplication);
+            var loanapplication = Service.GetLoanApplications().SingleOrDefault(la => la.Id == id);
+            Service.RejectLoanApplication(loanapplication);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _service.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

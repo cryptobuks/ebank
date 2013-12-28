@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web.Mvc;
-using Domain;
 using Domain.Enums;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Application;
 using System.Net;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Practices.Unity;
 using Presentation.Extensions;
 using Presentation.Models;
 using RazorPDF;
@@ -19,17 +17,13 @@ namespace Presentation.Controllers
 {
     public class LoanController : BaseController
     {
-        private ProcessingService _processingService;
-
-        public LoanController()
-        {
-            _processingService = new ProcessingService();
-        }
+        [Dependency]
+        protected ProcessingService Service { get; set; }
 
         [Authorize(Roles = "Department head, Consultant")]
         public ActionResult Index()
         {
-            var loans = _processingService.GetLoans().ToList();
+            var loans = Service.GetLoans().ToList();
             return View(loans);
         }
 
@@ -40,7 +34,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _processingService.GetLoanApplications().SingleOrDefault(la => la.Id.Equals(loanApplicationId.Value));
+            var loanApplication = Service.GetLoanApplications().SingleOrDefault(la => la.Id.Equals(loanApplicationId.Value));
             if (loanApplication == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -62,54 +56,53 @@ namespace Presentation.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var laId = loanApplication.Id;
-            _processingService.Dispose();
-            Customer customer = null;
             String password = null;
             // check customer here because of using default UserStore and UserManager
-            using (var ctx = new DataContext())
+            var loanApplicationSet = UnitOfWork.GetDbSet<LoanApplication>();
+            loanApplication = loanApplicationSet.Find(laId);
+            var doc = loanApplication.PersonalData;
+            var customerManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(Context));
+            var customers = Context.Set<Customer>();
+            var customer = customers
+                .SingleOrDefault(c => c.PersonalData.Identification == doc.Identification);
+            if (customer == null)
             {
-                loanApplication = ctx.Set<LoanApplication>().Find(laId);
-                var doc = loanApplication.PersonalData;
-                var customerManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(ctx));
-                var customers = ctx.Set<Customer>();
-                customer = customers
-                    .SingleOrDefault(c => c.PersonalData.Identification == doc.Identification);
-                if (customer == null)
+                customer = new Customer
                 {
-                    customer = new Customer
+                    PersonalData = doc,
+                    Email = loanApplication.Email,
+                    Id = Guid.NewGuid().ToString(),
+                    Phone = loanApplication.CellPhone,
+                    UserName = CustomerHelper.GenerateName(customerManager, doc),
+                };
+                password = System.Web.Security.Membership.GeneratePassword(10, 1);
+                customerManager.Create(customer, password);
+                customerManager.AddToRole(customer.Id, "Customer");
+            }
+            else
+            {
+                // TODO: check doc.Id
+                customer.PersonalData = doc;
+            }
+            loanApplication = Service.Find<LoanApplication>(laId);
+            switch (loanApplication.Status)
+            {
+                case LoanApplicationStatus.Approved:
+                    var loan = Service.CreateLoanContract(customer, loanApplication, User.Identity.GetUserId());
+                    if (loan == null)
                     {
-                        PersonalData = doc,
-                        Email = loanApplication.Email,
-                        Id = Guid.NewGuid().ToString(),
-                        Phone = loanApplication.CellPhone,
-                        UserName = CustomerHelper.GenerateName(customerManager, doc),
-                    };
-                    password = System.Web.Security.Membership.GeneratePassword(10, 1);
-                    customerManager.Create(customer, password);
-                    customerManager.AddToRole(customer.Id, "Customer");
-                }
-                else
-                {
-                    // TODO: check doc.Id
-                    customer.PersonalData = doc;
-                }
-                ctx.SaveChanges();
+                        return HttpNotFound("Failed to create loan");
+                    }
+                    var pdfViewModel = new LoanPdfViewModel { UserName = customer.UserName, Password = password, Loan = loan };
+                    var pdfResult = new PdfResult(pdfViewModel, "Pdf");
+                    pdfResult.ViewBag.Title = "PROebank credentials";
+                    return pdfResult;
+                case LoanApplicationStatus.ContractPrinted:
+                    Service.SignLoanContract(loanApplication.Id);
+                    return RedirectToAction("Index");   // TODO: maybe another page
+                default:
+                    return RedirectToAction("Index");
             }
-            _processingService = new ProcessingService();
-            loanApplication = _processingService.Find<LoanApplication>(laId);
-            if (loanApplication.Status == LoanApplicationStatus.Approved)
-            {
-                var loan = _processingService.CreateLoanContract(customer, loanApplication);
-                if (loan == null)
-                {
-                    return HttpNotFound("Failed to create loan");
-                }
-                var pdfResult = new PdfResult(new LoanPdfViewModel { UserName = customer.UserName, Password = password, Loan = loan},
-                    "Pdf");
-                pdfResult.ViewBag.Title = "PROebank credentials";
-                return pdfResult;
-            }
-            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Department head, Consultant")]
@@ -120,28 +113,30 @@ namespace Presentation.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var laId = loanApplication.Id;
-            loanApplication = _processingService.GetLoanApplications().Single(la => la.Id.Equals(laId));
+            loanApplication = Service.Find<LoanApplication>(laId);
 
             var pdfResult = new PdfResult(loanApplication, "PdfContract");
             pdfResult.ViewBag.Title = "PROebank loan contract";
             return pdfResult;
-            //return RedirectToAction("Index", loan);
         }
 
+        [Authorize(Roles = "Department head, Consultant")]
         public ActionResult Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loan = _processingService.GetLoans()
-                .Single(l => l.Id == id);
+            var loan = Service.Find<Loan>(id);
             if (loan == null)
             {
                 return View();
-                //return HttpNotFound("There is no loan with such Id");
             }
-            return View(loan);
+            var viewModel = new LoanDetailsViewModel(loan)
+            {
+                Customer = UnitOfWork.Context.Set<Customer>().Find(loan.CustomerId)
+            };
+            return View(viewModel);
         }
     }
 }

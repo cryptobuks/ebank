@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
@@ -15,17 +17,17 @@ using Domain.Models.Loans;
 using Domain.Repositories;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
+using Domain;
 
 namespace Application
 {
-    public class ProcessingService : IDisposable
+    public class ProcessingService// : IDisposable
     {
-        private readonly IUnityContainer _container;
-        private readonly RepositoryContainer _repositories;
-        private bool _disposed;
+        private readonly IUnitOfWork _unitOfWork;
+        //private bool _disposed;
+        private static bool DaySync;    //TODO: make flag in db
+        private static bool MonthSync;  //TODO: make flag in db
 
-        private static bool DaySync;
-        private static bool MonthSync;
         private static readonly AccountType[] LoanAccountTypes =
         {
             AccountType.ContractService,
@@ -35,27 +37,9 @@ namespace Application
             AccountType.OverdueInterest
         };
 
-        public ProcessingService()
+        public ProcessingService(IUnitOfWork unitOfWork)
         {
-            _container = new UnityContainer();
-            _container.LoadConfiguration();
-            _repositories = new RepositoryContainer();
-        }
-
-        private IRepository<T> GetRepository<T>() where T : Entity
-        {
-            var repo = _repositories.Get<T>();
-            if (repo != null && repo.IsDisposed)
-            {
-                _repositories.Remove(repo);
-                repo = null;
-            }
-            if (repo == null)
-            {
-                repo = _container.Resolve<IRepository<T>>();
-                _repositories.Add(repo);
-            }
-            return repo;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -93,7 +77,7 @@ namespace Application
                 var generalDebtAccount = accounts.Single(acc => acc.Type == AccountType.GeneralDebt);
                 var overdueGeneralDebtAccount = accounts.Single(acc => acc.Type == AccountType.OverdueGeneralDebt);
                 var overdueInterestAccount = accounts.Single(acc => acc.Type == AccountType.OverdueInterest);
-                var repo = GetRepository<Entry>();
+                var repo = _unitOfWork.GetDbSet<Entry>();
                 // We filter only loans with positive balance on contract service account
                 if (contractServiceAcc != null && contractServiceAcc.Balance > 0)
                 {
@@ -101,8 +85,6 @@ namespace Application
                     if (amount > 0M)
                     {
                         // at first we transfer money to interest account
-                        // then to generalDebtAccount
-                        
                         var interestPayment = Math.Min(amount, interestAccount.Balance);
                         if (interestPayment > 0M)
                         {
@@ -118,6 +100,7 @@ namespace Application
                             AddEntry(contractServiceAcc, interestEntryMinus);
                             amount -= interestPayment;
                         }
+                        // then to generalDebtAccount
                         var generalDebtPayment = Math.Min(amount, generalDebtAccount.Balance);
                         if (generalDebtPayment > 0M)
                         {
@@ -185,62 +168,18 @@ namespace Application
             //}
         }
 
-        public Loan CreateLoanContract(Customer customer, LoanApplication application)
-        {
-            var today = GetCurrentDate();
-            var bankAccount = GetBankAccount(application.Currency);
-            var schedule = PaymentScheduleCalculator.Calculate(application);
-            var accounts = new List<Account>(LoanAccountTypes
-                .Select(accountType =>
-                {
-                    var account = GetRepository<Account>().Create();
-                    account.Currency = application.Currency;
-                    account.Type = accountType;
-                    account.DateOpened = today;
-                    account.Number = CreateAccountNumber(accountType);
-                    account.Entries = new Collection<Entry>();
-                    return account;
-                }));
-            var generalDebtAcc = accounts.Single(a => a.Type == AccountType.GeneralDebt);
-            var entryDate = GetCurrentDate();
-            var initialEntry = GetRepository<Entry>().Create();
-            initialEntry.Amount = application.LoanAmount;
-            initialEntry.Currency = application.Currency;
-            initialEntry.Date = entryDate;
-            initialEntry.Type = EntryType.Transfer;
-            initialEntry.SubType = EntrySubType.GeneralDebt;
-            application.Status = LoanApplicationStatus.Contracted;
-
-            var bankEntry = GetRepository<Entry>().Create();
-            Entry.GetOppositeFor(initialEntry, bankEntry);
-            bankEntry.Type = EntryType.Transfer;
-            bankEntry.SubType = EntrySubType.BankLoanIssued;
-            AddEntry(generalDebtAcc, initialEntry);
-            AddEntry(bankAccount, bankEntry);
-
-            var loan = GetRepository<Loan>().Create();
-            loan.CustomerId = customer.Id;
-            loan.Application = application;
-            loan.Application.TimeContracted = GetCurrentDate();
-            loan.IsClosed = false;
-            loan.PaymentSchedule = schedule;
-            loan.Accounts = accounts;
-            UpsertLoan(loan);
-            return loan;
-        }
-
         private int CreateAccountNumber(AccountType accountType)
         {
-            var accRepo = GetRepository<Account>();
-            var accounts = accRepo.GetAll().Where(acc => acc.Type == accountType);
+            var accRepo = _unitOfWork.GetDbSet<Account>();
+            var accounts = accRepo.Where(acc => acc.Type == accountType);
             var currentMax = accounts.Any() ? accounts.Max(a => a.Number) : -1;
             return currentMax + 1;
         }
 
         private Account GetBankAccount(Currency currency)
         {
-            var accountRepo = GetRepository<Account>();
-            return accountRepo.GetAll().Single(acc => acc.Type == AccountType.BankBalance &&  acc.Currency == currency);
+            var accountRepo = _unitOfWork.GetDbSet<Account>();
+            return accountRepo.Single(acc => acc.Type == AccountType.BankBalance &&  acc.Currency == currency);
         }
 
         /// <summary>
@@ -253,7 +192,8 @@ namespace Application
         {
             var accounts = loan.Accounts;
             var contractAccount = accounts.First(a => a.Type == AccountType.ContractService);
-            var entry = GetRepository<Entry>().Create();
+            var entrySet = _unitOfWork.GetDbSet<Entry>();
+            var entry = entrySet.Create();
             entry.Amount = amount;
             entry.Currency = loan.Application.Currency;
             entry.Date = GetCurrentDate();
@@ -279,9 +219,9 @@ namespace Application
 
         private Dictionary<Account, Entry> LoanProcessEndOfMonth(DateTime currentDate)
         {
-            var loanRepository = GetRepository<Loan>();
-            var entryRepository = GetRepository<Entry>();
-            return loanRepository.GetAll()
+            var loanRepository = _unitOfWork.GetDbSet<Loan>();
+            var entryRepository = _unitOfWork.GetDbSet<Entry>();
+            return loanRepository
                 .Where(l => !l.IsClosed)
                 .ToList()
                 .ToDictionary(
@@ -296,9 +236,9 @@ namespace Application
 
         private Dictionary<Account, Entry> LoanProcessEndOfMonthFines(DateTime currentDate)
         {
-            var loanRepository = GetRepository<Loan>();
-            var entryRepository = GetRepository<Entry>();
-            return loanRepository.GetAll()
+            var loanRepository = _unitOfWork.GetDbSet<Loan>();
+            var entryRepository = _unitOfWork.GetDbSet<Entry>();
+            return loanRepository
                 .Where(l => !l.IsClosed)
                 .ToList()
                 .ToDictionary(
@@ -313,28 +253,87 @@ namespace Application
 
         public T Find<T>(Guid? id) where T : Entity
         {
-            var repository = GetRepository<T>();
+            var repository = _unitOfWork.GetDbSet<T>();
             return repository.Find(id);
         }
 
         #region Loan service methods
         public IQueryable<Loan> GetLoans()
         {
-            var loanRepository = GetRepository<Loan>();
-            return loanRepository.GetAll();
-        }
-
-        public Loan FindLoan(Guid? id)
-        {
-            var loanRepository = GetRepository<Loan>();
-            return loanRepository.Find(id);
+            var loanRepository = _unitOfWork.GetDbSet<Loan>();
+            return loanRepository;
         }
 
         private void UpsertLoan(Loan loan)
         {
-            var loanRepo = GetRepository<Loan>();
+            var loanRepo = _unitOfWork.GetDbSet<Loan>();
             loanRepo.AddOrUpdate(loan);
-            loanRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
+        }
+
+        public Loan CreateLoanContract(Customer customer, LoanApplication application, string employeeId)
+        {
+            var today = GetCurrentDate();
+            var bankAccount = GetBankAccount(application.Currency);
+            var schedule = PaymentScheduleCalculator.Calculate(application);
+            var accountsSet = _unitOfWork.GetDbSet<Account>();
+            var entrySet = _unitOfWork.GetDbSet<Entry>();
+
+            var accounts = new List<Account>(LoanAccountTypes
+                .Select(accountType =>
+                {
+                    var account = accountsSet.Create();
+                    account.Currency = application.Currency;
+                    account.Type = accountType;
+                    account.DateOpened = today;
+                    account.Number = CreateAccountNumber(accountType);
+                    account.Entries = new Collection<Entry>();
+                    return account;
+                }));
+            var generalDebtAcc = accounts.Single(a => a.Type == AccountType.GeneralDebt);
+            var entryDate = GetCurrentDate();
+            var initialEntry = entrySet.Create();
+            initialEntry.Amount = application.LoanAmount;
+            initialEntry.Currency = application.Currency;
+            initialEntry.Date = entryDate;
+            initialEntry.Type = EntryType.Transfer;
+            initialEntry.SubType = EntrySubType.GeneralDebt;
+            application.Status = LoanApplicationStatus.ContractPrinted;
+
+            var bankEntry = entrySet.Create();
+            Entry.GetOppositeFor(initialEntry, bankEntry);
+            bankEntry.Type = EntryType.Transfer;
+            bankEntry.SubType = EntrySubType.BankLoanIssued;
+            AddEntry(generalDebtAcc, initialEntry);
+            AddEntry(bankAccount, bankEntry);
+
+            var loan = new Loan
+            {
+                CustomerId = customer.Id,
+                Application = application,
+                IsClosed = false,
+                PaymentSchedule = schedule,
+                Accounts = accounts,
+                IsContractSigned = false,
+                EmployeeId = employeeId
+            };
+            loan.Application.TimeContracted = GetCurrentDate();
+            //_unitOfWork.GetDbSet<Loan>().Attach(loan);
+            UpsertLoan(loan);
+            return loan;
+        }
+
+        public void SignLoanContract(Guid laId)
+        {
+            var loanSet = _unitOfWork.GetDbSet<Loan>();
+            var loan = loanSet.SingleOrDefault(l => l.Application.Id == laId);
+            if (loan != null)
+            {
+                loan.IsContractSigned = true;
+                UpsertLoan(loan);
+                var loanHistorySet = _unitOfWork.GetDbSet<LoanHistory>();
+                loanHistorySet.Add(new LoanHistory(loan));
+            }
         }
 
         private bool CanLoanBeClosed(Loan loan)
@@ -344,33 +343,33 @@ namespace Application
 
         private void CloseLoan(Loan loan)
         {
-            var loanRepo = GetRepository<Loan>();
+            var loanRepo = _unitOfWork.GetDbSet<Loan>();
             loan.IsClosed = true;
             loanRepo.AddOrUpdate(loan);
-            loanRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 	    #endregion
 
         #region Loan application service methods
         public IQueryable<LoanApplication> GetLoanApplications(bool showRemoved = false)
         {
-            var loanApplicationRepo = GetRepository<LoanApplication>();
-            return loanApplicationRepo.GetAll(showRemoved);
+            var loanApplicationRepo = _unitOfWork.GetDbSet<LoanApplication>();
+            return loanApplicationRepo.Where(la => showRemoved || !la.IsRemoved);
         }
 
         public void UpsertLoanApplication(LoanApplication loanApplication)
         {
-            var loanApplicationRepo = GetRepository<LoanApplication>();
+            var loanApplicationRepo = _unitOfWork.GetDbSet<LoanApplication>();
             loanApplicationRepo.AddOrUpdate(loanApplication);
-            loanApplicationRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 
         public void DeleteLoanApplicationById(Guid id)
         {
-            var loanApplicationRepo = GetRepository<LoanApplication>();
-            var loanApplication = loanApplicationRepo.GetAll().Single(la => la.Id == id);
+            var loanApplicationRepo = _unitOfWork.GetDbSet<LoanApplication>();
+            var loanApplication = loanApplicationRepo.Find(id);
             loanApplicationRepo.Remove(loanApplication);
-            loanApplicationRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 
         public void CreateLoanApplication(LoanApplication loanApplication, bool fromConsultant = false)
@@ -382,12 +381,12 @@ namespace Application
             loanApplication.LoanPurpose = selectedTariff.LoanPurpose;
             loanApplication.Currency = selectedTariff.Currency;
 
-            var loanApplicationRepo = GetRepository<LoanApplication>();
+            var loanApplicationRepo = _unitOfWork.GetDbSet<LoanApplication>();
             var validationResult = ValidateLoanApplication(loanApplication);
             if (validationResult.Count == 0)
             {
                 loanApplicationRepo.AddOrUpdate(loanApplication);
-                loanApplicationRepo.SaveChanges();
+                _unitOfWork.SaveChanges();
             }
             else
             {
@@ -399,58 +398,58 @@ namespace Application
 
         public void ApproveLoanAppication(LoanApplication loanApplication)
         {
-            var loanRepo = GetRepository<LoanApplication>();
+            var loanRepo = _unitOfWork.GetDbSet<LoanApplication>();
             loanApplication.Status = LoanApplicationStatus.Approved;
             loanRepo.AddOrUpdate(loanApplication);
-            loanRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 
         public void RejectLoanApplication(LoanApplication loanApplication)
         {
             loanApplication.Status = LoanApplicationStatus.Rejected;
-            var loanRepository = GetRepository<LoanApplication>();
+            var loanRepository = _unitOfWork.GetDbSet<LoanApplication>();
             loanRepository.AddOrUpdate(loanApplication);
-            loanRepository.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 
         public void SendLoanApplicationToCommittee(LoanApplication loanApplication)
         {
             loanApplication.Status = LoanApplicationStatus.UnderCommitteeConsideration;
-            var loanRepository = GetRepository<LoanApplication>();
+            var loanRepository = _unitOfWork.GetDbSet<LoanApplication>();
             loanRepository.AddOrUpdate(loanApplication);
-            loanRepository.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 
         public void SendLoanApplicationToSecurity(LoanApplication loanApplication)
         {
             loanApplication.Status = LoanApplicationStatus.UnderRiskConsideration;
-            var loanRepository = GetRepository<LoanApplication>();
+            var loanRepository = _unitOfWork.GetDbSet<LoanApplication>();
             loanRepository.AddOrUpdate(loanApplication);
-            loanRepository.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
         #endregion
 
         #region Tariff service methods
         public IQueryable<Tariff> GetTariffs()
         {
-            var tariffRepo = GetRepository<Tariff>();
-            return tariffRepo.GetAll();
+            var tariffRepo = _unitOfWork.GetDbSet<Tariff>();
+            return tariffRepo;
         }
 
         public void UpsertTariff(Tariff tariff)
         {
-            var tariffRepo = GetRepository<Tariff>();
+            var tariffRepo = _unitOfWork.GetDbSet<Tariff>();
             tariffRepo.AddOrUpdate(tariff);
-            tariffRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 
         public void DeleteTariffById(Guid id)
         {
-            var tariffRepo = GetRepository<Tariff>();
-            var tariff = tariffRepo.GetAll().Single(t => t.Id == id);
+            var tariffRepo = _unitOfWork.GetDbSet<Tariff>();
+            var tariff = tariffRepo.Find(id);
             tariff.IsActive = false;
             tariffRepo.Remove(tariff);
-            tariffRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 
         private Dictionary<string, string> ValidateLoanApplication(LoanApplication loanApplication)
@@ -462,7 +461,7 @@ namespace Application
             }
             var validationResult = new Dictionary<string, string>();
             var isEnoughMoney = GetBankAccount(loanApplication.Currency).Balance >= loanApplication.LoanAmount;
-            var tariff = GetRepository<Tariff>().GetAll().Single(t => t.Id == loanApplication.TariffId);
+            var tariff = _unitOfWork.GetDbSet<Tariff>().Find(loanApplication.TariffId);
             var amount = loanApplication.LoanAmount;
             var term = loanApplication.Term;
             var isAmountValid = amount >= tariff.MinAmount && amount <= tariff.MaxAmount;
@@ -493,21 +492,21 @@ namespace Application
             var result = currentCalendar.CurrentTime.Value + new TimeSpan(1, 0, 0, 0);
             currentCalendar.CurrentTime = result;
             currentCalendar.ProcessingLock = false;
-            GetRepository<Calendar>().SaveChanges();
+            _unitOfWork.SaveChanges();
             return result;
         }
 
         private Calendar GetCalendar(bool withLock = false)
         {
-            var calendarRepository = GetRepository<Calendar>();
-            var calendar = calendarRepository.GetAll().Single();
+            var calendarRepository = _unitOfWork.GetDbSet<Calendar>();
+            var calendar = calendarRepository.Single();
             if (withLock)
             {
                 if (!calendar.ProcessingLock)
                 {
                     calendar.ProcessingLock = true;
                     calendarRepository.AddOrUpdate(calendar);
-                    calendarRepository.SaveChanges();
+                    _unitOfWork.SaveChanges();
                 }
                 else
                 {
@@ -519,26 +518,26 @@ namespace Application
 
         private void UpdateDailyProcessingTime()
         {
-            var calendarRepository = GetRepository<Calendar>();
-            var currentCalendar = calendarRepository.GetAll().First();
+            var calendarRepository = _unitOfWork.GetDbSet<Calendar>();
+            var currentCalendar = calendarRepository.Single();
             currentCalendar.LastDailyProcessingTime = currentCalendar.CurrentTime;
             calendarRepository.AddOrUpdate(currentCalendar);
-            calendarRepository.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 
         private void UpdateMonthlyProcessingTime()
         {
-            var calendarRepo = GetRepository<Calendar>();
-            var currentCalendar = calendarRepo.GetAll().First();
+            var calendarRepo = _unitOfWork.GetDbSet<Calendar>();
+            var currentCalendar = calendarRepo.Single();
             currentCalendar.LastMonthlyProcessingTime = currentCalendar.CurrentTime;
             calendarRepo.AddOrUpdate(currentCalendar);
-            calendarRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 
         public DateTime GetCurrentDate()
         {
-            var calendarRepo = GetRepository<Calendar>();
-            var calendar = calendarRepo.GetAll().SingleOrDefault();
+            var calendarRepo = _unitOfWork.GetDbSet<Calendar>();
+            var calendar = calendarRepo.SingleOrDefault();
             if (calendar != null)
             {
                 Debug.Assert(calendar.CurrentTime != null, "calendar.CurrentTime != null");
@@ -556,10 +555,10 @@ namespace Application
 
         public void SetCurrentDate(DateTime dateTime)
         {
-            var calendarRepo = GetRepository<Calendar>();
-            if (calendarRepo.GetAll().Any())
+            var calendarRepo = _unitOfWork.GetDbSet<Calendar>();
+            if (calendarRepo.Any())
             {
-                calendarRepo.GetAll().First().CurrentTime = dateTime;
+                calendarRepo.First().CurrentTime = dateTime;
             }
             else
             {
@@ -570,15 +569,15 @@ namespace Application
                 };
                 calendarRepo.AddOrUpdate(calendar);
             }
-            calendarRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
         #endregion
 
         #region Account service
         public Account CreateAccount(Currency currency, AccountType accountType)
         {
-            var accountRepo = GetRepository<Account>();
-            var accountWithSameType = accountRepo.GetAll().Where(a => a.Type.Equals(accountType));
+            var accountRepo = _unitOfWork.GetDbSet<Account>();
+            var accountWithSameType = accountRepo.Where(a => a.Type.Equals(accountType));
             var nextNumber = accountWithSameType.Any()
                 ? accountWithSameType.Max(a => a.Number) + 1
                 : 1;
@@ -591,13 +590,13 @@ namespace Application
                 Type = accountType,
             };
             accountRepo.AddOrUpdate(acc);
-            accountRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
             return acc;
         }
 
         public void AddEntry(Account account, Entry entry)
         {
-            var accountRepo = GetRepository<Account>();
+            var accountRepo = _unitOfWork.GetDbSet<Account>();
             if (account == null)
                 throw new ArgumentNullException("account");
             if (entry == null)
@@ -606,12 +605,12 @@ namespace Application
                 throw new ArgumentException("Currencies are not equal");
             account.Entries.Add(entry);
             accountRepo.AddOrUpdate(account);
-            accountRepo.SaveChanges();
+            _unitOfWork.SaveChanges();
         }
 
         public void CloseAccount(Account account)
         {
-            var accountRepo = GetRepository<Account>();
+            var accountRepo = _unitOfWork.GetDbSet<Account>();
             if (account.IsClosed)
             {
                 throw new ArgumentException("Account is already closed");
@@ -619,14 +618,15 @@ namespace Application
             account.IsClosed = true;
             account.DateClosed = GetCurrentDate();
             accountRepo.AddOrUpdate(account);
+            // TODO: check saving
         }
         #endregion
 
         public IEnumerable<LoanHistory> GetHistoryFromNationalBank(LoanApplication application)
         {
-            var nationalBank = GetRepository<LoanHistory>();
+            var nationalBank = _unitOfWork.GetDbSet<LoanHistory>();
             var personId = application.PersonalData.Identification;
-            var history = nationalBank.GetAll().Where(l => l.Person.Identification == personId).ToList();
+            var history = nationalBank.Where(l => l.Person.Identification == personId).ToList();
             if (!history.Any())
             {
                 var gen = new Random();
@@ -648,32 +648,9 @@ namespace Application
                     history.Add(histItem);
                     nationalBank.AddOrUpdate(histItem);
                 }
-                nationalBank.SaveChanges();
+                _unitOfWork.SaveChanges();
             }
             return history.OrderBy(l => l.WhenOpened);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    var allRepos = _repositories.GetAll();
-                    foreach (var repository in allRepos.OfType<IDisposable>())
-                    {
-                        repository.Dispose();
-                    }
-                    allRepos.Clear();
-                    _container.Dispose();
-                }
-                _disposed = true;
-            }
         }
     }
 }

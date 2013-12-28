@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.Contexts;
 using Domain.Migrations;
 using System.Data.Entity;
 using System.Web.Mvc;
@@ -11,7 +12,7 @@ namespace Presentation
     {
         protected void Application_Start()
         {
-            Database.SetInitializer<DataContext>(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
+            Database.SetInitializer<DbDataContext>(new MigrateDatabaseToLatestVersion<DbDataContext, Configuration>());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

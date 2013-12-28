@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
+using Domain.Contexts;
 using Domain.Enums;
 using Domain.Models.Accounts;
 using Domain.Models.Calendars;
@@ -15,7 +16,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Domain.Migrations
 {
-    public sealed class Configuration : DbMigrationsConfiguration<DataContext>
+    public sealed class Configuration : DbMigrationsConfiguration<DbDataContext>
     {
         private readonly Guid _customerUserId = Guid.Parse("59A9C686-2CA7-4C2A-B397-FCA49554F8AA");
         private readonly Guid _consultantUserId = Guid.Parse("4819B14F-3098-455C-B8AD-D2FFD53FCAC2");
@@ -34,7 +35,7 @@ namespace Domain.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(DataContext context)
+        protected override void Seed(DbDataContext context)
         {
             //  This method will be called after migrating to the latest version.
 
