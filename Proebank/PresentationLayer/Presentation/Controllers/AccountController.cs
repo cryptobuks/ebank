@@ -2,13 +2,8 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
-using Application;
-using Domain;
 using Domain.Contexts;
-using Domain.Models.Customers;
 using Domain.Models.Users;
-using Domain.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;

@@ -60,9 +60,8 @@ namespace Application
                 //    ProcessEndOfMonth(date);
                 //}
                 DaySync = false;
-                var tomorrow = MoveTime(1);
+                MoveTime(1);
                 _unitOfWork.SaveChanges();
-                return tomorrow;
             }
             return GetCurrentDate();
         }

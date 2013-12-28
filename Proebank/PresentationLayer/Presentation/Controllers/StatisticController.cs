@@ -26,7 +26,7 @@ namespace Presentation.Controllers
 
         public ActionResult Loan()
         {
-            var list = _service.GetLoans().ToList();
+            var list = Service.GetLoans().ToList();
             return View(list);
         }
     }
