@@ -15,7 +15,7 @@ namespace Presentation.Tests.Controllers
             var controller = new StatisticController();
 
             // Act
-            var result = controller.Index() as ViewResult;
+            var result = controller.LoanApplication() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);

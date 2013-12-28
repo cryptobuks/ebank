@@ -16,9 +16,15 @@ namespace Presentation.Controllers
     {
         private ProcessingService _service = new ProcessingService();
 
-        public ActionResult Index()
+        public ActionResult LoanApplication()
         {
             var list = _service.GetLoanApplications().ToList();
+            return View(list);
+        }
+
+        public ActionResult Loan()
+        {
+            var list = _service.GetLoans().ToList();
             return View(list);
         }
     }
