@@ -313,6 +313,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\amcharts\amcharts.js" />
+    <Content Include="Scripts\amcharts\funnel.js" />
+    <Content Include="Scripts\amcharts\gauge.js" />
+    <Content Include="Scripts\amcharts\pie.js" />
+    <Content Include="Scripts\amcharts\radar.js" />
+    <Content Include="Scripts\amcharts\serial.js" />
+    <Content Include="Scripts\amcharts\xy.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.js" />
@@ -397,7 +404,7 @@
     <Content Include="Views\Customer\Schedule.cshtml" />
     <Content Include="Views\LoanCalculator\Index.cshtml" />
     <Content Include="Views\LoanApplication\Fill.cshtml" />
-    <Content Include="Views\Statistic\Index.cshtml" />
+    <Content Include="Views\Statistic\LoanApplication.cshtml" />
     <Content Include="Views\LoanApplication\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PersonalData.cshtml" />
     <Content Include="Views\Loan\Pdf.cshtml" />
@@ -406,6 +413,7 @@
     <Content Include="Views\Loan\PdfContract.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Home\Rules.cshtml" />
+    <Content Include="Views\Statistic\Loan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
