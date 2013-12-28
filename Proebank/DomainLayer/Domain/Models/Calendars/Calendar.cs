@@ -9,9 +9,11 @@ namespace Domain.Models.Calendars
 
         public DateTime? CurrentTime { get; set; }
 
-        public DateTime? LastDailyProcessingTime { get; set; }
+        public DateTime? LastDailyProcessingDate { get; set; }
 
-        public DateTime? LastMonthlyProcessingTime { get; set; }
+        public DateTime? LastMonthlyProcessingDate { get; set; }
+
+        public DateTime? NextMonthlyProcessingDate { get; set; }
 
         public bool ProcessingLock { get; set; }
     }

@@ -42,7 +42,7 @@ namespace Domain.Migrations
             base.Seed(context);
             try
             {
-                var bankCreationDate = new DateTime(2013, 8, 15);
+                var bankCreationDate = new DateTime(2013, 8, 15, 15, 0, 0);
 
                 #region seed calendar
 
@@ -52,7 +52,8 @@ namespace Domain.Migrations
                     {
                         Id = Calendar.ConstGuid,
                         CurrentTime = bankCreationDate,
-                        ProcessingLock = false
+                        ProcessingLock = false,
+                        NextMonthlyProcessingDate = new DateTime(2013, 8, 30)
                     };
                     context.Calendars.AddOrUpdate(c => c.Id, calendarEntry);
                 }

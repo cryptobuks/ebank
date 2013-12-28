@@ -83,10 +83,10 @@ namespace Domain.Contexts
                 .Property(f => f.CurrentTime)
                 .HasColumnType("datetime2").IsOptional();
             modelBuilder.Entity<Calendar>()
-                .Property(f => f.LastDailyProcessingTime)
+                .Property(f => f.LastDailyProcessingDate)
                 .HasColumnType("datetime2").IsOptional();
             modelBuilder.Entity<Calendar>()
-                .Property(f => f.LastMonthlyProcessingTime)
+                .Property(f => f.LastMonthlyProcessingDate)
                 .HasColumnType("datetime2").IsOptional();
             modelBuilder.Entity<PersonalData>()
                 .Property(f => f.DateOfBirth)
