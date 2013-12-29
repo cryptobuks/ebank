@@ -184,8 +184,7 @@
             $('#PersonalData_LastName').val(chance.last());
             $('#PersonalData_FirstName').val(chance.first());
             $('#PersonalData_MiddleName').val(chance.name({ middle: true }).split(" ")[1]);
-            var b = chance.birthday();
-            $('#PersonalData_DateOfBirth').val("" + b.getDate() + "-" + (b.getMonth() + 1) + "-" + b.getFullYear());
+            $('#PersonalData_DateOfBirth').val(chance.birthday().toISOString().substr(0, 10));
             $('#PersonalData_Passport').val(randStr(2) + randNum(7));
             $('#PersonalData_Identification').val("" + randNum(7) + randStr(1) + randNum(3) + randStr(2) + randNum());
             $('#PersonalData_Address').val(chance.address());
@@ -199,8 +198,7 @@
             $('#Guarantor_LastName').val(chance.last());
             $('#Guarantor_FirstName').val(chance.first());
             $('#Guarantor_MiddleName').val(chance.name({ middle: true }).split(" ")[1]);
-            var b = chance.birthday();
-            $('#Guarantor_DateOfBirth').val("" + b.getDate() + "-" + (b.getMonth() + 1) + "-" + b.getFullYear());
+            $('#Guarantor_DateOfBirth').val(chance.birthday().toISOString().substr(0, 10));
             $('#Guarantor_Passport').val(randStr(2) + randNum(7));
             $('#Guarantor_Identification').val("" + randNum(7) + randStr(1) + randNum(3) + randStr(2) + randNum());
             $('#Guarantor_Address').val(chance.address());
