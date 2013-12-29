@@ -1,4 +1,4 @@
-﻿@model DateTime?
+﻿@model DateTime
 
 @{
     ViewBag.Title = "Index";
@@ -6,9 +6,6 @@
 }
 
 <h2>Processing Management</h2>
-@if (Model.HasValue)
-{
-    <h4>Current Time is @Model.Value</h4>
-}
+<h4>Current Time is @Model</h4>
 <p><a class="btn btn-primary btn-large" href="@Url.Action("MoveNextDay")">Close banking day</a></p>
 <p><a class="btn btn-primary btn-large" href="@Url.Action("MoveNextWeek")">Process one week</a></p>
