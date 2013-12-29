@@ -39,7 +39,8 @@ namespace Presentation
             "~/Scripts/Chart.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/proebank").Include(
-            "~/Scripts/proebank.js"));
+            "~/Scripts/proebank.js",
+            "~/Scripts/chance.min.js"));
 
             bundles.Add(new ScriptBundle("~/amcharts").Include(
             "~/Scripts/amcharts/amcharts.js", "~/Scripts/amcharts/pie.js"));

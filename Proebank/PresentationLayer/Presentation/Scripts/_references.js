@@ -17,3 +17,4 @@
 /// <reference path="amcharts/radar.js" />
 /// <reference path="amcharts/serial.js" />
 /// <reference path="amcharts/xy.js" />
+/// <reference path="chance.js" />

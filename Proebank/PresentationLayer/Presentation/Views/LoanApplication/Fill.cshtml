@@ -16,6 +16,7 @@
         <div class="row">
             <div class="col-md-12">
                 <input type="submit" value="Update" class="btn btn-success" />
+                <input type="button" value="Random" class="btn btn-default" onclick="fillRandomData();" />
             </div>
         </div>
         
@@ -171,6 +172,69 @@
                 $('#guarantorInfo').hide();
             }
         });
+    </script>
+
+    <!--Random data filling-->
+    <script type="text/javascript">
+        function fillRandomData() {
+            $('#LoanAmount').val(rand(1, 100) * 1000000);
+            $('#Term').val(rand(2, 12) * 3);
+            $('#CellPhone').val(rand(1111111, 9999999));
+            $('#TariffId').val(randSelect($('#TariffId')));
+            $('#PersonalData_LastName').val(chance.last());
+            $('#PersonalData_FirstName').val(chance.first());
+            $('#PersonalData_MiddleName').val(chance.name({ middle: true }).split(" ")[1]);
+            var b = chance.birthday();
+            $('#PersonalData_DateOfBirth').val("" + b.getDate() + "-" + (b.getMonth() + 1) + "-" + b.getFullYear());
+            $('#PersonalData_Passport').val(randStr(2) + randNum(7));
+            $('#PersonalData_Identification').val("" + randNum(7) + randStr(1) + randNum(3) + randStr(2) + randNum());
+            $('#PersonalData_Address').val(chance.address());
+            $('#MiddleIncome').val(rand(1000000, 30000000));
+            $('#ChildrenCount').val(rand(0, 4));
+            $('#HigherEducation').val(randSelect($('#HigherEducation')));
+            $('#IsMarried').val(randSelect($('#IsMarried')));
+            $('#LengthOfWork').val(rand(1, 10));
+            $('#IsHomeowner').get(0).checked = rand(0, 1) === 0;
+
+            $('#Guarantor_LastName').val(chance.last());
+            $('#Guarantor_FirstName').val(chance.first());
+            $('#Guarantor_MiddleName').val(chance.name({ middle: true }).split(" ")[1]);
+            var b = chance.birthday();
+            $('#Guarantor_DateOfBirth').val("" + b.getDate() + "-" + (b.getMonth() + 1) + "-" + b.getFullYear());
+            $('#Guarantor_Passport').val(randStr(2) + randNum(7));
+            $('#Guarantor_Identification').val("" + randNum(7) + randStr(1) + randNum(3) + randStr(2) + randNum());
+            $('#Guarantor_Address').val(chance.address());
+            
+            
+        }
+
+        function rand(from, to) {
+            from = from || 0;
+            to = to || 1;
+            return Math.round(Math.random() * (to - from) + from);
+        }
+
+        function randNum(length) {
+            length = length || 1;
+            var from = Math.pow(10, length - 1);
+            var to = Math.pow(10, length) - 1;
+            return rand(from, to);
+        }
+
+        function randStr(length) {
+            length = length || 1;
+            return chance.word({ length: length }).toUpperCase();
+        }
+        
+        function randSelect(select) {
+            var values = [];
+            $.each(select.children(), function (i, v) {
+                if (v.value) {
+                    values.push(v.value);
+                }
+            });
+            return (values[rand(0, values.length - 1)]);
+        }
     </script>
 }
 
