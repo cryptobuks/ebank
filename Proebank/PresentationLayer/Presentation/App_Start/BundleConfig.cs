@@ -40,6 +40,9 @@ namespace Presentation
 
             bundles.Add(new ScriptBundle("~/bundles/proebank").Include(
             "~/Scripts/proebank.js"));
+
+            bundles.Add(new ScriptBundle("~/amcharts").Include(
+            "~/Scripts/amcharts/amcharts.js", "~/Scripts/amcharts/pie.js"));
         }
     }
 }

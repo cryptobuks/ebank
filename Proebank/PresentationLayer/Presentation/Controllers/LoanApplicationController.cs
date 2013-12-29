@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using Application;
+using Microsoft.Practices.Unity;
 using Presentation.Models;
 using PagedList;
 using PagedList.Mvc;  
@@ -17,13 +18,9 @@ namespace Presentation.Controllers
 {
     public class LoanApplicationController : BaseController
     {
-        private readonly ProcessingService _service;
+        [Dependency]
+        protected ProcessingService Service { get; set; }
         private const int PAGE_SIZE = 5;
-
-        public LoanApplicationController()
-        {
-            _service = new ProcessingService();
-        }
 
         [Authorize(Roles = "Department head, Consultant, Security, Credit committee")]
         public ActionResult Index()
@@ -50,7 +47,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Department head")]
         public ActionResult All(int? page)
         {
-            var loanApplications = _service
+            var loanApplications = Service
                 .GetLoanApplications(true)
                 .ToList();
             ViewBag.ActiveTab = "All";
@@ -60,7 +57,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Consultant, Department head")]
         public ActionResult New(int? page)
         {
-            var loanApplications = _service
+            var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.New)
                 .ToList();
@@ -71,7 +68,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Consultant, Department head")]
         public ActionResult PreApproved(int? page)
         {
-            var loanApplications = _service
+            var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Filled)
                 .ToList();
@@ -82,7 +79,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Consultant, Department head")]
         public ActionResult Reviewed(int? page)
         {
-            var loanApplications = _service
+            var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Approved || a.Status == LoanApplicationStatus.Rejected)
                 .ToList();
@@ -93,7 +90,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Security, Department head")]
         public ActionResult Security(int? page)
         {
-            var loanApplications = _service
+            var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.UnderRiskConsideration)
                 .ToList();
@@ -104,7 +101,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Credit committee, Department head")]
         public ActionResult Committee(int? page)
         {
-            var loanApplications = _service
+            var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.UnderCommitteeConsideration)
                 .ToList();
@@ -115,7 +112,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Department head")]
         public ActionResult Contracted(int? page)
         {
-            var loanApplications = _service
+            var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Contracted)
                 .ToList();
@@ -126,7 +123,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Consultant, Department head")]
         public ActionResult Approved(int? page)
         {
-            var loanApplications = _service
+            var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Approved)
                 .ToList();
@@ -137,7 +134,7 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Consultant, Department head")]
         public ActionResult Rejected(int? page)
         {
-            var loanApplications = _service
+            var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Rejected)
                 .ToList();
@@ -151,7 +148,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications()
+            var loanApplication = Service.GetLoanApplications()
                 .Single(l => l.Id == id);
             if (loanApplication == null)
             {
@@ -168,12 +165,12 @@ namespace Presentation.Controllers
                 return RedirectToAction("Fill");
             }
 
-            var tariffs = _service.GetTariffs();
+            var tariffs = Service.GetTariffs();
             ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name", tariffs.FirstOrDefault(t => t.Id == id));
 
             if (TempData["loanApplication"] != null)
             {
-                LoanApplication loanApplication = (LoanApplication)TempData["loanApplication"];
+                var loanApplication = (LoanApplication)TempData["loanApplication"];
                 return View(loanApplication);
             }
 
@@ -202,7 +199,7 @@ namespace Presentation.Controllers
                 {
                     try
                     {
-                        _service.CreateLoanApplication(loanApplication);
+                        Service.CreateLoanApplication(loanApplication);
                     }
                     catch (ArgumentException e)
                     {
@@ -213,7 +210,7 @@ namespace Presentation.Controllers
                             {
                                 ModelState.AddModelError(result.Key, result.Value);
                             }
-                            var tariffList = _service.GetTariffs();
+                            var tariffList = Service.GetTariffs();
                             ViewBag.Tariffs = new SelectList(tariffList, "Id", "Name");
                             return View();
                         }
@@ -229,7 +226,7 @@ namespace Presentation.Controllers
                 }
             }
 
-            var tariffs = _service.GetTariffs();
+            var tariffs = Service.GetTariffs();
             ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
@@ -241,12 +238,12 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanapplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            var loanapplication = Service.Find<LoanApplication>(id);
             if (loanapplication == null)
             {
                 return HttpNotFound();
             }
-            var tariffs = _service.GetTariffs().ToList();
+            var tariffs = Service.GetTariffs().ToList();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             return View(loanapplication);
         }
@@ -257,10 +254,10 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                _service.UpsertLoanApplication(loanApplication);
+                Service.UpsertLoanApplication(loanApplication);
                 return RedirectToAction("Index");
             }
-            var tariffs = _service.GetTariffs().ToList();
+            var tariffs = Service.GetTariffs().ToList();
             ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
@@ -271,7 +268,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            var loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -283,7 +280,7 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            _service.DeleteLoanApplicationById(id);
+            Service.DeleteLoanApplicationById(id);
             return RedirectToAction("Index");
         }
 
@@ -293,7 +290,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            var loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -307,12 +304,12 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            var loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
             }
-            _service.ApproveLoanAppication(loanApplication);
+            Service.ApproveLoanAppication(loanApplication);
             return RedirectToAction("Index");
         }
 
@@ -320,10 +317,10 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Approve(Guid id)
         {
-            var loanApplication = _service.Find<LoanApplication>(id);
+            var loanApplication = Service.Find<LoanApplication>(id);
             if (loanApplication != null)
             {
-                _service.ApproveLoanAppication(loanApplication);
+                Service.ApproveLoanAppication(loanApplication);
             }
             return RedirectToAction("Index");
         }
@@ -332,10 +329,10 @@ namespace Presentation.Controllers
         //[ValidateAntiForgeryToken]
         //public ActionResult ThumbsUp(Guid id)
         //{
-        //    var loanApplication = _service.Find<LoanApplication>(id);
+        //    var loanApplication = Service.Find<LoanApplication>(id);
         //    if (loanApplication != null)
         //    {
-        //        _service.ThumbsUpLoanAppication(loanApplication);
+        //        Service.ThumbsUpLoanAppication(loanApplication);
         //    }
         //    return RedirectToAction("Index");
         //}
@@ -344,10 +341,10 @@ namespace Presentation.Controllers
         //[ValidateAntiForgeryToken]
         //public ActionResult ThumbsDown(Guid id)
         //{
-        //    var loanApplication = _service.Find<LoanApplication>(id);
+        //    var loanApplication = Service.Find<LoanApplication>(id);
         //    if (loanApplication != null)
         //    {
-        //        _service.ThumbsDownLoanAppication(loanApplication);
+        //        Service.ThumbsDownLoanAppication(loanApplication);
         //    }
         //    return RedirectToAction("Index");
         //}
@@ -358,12 +355,12 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LoanApplication loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            LoanApplication loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
             }
-            _service.RejectLoanApplication(loanApplication);
+            Service.RejectLoanApplication(loanApplication);
             return RedirectToAction("Index");
         }
 
@@ -371,23 +368,23 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Reject(Guid id)
         {
-            LoanApplication loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            LoanApplication loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication != null)
             {
-                _service.RejectLoanApplication(loanApplication);
+                Service.RejectLoanApplication(loanApplication);
             }
             return RedirectToAction("Index");
         }
 
         public ActionResult History(Guid id)
         {
-            //var la = _service.FindLoanApplication(id);
-            var la = _service.Find<LoanApplication>(id);
+            //var la = Service.FindLoanApplication(id);
+            var la = Service.Find<LoanApplication>(id);
             if (la == null)
             {
                 return HttpNotFound("There is no loan application with provided id");
             }
-            var history = _service.GetHistoryFromNationalBank(la);
+            var history = Service.GetHistoryFromNationalBank(la);
             return View(history);
         }
 
@@ -397,12 +394,12 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            var loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
             }
-            _service.SendLoanApplicationToSecurity(loanApplication);
+            Service.SendLoanApplicationToSecurity(loanApplication);
             return RedirectToAction("Index");
         }
 
@@ -412,19 +409,19 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            var loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
             }
-            _service.SendLoanApplicationToCommittee(loanApplication);
+            Service.SendLoanApplicationToCommittee(loanApplication);
             return RedirectToAction("Index");
         }
 
 
         public ActionResult Fill(Guid? id)
         {
-            var tariffs = _service.GetTariffs().ToList();
+            var tariffs = Service.GetTariffs().ToList();
             var tariffGuarantor = tariffs.Select(t => new {Id = t.Id, isGuarantorNeeded = t.IsGuarantorNeeded});
             ViewBag.tariffGuarantor = tariffGuarantor;
             LoanApplication loanApplication;
@@ -439,7 +436,7 @@ namespace Presentation.Controllers
                 ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
                 return View(loanApplication);
             }
-            loanApplication = _service.GetLoanApplications().Single(l => l.Id == id);
+            loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)
             {
                 return HttpNotFound();
@@ -454,27 +451,26 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Fill(LoanApplication loanApplication)
         {
-            var tariffList = _service.GetTariffs();
+            var tariffList = Service.GetTariffs();
             ViewBag.Tariff = new SelectList(tariffList, "Id", "Name");
 
             if (ModelState.IsValid)
             {
-
                 // connect to db to refresh connection
                 // saving of loanApplication doesn't save docs
-                var applicationWithDbRef = _service.GetLoanApplications().FirstOrDefault(l => l.Id.Equals(loanApplication.Id));
+                var applicationWithDbRef = Service.GetLoanApplications().FirstOrDefault(l => l.Id.Equals(loanApplication.Id));
                 if (applicationWithDbRef != null)
                 {
                     applicationWithDbRef.Status = LoanApplicationStatus.Filled;
                     applicationWithDbRef.PersonalData = loanApplication.PersonalData;
-                    _service.UpsertLoanApplication(applicationWithDbRef);
+                    Service.UpsertLoanApplication(applicationWithDbRef);
                 }
                 else
                 {
                     loanApplication.Status = LoanApplicationStatus.Filled;
                     try
                     {
-                        _service.CreateLoanApplication(loanApplication, true);
+                        Service.CreateLoanApplication(loanApplication, true);
                     }
                     catch (ArgumentException e)
                     {

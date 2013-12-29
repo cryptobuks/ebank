@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Domain.Models.Accounts;
 using Domain.Models.Calendars;
 using Domain.Models.Customers;
@@ -10,40 +12,64 @@ using Domain.Models.Loans;
 using Domain.Models.Users;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Domain
+namespace Domain.Contexts
 {
-    public class DataContext : IdentityDbContext<IdentityUser>
+    public abstract class DataContext : IdentityDbContext<IdentityUser>
     {
+        private readonly Guid _id;
+
         public DataContext()
-            : base("Proebank")
         {
+            _id = Guid.NewGuid();
+            Debug.WriteLine("Data context created: {0}", _id);
         }
 
-        public DbSet<Account> Accounts { get; set; }
+        public DataContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        {
+            _id = Guid.NewGuid();
+            Debug.WriteLine("Data context created: {0}", _id);
+        }
 
-        public DbSet<LoanApplication> LoanApplications { get; set; }
+        public virtual IDbSet<Account> Accounts { get; set; }
 
-        public DbSet<Loan> Loans { get; set; }
+        public virtual IDbSet<LoanApplication> LoanApplications { get; set; }
 
-        public DbSet<Tariff> Tariffs { get; set; }
+        public virtual IDbSet<Loan> Loans { get; set; }
 
-        public DbSet<Calendar> Calendars { get; set; }
+        public virtual IDbSet<Tariff> Tariffs { get; set; }
 
-        public DbSet<Employee> Employees { get; set; }
+        public virtual IDbSet<Calendar> Calendars { get; set; }
 
-        public DbSet<LoanHistory> History { get; set; }
+        public virtual IDbSet<Employee> Employees { get; set; }
 
-        public DbSet<PersonalData> PersonalData { get; set; }
+        public virtual IDbSet<LoanHistory> History { get; set; }
+
+        public virtual IDbSet<PersonalData> PersonalData { get; set; }
+
+        public virtual IDbSet<IdentityUserLogin> IdentityUserLogins { get; set; }
+
+        public virtual IDbSet<IdentityUserRole> IdentityUserRoles { get; set; }
+
+        public override string ToString()
+        {
+            return _id.ToString();
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<IdentityUser>()
-                .ToTable("Users");
-            modelBuilder.Entity<Employee>()
-                .ToTable("Employees");
-            modelBuilder.Entity<Customer>()
-                .ToTable("Customers");
+
+            //modelBuilder.Entity<IdentityUserLogin>().HasKey(ul => new { ul.UserId, ul.ProviderKey, ul.LoginProvider });
+            //modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+
+            modelBuilder.Entity<IdentityUser>().ToTable("Users");
+            modelBuilder.Entity<Employee>().ToTable("Employees");
+            modelBuilder.Entity<Customer>().ToTable("Customers");
+            //modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles");
+            //modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");
+            //modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims");
+            //modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+
             modelBuilder.Entity<Account>()
                 .Property(f => f.DateOpened)
                 .HasColumnType("datetime2");
@@ -57,10 +83,10 @@ namespace Domain
                 .Property(f => f.CurrentTime)
                 .HasColumnType("datetime2").IsOptional();
             modelBuilder.Entity<Calendar>()
-                .Property(f => f.LastDailyProcessingTime)
+                .Property(f => f.LastDailyProcessingDate)
                 .HasColumnType("datetime2").IsOptional();
             modelBuilder.Entity<Calendar>()
-                .Property(f => f.LastMonthlyProcessingTime)
+                .Property(f => f.LastMonthlyProcessingDate)
                 .HasColumnType("datetime2").IsOptional();
             modelBuilder.Entity<PersonalData>()
                 .Property(f => f.DateOfBirth)
@@ -91,21 +117,10 @@ namespace Domain
                 .HasColumnType("datetime2");
         }
 
-        public override int SaveChanges()
+        protected override void Dispose(bool disposing)
         {
-            try
-            {
-                return base.SaveChanges();
-            }
-            catch (DbEntityValidationException dbExc)
-            {
-                foreach (var validationError in dbExc.EntityValidationErrors
-                    .SelectMany(validationErrors => validationErrors.ValidationErrors))
-                {
-                    Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                }
-                throw;
-            }
+            base.Dispose(disposing);
+            Debug.WriteLine("Data context disposed: {1}", disposing, _id);
         }
     }
 }

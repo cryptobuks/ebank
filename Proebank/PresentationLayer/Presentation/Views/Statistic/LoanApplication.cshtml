@@ -1,0 +1,261 @@
+﻿@model IEnumerable<Domain.Models.Loans.LoanApplication>
+
+@{
+    ViewBag.Title = "Statistic";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 align="center">Loan application information</h2>
+<br/>
+
+@{
+    var listStatus = Model.Select(x => x.Status).GroupBy(y => y).ToList();
+    string xStatus = listStatus.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+    string yStatus = listStatus.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    var listTerm = Model.Select(x => x.Term).GroupBy(y => y).ToList();
+    string xTerm = listTerm.Select(x => x.Key.ToString() + " months").Aggregate((x, y) => x + ", " + y);
+    string yTerm = listTerm.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    var listTariff = Model.Select(x => x.Tariff.Name).GroupBy(y => y).ToList();
+    string xTariff = listTariff.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+    string yTariff = listTariff.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    var listAmount = Model.Select(x => x.LoanAmount).GroupBy(y => y).ToList();
+    string xAmount = listAmount.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+    string yAmount = listAmount.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    var listCurrency = Model.Select(x => x.Currency.ToString()).GroupBy(y => y).ToList();
+    string xCurrency = listCurrency.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+    string yCurrency = listCurrency.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+}   
+<h4 align="center">Loan application statuses information: </h4>
+<div id="status" style="width: 100%; height: 400px;"></div>
+<h4 align="center">Requested loan terms information: </h4>
+<div id="term" style="width: 100%; height: 400px;"></div>
+<h4 align="center">Tariffs information: </h4>
+<div id="tariff" style="width: 100%; height: 400px;"></div>
+<h4 align="center">Amount of money information: </h4>
+<div id="amount" style="width: 100%; height: 400px;"></div>
+<h4 align="center">Currencies information: </h4>
+<div id="currency" style="width: 100%; height: 400px;"></div>
+<script type="text/javascript">
+    AmCharts.ready(function () {
+        var chart1;
+        var chartData = new Array();
+        chart1 = new AmCharts.AmPieChart();
+        chart1.titleField = "title";
+        chart1.valueField = "value";
+        chart1.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart1.depth3D = 15;
+        chart1.angle = 30;
+        
+        var x = '@xStatus'.split(', ');
+        var y = '@yStatus'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart1.dataProvider = chartData;
+        chart1.write("status");
+        
+        var chart2;
+        chartData = new Array();
+        chart2 = new AmCharts.AmPieChart();
+        chart2.titleField = "title";
+        chart2.valueField = "value";
+        chart2.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart2.depth3D = 15;
+        chart2.angle = 30;
+
+        var x = '@xTerm'.split(', ');
+        var y = '@yTerm'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart2.dataProvider = chartData;
+        chart2.write("term");
+        
+        var chart3;
+        chartData = new Array();
+        chart3 = new AmCharts.AmPieChart();
+        chart3.titleField = "title";
+        chart3.valueField = "value";
+        chart3.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart3.depth3D = 15;
+        chart3.angle = 30;
+
+        var x = '@xTariff'.split(', ');
+        var y = '@yTariff'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart3.dataProvider = chartData;
+        chart3.write("tariff");
+
+        var chart4;
+        chartData = new Array();
+        chart4 = new AmCharts.AmPieChart();
+        chart4.titleField = "title";
+        chart4.valueField = "value";
+        chart4.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart4.depth3D = 15;
+        chart4.angle = 30;
+
+        var x = '@xAmount'.split(', ');
+        var y = '@yAmount'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart4.dataProvider = chartData;
+        chart4.write("amount");
+        
+        var chart5;
+        chartData = new Array();
+        chart5 = new AmCharts.AmPieChart();
+        chart5.titleField = "title";
+        chart5.valueField = "value";
+        chart5.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart5.depth3D = 15;
+        chart5.angle = 30;
+
+        var x = '@xCurrency'.split(', ');
+        var y = '@yCurrency'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart5.dataProvider = chartData;
+        chart5.write("currency");
+
+        $('g').children('text').children('tspan').contents().filter(function () {
+            return $(this).text() == 'chart by amcharts.com';
+        }).remove();
+    });
+</script>
+
+<h2 align="center">General</h2>
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Tariff.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoanAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeContracted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Term)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CellPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoanPurpose)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Currency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MiddleIncome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChildrenCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HigherEducation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsMarried)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LengthOfWork)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsHomeowner)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsRemoved)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tariff.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoanAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeContracted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Term)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CellPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoanPurpose)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MiddleIncome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChildrenCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HigherEducation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsMarried)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LengthOfWork)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsHomeowner)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRemoved)
+            </td>
+        </tr>
+    }
+
+</table>

@@ -16,9 +16,13 @@ namespace Domain.Models.Loans
 
         public virtual PaymentSchedule PaymentSchedule { get; set; }
 
+        public bool IsContractSigned { get; set; }
+
         [DisplayName("Is Closed")]
         public bool IsClosed { get; set; }
 
         public string CustomerId { get; set; }
+
+        public string EmployeeId { get; set; }
     }
 }

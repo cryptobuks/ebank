@@ -61,23 +61,24 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Glimpse.Ado.1.7.0\lib\net45\Glimpse.Ado.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.AspNet, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Glimpse.AspNet, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Glimpse.AspNet.1.6.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+      <HintPath>..\..\packages\Glimpse.AspNet.1.7.0\lib\net45\Glimpse.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.Core, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Glimpse.Core, Version=1.8.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Glimpse.1.8.0\lib\net45\Glimpse.Core.dll</HintPath>
+      <HintPath>..\..\packages\Glimpse.1.8.1\lib\net45\Glimpse.Core.dll</HintPath>
     </Reference>
     <Reference Include="Glimpse.EF6, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Glimpse.EF6.1.6.0\lib\net45\Glimpse.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.Mvc5, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Glimpse.Mvc5, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Glimpse.Mvc5.1.5.1\lib\net45\Glimpse.Mvc5.dll</HintPath>
+      <HintPath>..\..\packages\Glimpse.Mvc5.1.5.2\lib\net45\Glimpse.Mvc5.dll</HintPath>
     </Reference>
-    <Reference Include="itextsharp">
+    <Reference Include="itextsharp, Version=4.1.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\iTextSharp.4.1.2\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -147,12 +148,14 @@
     <Reference Include="PagedList.Mvc">
       <HintPath>..\..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="RazorPDF">
+    <Reference Include="RazorPDF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RazorPDF.1.0.0\lib\net45\RazorPDF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -256,6 +259,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AtmViewModel.cs" />
     <Compile Include="Models\CreatedEmployeeViewModel.cs" />
+    <Compile Include="Models\LoanDetailsViewModel.cs" />
     <Compile Include="Models\LoanPdfViewModel.cs" />
     <Compile Include="Models\PersonalLoanHistoryViewModel.cs" />
     <Compile Include="Models\LoanCalculatorModel.cs" />
@@ -309,6 +313,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\amcharts\amcharts.js" />
+    <Content Include="Scripts\amcharts\funnel.js" />
+    <Content Include="Scripts\amcharts\gauge.js" />
+    <Content Include="Scripts\amcharts\pie.js" />
+    <Content Include="Scripts\amcharts\radar.js" />
+    <Content Include="Scripts\amcharts\serial.js" />
+    <Content Include="Scripts\amcharts\xy.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.js" />
@@ -393,7 +404,7 @@
     <Content Include="Views\Customer\Schedule.cshtml" />
     <Content Include="Views\LoanCalculator\Index.cshtml" />
     <Content Include="Views\LoanApplication\Fill.cshtml" />
-    <Content Include="Views\Statistic\Index.cshtml" />
+    <Content Include="Views\Statistic\LoanApplication.cshtml" />
     <Content Include="Views\LoanApplication\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PersonalData.cshtml" />
     <Content Include="Views\Loan\Pdf.cshtml" />
@@ -402,6 +413,7 @@
     <Content Include="Views\Loan\PdfContract.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Home\Rules.cshtml" />
+    <Content Include="Views\Statistic\Loan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

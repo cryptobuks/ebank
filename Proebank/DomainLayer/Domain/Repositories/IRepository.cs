@@ -6,14 +6,20 @@ using Domain.Models.Loans;
 
 namespace Domain.Repositories
 {
-    public interface IRepository<T> : IDisposable where T : IEntity
+    public interface IRepository<T> where T : IEntity
     {
-        T Create();
-        T Find(Guid? id);
-        IQueryable<T> GetAll(bool showRemoved = false);
-        void AddOrUpdate(T entity);
-        void Remove(T entity);
-        void SaveChanges();
-        bool IsDisposed { get; }
+        //T Create();
+        //T Find(Guid? id);
+        //IQueryable<T> GetAll(bool showRemoved = false);
+        //void AddOrUpdate(T entity);
+        //void Remove(T entity);
+        //void SaveChanges();
+
+        void Add(T entity);
+        void Delete(T entity);
+        void Update(T entity);
+        T GetById(long Id);
+        IEnumerable<T> All();
+        IEnumerable<T> AllReadOnly();
     }
 }

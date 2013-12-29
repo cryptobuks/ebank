@@ -6,20 +6,17 @@ using System.Web;
 using System.Web.Mvc;
 using Application.LoanProcessing;
 using Domain.Models.Loans;
+using Microsoft.Practices.Unity;
 using Presentation.Models;
 
 namespace Presentation.Controllers
 {
     public class LoanCalculatorController : BaseController
     {
-        private readonly ProcessingService _processingService;
         private static string _cellPhone;
 
-        public LoanCalculatorController()
-        {
-            _processingService = new ProcessingService();
-        }
-
+        [Dependency]
+        protected ProcessingService Service { get; set; }
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -39,8 +36,8 @@ namespace Presentation.Controllers
             {
                 _cellPhone = null;
             }
-
-            var tariffs = _processingService.GetTariffs();
+            
+            var tariffs = Service.GetTariffs();
             ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name");
             return View(loanCalculatorModel);
         }
@@ -67,7 +64,8 @@ namespace Presentation.Controllers
                     return RedirectToAction((User.IsInRole("Consultant") ? "Fill" : "Create"), "LoanApplication");
                 }
             }
-            var tariffs = _processingService.GetTariffs();
+            
+            var tariffs = Service.GetTariffs();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             var tariff = tariffs.FirstOrDefault(t => t.Id == loanCalculatorModel.TariffId);
 

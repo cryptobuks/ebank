@@ -146,6 +146,7 @@ namespace Application.LoanProcessing
             var paymentDate = date.AddMonths(i);
             // This is for getting the first day of the month
             paymentDate = new DateTime(paymentDate.Year, paymentDate.Month, DateTime.DaysInMonth(paymentDate.Year, paymentDate.Month)).AddDays(1).AddTicks(-1);
+            // TODO: error somewhere, returns 03.09.201 instead of 02.09.2013
             if (paymentDate.DayOfWeek == DayOfWeek.Saturday || paymentDate.DayOfWeek == DayOfWeek.Sunday)
             {
                 paymentDate = paymentDate.AddDays(paymentDate.DayOfWeek == DayOfWeek.Saturday ? 2 : 1);

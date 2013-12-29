@@ -8,17 +8,17 @@ namespace Presentation.Tests.Controllers
     [TestClass]
     public class LoanCalculatorControllerTest
     {
-        [TestMethod]
-        public void Index()
-        {
-            // Arrange
-            var controller = new LoanCalculatorController();
+        //[TestMethod]
+        //public void Index()
+        //{
+        //    // Arrange
+        //    var controller = new LoanCalculatorController();
 
-            // Act
-            var result = controller.Index() as ViewResult;
+        //    // Act
+        //    var result = controller.Index() as ViewResult;
 
-            // Assert
-            Assert.IsNotNull(result);
-        }
+        //    // Assert
+        //    Assert.IsNotNull(result);
+        //}
     }
 }

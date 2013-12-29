@@ -59,7 +59,7 @@ namespace Domain.Models.Loans
         public decimal MiddleIncome { get; set; }
 
         [DisplayName("Children count")]
-        [Range(0, int.MaxValue)]
+        [Range(0, 50)]
         public int ChildrenCount { get; set; }
 
         [DisplayName("Education status")]
@@ -69,7 +69,7 @@ namespace Domain.Models.Loans
         public MaritalStatus IsMarried { get; set; }
 
         [DisplayName("Length of work")]
-        [Range(0, int.MaxValue)]
+        [Range(0, 100)]
         public int LengthOfWork { get; set; }
         
         [DisplayName("Home owner?")]

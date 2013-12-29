@@ -25,6 +25,7 @@
     <tr>
         @{
             var itemApplication = item.Application;
+            var isClosed = item.IsClosed ? "Yes" : "No";
         }
         <td>
             @Html.DisplayFor(modelItem => itemApplication.LoanAmount)
@@ -34,7 +35,7 @@
             @Html.DisplayFor(modelItem => itemApplication.TimeContracted)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsClosed)
+            @isClosed
         </td>
         <td>
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
