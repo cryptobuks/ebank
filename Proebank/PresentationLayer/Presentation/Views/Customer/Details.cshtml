@@ -46,9 +46,9 @@
                     <th>Type</th>
                     <th>Subtype</th>
                 </tr>
-                @foreach (var entry in Model.Entries)
+                @foreach (var entry in Model.Entries.Reverse())
                 {
-                    var trClass = entry.Item2.Amount > 0 ? "success" : "warning";
+                    var trClass = entry.Item2.Amount > 0 ? "" : "success";
                     <tr class="@trClass">
                         <td>@entry.Item2.Date</td>
                         <td>@entry.Item2.Amount @entry.Item2.Currency</td>

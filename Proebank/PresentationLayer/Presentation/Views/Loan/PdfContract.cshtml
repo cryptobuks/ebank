@@ -50,6 +50,9 @@
 <paragraph>
     <chunk style="font-family:Times;">Tariff: @Model.Tariff.Name</chunk>
 </paragraph>
+<paragraph>
+    <chunk style="font-family:Times;">Tariff: @(Model.Tariff.InterestRate * 100)%</chunk>
+</paragraph>
 
 <newline />
 
@@ -64,22 +67,17 @@
     <listitem leading="18.0" font="Times" size="12.0" align="Default" indentationleft="15.0">
         <chunk font="Times" size="12.0">The BORROWER must not use the loan money for any illegal activity or purchase.</chunk>
     </listitem>
+    <listitem leading="18.0" font="Times" size="12.0" align="Default" indentationleft="15.0">
+        <chunk font="Times" size="12.0">If the BORROWER is not paying his payments in time, The LENDER will fine him. Every day of overdue tax is accrued. It is calculated by doubled loan tariff interest rate from current sum of general debt and interest balance.</chunk>
+    </listitem>
 </list>
 <newline />
-<chunk font="Times" size="12.0">Signatures of the parties:</chunk>
 <newline />
+<newline />
+<chunk font="Times" size="12.0">Signatures of the parties:</chunk>
 <newline />
 <newline />
 <chunk font="Times" size="12.0">PROebank: ______________</chunk>
 <newline />
 <newline />
-<newline />
 <chunk font="Times" size="12.0">@Model.PersonalData.FirstName @Model.PersonalData.LastName: ______________</chunk>
-
-@*<table width="100%" cellpadding="1.0" cellspacing="1.0"  widths="5;5">
-    <row>
-        <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">User Name</cell>
-        <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true" horizontalalign="right">Lucky Number</cell>
-    </row>
-    @foreach (var pmt in @Model)
-</table>*@
