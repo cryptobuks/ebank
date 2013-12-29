@@ -88,12 +88,14 @@ namespace Application
             var loansWithMoneyOnServiceAccount = GetLoans().ToList();
             foreach (var loan in loansWithMoneyOnServiceAccount)
             {
+                var mainDebtAccount = loan.Accounts.Single(acc => acc.Type == AccountType.GeneralDebt);
                 var overdueInterestAccount = loan.Accounts.Single(acc => acc.Type == AccountType.OverdueInterest);
                 var balance = overdueInterestAccount.Balance;
                 if (balance > 0M)
                 {
                     var fineEntry = entrySet.Create();
-                    var fineAmount = Math.Round(balance*loan.Application.Tariff.InterestRate/180, 2);  // 360/2 - interest rate in doubled
+                    var preciseAmount = (mainDebtAccount.Balance + balance) * loan.Application.Tariff.InterestRate / 180;   // 360/2 - interest rate in doubled
+                    var fineAmount = Math.Ceiling(preciseAmount * 100) / 100;  
                     FillEntryValues(fineEntry, fineAmount, loan, today, EntryType.Accrual, EntrySubType.Fine);
                     AddEntry(overdueInterestAccount, fineEntry);
                 }
@@ -120,20 +122,25 @@ namespace Application
                     var amount = startAmount;
                     if (amount > 0M)
                     {
-                        // at first we transfer money to interest account
-                        amount = RepayInterest(amount, interestAccount, repo, loan, today);
-                        // then to generalDebtAccount
-                        amount = RepayMainDebt(amount, generalDebtAccount, repo, loan, today);
-                        // then to overdue interest
+                        // at first we repay overdue interest
                         amount = RepayOverdueInterest(amount, overdueInterestAccount, repo, loan, today);
+                        // then we transfer money to interest account
+                        amount = RepayInterest(amount, interestAccount, repo, loan, today);
+                        // finally to generalDebtAccount
+                        amount = RepayMainDebt(amount, generalDebtAccount, repo, loan, today);
 
-                        // Here we take care of the only "active" accounts
-                        var bankDebit = repo.Create();
-                        var contractCredit = repo.Create();
-                        FillEntryValues(bankDebit, startAmount - amount, loan, today, EntryType.Transfer, EntrySubType.BankLoanFromContract);
-                        FillEntryValues(contractCredit, amount - startAmount, loan, today, EntryType.Transfer, EntrySubType.BankLoanFromContract);
-                        AddEntry(bankAccount, bankDebit);
-                        AddEntry(contractServiceAcc, contractCredit);
+                        // Here we take care of the only "active" account - 3819
+                        if (startAmount - amount > 0M)
+                        {
+                            var bankDebit = repo.Create();
+                            var contractCredit = repo.Create();
+                            FillEntryValues(bankDebit, startAmount - amount, loan, today, EntryType.Transfer,
+                                EntrySubType.BankLoanFromContract);
+                            FillEntryValues(contractCredit, amount - startAmount, loan, today, EntryType.Transfer,
+                                EntrySubType.BankLoanFromContract);
+                            AddEntry(bankAccount, bankDebit);
+                            AddEntry(contractServiceAcc, contractCredit);
+                        }
                     }
                 }
             }
