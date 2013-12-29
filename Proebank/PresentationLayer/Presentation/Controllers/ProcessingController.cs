@@ -15,9 +15,8 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Department head")]
         public ActionResult Index()
         {
-            
             var time = Service.GetCurrentDate();
-            return View(time);
+            return View(time as DateTime?);
         }
 
         [Authorize(Roles = "Department head")]
@@ -25,7 +24,7 @@ namespace Presentation.Controllers
         {
             
             var newDate = Service.ProcessEndOfDay();
-            return RedirectToAction("Index", newDate);
+            return RedirectToAction("Index", newDate as DateTime?);
         }
 
         [Authorize(Roles = "Department head")]
@@ -37,7 +36,7 @@ namespace Presentation.Controllers
             {
                 newDate = Service.ProcessEndOfDay();
             }
-            return RedirectToAction("Index", newDate);
+            return RedirectToAction("Index", newDate as DateTime?);
         }
     }
 }

@@ -69,7 +69,7 @@ namespace Presentation.Controllers
                 return RedirectToAction("Index");
                 //return HttpNotFound("Schedule not found for loan");
             }
-            return View(schedule.Payments);
+            return View(schedule.Payments.OrderBy(p => p.ShouldBePaidBefore));
         }
     }
 }

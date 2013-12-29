@@ -8,8 +8,6 @@
 <h2>Payment schedule</h2>
 
 <div>
-    <h4>PaymentSchedule</h4>
-    <hr />
     <table class="table">
         <tr>
             <th>
@@ -24,10 +22,13 @@
             <th>
                 Accrued interest
             </th>
+            <th>Is paid</th>
         </tr>
         @foreach (var item in Model)
         {
-            <tr>
+            var isPaid = item.IsPaid ? "Yes" : "No";
+            var rowClass = item.IsPaid ? "success" : "";
+            <tr class="@rowClass">
                 <td>
                     @Html.DisplayFor(modelItem => item.ShouldBePaidBefore)
                 </td>
@@ -39,6 +40,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.AccruedInterestAmount)
+                </td>
+                <td>
+                    @isPaid
                 </td>
             </tr>
         }

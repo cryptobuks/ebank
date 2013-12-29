@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.Linq;
@@ -45,31 +44,66 @@ namespace Application
         {
             if (!DaySync)
             {
-                DaySync = true;
-                var date = GetCurrentDate();
-                ProcessContractServiceAccounts();
-                if (date.AddDays(1).Day == 1) // tomorrow is the first day of month
+                try
                 {
-                    ProcessEndOfMonth(date);
+                    DaySync = true;
+                    var date = GetCurrentDate();
+                    date = date.AddHours(10);
+                    SetCurrentDate(date);
+
+                    // At first we transfer money from contract service accounts
+                    ProcessContractServiceAccounts();
+                    date = date.AddHours(1);
+                    SetCurrentDate(date);
+
+                    // Next we accrue fines (daily)
+                    AccrueDailyFines();
+                    date = date.AddHours(1);
+                    SetCurrentDate(date);
+
+                    // Then we accrue planned interest
+                    ProcessPlannedInterestAccruals(date);
+                    date = date.AddHours(1);
+                    SetCurrentDate(date);
+
+                    // Finally, we process overdue this time
+                    ProcessUnpaidPayments(date);
+
+
+                    SetCurrentDate(date.AddHours(11));  // instead of MoveNextDay() call to have more realistic processing times
+                    _unitOfWork.SaveChanges();
                 }
-                //// Process overdue this time (~30th day of month)
-                //var calendar = GetCalendar();
-                //var endOfMonth = calendar.NextMonthlyProcessingDate ?? GetNextMonthProcessingDate();
-                //if (date.Date == endOfMonth.Date)
-                //{
-                //    ProcessEndOfMonth(date);
-                //}
-                DaySync = false;
-                MoveTime(1);
-                _unitOfWork.SaveChanges();
+                finally
+                {
+                    DaySync = false;
+                }
             }
             return GetCurrentDate();
+        }
+
+        private void AccrueDailyFines()
+        {
+            var today = GetCurrentDate();
+            var entrySet = _unitOfWork.GetDbSet<Entry>();
+            var loansWithMoneyOnServiceAccount = GetLoans().ToList();
+            foreach (var loan in loansWithMoneyOnServiceAccount)
+            {
+                var overdueInterestAccount = loan.Accounts.Single(acc => acc.Type == AccountType.OverdueInterest);
+                var balance = overdueInterestAccount.Balance;
+                if (balance > 0M)
+                {
+                    var fineEntry = entrySet.Create();
+                    var fineAmount = Math.Round(balance*loan.Application.Tariff.InterestRate/180, 2);  // 360/2 - interest rate in doubled
+                    FillEntryValues(fineEntry, fineAmount, loan, today, EntryType.Accrual, EntrySubType.Fine);
+                    AddEntry(overdueInterestAccount, fineEntry);
+                }
+            }
         }
 
         private void ProcessContractServiceAccounts()
         {
             var today = GetCurrentDate();
-            var loansWithMoneyOnServiceAccount = GetLoans().ToList();   // TODO: potentially OutOfMemory
+            var loansWithMoneyOnServiceAccount = GetLoans().ToList();
             foreach (var loan in loansWithMoneyOnServiceAccount)
             {
                 var accounts = loan.Accounts;
@@ -77,7 +111,6 @@ namespace Application
                 var bankAccount = GetBankAccount(loan.Application.Currency);
                 var interestAccount = accounts.Single(acc => acc.Type == AccountType.Interest);
                 var generalDebtAccount = accounts.Single(acc => acc.Type == AccountType.GeneralDebt);
-                var overdueGeneralDebtAccount = accounts.Single(acc => acc.Type == AccountType.OverdueGeneralDebt);
                 var overdueInterestAccount = accounts.Single(acc => acc.Type == AccountType.OverdueInterest);
                 var repo = _unitOfWork.GetDbSet<Entry>();
                 // We filter only loans with positive balance on contract service account
@@ -88,59 +121,17 @@ namespace Application
                     if (amount > 0M)
                     {
                         // at first we transfer money to interest account
-                        var interestPayment = Math.Min(amount, interestAccount.Balance);
-                        if (interestPayment > 0M)
-                        {
-                            var interestEntryPlus = repo.Create();
-                            interestEntryPlus.Amount = interestPayment;
-                            interestEntryPlus.Currency = loan.Application.Currency;
-                            interestEntryPlus.Date = today;
-                            interestEntryPlus.Type = EntryType.Payment;
-                            interestEntryPlus.SubType = EntrySubType.Interest;
-                            AddEntry(interestAccount, interestEntryPlus);
-                            amount -= interestPayment;
-                        }
+                        amount = RepayInterest(amount, interestAccount, repo, loan, today);
                         // then to generalDebtAccount
-                        var generalDebtPayment = Math.Min(amount, generalDebtAccount.Balance);
-                        if (generalDebtPayment > 0M)
-                        {
-                            var generalDebtPlus = repo.Create();
-                            generalDebtPlus.Amount = generalDebtPayment;
-                            generalDebtPlus.Currency = loan.Application.Currency;
-                            generalDebtPlus.Date = today;
-                            generalDebtPlus.Type = EntryType.Payment;
-                            generalDebtPlus.SubType = EntrySubType.GeneralDebt;
-                            AddEntry(generalDebtAccount, generalDebtPlus);
-                            amount -= generalDebtPayment;
-                        }
-                        var overdueInterestPayment = Math.Min(amount, overdueInterestAccount.Balance);
+                        amount = RepayMainDebt(amount, generalDebtAccount, repo, loan, today);
                         // then to overdue interest
-                        if (overdueInterestPayment > 0M)
-                        {
-                            var overdueInterestPlus = repo.Create();
-                            overdueInterestPlus.Amount = overdueInterestPayment;
-                            overdueInterestPlus.Currency = loan.Application.Currency;
-                            overdueInterestPlus.Date = today;
-                            overdueInterestPlus.Type = EntryType.Payment;
-                            overdueInterestPlus.SubType = EntrySubType.Fine;
-                            AddEntry(overdueInterestAccount, overdueInterestPlus);
-                            amount -= overdueInterestPayment;
-                        }
+                        amount = RepayOverdueInterest(amount, overdueInterestAccount, repo, loan, today);
+
+                        // Here we take care of the only "active" accounts
                         var bankDebit = repo.Create();
                         var contractCredit = repo.Create();
-
-                        bankDebit.Amount = startAmount - amount;
-                        bankDebit.Currency = loan.Application.Currency;
-                        bankDebit.Date = today;
-                        bankDebit.Type = EntryType.Transfer;
-                        bankDebit.SubType = EntrySubType.BankLoanFromContract;
-
-                        contractCredit.Amount = -bankDebit.Amount;
-                        contractCredit.Currency = loan.Application.Currency;
-                        contractCredit.Date = today;
-                        contractCredit.Type = EntryType.Transfer;
-                        contractCredit.SubType = EntrySubType.BankLoanFromContract;
-
+                        FillEntryValues(bankDebit, startAmount - amount, loan, today, EntryType.Transfer, EntrySubType.BankLoanFromContract);
+                        FillEntryValues(contractCredit, amount - startAmount, loan, today, EntryType.Transfer, EntrySubType.BankLoanFromContract);
                         AddEntry(bankAccount, bankDebit);
                         AddEntry(contractServiceAcc, contractCredit);
                     }
@@ -149,7 +140,56 @@ namespace Application
             UpdateDailyProcessingTime();
         }
 
-        private void ProcessEndOfMonth(DateTime date)
+        private decimal RepayOverdueInterest(decimal amount, Account overdueInterestAccount, IDbSet<Entry> repo, Loan loan,
+            DateTime today)
+        {
+            var overdueInterestPmt = Math.Min(amount, overdueInterestAccount.Balance);
+            if (overdueInterestPmt > 0M)
+            {
+                var overdueInterestPlus = repo.Create();
+                FillEntryValues(overdueInterestPlus, -overdueInterestPmt, loan, today, EntryType.Payment, EntrySubType.Fine);
+                AddEntry(overdueInterestAccount, overdueInterestPlus);
+                amount -= overdueInterestPmt;
+            }
+            return amount;
+        }
+
+        private decimal RepayMainDebt(decimal amount, Account generalDebtAccount, IDbSet<Entry> repo, Loan loan, DateTime today)
+        {
+            var generalDebtPmt = Math.Min(amount, generalDebtAccount.Balance);
+            if (generalDebtPmt > 0M)
+            {
+                var generalDebtPlus = repo.Create();
+                FillEntryValues(generalDebtPlus, -generalDebtPmt, loan, today, EntryType.Payment, EntrySubType.GeneralDebt);
+                AddEntry(generalDebtAccount, generalDebtPlus);
+                amount -= generalDebtPmt;
+            }
+            return amount;
+        }
+
+        private decimal RepayInterest(decimal amount, Account interestAccount, IDbSet<Entry> repo, Loan loan, DateTime today)
+        {
+            var interestPmt = Math.Min(amount, interestAccount.Balance);
+            if (interestPmt > 0M)
+            {
+                var interestEntryPlus = repo.Create();
+                FillEntryValues(interestEntryPlus, -interestPmt, loan, today, EntryType.Payment, EntrySubType.Interest);
+                AddEntry(interestAccount, interestEntryPlus);
+                amount -= interestPmt;
+            }
+            return amount;
+        }
+
+        private static void FillEntryValues(Entry entry, decimal pmtAmount, Loan loan, DateTime date, EntryType entryType, EntrySubType entrySubtype)
+        {
+            entry.Amount = pmtAmount;
+            entry.Currency = loan.Application.Currency;
+            entry.Date = date;
+            entry.Type = entryType;
+            entry.SubType = entrySubtype;
+        }
+
+        private void ProcessPlannedInterestAccruals(DateTime date)
         {
             if (!MonthSync)
             {
@@ -165,18 +205,18 @@ namespace Application
             //
             //var schedule = loan.PaymentSchedule;
             //var pmt = schedule.Payments.SingleOrDefault(p =>
-            //    p.AccruedOn.HasValue && p.AccruedOn.Value.Year == today.Year &&
-            //    p.AccruedOn.Value.DayOfYear == today.DayOfYear);
+            //    p.AccruedOn.HasValue && p.AccruedOn.Value.Year == date.Year &&
+            //    p.AccruedOn.Value.DayOfYear == date.DayOfYear);
             //if (pmt != null)
             //{
             //    // TODO: fix with daily interest parts
-            //    var interestEntryPlus = repo.Create();
-            //    interestEntryPlus.Amount = pmt.AccruedInterestAmount;
-            //    interestEntryPlus.Currency = loan.Application.Currency;
-            //    interestEntryPlus.Date = today;
-            //    interestEntryPlus.Type = EntryType.Accrual;
-            //    interestEntryPlus.SubType = EntrySubType.Interest;
-            //    AddEntry(interestAccount, interestEntryPlus);
+            //    var entry = repo.Create();
+            //    entry.Amount = pmt.AccruedInterestAmount;
+            //    entry.Currency = loan.Application.Currency;
+            //    entry.Date = date;
+            //    entry.Type = EntryType.Accrual;
+            //    entry.SubType = EntrySubType.Interest;
+            //    AddEntry(interestAccount, entry);
             //}
         }
 
@@ -193,13 +233,6 @@ namespace Application
             var accountRepo = _unitOfWork.GetDbSet<Account>();
             return accountRepo.Single(acc => acc.Type == AccountType.BankBalance &&  acc.Currency == currency);
         }
-
-        /// <summary>
-        /// Registers monthly payment. Basically, it just transfers money to contract service loan account (3819)
-        /// </summary>
-        /// <param name="loan"></param>
-        /// <param name="amount"></param>
-        /// <returns></returns>
 
         public bool CloseLoanContract(Loan loan)
         {
@@ -219,10 +252,14 @@ namespace Application
         {
             var loanRepository = _unitOfWork.GetDbSet<Loan>();
             var entryRepository = _unitOfWork.GetDbSet<Entry>();
-            return loanRepository
+            var loansToProcess =  loanRepository
                 .Where(l => !l.IsClosed)
                 .ToList()
-                .ToDictionary(
+                // doesn't work with IQueryable , so we need explicit ToList() call
+                .Where(l => l.PaymentSchedule.Payments.Any(p => p.AccruedOn.HasValue
+                    && p.AccruedOn.Value.Date == currentDate.Date))
+                .ToList();
+            return loansToProcess.ToDictionary(
                     loan => loan.Accounts.Single(acc => acc.Type == AccountType.Interest),
                     loan =>
                     {
@@ -232,21 +269,36 @@ namespace Application
                     });
         }
 
-        private Dictionary<Account, Entry> LoanProcessEndOfMonthFines(DateTime currentDate)
+        /// <summary>
+        /// Transfer remain funds from interest to overdue interest account
+        /// </summary>
+        /// <param name="currentDate">today date</param>
+        private void ProcessUnpaidPayments(DateTime currentDate)
         {
-            var loanRepository = _unitOfWork.GetDbSet<Loan>();
-            var entryRepository = _unitOfWork.GetDbSet<Entry>();
-            return loanRepository
-                .Where(l => !l.IsClosed)
-                .ToList()
-                .ToDictionary(
-                    loan => loan.Accounts.Single(acc => acc.Type == AccountType.OverdueInterest),
-                    loan =>
+            var loanSet = _unitOfWork.GetDbSet<Loan>();
+            var entrySet = _unitOfWork.GetDbSet<Entry>();
+            foreach (var loan in loanSet.ToList())
+            {
+                var payments = loan.PaymentSchedule.Payments;
+                if (payments.Any(p => p.ShouldBePaidBefore.HasValue &&
+                            p.ShouldBePaidBefore.Value.Date.AddDays(1) == currentDate.Date))
+                {
+                    var interestAccount = loan.Accounts.Single(acc => acc.Type == AccountType.Interest);
+                    var unpaidInterest = interestAccount.Balance;
+                    if (unpaidInterest > 0M)
                     {
-                        var entry = entryRepository.Create();
-                        InterestCalculator.CalculateInterestFor(loan, currentDate, entry);
-                        return entry;
-                    });
+                        var overdueInterestAccount = loan.Accounts.Single(acc => acc.Type == AccountType.OverdueInterest);
+                        var entryMinus = entrySet.Create();
+                        FillEntryValues(entryMinus, -unpaidInterest, loan, currentDate, EntryType.Transfer,
+                            EntrySubType.Fine);
+                        var entryPlus = entrySet.Create();
+                        FillEntryValues(entryPlus, unpaidInterest, loan, currentDate, EntryType.Accrual,
+                            EntrySubType.Fine);
+                        AddEntry(interestAccount, entryMinus);
+                        AddEntry(overdueInterestAccount, entryPlus);
+                    }
+                }
+            }
         }
 
         public T Find<T>(Guid? id) where T : Entity
@@ -336,6 +388,7 @@ namespace Application
 
         private bool CanLoanBeClosed(Loan loan)
         {
+            // TODO: change for MainDebt, Interest and Overdue only
             return loan.Accounts.All(a => a.Balance == 0M);
         }
 
@@ -482,7 +535,7 @@ namespace Application
         #endregion
 
         #region BankCalendar methods
-        private DateTime MoveTime(byte days)
+        private void MoveNextDay()
         {
             var currentCalendar = GetCalendar(true);
             Debug.Assert(currentCalendar != null, "currentCalendar != null");
@@ -490,7 +543,6 @@ namespace Application
             var result = currentCalendar.CurrentTime.Value + new TimeSpan(1, 0, 0, 0);
             currentCalendar.CurrentTime = result;
             currentCalendar.ProcessingLock = false;
-            return result;
         }
 
         private Calendar GetCalendar(bool withLock = false)
@@ -519,7 +571,6 @@ namespace Application
             var currentCalendar = calendarRepository.Single();
             currentCalendar.LastDailyProcessingDate = currentCalendar.CurrentTime;
             calendarRepository.AddOrUpdate(currentCalendar);
-            _unitOfWork.SaveChanges();
         }
 
         private void UpdateMonthlyProcessingTime()
@@ -529,7 +580,6 @@ namespace Application
             currentCalendar.LastMonthlyProcessingDate = currentCalendar.CurrentTime;
             currentCalendar.NextMonthlyProcessingDate = GetNextMonthProcessingDate();
             calendarRepo.AddOrUpdate(currentCalendar);
-            _unitOfWork.SaveChanges();
         }
 
         private DateTime GetNextMonthProcessingDate()
@@ -595,7 +645,6 @@ namespace Application
                 };
                 calendarRepo.AddOrUpdate(calendar);
             }
-            _unitOfWork.SaveChanges();
         }
         #endregion
 
@@ -633,6 +682,11 @@ namespace Application
             accountRepo.AddOrUpdate(account);
         }
 
+        /// <summary>
+        /// Registers monthly payment. Basically, it just transfers money to contract service loan account (3819)
+        /// </summary>
+        /// <param name="loan"></param>
+        /// <returns></returns>
         public Entry RegisterPayment(Loan loan, decimal amount)
         {
             var accounts = loan.Accounts;
@@ -672,20 +726,21 @@ namespace Application
             {
                 var gen = new Random();
 
-                foreach (var i in Enumerable.Range(1, gen.Next(2, 6)))
+                foreach (var histItem in 
+                    from i in Enumerable.Range(1, gen.Next(2, 6))
+                    select new DateTime(2013 - gen.Next(0, 5), gen.Next(1, 12), gen.Next(1, 25)) into started 
+                    let closed = started.AddMonths(gen.Next(3, 60))
+                    let isClosed = closed <= GetCurrentDate()
+                    select new LoanHistory
                 {
-                    var started = new DateTime(2013 - gen.Next(0, 5), gen.Next(1, 12), gen.Next(1, 25));
-                    var closed = started.AddMonths(gen.Next(3, 60));
-                    var isClosed = closed <= GetCurrentDate();
-                    var histItem = new LoanHistory
-                    {
-                        Amount = gen.Next(1, 500)*10000,
-                        Currency = Currency.BYR,
-                        HadProblems = gen.NextDouble() > 0.85,
-                        Person = application.PersonalData,
-                        WhenOpened = started,
-                        WhenClosed = isClosed ? closed : (DateTime?) null,
-                    };
+                    Amount = gen.Next(1, 500)*10000,
+                    Currency = Currency.BYR,
+                    HadProblems = gen.NextDouble() > 0.85,
+                    Person = application.PersonalData,
+                    WhenOpened = started,
+                    WhenClosed = isClosed ? closed : (DateTime?) null,
+                })
+                {
                     history.Add(histItem);
                     nationalBank.AddOrUpdate(histItem);
                 }
