@@ -456,7 +456,6 @@ namespace Presentation.Controllers
 
             if (ModelState.IsValid)
             {
-
                 // connect to db to refresh connection
                 // saving of loanApplication doesn't save docs
                 var applicationWithDbRef = Service.GetLoanApplications().FirstOrDefault(l => l.Id.Equals(loanApplication.Id));

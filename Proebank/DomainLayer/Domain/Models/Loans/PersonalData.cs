@@ -34,7 +34,7 @@ namespace Domain.Models.Loans
         public string Passport { get; set; }
 
         [DisplayName("Identification No.")]
-        [RegularExpression("([A-Z0-9]{14})", ErrorMessage = "Enter only UPPERCASE latin characters and numbers")]
+        [RegularExpression("([0-9]{7}[A-Z][0-9]{3}[A-Z]{2}[0-9])", ErrorMessage = "Number should be like 0000000X000XX0")]
         public string Identification { get; set; }
 
         [DisplayName("Address")]
