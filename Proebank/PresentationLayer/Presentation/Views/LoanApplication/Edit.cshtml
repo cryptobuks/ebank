@@ -15,7 +15,7 @@
 
     <fieldset class="form-horizontal">
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.LoanAmount, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.LoanAmount, new { @class = "form-control" })
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.Term, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.Term, new { @class = "form-control" })
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.CellPhone, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.CellPhone, new { @class = "form-control" })
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.Tariff, "TariffId", new { @class = "control-label" })
             <div class="controls">
                 @Html.DropDownListFor(model => model.TariffId, (IEnumerable<SelectListItem>)ViewBag.Tariff, String.Empty)
@@ -49,7 +49,7 @@
 
         <hr />
         <h4>Debtor personal information</h4>
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.PersonalData, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.PersonalData, new { @class = "form-control" })
@@ -57,7 +57,7 @@
             </div>
         </div>
         <hr />
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.MiddleIncome, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.MiddleIncome, new { @class = "form-control" })
@@ -65,7 +65,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.ChildrenCount, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.ChildrenCount, new { @class = "form-control" })
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.HigherEducation, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.HigherEducation, new { @class = "form-control" })
@@ -81,7 +81,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.IsMarried, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.IsMarried, new { @class = "form-control" })
@@ -89,7 +89,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.LengthOfWork, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.LengthOfWork, new { @class = "form-control" })
@@ -97,7 +97,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.IsHomeowner, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.IsHomeowner, new { @class = "form-control" })
@@ -105,21 +105,21 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             <div class="controls">
                 @Html.HiddenFor(model => model.LoanPurpose)
                 @Html.ValidationMessageFor(model => model.LoanPurpose, null, new { @class = "help-inline" })
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             <div class="controls">
                 @Html.HiddenFor(model => model.Currency)
                 @Html.ValidationMessageFor(model => model.Currency, null, new { @class = "help-inline" })
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             <div class="controls">
                 @Html.HiddenFor(model => model.TimeCreated)
                 @Html.ValidationMessageFor(model => model.TimeCreated, null, new { @class = "help-inline" })
@@ -133,7 +133,7 @@
         @if (Model.Tariff != null && Model.Tariff.IsGuarantorNeeded)
         {
             <h4>Guarantor personal information</h4>
-            <div class="control-group">
+            <div class="form-group">
                 @Html.LabelFor(model => model.Guarantor, new { @class = "control-label" })
                 <div class="controls">
                     @Html.EditorFor(model => model.Guarantor, new { @class = "form-control" })
