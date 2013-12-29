@@ -12,19 +12,25 @@ using Microsoft.Practices.Unity;
 using Presentation.Extensions;
 using Presentation.Models;
 using RazorPDF;
+using PagedList;
+using PagedList.Mvc;
 
 namespace Presentation.Controllers
 {
     public class LoanController : BaseController
     {
+        //Amount of elements to display on one page of PagedList
+        private const int PAGE_SIZE = 5;
+
         [Dependency]
         protected ProcessingService Service { get; set; }
 
         [Authorize(Roles = "Department head, Consultant")]
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var loans = Service.GetLoans().ToList();
-            return View(loans);
+            ViewBag.ActiveTab = "Index";
+            return View(loans.ToPagedList(page?? 1,PAGE_SIZE));
         }
 
         [Authorize(Roles = "Department head, Consultant")]

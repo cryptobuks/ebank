@@ -5,20 +5,26 @@ using System.Web.Mvc;
 using Domain.Models.Loans;
 using Application;
 using Microsoft.Practices.Unity;
+using PagedList;
+using PagedList.Mvc;
 
 namespace Presentation.Controllers
 {
     public class TariffsController : BaseController
     {
+        //Amount of elements to display on one page of PagedList
+        private const int PAGE_SIZE = 5;
+
         [Dependency]
         protected ProcessingService Service { get; set; }
 
         [AllowAnonymous]
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var isHead = User.IsInRole("Department head");
             var tariffs = Service.GetTariffs().Where(t => isHead || t.IsActive).ToList();
-            return View(tariffs);
+            ViewBag.ActiveTab = "Index";
+            return View(tariffs.ToPagedList(page ?? 1,PAGE_SIZE));
         }
 
         [AllowAnonymous]
