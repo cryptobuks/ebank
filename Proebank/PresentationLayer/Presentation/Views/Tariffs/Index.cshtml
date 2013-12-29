@@ -7,6 +7,7 @@
     ViewBag.Title = "Tariffs list";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var isDepartmentHead = User.Identity.IsAuthenticated && User.IsInRole("Department head");
+    var isAnonymOrCustomerOrConsultant = !User.Identity.IsAuthenticated || User.IsInRole("Customer") || User.IsInRole("Consultant");
 }
 
 <h2>PROebank tariffs</h2>
@@ -59,8 +60,13 @@ else
             <th>
                 @Html.DisplayNameFor(model => model.First().IsActive)
             </th>
+            <th></th>
         }
-        <th>Apply</th>
+        else if (isAnonymOrCustomerOrConsultant)
+        {
+            <th>Apply</th>
+        }
+        
     </tr>
 
     @foreach (var item in Model)
@@ -103,15 +109,13 @@ else
                     @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td>
-                    @*<a href="@Url.Action("Edit", new {id = item.Id})" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-edit fa-lg fa-lg"></i></a>*@
                     <a href="@Url.Action("Details", new {id = item.Id})" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
                     <a href="@Url.Action("Delete", new {id = item.Id})" title="Delete" class="btn btn-primary btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
                 </td>
             }
-            else
+            else if (isAnonymOrCustomerOrConsultant)
             {
                 <td>
-                    @*<a href="@Url.Action("Details", new {id = item.Id})" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>*@
                     <a href="@Url.Action("Create", "LoanApplication", new {id = item.Id})" title="Apply for loan" class="btn btn-success btn-xs"><i class="fa fa-plus-circle fa-lg"></i></a>
                 </td>
             }
