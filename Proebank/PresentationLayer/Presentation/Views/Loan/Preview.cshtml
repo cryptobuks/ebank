@@ -46,7 +46,7 @@
 
     </dl>
 </div>
-<p><a class="btn btn-default" href="@Url.Action("PrintContract", Model)">Print contract</a></p>
+<a href="@Url.Action("PrintContract", Model)" target="blank">Print contract</a>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()

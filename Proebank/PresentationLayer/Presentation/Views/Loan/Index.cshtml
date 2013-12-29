@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Domain.Models.Loans.Loan>
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<Domain.Models.Loans.Loan>
 
 @{
     ViewBag.Title = "Index";
@@ -17,19 +19,19 @@
             <table class="table">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.CustomerId)
+                        @Html.DisplayNameFor(model => model.First().CustomerId)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Application.LoanAmount)
+                        @Html.DisplayNameFor(model => model.First().Application.LoanAmount)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Application.Tariff.Name)
+                        @Html.DisplayNameFor(model => model.First().Application.Tariff.Name)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Application.Term)
+                        @Html.DisplayNameFor(model => model.First().Application.Term)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.IsClosed)
+                        @Html.DisplayNameFor(model => model.First().IsClosed)
                     </th>
                     <th></th>
                 </tr>
@@ -58,6 +60,7 @@
                     </tr>
                 }
             </table> 
+            @Html.PagedListPager(Model, page => Url.Action(ViewBag.ActiveTab, new{page}),new PagedListRenderOptions(){Display = PagedListDisplayMode.IfNeeded})
         </div>
     </body>
 </html>

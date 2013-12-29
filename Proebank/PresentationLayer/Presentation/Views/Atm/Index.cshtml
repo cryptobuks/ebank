@@ -22,7 +22,7 @@
 
             <fieldset class="form-horizontal">
                 <legend>Choose you loan id</legend>
-                <div class="control-group">
+                <div class="form-group">
                     @Html.LabelFor(model => model.LoanId, "TariffId", new {@class = "control-label"})
                     <div class="controls">
                         @Html.DropDownListFor(model => model.LoanId, (IEnumerable<SelectListItem>) ViewBag.LoanId, String.Empty)
@@ -30,7 +30,7 @@
                     </div>
                 </div>
 
-                <div class="control-group">
+                <div class="form-group">
                     @Html.LabelFor(model => model.Amount, new {@class = "control-label"})
                     <div class="controls">
                         @Html.EditorFor(model => model.Amount)
@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <br/>
-                <div class="control-group">
+                <div class="form-group">
                     <div class="form-actions no-color">
                         <input type="submit" value="Create" class="btn" />
                     </div>

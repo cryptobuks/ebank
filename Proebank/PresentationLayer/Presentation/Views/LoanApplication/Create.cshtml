@@ -16,7 +16,7 @@
     <fieldset class="form-horizontal">
         <legend>LoanApplication</legend>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.LoanAmount, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.LoanAmount, new { @class = "form-control" })
@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.Term, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.Term, new { @class = "form-control" })
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.CellPhone, new { @class = "control-label" })
             <div class="controls">
                 @Html.EditorFor(model => model.CellPhone, new { @class = "form-control" })
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.TariffId, "Tariff", new { @class = "control-label" })
             <div class="controls">
                 @*  @Html.DropDownList("TariffId", String.Empty)*@
