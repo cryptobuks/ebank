@@ -7,83 +7,121 @@
 
 <h2>Details</h2>
 
-<fieldset>
-    <legend>LoanApplication</legend>
-    <dl>
-        <dt>
-            @Html.DisplayNameFor(model => model.Tariff.Name)
-        </dt>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h4>Application information</h4>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.LoanAmount)
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.LoanAmount)
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Tariff.Name)
-        </dd>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.Term)
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.Term)
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LoanAmount)
-        </dt>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.CellPhone)
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.CellPhone)
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.LoanAmount)
-        </dd>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.Tariff)
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.Tariff.Name)
+                </div>
+            </div>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeCreated)
-        </dt>
+        <div class="col-md-3">
+            <h4>Debtor personal information</h4>
+            <div class="form-group">
+                @Html.DisplayFor(model => model.PersonalData)
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.TimeCreated)
-        </dd>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeContracted)
-        </dt>
+        <div class="col-md-3">
+            <h4>Debtor personal information</h4>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.MiddleIncome)
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.MiddleIncome)
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.TimeContracted)
-        </dd>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.ChildrenCount)
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.ChildrenCount)
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Term)
-        </dt>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.HigherEducation)
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.HigherEducation)
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Term)
-        </dd>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.IsMarried)
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.IsMarried)
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CellPhone)
-        </dt>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.LengthOfWork)
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.LengthOfWork)
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.CellPhone)
-        </dd>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.IsHomeowner)
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.IsHomeowner)
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LoanPurpose)
-        </dt>
+            <div class="form-group">
+                <div class="display-field">
+                    @Html.HiddenFor(model => model.LoanPurpose)
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.LoanPurpose)
-        </dd>
+            <div class="form-group">
+                <div class="display-field">
+                    @Html.HiddenFor(model => model.Currency)
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
+            <div class="form-group">
+                <div class="display-field">
+                    @Html.HiddenFor(model => model.TimeCreated)
+                </div>
+            </div>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Currency)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Currency)
-        </dd>
-
-    </dl>
-</fieldset>
+        <div class="col-md-3">
+            <div id="guarantorInfo">
+                <h4>Guarantor personal information</h4>
+                <div class="form-group">
+                    @Html.DisplayFor(model => model.Guarantor)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Fill", new { id = Model.Id }, new {@class = "btn btn-primary"})
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
 </p>

@@ -31,6 +31,7 @@ namespace Domain.Models.Loans
         [DisplayName("Cell phone")]
         [Required]
         [Phone]
+        [DataType(DataType.PhoneNumber)]
         public string CellPhone { get; set; }
 
         [DisplayName("E-mail")]

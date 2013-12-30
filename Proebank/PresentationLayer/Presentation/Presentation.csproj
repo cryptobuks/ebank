@@ -337,6 +337,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lsd.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.7.1.js" />
     <Content Include="Scripts\proebank.js" />
@@ -415,6 +416,7 @@
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Home\Rules.cshtml" />
     <Content Include="Views\Statistic\Loan.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\PersonalData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

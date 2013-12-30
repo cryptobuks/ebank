@@ -15,9 +15,13 @@ namespace Domain.Models.Loans
         public decimal InterestRate { get; set; }
 
         [DisplayName("Min Amount")]
+        [Range(1, int.MaxValue, ErrorMessage = "Must be non negative")]
+        [DataType(DataType.Currency)]
         public decimal MinAmount { get; set; }
 
         [DisplayName("Max Amount")]
+        [Range(1, int.MaxValue, ErrorMessage = "Must be non negative")]
+        [DataType(DataType.Currency)]
         public decimal MaxAmount { get; set; }
 
         [DisplayName("Creation Date")]
