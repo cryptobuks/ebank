@@ -100,7 +100,7 @@ namespace Domain.Migrations
                                     Address = "test address",
                                     DateOfBirth = new DateTime(1990, 06, 30),
                                     FirstName = "Karl",
-                                    Identification = "AA1234567890XX",
+                                    Identification = "1234567A890AX7",
                                     Passport = "XX0101010",
                                     LastName = "Malone",
                                     MiddleName = "Anthony",
