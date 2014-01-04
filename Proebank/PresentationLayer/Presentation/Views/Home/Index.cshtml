@@ -49,6 +49,13 @@
                 </p>
                 <p><a class="btn btn-default" href="@Url.Action("LoanApplication", "Statistic")">View &raquo;</a></p>
             </div>
+        <div class="col-md-4">
+            <h2>Customers</h2>
+            <p>
+                View all customers
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("All", "Customer")">View &raquo;</a></p>
+        </div>
         }
         else if (User.IsInRole("Operator"))
         {

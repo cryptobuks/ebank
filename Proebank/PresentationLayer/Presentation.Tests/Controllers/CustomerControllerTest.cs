@@ -20,5 +20,11 @@ namespace Presentation.Tests.Controllers
         //    // Assert
         //    Assert.IsNotNull(result);
         //}
+
+        [TestMethod]
+        public void All()
+        {
+
+        }
     }
 }

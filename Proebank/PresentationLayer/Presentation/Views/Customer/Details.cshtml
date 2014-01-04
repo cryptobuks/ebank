@@ -1,4 +1,5 @@
-﻿@model Presentation.Models.LoanDetailsViewModel
+﻿@using Domain.Models.Loans
+@model Presentation.Models.LoanDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -62,5 +63,16 @@
     }
 </div>
 <p>
-    @Html.ActionLink("Back", "Index")
+    @if (User.IsInRole("Customer"))
+    {
+        @Html.ActionLink("Back", "Index")
+    }
+    else if (User.IsInRole("Department head"))
+    {
+        if (Model != null)
+        {
+            var  personalData = Model.Customer.PersonalData;
+            @Html.ActionLink("Back", "Index", new {customerId = personalData.Customer.Id, firstName = personalData.FirstName, lastName = personalData.LastName})
+        }
+    }
 </p>

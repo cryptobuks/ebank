@@ -49,5 +49,19 @@
     </table>
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    @if (User.IsInRole("Customer"))
+    {
+        @Html.ActionLink("Back to List", "Index")
+    }
+    else if (User.IsInRole("Department head"))
+    {
+        if (Model != null)
+        {
+            if (ViewBag.PersonalData != null)
+            {
+                var personalData = ViewBag.PersonalData;
+                @Html.ActionLink("Back", "Index", new {customerId = personalData.Customer.Id, firstName = personalData.FirstName, lastName = personalData.LastName})
+            }          
+        }
+    }
 </p>

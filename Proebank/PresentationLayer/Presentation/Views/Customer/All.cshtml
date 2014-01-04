@@ -1,0 +1,60 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<Domain.Models.Customers.Customer>
+
+@{
+    ViewBag.Title = "All";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Customers</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().PersonalData.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().PersonalData.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().PersonalData.MiddleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().PersonalData.Passport)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().PersonalData.Identification)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalData.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalData.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalData.MiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalData.Passport)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalData.Identification)
+            </td>
+
+            <td>
+                <a href="@Url.Action("Index", new { customerId = item.Id,firstName = item.PersonalData.FirstName, lastName = item.PersonalData.LastName })" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
+            </td>
+        </tr>
+    }
+</table>
+@Html.PagedListPager(Model, page => Url.Action(ViewBag.ActiveTab, new { page }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+
+
+
