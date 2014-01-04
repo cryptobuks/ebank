@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using Application;
+using Microsoft.AspNet.Identity;
 using Microsoft.Practices.Unity;
 using Presentation.Models;
 using PagedList;
@@ -44,6 +45,20 @@ namespace Presentation.Controllers
             return new HttpUnauthorizedResult();
         }
 
+        [Authorize(Roles = "Credit committee")]
+        public ActionResult ApproveCommittee(Guid id)
+        {
+            Service.AddCommitteeVoting(User.Identity.GetUserId(), id, LoanApplicationCommitteeMemberStatus.Approved);
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Credit committee")]
+        public ActionResult RejectCommittee(Guid id)
+        {
+            Service.AddCommitteeVoting(User.Identity.GetUserId(), id, LoanApplicationCommitteeMemberStatus.Rejected);
+            return RedirectToAction("Index");
+        }
+
         [Authorize(Roles = "Department head")]
         public ActionResult All(int? page)
         {
@@ -51,6 +66,7 @@ namespace Presentation.Controllers
                 .GetLoanApplications(true)
                 .ToList();
             ViewBag.ActiveTab = "All";
+            ViewBag.AllCommitteeVotings = Service.GetCommitteeVotings().ToList();
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
@@ -106,6 +122,8 @@ namespace Presentation.Controllers
                 .Where(a => a.Status == LoanApplicationStatus.UnderCommitteeConsideration)
                 .ToList();
             ViewBag.ActiveTab = "Committee";
+            List<CommitteeVoting> cv = Service.GetCommitteeVotings().Where(x => x.EmployeeId == User.Identity.GetUserId()).ToList();
+            ViewBag.CommiteeVotings = cv;
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
@@ -296,6 +314,15 @@ namespace Presentation.Controllers
                 return HttpNotFound();
             }
             return RedirectToAction("Preview", "Loan", new { loanApplicationId = loanApplication.Id });
+        }
+
+        public ActionResult ApproveCommite(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Approve(Guid? id)

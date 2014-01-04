@@ -2,6 +2,7 @@
 @using Glimpse.Core.Extensions
 @using PagedList
 @using PagedList.Mvc
+@using Domain.Models.Loans
 @model IPagedList<Domain.Models.Loans.LoanApplication>
 
 @{
@@ -122,9 +123,40 @@
                         @*<a href="@Url.Action("Edit", new { id = item.Id })" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-pencil fa-lg"></i></a>*@
                         break;
                     case LoanApplicationStatus.UnderCommitteeConsideration:
-                        <a href="@Url.Action("History", new { id = item.Id })" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i> History</a>
-                        <a href="@Url.Action("Approve", new { id = item.Id })" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i> Approve</a>
-                        <a href="@Url.Action("Reject", new { id = item.Id })" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i> Reject</a>
+                        if (ViewBag.ActiveTab == "Committee")
+                        {
+                            List<CommitteeVoting> list = ViewBag.CommiteeVotings;
+                            if (ViewBag.CommiteeVotings.Count == 0 || !list.Contains(list.Where(x => x.LoanApplicationId == item.Id).FirstOrDefault()))
+                            {
+                                <a href="@Url.Action("History", new {id = item.Id})" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i> History</a>
+                                <a href="@Url.Action("ApproveCommittee", new {id = item.Id})" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i> Approve</a>
+                                <a href="@Url.Action("RejectCommittee", new {id = item.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i> Reject</a>
+                            }
+                            else
+                            {
+                                CommitteeVoting cv = list.Where(x => x.LoanApplicationId == item.Id).FirstOrDefault();
+                                if (cv != null)
+                                {
+                                    if (cv.Status == LoanApplicationCommitteeMemberStatus.Approved)
+                                    {
+                                        <div class="btn btn-primary btn-xs">Voted: Approved</div>
+                                    }
+                                    else if (cv.Status == LoanApplicationCommitteeMemberStatus.Rejected)
+                                    {
+                                        <div class="btn btn-danger btn-xs">Voted: Rejected</div>
+                                    }
+                                }
+                            }
+                        }
+                        if (ViewBag.ActiveTab == "All")
+                        {
+                            List<CommitteeVoting> list = ViewBag.AllCommitteeVotings;
+                            <a href="#" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i> @list.Where(x => x.LoanApplicationId == item.Id && x.Status == LoanApplicationCommitteeMemberStatus.Approved).Count().ToString()</a>
+                            <a href="#" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i> @list.Where(x => x.LoanApplicationId == item.Id && x.Status == LoanApplicationCommitteeMemberStatus.Rejected).Count().ToString()</a>
+                            <a href="@Url.Action("History", new {id = item.Id})" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i> History</a>
+                            <a href="@Url.Action("Approve", new {id = item.Id})" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i> Approve</a>
+                            <a href="@Url.Action("Reject", new {id = item.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i> Reject</a>
+                        }
                         break;
                     case LoanApplicationStatus.UnderRiskConsideration:
                         <a href="@Url.Action("History", new { id = item.Id })" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i> History</a>

@@ -755,5 +755,18 @@ namespace Application
             }
             return history.OrderBy(l => l.WhenOpened);
         }
+
+        public void AddCommitteeVoting(string EmployeeId, Guid LoanApplicationId, LoanApplicationCommitteeMemberStatus Status = LoanApplicationCommitteeMemberStatus.NotConsidered)
+        {
+            var cvs = _unitOfWork.GetDbSet<CommitteeVoting>();
+            cvs.Add(new CommitteeVoting(EmployeeId, LoanApplicationId, Status));
+            _unitOfWork.SaveChanges();
+        }
+
+        public IEnumerable<CommitteeVoting> GetCommitteeVotings()
+        {
+            var cvs = _unitOfWork.GetDbSet<CommitteeVoting>();
+            return cvs;
+        }
     }
 }

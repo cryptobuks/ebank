@@ -14,8 +14,8 @@ namespace Presentation.Tests.Controllers
         //    // Arrange
         //    var controller = new StatisticController();
 
-        //    // Act
-        //    var result = controller.Index() as ViewResult;
+            // Act
+            //var result = controller.Index() as ViewResult;
 
         //    // Assert
         //    Assert.IsNotNull(result);

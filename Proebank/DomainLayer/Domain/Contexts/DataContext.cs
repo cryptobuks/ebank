@@ -59,6 +59,7 @@ namespace Domain.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<CommitteeVoting>().HasKey(x => new { x.EmployeeId, x.LoanApplicationId });
             //modelBuilder.Entity<IdentityUserLogin>().HasKey(ul => new { ul.UserId, ul.ProviderKey, ul.LoginProvider });
             //modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
 

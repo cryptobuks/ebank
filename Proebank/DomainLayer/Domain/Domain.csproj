@@ -73,11 +73,13 @@
     <Compile Include="Contexts\FakeDataContext.cs" />
     <Compile Include="DataInitializer.cs" />
     <Compile Include="Enums\Education.cs" />
+    <Compile Include="Enums\LoanApplicationCommitteeMemberStatus.cs" />
     <Compile Include="Enums\MaritalStatus.cs" />
     <Compile Include="Enums\PaymentCalculationType.cs" />
     <Compile Include="FakeDbSet.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\Loans\CommitteeVoting.cs" />
     <Compile Include="Models\Loans\LoanHistory.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
