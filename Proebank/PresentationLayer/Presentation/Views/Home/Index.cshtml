@@ -28,47 +28,54 @@
         }
         else if (User.IsInRole("Department head"))
         {
-            <div class="col-md-4">
-                <h2>Calendar</h2>
-                <p>
-                    Move bank time
-                </p>
-                <p><a class="btn btn-default" href="@Url.Action("Index", "Processing")">View &raquo;</a></p>
-            </div>
-            <div class="col-md-4">
-                <h2>Loans</h2>
-                <p>
-                    View loans
-                </p>
-                <p><a class="btn btn-default" href="@Url.Action("Index", "Loan")">View &raquo;</a></p>
-            </div>
-            <div class="col-md-4">
-                <h2>Statistic</h2>
-                <p>
-                    View loan statistics
-                </p>
-                <p><a class="btn btn-default" href="@Url.Action("Index", "Statistic")">View &raquo;</a></p>
-            </div>
+        <div class="col-md-4">
+            <h2>Calendar</h2>
+            <p>
+                Move bank time
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "Processing")">View &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Loans</h2>
+            <p>
+                View loans
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "Loan")">View &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Statistic</h2>
+            <p>
+                View loan statistics
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "Statistic")">View &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Customers</h2>
+            <p>
+                View all customers
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("All", "Customer")">View &raquo;</a></p>
+        </div>
         }
         else if (User.IsInRole("Operator"))
         {
-            <div class="col-md-4">
-                <h2>ATM</h2>
-                <p>
-                    Enter payments
-                </p>
-                <p><a class="btn btn-default" href="@Url.Action("Index", "Atm")">View &raquo;</a></p>
-            </div>
+        <div class="col-md-4">
+            <h2>ATM</h2>
+            <p>
+                Enter payments
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "Atm")">View &raquo;</a></p>
+        </div>
         }
         else
         {
-            <div class="col-md-4">
-                <h2>Loan applications</h2>
-                <p>
-                    View current loan applications in different statuses
-                </p>
-                <p><a class="btn btn-default" href="@Url.Action("Index", "LoanApplication")">View &raquo;</a></p>
-            </div>
+        <div class="col-md-4">
+            <h2>Loan applications</h2>
+            <p>
+                View current loan applications in different statuses
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "LoanApplication")">View &raquo;</a></p>
+        </div>
         }
     }
     else

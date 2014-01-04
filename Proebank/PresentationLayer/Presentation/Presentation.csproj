@@ -415,6 +415,7 @@
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Home\Rules.cshtml" />
     <Content Include="Views\Statistic\Loan.cshtml" />
+    <Content Include="Views\Customer\All.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

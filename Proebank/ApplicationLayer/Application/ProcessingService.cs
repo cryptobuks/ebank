@@ -724,6 +724,7 @@ namespace Application
         }
         #endregion
 
+
         public IEnumerable<LoanHistory> GetHistoryFromNationalBank(LoanApplication application)
         {
             var nationalBank = _unitOfWork.GetDbSet<LoanHistory>();

@@ -57,14 +57,24 @@ namespace Application
             //return 1.0 / (1.0 + Math.Exp((-1) * sumOfParams));
             
             const double w0 = 0;
-            return w0
-                   + ConvertParamCashIncomeLevelToDouble(loanApplication.MiddleIncome)
-                   + ConvertParamChildrenCountToDouble(loanApplication.ChildrenCount)
-                   + ConvertParamHigherEducationToDouble(loanApplication.HigherEducation)
-                   + ConvertParamIsMaridToDouble(loanApplication.IsMarried)
-                   + ConvertParamLenghtOfWorkToDouble(loanApplication.LengthOfWork)
-                   + ConvertParamIsHomeowner(loanApplication.IsHomeowner)
-                   + (loanApplication.PersonalData.DateOfBirth != null ? ConvertParamAgeToDouble((DateTime)loanApplication.PersonalData.DateOfBirth) : 0);
+            try
+            {
+                return w0
+                       + ConvertParamCashIncomeLevelToDouble(loanApplication.MiddleIncome)
+                       + ConvertParamChildrenCountToDouble(loanApplication.ChildrenCount)
+                       + ConvertParamHigherEducationToDouble(loanApplication.HigherEducation)
+                       + ConvertParamIsMaridToDouble(loanApplication.IsMarried)
+                       + ConvertParamLenghtOfWorkToDouble(loanApplication.LengthOfWork)
+                       + ConvertParamIsHomeowner(loanApplication.IsHomeowner)
+                       +
+                       (loanApplication.PersonalData.DateOfBirth != null
+                            ? ConvertParamAgeToDouble((DateTime) loanApplication.PersonalData.DateOfBirth)
+                            : 0);
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         //private static double CalculateSumOfParams(LoanApplication loanApplication)

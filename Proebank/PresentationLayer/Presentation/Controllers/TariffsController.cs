@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Application;
 using Microsoft.Practices.Unity;

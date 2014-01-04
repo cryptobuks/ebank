@@ -1,4 +1,5 @@
-﻿@using Domain.Enums
+﻿@using Application
+@using Domain.Enums
 @using Glimpse.Core.Extensions
 @using PagedList
 @using PagedList.Mvc
@@ -77,7 +78,10 @@
         <th>
             @Html.DisplayNameFor(model => model.First().Status)
         </th>
-        <th></th>
+        @if (User.IsInRole("Security"))
+        {
+           <th>@Html.Label("Scoring(Ok)")</th> 
+        }
     </tr>
     @foreach (var item in Model)
     {
@@ -110,6 +114,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
+            @if (User.IsInRole("Security"))
+            {
+           <td>
+                @Html.Label(Convert.ToString(ScoringSystem.CalculatePredictions(item)))%
+            </td>
+            }
+
             <td>
                 @switch (item.Status)
                 {
