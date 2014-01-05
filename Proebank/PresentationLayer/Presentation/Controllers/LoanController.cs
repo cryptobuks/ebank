@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using Domain.Enums;
@@ -25,15 +26,22 @@ namespace Presentation.Controllers
         [Dependency]
         protected ProcessingService Service { get; set; }
 
-        [Authorize(Roles = "Department head, Consultant")]
+        [Authorize(Roles = "Department head, Consultant, Security")]
         public ActionResult Index(int? page)
         {
-            var customers = UnitOfWork.Context.Set<Customer>();
-            var loans = Service.GetLoans()
-                .Select(l => new LoanWithCustomerViewModel { Loan = l, Customer = customers.FirstOrDefault(c => c.Id == l.CustomerId)})
-                .ToList();
-            ViewBag.ActiveTab = "Index";
-            return View(loans.ToPagedList(page?? 1,PAGE_SIZE));
+            if (User.IsInRole("Consultant"))
+            {
+                return RedirectToAction("Active", page);
+            }
+            if (User.IsInRole("Security"))
+            {
+                return RedirectToAction("InTrouble", page);
+            }
+            if (User.IsInRole("Department head"))
+            {
+                return RedirectToAction("All", page);
+            }
+            return new HttpUnauthorizedResult();
         }
 
         [Authorize(Roles = "Department head, Consultant")]
@@ -129,7 +137,7 @@ namespace Presentation.Controllers
             return pdfResult;
         }
 
-        [Authorize(Roles = "Department head, Consultant")]
+        [Authorize(Roles = "Department head, Consultant. Security")]
         public ActionResult Details(Guid? id)
         {
             if (id == null)
@@ -163,6 +171,59 @@ namespace Presentation.Controllers
             }
             Service.CloseLoan(loan);
             return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Department head")]
+        public ActionResult All(int? page)
+        {
+            var customers = UnitOfWork.Context.Set<Customer>();
+            var loans = Service.GetLoans()
+                .ToList()
+                .Select(l => CreateLoanViewModel(l, customers));
+            ViewBag.ActiveTab = "all";
+            return View("Index", loans.ToPagedList(page ?? 1, PAGE_SIZE));
+        }
+
+        [Authorize(Roles = "Department head, Consultant")]
+        public ActionResult Active(int? page)
+        {
+            var customers = UnitOfWork.Context.Set<Customer>();
+            var loans = Service.GetLoans()
+                .Where(l => !l.IsClosed)
+                .ToList()
+                .Select(l => CreateLoanViewModel(l, customers));
+            ViewBag.ActiveTab = "active";
+            return View("Index", loans.ToPagedList(page ?? 1, PAGE_SIZE));
+        }
+
+        [Authorize(Roles = "Department head, Security")]
+        public ActionResult InTrouble(int? page)
+        {
+            var customers = UnitOfWork.Context.Set<Customer>();
+            var today = Service.GetCurrentDate();
+            var loans = Service.GetLoans()
+                .Where(l => !l.IsClosed && today.Date > l.PaymentSchedule.Payments.Max(p => p.ShouldBePaidBefore))
+                .ToList()
+                .Select(l => CreateLoanViewModel(l, customers));
+            ViewBag.ActiveTab = "introuble";
+            return View("Index", loans.ToPagedList(page ?? 1, PAGE_SIZE));
+        }
+
+        [Authorize(Roles = "Department head")]
+        public ActionResult Closed(int? page)
+        {
+            var customers = UnitOfWork.Context.Set<Customer>();
+            var loans = Service.GetLoans()
+                .Where(l => l.IsClosed)
+                .ToList()
+                .Select(l => CreateLoanViewModel(l, customers));
+            ViewBag.ActiveTab = "closed";
+            return View("Index", loans.ToPagedList(page ?? 1, PAGE_SIZE));
+        }
+
+        private static LoanWithCustomerViewModel CreateLoanViewModel(Loan l, IQueryable<Customer> customers)
+        {
+            return new LoanWithCustomerViewModel { Loan = l, Customer = customers.FirstOrDefault(c => c.Id == l.CustomerId) };
         }
     }
 }

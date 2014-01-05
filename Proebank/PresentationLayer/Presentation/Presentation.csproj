@@ -247,7 +247,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoanController.cs" />
     <Compile Include="Controllers\EmployeeManagementController.cs" />
-    <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\TariffsController.cs" />
     <Compile Include="Extensions\CustomerHelper.cs" />
@@ -394,8 +393,6 @@
     <Content Include="Views\EmployeeManagement\Index.cshtml" />
     <Content Include="Views\EmployeeManagement\EmployeeCreated.cshtml" />
     <Content Include="Views\Shared\MainMenu.cshtml" />
-    <Content Include="Views\Security\Details.cshtml" />
-    <Content Include="Views\Security\Index.cshtml" />
     <Content Include="Views\Committee\Create.cshtml" />
     <Content Include="Views\Committee\Delete.cshtml" />
     <Content Include="Views\Committee\Details.cshtml" />

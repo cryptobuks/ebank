@@ -5,17 +5,42 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var isHead = User.IsInRole("Department head");
+    var isConsultant = User.IsInRole("Consultant");
+    var isSecurity = User.IsInRole("Security");
+}
+@section scripts{
+    <script type="text/javascript">
+        $('#loan-tab-' + '@ViewBag.ActiveTab'.toLowerCase()).addClass('active');
+    </script>
 }
 
 <!DOCTYPE html>
-
 <html>
     <head>
         <title>Loans</title>
     </head>
     <body>
         <div>
-            <h2>Loans</h2>
+            <h2>@ViewBag.ActiveTab Loans</h2>
+            <ul class="nav nav-tabs">
+                @if (isHead)
+                {
+                    <li id="loan-tab-all"><a href="@Url.Action("All")"><i class="fa fa-file-text fa-2x"></i></a></li>
+                }
+                @if (isHead || isSecurity)
+                {
+                    <li id="loan-tab-trouble"><a href="@Url.Action("InTrouble")"><i class="fa fa-warning fa-2x"></i></a></li>
+                }
+                @if (isHead || isConsultant)
+                {
+                    <li id="loan-tab-active"><a href="@Url.Action("Active")"><i class="fa fa-play fa-2x"></i></a></li>
+                }
+                @if (isHead)
+                {
+                    <li id="loan-tab-closed"><a href="@Url.Action("Closed")"><i class="fa fa-stop fa-2x"></i></a></li>
+                }
+            </ul>
             <table class="table">
                 <tr>
                     <th>
