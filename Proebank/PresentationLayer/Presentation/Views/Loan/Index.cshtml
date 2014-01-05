@@ -1,6 +1,6 @@
 ﻿@using PagedList
 @using PagedList.Mvc
-@model IPagedList<Domain.Models.Loans.Loan>
+@model IPagedList<Presentation.Models.LoanWithCustomerViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -19,19 +19,22 @@
             <table class="table">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().CustomerId)
+                        Customer
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().Application.LoanAmount)
+                        Identification number
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().Application.Tariff.Name)
+                        @Html.DisplayNameFor(model => model.First().Loan.Application.LoanAmount)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().Application.Term)
+                        @Html.DisplayNameFor(model => model.First().Loan.Application.Tariff.Name)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().IsClosed)
+                        @Html.DisplayNameFor(model => model.First().Loan.Application.Term)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().Loan.IsClosed)
                     </th>
                     <th></th>
                 </tr>
@@ -39,23 +42,26 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CustomerId)
+                            @Html.DisplayFor(modelItem => item.Customer.PersonalData.LastName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Application.Currency)
-                            @Html.DisplayFor(modelItem => item.Application.LoanAmount)
+                            @Html.DisplayFor(modelItem => item.Customer.PersonalData.Identification)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Application.Tariff.Name)
+                            @Html.DisplayFor(modelItem => item.Loan.Application.Currency)
+                            @Html.DisplayFor(modelItem => item.Loan.Application.LoanAmount)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Application.Term)
+                            @Html.DisplayFor(modelItem => item.Loan.Application.Tariff.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IsClosed)
+                            @Html.DisplayFor(modelItem => item.Loan.Application.Term)
                         </td>
                         <td>
-                            <a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info fa-lg"></i></a>
+                            @Html.DisplayFor(modelItem => item.Loan.IsClosed)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", new { id = item.Loan.Id })" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info fa-lg"></i></a>
                         </td>
                     </tr>
                 }

@@ -16,10 +16,9 @@ using Domain;
 
 namespace Application
 {
-    public class ProcessingService// : IDisposable
+    public class ProcessingService
     {
         private readonly IUnitOfWork _unitOfWork;
-        //private bool _disposed;
         private static bool DaySync;    //TODO: make flag in db
         private static bool MonthSync;  //TODO: make flag in db
 
@@ -241,20 +240,6 @@ namespace Application
             return accountRepo.Single(acc => acc.Type == AccountType.BankBalance &&  acc.Currency == currency);
         }
 
-        public bool CloseLoanContract(Loan loan)
-        {
-            var canBeClosed = CanLoanBeClosed(loan);
-            if (canBeClosed)
-            {
-                foreach (var account in loan.Accounts)
-                {
-                    CloseAccount(account);
-                }
-                CloseLoan(loan);
-            }
-            return canBeClosed;
-        }
-
         private Dictionary<Account, Entry> LoanProcessEndOfMonth(DateTime currentDate)
         {
             var loanRepository = _unitOfWork.GetDbSet<Loan>();
@@ -393,18 +378,37 @@ namespace Application
             }
         }
 
-        private bool CanLoanBeClosed(Loan loan)
+        public bool CanLoanBeClosed(Loan loan)
         {
-            // TODO: change for MainDebt, Interest and Overdue only
-            return loan.Accounts.All(a => a.Balance == 0M);
+            return !loan.IsClosed && loan.Accounts
+                .Where(acc => acc.Type != AccountType.ContractService)
+                .All(a => a.Balance == 0M);
         }
 
-        private void CloseLoan(Loan loan)
+        public void CloseLoan(Loan loan)
         {
             var loanRepo = _unitOfWork.GetDbSet<Loan>();
-            loan.IsClosed = true;
-            loanRepo.AddOrUpdate(loan);
-            _unitOfWork.SaveChanges();
+            if (CanLoanBeClosed(loan))
+            {
+                var entryRepo = _unitOfWork.GetDbSet<Entry>();
+                loan.IsClosed = true;
+                foreach (var account in loan.Accounts)
+                {
+                    if (account.Type == AccountType.ContractService)
+                    {
+                        var balance = account.Balance;
+                        if (balance > 0M)
+                        {
+                            var entry = entryRepo.Create();
+                            FillEntryValues(entry, -balance, loan, GetCurrentDate(), EntryType.Transfer, EntrySubType.ContractService);
+                            AddEntry(account, entry);
+                        }
+                    }
+                    CloseAccount(account);
+                }
+                loanRepo.AddOrUpdate(loan);
+                _unitOfWork.SaveChanges();
+            }
         }
 	    #endregion
 
@@ -720,7 +724,6 @@ namespace Application
             account.IsClosed = true;
             account.DateClosed = GetCurrentDate();
             accountRepo.AddOrUpdate(account);
-            // TODO: check saving
         }
         #endregion
 

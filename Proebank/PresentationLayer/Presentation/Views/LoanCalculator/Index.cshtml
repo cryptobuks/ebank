@@ -55,7 +55,7 @@
                         <input type="submit" value="Calculate" class="btn" />
                     </div>
                 </td>
-                @if (User.IsInRole("Consultant") || !User.Identity.IsAuthenticated)
+                @if (User.IsInRole("Consultant") || !User.Identity.IsAuthenticated || User.IsInRole("Customer"))
                 {
                     <td>
                         <div class="form-actions no-color">

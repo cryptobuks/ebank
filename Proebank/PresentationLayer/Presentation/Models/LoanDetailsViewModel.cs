@@ -11,6 +11,7 @@ namespace Presentation.Models
 {
     public class LoanDetailsViewModel
     {
+        public Guid Id { get; set; }
         public string TariffName { get; set; }
         public decimal Amount { get; set; }
         public Currency Currency { get; set; }
@@ -18,9 +19,11 @@ namespace Presentation.Models
         public IEnumerable<Account> Accounts { get; set; }
         public IEnumerable<Tuple<Account, Entry>> Entries { get; set; }
         public Customer Customer { get; set; }
+        public bool CanBeClosed { get; set; }
 
         public LoanDetailsViewModel(Loan loan)
         {
+            Id = loan.Id;
             var application = loan.Application;
             TariffName = application.Tariff.Name;
             Amount = application.LoanAmount;

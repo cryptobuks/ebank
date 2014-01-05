@@ -18,6 +18,10 @@
             <h3>Term: @Model.Term month(s)</h3>
             <h3>Amount: @Model.Amount @Model.Currency</h3>
             <h3>Customer: @personalData.LastName @personalData.FirstName @personalData.MiddleName</h3>
+            @if (Model.CanBeClosed)
+            {
+                <a href="@Url.Action("Close", new { id = Model.Id })" class="btn btn-primary">Close loan</a>
+            }
         </div>
         <div class="col-md-6">
             <table class="table">

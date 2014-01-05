@@ -28,7 +28,10 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Department head, Consultant")]
         public ActionResult Index(int? page)
         {
-            var loans = Service.GetLoans().ToList();
+            var customers = UnitOfWork.Context.Set<Customer>();
+            var loans = Service.GetLoans()
+                .Select(l => new LoanWithCustomerViewModel { Loan = l, Customer = customers.FirstOrDefault(c => c.Id == l.CustomerId)})
+                .ToList();
             ViewBag.ActiveTab = "Index";
             return View(loans.ToPagedList(page?? 1,PAGE_SIZE));
         }
@@ -140,9 +143,26 @@ namespace Presentation.Controllers
             }
             var viewModel = new LoanDetailsViewModel(loan)
             {
-                Customer = UnitOfWork.Context.Set<Customer>().Find(loan.CustomerId)
+                Customer = UnitOfWork.Context.Set<Customer>().Find(loan.CustomerId),
+                CanBeClosed = Service.CanLoanBeClosed(loan)
             };
             return View(viewModel);
+        }
+
+        [Authorize(Roles = "Department head, Consultant")]
+        public ActionResult Close(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var loan = Service.Find<Loan>(id);
+            if (loan == null)
+            {
+                return RedirectToAction("Index");
+            }
+            Service.CloseLoan(loan);
+            return RedirectToAction("Index");
         }
     }
 }

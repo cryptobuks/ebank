@@ -14,14 +14,8 @@
 }
 else if (User.IsInRole("Department head"))
 {
-    <h2>Loans info for </h2>
-    <br>
-    <h2>@ViewBag.UserFirstName @ViewBag.UserLastName</h2>
+    <h2>Loans info for @ViewBag.UserFirstName @ViewBag.UserLastName</h2>
 }
-
-
-
-
 <table class="table">
     <tr>
         <th>
@@ -38,13 +32,12 @@ else if (User.IsInRole("Department head"))
         </th>
         <th></th>
     </tr>
-
     @foreach (var item in Model)
     {
         <tr>
             @{
-        var itemApplication = item.Application;
-        var isClosed = item.IsClosed ? "Yes" : "No";
+                var itemApplication = item.Application;
+                var isClosed = item.IsClosed ? "Yes" : "No";
             }
             <td>
                 @Html.DisplayFor(modelItem => itemApplication.Tariff.Name)
@@ -65,13 +58,9 @@ else if (User.IsInRole("Department head"))
             </td>
         </tr>
     }
-
 </table>
 @Html.PagedListPager(Model, page => Url.Action(ViewBag.Action, new { page }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
-
-
 @if (User.IsInRole("Department head"))
 {
     @Html.ActionLink("Back to All Customers", "All")
 }
-    
