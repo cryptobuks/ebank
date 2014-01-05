@@ -9,6 +9,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Domain.Enums;
 using Domain.Models.Users;
 using Domain;
 using Microsoft.AspNet.Identity;
@@ -60,6 +61,7 @@ namespace Presentation.Controllers
                 var password = GeneratePassword();
                 employee.HiredOn = DateTime.UtcNow;
                 var userResult = userManager.Create(employee, password);
+                userManager.AddToRole(employee.Id, ConvertRole(employee.EmployeeRole));
                 if (userResult.Succeeded)
                 {
                     UnitOfWork.SaveChanges();
@@ -70,6 +72,24 @@ namespace Presentation.Controllers
             }
 
             return View(employee);
+        }
+
+        private string ConvertRole(EmployeeRole employeeRole)
+        {
+            switch (employeeRole)
+            {
+                case EmployeeRole.CreditCommitee:
+                    return "Credit committee";
+                case EmployeeRole.Chief:
+                    return "Department head";
+                case EmployeeRole.Consultant:
+                    return "Consultant";
+                case EmployeeRole.Operator:
+                    return "Operator";
+                case EmployeeRole.SecurityService:
+                    return "Security";
+            }
+            throw new ArgumentException();
         }
 
         private string GeneratePassword()

@@ -510,7 +510,7 @@ namespace Application
             var tariffRepo = _unitOfWork.GetDbSet<Tariff>();
             var tariff = tariffRepo.Find(id);
             tariff.IsActive = false;
-            tariffRepo.Remove(tariff);
+            //tariffRepo.Remove(tariff);
             _unitOfWork.SaveChanges();
         }
 

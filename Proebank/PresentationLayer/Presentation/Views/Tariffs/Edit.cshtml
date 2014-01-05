@@ -3,123 +3,131 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    bool canBeEdited = ViewBag.CanBeEdited;
 }
 
 <h2>Edit</h2>
 
 <div class="container">
-    @using (Html.BeginForm("Edit", "Tariffs", FormMethod.Post, new { @class = "form" }))
+    @if (canBeEdited)
     {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-        <div class="row">
-            <div class="col-md-12">
-                <input type="submit" value="Save" class="btn btn-success" />
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
-            </div>
-        </div>
+        using (Html.BeginForm("Edit", "Tariffs", FormMethod.Post, new {@class = "form"}))
+         {
+             @Html.AntiForgeryToken()
+             @Html.ValidationSummary(true)
+             <div class="row">
+                 <div class="col-md-12">
+                     <input type="submit" value="Save" class="btn btn-success" />
+                     @Html.ActionLink("Back to List", "Index", null, new {@class = "btn btn-default"})
+                 </div>
+             </div>
 
-        <div class="row">
+             <div class="row">
 
-            @Html.HiddenFor(model => model.Id)
+                 @Html.HiddenFor(model => model.Id)
 
-            <div class="col-md-4">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Name, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.Name)
-                        @Html.ValidationMessageFor(model => model.Name, null, new { @class = "help-inline" })
-                    </div>
-                </div>
+                 <div class="col-md-4">
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.Name, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.Name)
+                             @Html.ValidationMessageFor(model => model.Name, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.InterestRate, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.InterestRate)
-                        @Html.ValidationMessageFor(model => model.InterestRate, null, new { @class = "help-inline" })
-                    </div>
-                </div>
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.InterestRate, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.InterestRate)
+                             @Html.ValidationMessageFor(model => model.InterestRate, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.MinAmount, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.MinAmount)
-                        @Html.ValidationMessageFor(model => model.MinAmount, null, new { @class = "help-inline" })
-                    </div>
-                </div>
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.MinAmount, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.MinAmount)
+                             @Html.ValidationMessageFor(model => model.MinAmount, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.MaxAmount, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.MaxAmount)
-                        @Html.ValidationMessageFor(model => model.MaxAmount, null, new { @class = "help-inline" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                @Html.HiddenFor(model => model.CreationDate)
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.MaxAmount, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.MaxAmount)
+                             @Html.ValidationMessageFor(model => model.MaxAmount, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-md-4">
+                     @Html.HiddenFor(model => model.CreationDate)
  
-                <div class="form-group">
-                    @Html.LabelFor(model => model.MinTerm, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.MinTerm)
-                        @Html.ValidationMessageFor(model => model.MinTerm, null, new { @class = "help-inline" })
-                    </div>
-                </div>
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.MinTerm, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.MinTerm)
+                             @Html.ValidationMessageFor(model => model.MinTerm, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.MaxTerm, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.MaxTerm)
-                        @Html.ValidationMessageFor(model => model.MaxTerm, null, new { @class = "help-inline" })
-                    </div>
-                </div>
-            </div>
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.MaxTerm, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.MaxTerm)
+                             @Html.ValidationMessageFor(model => model.MaxTerm, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
+                 </div>
 
-            <div class="col-md-4">
+                 <div class="col-md-4">
            
-                <div class="form-group">
-                    @Html.LabelFor(model => model.LoanPurpose, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.LoanPurpose)
-                        @Html.ValidationMessageFor(model => model.LoanPurpose, null, new { @class = "help-inline" })
-                    </div>
-                </div>
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.LoanPurpose, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.LoanPurpose)
+                             @Html.ValidationMessageFor(model => model.LoanPurpose, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Currency, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.Currency)
-                        @Html.ValidationMessageFor(model => model.Currency, null, new { @class = "help-inline" })
-                    </div>
-                </div>
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.Currency, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.Currency)
+                             @Html.ValidationMessageFor(model => model.Currency, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PmtType, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.PmtType)
-                        @Html.ValidationMessageFor(model => model.PmtType, null, new { @class = "help-inline" })
-                    </div>
-                </div>
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.PmtType, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.PmtType)
+                             @Html.ValidationMessageFor(model => model.PmtType, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.IsActive, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.IsActive)
-                        @Html.ValidationMessageFor(model => model.IsActive, null, new { @class = "help-inline" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.IsGuarantorNeeded, new { @class = "control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.IsGuarantorNeeded)
-                        @Html.ValidationMessageFor(model => model.IsGuarantorNeeded, null, new { @class = "help-inline" })
-                    </div>
-                </div>
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.IsActive, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.IsActive)
+                             @Html.ValidationMessageFor(model => model.IsActive, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.IsGuarantorNeeded, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.IsGuarantorNeeded)
+                             @Html.ValidationMessageFor(model => model.IsGuarantorNeeded, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
                 
-            </div>
+                 </div>
 
-        </div>
+             </div>
+         }
+    }
+    else
+    {
+        <h3>This tariff can't be edited because there are loans and/or applications with it</h3>
     }
 
 </div>

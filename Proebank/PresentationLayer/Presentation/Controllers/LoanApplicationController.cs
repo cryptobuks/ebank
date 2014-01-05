@@ -21,7 +21,7 @@ namespace Presentation.Controllers
     {
         [Dependency]
         protected ProcessingService Service { get; set; }
-        private const int PAGE_SIZE = 5;
+        private const int PAGE_SIZE = 10;
 
         [Authorize(Roles = "Department head, Consultant, Security, Credit committee")]
         public ActionResult Index()

@@ -14,7 +14,7 @@ namespace Presentation.Controllers
     public class TariffsController : BaseController
     {
         //Amount of elements to display on one page of PagedList
-        private const int PAGE_SIZE = 5;
+        private const int PAGE_SIZE = 10;
 
         [Dependency]
         protected ProcessingService Service { get; set; }
@@ -84,6 +84,8 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CanBeEdited = !Service.GetLoans().Any(l => l.Application.TariffId == id) &&
+                !Service.GetLoanApplications().Any(la => la.TariffId == id);
             return View(tariff);
         }
 
