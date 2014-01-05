@@ -47,6 +47,14 @@
                         @Html.ValidationMessageFor(model => model.CellPhone, null, new { @class = "help-inline" })
                     </div>
                 </div>
+        
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReceiveToCard, new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.EditorFor(model => model.ReceiveToCard, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ReceiveToCard, null, new { @class = "help-inline" })
+                    </div>
+                </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Tariff, "TariffId", new { @class = "control-label" })

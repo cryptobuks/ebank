@@ -16,12 +16,10 @@ namespace Domain.Models.Loans
         public decimal LoanAmount { get; set; }
 
         [DisplayName("Time created")]
-        //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy hh:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime TimeCreated { get; set; }
 
         [DisplayName("Time contracted")]
-        //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy hh:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? TimeContracted { get; set; }
 
@@ -76,8 +74,7 @@ namespace Domain.Models.Loans
         [DisplayName("Home owner?")]
         public bool IsHomeowner { get; set; }
 
-        public int SecurityFor { get; set; }
-
-        public int SecurityAgainst { get; set; }
+        [DisplayName("Get money by card?")]
+        public bool ReceiveToCard { get; set; }
     }
 }
