@@ -3,9 +3,13 @@
 }
 
 <ul class="nav navbar-nav">
-    <li>@Html.ActionLink("Tariffs", "Index", "Tariffs")</li>
+    @if (!User.Identity.IsAuthenticated || User.IsInRole("Customer"))
+    {
+        <li>@Html.ActionLink("Tariffs", "Index", "Tariffs")</li>
+    }
     @if (User.IsInRole("Consultant"))
     {
+        <li>@Html.ActionLink("Tariffs", "Index", "Tariffs")</li>
         <li>@Html.ActionLink("Applications", "Index", "LoanApplication")</li>
         <li>@Html.ActionLink("Loans", "Index", "Loan")</li>
     }
@@ -16,6 +20,7 @@
     else if (User.IsInRole("Security"))
     {
         <li>@Html.ActionLink("Applications", "Index", "LoanApplication")</li>
+        <li>@Html.ActionLink("Loans", "Index", "Loan")</li>
     }
     else if (User.IsInRole("Credit committee"))
     {
@@ -26,7 +31,6 @@
         <li>@Html.ActionLink("Applications", "Index", "LoanApplication")</li>
         <li>@Html.ActionLink("Loans", "Index", "Loan")</li>
         <li>@Html.ActionLink("Statistics", "LoanApplication", "Statistic")</li>
-        <li>@Html.ActionLink("Calendar", "Index", "Processing")</li>
     }
     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
     <li>@Html.ActionLink("About", "About", "Home")</li>
