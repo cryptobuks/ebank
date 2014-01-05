@@ -11,55 +11,85 @@ namespace Application
     public class ScoringSystem
     {
         //MiddleIncome
-        private const double W_MIDDLE_INCOME_BETWEEN_2_AND_3_MLN = 15;
-        private const double W_MIDDLE_INCOME_BETWEEN_3_AND_5_MLN = 25;
-        private const double W_MIDDLE_INCOME_BETWEEN_5_AND_10_MLN = 40;
-        private const double W_MIDDLE_INCOME_MORE_10_MLN = 50;
+        private const double W_MIDDLE_INCOME_MAX_VALUE = 30;
 
         //Children Count
-        private const double W_CHILDREN_COUNT_ZERO = 0;
-        private const double W_CHILDREN_COUNT_ONE = -5;
-        private const double W_CHILDREN_COUNT_TWO = -10;
-        private const double W_CHILDREN_COUNT_THREE = -15;
-        private const double W_CHILDREN_COUNT_MORE_THREE = -20;
+        private const double W_CHILDREN_COUNT_ZERO = 20;
+        private const double W_CHILDREN_COUNT_ONE = 15;
+        private const double W_CHILDREN_COUNT_TWO = 10;
+        private const double W_CHILDREN_COUNT_THREE = 5;
+        private const double W_CHILDREN_COUNT_MORE_THREE = 0;
 
         //Education
         private const double W_EDUCATION_MORE_HIGHER = 10;
         private const double W_EDUCATION_HIGHER = 8;
         private const double W_EDUCATION_HIGHER_INCOMPLETE = 5;
-        private const double W_EDUCATION_VOCATIONAL = 3;
-        private const double W_EDUCATION_SECONDARY = -5;
-        private const double W_EDUCATION_LOWER_SECONDARY = -10;
+        private const double W_EDUCATION_VOCATIONAL = 5;
+        private const double W_EDUCATION_SECONDARY = 4;
+        private const double W_EDUCATION_LOWER_SECONDARY = 2;
 
         //Is Married
         private const double W_IS_MARRIED = 10;
-        private const double W_IS_NOT_MARRIED = 0;
+        private const double W_IS_NOT_MARRIED = 3;
 
         //Length of work
-        private const double W_LENGTH_OF_WORK_LESS_ONE_YEAR = 5;
-        private const double W_LENGTH_OF_WORK_MORE_ONE_YEAR = 10;
+        private const double W_LENGTH_OF_WORK_LESS_ONE_YEAR = 1;
+        private const double W_LENGTH_OF_WORK_BETWEEN_ONE_TWO_YEARS = 3;
+        private const double W_LENGTH_OF_WORK_BETWEEN_TWO_THREE_YEARS = 6;
+        private const double W_LENGTH_OF_WORK_BETWEEN_THREE_FOUR_YEARS = 7;
+        private const double W_LENGTH_OF_WORK_BETWEEN_FOUR_FIVE_YEARS = 8;
+        private const double W_LENGTH_OF_WORK_MORE_FIVE_YEARS = 10; 
 
         //Is Homeowner
         private const double W_IS_HOMEOWNER = 10;
-        private const double W_IS_NOT_HOMEOWNER = -10;
+        private const double W_IS_NOT_HOMEOWNER = 0;
 
         //Age
-        private const double W_AGE_BETWEEN_20_25 = 5;
+        private const double W_AGE_BETWEEN_20_25 = 3;
         private const double W_AGE_BETWEEN_25_60 = 10;
-        private const double W_AGE_MORE_60 = 5;
+        private const double W_AGE_MORE_60 = 4;
 
 
-
-
-        public static double CalculatePredictions(LoanApplication loanApplication)
+        public static double CalculateRating(LoanApplication loanApplication, IEnumerable<LoanHistory> loanHistories)
         {
-            //var sumOfParams = CalculateSumOfParams(loanApplication);
-            //return 1.0 / (1.0 + Math.Exp((-1) * sumOfParams));
-            
-            const double w0 = 0;
             try
             {
-                return w0
+                return CalculateRatingOfParams(loanApplication) * CalculateCreditHistory(loanHistories);
+            }
+            catch
+            {
+                return 0;
+            }
+            
+        }
+
+
+        private static double CalculateCreditHistory(IEnumerable<LoanHistory> loanHistories)
+        {
+            if (loanHistories != null)
+            {
+                double countOfGoodLoans = 0;
+                double amountOfLoans = 0;
+                foreach (var loanHistory in loanHistories)
+                {
+                    amountOfLoans++;
+                    if (!loanHistory.HadProblems)
+                    {
+                        countOfGoodLoans++;
+                    }
+                }
+                return countOfGoodLoans/amountOfLoans;
+            }
+            //if (loanHistories == null)
+            return 0.8;
+        }
+
+        private static double CalculateRatingOfParams(LoanApplication loanApplication)
+        {
+            const double w0 = -5;
+            try
+            {
+                return (w0
                        + ConvertParamCashIncomeLevelToDouble(loanApplication.MiddleIncome)
                        + ConvertParamChildrenCountToDouble(loanApplication.ChildrenCount)
                        + ConvertParamHigherEducationToDouble(loanApplication.HigherEducation)
@@ -68,56 +98,34 @@ namespace Application
                        + ConvertParamIsHomeowner(loanApplication.IsHomeowner)
                        +
                        (loanApplication.PersonalData.DateOfBirth != null
-                            ? ConvertParamAgeToDouble((DateTime) loanApplication.PersonalData.DateOfBirth)
-                            : 0);
+                            ? ConvertParamAgeToDouble((DateTime)loanApplication.PersonalData.DateOfBirth)
+                            : 0))/100;
             }
             catch
             {
-                return 0;
+                throw new Exception("Not Creditworthy");
             }
         }
 
-        //private static double CalculateSumOfParams(LoanApplication loanApplication)
-        //{
-        //    const double w0 = 0;
-        //    return w0
-        //           + ConvertParamCashIncomeLevelToDouble(loanApplication.MiddleIncome)
-        //           + ConvertParamChildrenCountToDouble(loanApplication.ChildrenCount)
-        //           + ConvertParamHigherEducationToDouble(loanApplication.HigherEducation)
-        //           + ConvertParamIsMaridToDouble(loanApplication.IsMarried)
-        //           + ConvertParamLenghtOfWorkToDouble(loanApplication.LengthOfWork)
-        //           + ConvertParamIsHomeowner(loanApplication.IsHomeowner)
-        //           + (loanApplication.PersonalData.DateOfBirth != null?ConvertParamAgeToDouble((DateTime)loanApplication.PersonalData.DateOfBirth) : 0);
-        //}
 
+
+        /// <summary>
+        /// Calculate amount of points by current Cash income
+        /// </summary>
+        /// <param name="middleIncome"></param>
+        /// <returns></returns>
         private static double ConvertParamCashIncomeLevelToDouble(decimal middleIncome)
         {
             if (middleIncome < 2000000)
             {
                 throw new Exception("Not creditworthy");
             }
-            if (2000000 <= middleIncome && middleIncome < 3000000)
-            {
-                return W_MIDDLE_INCOME_BETWEEN_2_AND_3_MLN;
-            }
-            if (3000000 <= middleIncome && middleIncome < 5000000)
-            {
-                return W_MIDDLE_INCOME_BETWEEN_3_AND_5_MLN;
-            }
-            if (5000000 <= middleIncome && middleIncome < 10000000)
-            {
-                return W_MIDDLE_INCOME_BETWEEN_5_AND_10_MLN;
-            }
-            if (middleIncome >= 10000000)
-            {
-                return W_MIDDLE_INCOME_MORE_10_MLN;
-            }
-            return -1;
+            return (double) (middleIncome*(decimal) W_MIDDLE_INCOME_MAX_VALUE/10000000);
         }
 
         private static double ConvertParamChildrenCountToDouble(int childrenCount)
         {
-            if (childrenCount <= 0)
+            if (childrenCount == 0)
             {
                 return W_CHILDREN_COUNT_ZERO;
             }
@@ -133,8 +141,11 @@ namespace Application
             {
                 return W_CHILDREN_COUNT_THREE;
             }
-
-            return W_CHILDREN_COUNT_MORE_THREE;
+            if (childrenCount >= 4)
+            {
+                return W_CHILDREN_COUNT_MORE_THREE;
+            }
+            return -1;
         }
 
         private static double ConvertParamHigherEducationToDouble(Education higherEducation)
@@ -176,7 +187,31 @@ namespace Application
 
         private static double ConvertParamLenghtOfWorkToDouble(int lenghtOfWork)
         {
-            return lenghtOfWork <= 1 ? W_LENGTH_OF_WORK_LESS_ONE_YEAR : W_LENGTH_OF_WORK_MORE_ONE_YEAR;
+            if (lenghtOfWork < 1)
+            {
+                return W_LENGTH_OF_WORK_LESS_ONE_YEAR;
+            }
+            if (lenghtOfWork >= 1 && lenghtOfWork < 2)
+            {
+                return W_LENGTH_OF_WORK_BETWEEN_ONE_TWO_YEARS;
+            }
+            if (lenghtOfWork >= 2 && lenghtOfWork < 3)
+            {
+                return W_LENGTH_OF_WORK_BETWEEN_TWO_THREE_YEARS;
+            }
+            if (lenghtOfWork >= 3 && lenghtOfWork < 4)
+            {
+                return W_LENGTH_OF_WORK_BETWEEN_THREE_FOUR_YEARS;
+            }
+            if (lenghtOfWork >= 4 && lenghtOfWork < 5)
+            {
+                return W_LENGTH_OF_WORK_BETWEEN_FOUR_FIVE_YEARS;
+            }
+            if (lenghtOfWork >= 5)
+            {
+                return W_LENGTH_OF_WORK_MORE_FIVE_YEARS;
+            }
+            return -1;
         }
 
         private static double ConvertParamIsHomeowner(bool isHomeOwner)
@@ -203,7 +238,11 @@ namespace Application
             {
                 return W_AGE_BETWEEN_25_60;
             }
-            return W_AGE_MORE_60;
+            if (age > 60 && age < 90)
+            {
+                return W_AGE_MORE_60;
+            }
+            throw new Exception("Not creditworthy");
         }
     }
 }

@@ -111,6 +111,9 @@ namespace Presentation.Controllers
                 .Where(a => a.Status == LoanApplicationStatus.UnderRiskConsideration)
                 .ToList();
             ViewBag.ActiveTab = "Security";
+            ViewBag.Scoring = loanApplications
+                .ToDictionary(la => la.Id,
+                la => ScoringSystem.CalculateRating(la, Service.GetHistoryFromNationalBank(la)));
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
