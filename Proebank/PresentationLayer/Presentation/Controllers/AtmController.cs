@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Application;
 using Microsoft.Practices.Unity;
 using Presentation.Models;
+using RazorPDF;
 
 namespace Presentation.Controllers
 {
@@ -35,13 +36,15 @@ namespace Presentation.Controllers
                 if (loan != null)
                 {
                     Service.RegisterPayment(loan, model.Amount);
+                    ViewBag.PaymentRegistered = true;
+                    var pdfBill = new PdfBill {Loan = loan, Amount = model.Amount, Operator = User.Identity.Name};
+                    return new PdfResult(pdfBill, "PdfBill");
                 }
                 else
                 {
                     ModelState.AddModelError("LoanId", "Loan is not found");
                 }
             }
-            ViewBag.PaymentRegistered = true;
             return RedirectToAction("Index");
         }
     }

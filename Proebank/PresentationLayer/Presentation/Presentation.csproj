@@ -261,6 +261,7 @@
     <Compile Include="Models\LoanDetailsViewModel.cs" />
     <Compile Include="Models\LoanPdfViewModel.cs" />
     <Compile Include="Models\LoanWithCustomerViewModel.cs" />
+    <Compile Include="Models\PdfBill.cs" />
     <Compile Include="Models\PersonalLoanHistoryViewModel.cs" />
     <Compile Include="Models\LoanCalculatorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -416,6 +417,7 @@
     <Content Include="Views\Statistic\Loan.cshtml" />
     <Content Include="Views\Customer\All.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\PersonalData.cshtml" />
+    <Content Include="Views\Atm\PdfBill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
