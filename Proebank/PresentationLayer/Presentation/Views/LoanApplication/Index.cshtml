@@ -4,12 +4,17 @@
 @using PagedList
 @using PagedList.Mvc
 @using Domain.Models.Loans
+@using System
 @model IPagedList<Domain.Models.Loans.LoanApplication>
 
 @{
     ViewBag.Title = @ViewBag.ActiveTab + " applications";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var isHead = User.Identity.IsAuthenticated && User.IsInRole("Department head");
+    var isHead = User.Identity.IsAuthenticated && User.IsInRole("Department head");    
+}
+
+@{
+    var scoringDictonary = (Dictionary<Guid,double>)ViewBag.Scoring;
 }
 
 @section scripts{
@@ -117,9 +122,9 @@
             </td>
             @if (User.IsInRole("Security"))
             {
-           <td>
-                @Html.Label(Convert.ToString(ScoringSystem.CalculatePredictions(item)))%
-            </td>
+                <td>
+                    @scoringDictonary[item.Id].ToString("0.##%")
+                </td>
             }
 
             <td>
