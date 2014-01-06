@@ -54,13 +54,38 @@ namespace Application
         {
             try
             {
-                return CalculateRatingOfParams(loanApplication) * CalculateCreditHistory(loanHistories);
+                return CalculateRatingOfParams(loanApplication) * 
+                    ((CalculateCreditHistory(loanHistories) + CalculateDependencySalaryToLoanApplication(loanApplication))/2);
             }
             catch
             {
                 return 0;
             }
             
+        }
+
+
+        private static double CalculateDependencySalaryToLoanApplication(LoanApplication loanApplication)
+        {
+            //Currency Rates is better take from web.config?? Or some global variables(for example Head should set up currency rates in the beginning of the day)
+            decimal currency;
+            switch (loanApplication.Currency)
+            {
+                case Currency.EUR:
+                    currency = 13000;
+                    break;
+                case Currency.USD:
+                    currency = 9560;
+                    break;
+                default:
+                    currency = 1;
+                    break;
+            }
+            var sumInMonth = (loanApplication.LoanAmount* currency)/loanApplication.Term;
+            var k = sumInMonth/((decimal) 0.4 * loanApplication.MiddleIncome);
+            if (k >= 1)
+                throw  new Exception("Loan sum in month is bigger than 40% of Salary!!");
+            return Convert.ToDouble(1 - k);
         }
 
 
