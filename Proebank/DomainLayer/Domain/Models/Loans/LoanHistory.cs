@@ -16,6 +16,7 @@ namespace Domain.Models.Loans
         public decimal Amount { get; set; }
         public Currency Currency { get; set; }
         public bool HadProblems { get; set; }
+        public Guid LoanId { get; set; }
 
         public LoanHistory()
         {
@@ -32,6 +33,7 @@ namespace Domain.Models.Loans
                     WhenOpened = application.TimeContracted.Value;
                     Amount = application.LoanAmount;
                     Currency = application.Currency;
+                    LoanId = loan.Id;
                 }
                 else throw new ArgumentException("loan.Application");
             }
