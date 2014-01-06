@@ -102,7 +102,6 @@ namespace Presentation.Controllers
             tariff.PmtFrequency = 1;
             if (ModelState.IsValid)
             {
-                
                 Service.UpsertTariff(tariff);
                 return RedirectToAction("Index");
             }
@@ -117,23 +116,40 @@ namespace Presentation.Controllers
             {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
             var tariff = Service.Find<Tariff>(id);
             if (tariff == null)
             {
                 return HttpNotFound();
             }
-            return View(tariff);
+            tariff.IsActive = false;
+            Service.UpsertTariff(tariff);
+            return RedirectToAction("Index");
         }
 
-        // POST: /Tariffs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        //// POST: /Tariffs/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[Authorize(Roles = "Department head")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(Guid id)
+        //{
+        //    Service.DeleteTariffById(id);
+        //    return RedirectToAction("Index");
+        //}
+
         [Authorize(Roles = "Department head")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        public ActionResult Activate(Guid? id)
         {
-            
-            Service.DeleteTariffById(id);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var tariff = Service.Find<Tariff>(id);
+            if (tariff == null)
+            {
+                return HttpNotFound();
+            }
+            tariff.IsActive = true;
+            Service.UpsertTariff(tariff);
             return RedirectToAction("Index");
         }
     }
