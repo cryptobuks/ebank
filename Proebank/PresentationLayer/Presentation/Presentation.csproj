@@ -418,6 +418,7 @@
     <Content Include="Views\Customer\All.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\PersonalData.cshtml" />
     <Content Include="Views\Atm\PdfBill.cshtml" />
+    <Content Include="Views\Statistic\Tariff.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
