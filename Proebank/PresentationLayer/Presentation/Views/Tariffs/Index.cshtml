@@ -15,9 +15,7 @@
 
 @if (isDepartmentHead)
 {
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+    <p><a class="btn btn-primary" href="@Url.Action("Create")">Create New</a></p>
 }
 else
 {
@@ -50,14 +48,11 @@ else
         <th>
             @Html.DisplayNameFor(model => model.First().LoanPurpose)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Currency)
-        </th>
         @if (isDepartmentHead)
         {
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.First().CreationDate)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.First().IsActive)
             </th>
@@ -73,6 +68,7 @@ else
     @foreach (var item in Model)
     {
         var isGuarantorNeeded = item.IsGuarantorNeeded ? "Yes" : "No";
+        var isActive = item.IsActive ? "Yes" : "No";
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -81,10 +77,12 @@ else
                 @Html.DisplayFor(modelItem => item.InterestRate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MinAmount)
+                @item.MinAmount
+                @Html.DisplayFor(modelItem => item.Currency)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MaxAmount)
+                @item.MaxAmount
+                @Html.DisplayFor(modelItem => item.Currency)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MinTerm)
@@ -98,28 +96,24 @@ else
             <td>
                 @Html.DisplayFor(modelItem => item.LoanPurpose)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Currency)
-            </td>
             @if (isDepartmentHead)
             {
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.CreationDate)
-                </td>
+                </td>*@
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
+                    @isActive
                 </td>
                 <td>
                     <a href="@Url.Action("Details", new {id = item.Id})" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
                     <a href="@Url.Action("Edit", new {id = item.Id})" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-edit fa-lg"></i></a>
                     @if (item.IsActive)
                     {
-                        <a href="@Url.Action("Delete", new {id = item.Id})" title="Delete" class="btn btn-primary btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
+                        <a href="@Url.Action("Delete", new {id = item.Id})" title="Deactivate" class="btn btn-danger btn-xs"><i class="fa fa-level-down fa-lg"></i></a>
                     }
                     else
                     {
-                        <span>Activate</span>
-                        @*<a href="@Url.Action("Delete", new {id = item.Id})" title="Delete" class="btn btn-primary btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>*@
+                        <a href="@Url.Action("Activate", new {id = item.Id})" title="Activate" class="btn btn-success btn-xs"><i class="fa fa-level-up fa-lg"></i></a>
                     }
                 </td>
             }

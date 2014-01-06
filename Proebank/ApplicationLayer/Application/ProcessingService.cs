@@ -388,10 +388,21 @@ namespace Application
         public void CloseLoan(Loan loan)
         {
             var loanRepo = _unitOfWork.GetDbSet<Loan>();
+            var loanHistorySet = _unitOfWork.GetDbSet<LoanHistory>();
+            var today = GetCurrentDate();
             if (CanLoanBeClosed(loan))
             {
                 var entryRepo = _unitOfWork.GetDbSet<Entry>();
                 loan.IsClosed = true;
+                // ?? is for contracts signed before saving loan id in history entry
+                var loanHistory = loanHistorySet.SingleOrDefault(lh => lh.LoanId == loan.Id) ?? loanHistorySet.First(
+                    lh => lh.Amount == loan.Application.LoanAmount && lh.Currency == loan.Application.Currency);
+                if (loanHistory != null)
+                {
+                    loanHistory.HadProblems =
+                        loan.Accounts.Single(a => a.Type == AccountType.OverdueInterest).Entries.Any();
+                    loanHistory.WhenClosed = today;
+                }
                 foreach (var account in loan.Accounts)
                 {
                     if (account.Type == AccountType.ContractService)
@@ -406,6 +417,7 @@ namespace Application
                     }
                     CloseAccount(account);
                 }
+                loanHistorySet.AddOrUpdate(loanHistory);
                 loanRepo.AddOrUpdate(loan);
                 _unitOfWork.SaveChanges();
             }
