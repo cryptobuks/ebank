@@ -18,13 +18,22 @@ namespace Presentation.Controllers
         [Dependency]
         protected ProcessingService Service { get; set; }
 
+        [Authorize(Roles = "Department head")]
         public ActionResult LoanApplication()
         {
             var list = Service.GetLoanApplications().ToList();
             return View(list);
         }
 
+        [Authorize(Roles = "Department head")]
         public ActionResult Loan()
+        {
+            var list = Service.GetLoans().ToList();
+            return View(list);
+        }
+
+        [Authorize(Roles = "Department head")]
+        public ActionResult Tariff()
         {
             var list = Service.GetLoans().ToList();
             return View(list);

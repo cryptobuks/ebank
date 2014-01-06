@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Domain.Models.Loans.LoanApplication>
+﻿@using Domain.Enums
+@model IEnumerable<Domain.Models.Loans.LoanApplication>
 
 @{
     ViewBag.Title = "Statistic";
@@ -18,9 +19,30 @@
     var listTariff = Model.Select(x => x.Tariff.Name).GroupBy(y => y).ToList();
     string xTariff = listTariff.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
     string yTariff = listTariff.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
-    var listAmount = Model.Select(x => x.LoanAmount).GroupBy(y => y).ToList();
-    string xAmount = listAmount.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
-    string yAmount = listAmount.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    var BYRAmount = Model.Where(x => x.Currency == Currency.BYR).GroupBy(x => x.LoanAmount);
+    var USDAmount = Model.Where(x => x.Currency == Currency.USD).GroupBy(x => x.LoanAmount);
+    var EURAmount = Model.Where(x => x.Currency == Currency.EUR).GroupBy(x => x.LoanAmount);
+    string xBYRAmount = "0";
+    string yBYRAmount = "0";
+    string xUSDAmount = "0";
+    string yUSDAmount = "0";
+    string xEURAmount = "0";
+    string yEURAmount = "0";
+    if (BYRAmount != null && BYRAmount.Count() != 0)
+    {
+        xBYRAmount = BYRAmount.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yBYRAmount = BYRAmount.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
+    if (USDAmount != null && USDAmount.Count() != 0)
+    {
+        xUSDAmount = USDAmount.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yUSDAmount = USDAmount.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
+    if (EURAmount != null && EURAmount.Count() != 0)
+    {
+        xEURAmount = EURAmount.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yEURAmount = EURAmount.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
     var listCurrency = Model.Select(x => x.Currency.ToString()).GroupBy(y => y).ToList();
     string xCurrency = listCurrency.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
     string yCurrency = listCurrency.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
@@ -32,7 +54,12 @@
 <h4 align="center">Tariffs information: </h4>
 <div id="tariff" style="width: 100%; height: 400px;"></div>
 <h4 align="center">Amount of money information: </h4>
-<div id="amount" style="width: 100%; height: 400px;"></div>
+<h4 id="amount1a" align="center"></h4>
+<div id="amount1"></div>
+<h4 id="amount2a" align="center"></h4>
+<div id="amount2"></div>
+<h4 id="amount3a" align="center"></h4>
+<div id="amount3"></div>
 <h4 align="center">Currencies information: </h4>
 <div id="currency" style="width: 100%; height: 400px;"></div>
 <script type="text/javascript">
@@ -100,6 +127,11 @@
         chart3.dataProvider = chartData;
         chart3.write("tariff");
 
+        if (@xBYRAmount != 0)
+        {
+            $("#amount1").css({ 'width': '100%', 'height': '400px' });
+            $("#amount1a").text("BYR");
+        }
         var chart4;
         chartData = new Array();
         chart4 = new AmCharts.AmPieChart();
@@ -109,8 +141,8 @@
         chart4.depth3D = 15;
         chart4.angle = 30;
 
-        var x = '@xAmount'.split(', ');
-        var y = '@yAmount'.split(', ');
+        var x = '@xBYRAmount'.split(', ');
+        var y = '@yBYRAmount'.split(', ');
         chartData = new Array();
         for (var i = 0; i < x.length; i++) {
             chartData.push({
@@ -119,8 +151,13 @@
             });
         }
         chart4.dataProvider = chartData;
-        chart4.write("amount");
-        
+        chart4.write("amount1");
+
+        if (@xUSDAmount != 0)
+        {
+            $("#amount2").css({ 'width': '100%', 'height': '400px' });
+            $("#amount2a").text("USD");
+        }
         var chart5;
         chartData = new Array();
         chart5 = new AmCharts.AmPieChart();
@@ -129,6 +166,53 @@
         chart5.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
         chart5.depth3D = 15;
         chart5.angle = 30;
+
+        var x = '@xUSDAmount'.split(', ');
+        var y = '@yUSDAmount'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart5.dataProvider = chartData;
+        chart5.write("amount2");
+
+        if (@xEURAmount != 0)
+        {
+            $("#amount3").css({ 'width': '100%', 'height': '400px' });
+            $("#amount3a").text("EUR");
+        }
+        var chart6;
+        chartData = new Array();
+        chart6 = new AmCharts.AmPieChart();
+        chart6.titleField = "title";
+        chart6.valueField = "value";
+        chart6.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart6.depth3D = 15;
+        chart6.angle = 30;
+
+        var x = '@xEURAmount'.split(', ');
+        var y = '@yEURAmount'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart6.dataProvider = chartData;
+        chart6.write("amount3");
+        
+        var chart7;
+        chartData = new Array();
+        chart7 = new AmCharts.AmPieChart();
+        chart7.titleField = "title";
+        chart7.valueField = "value";
+        chart7.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart7.depth3D = 15;
+        chart7.angle = 30;
 
         var x = '@xCurrency'.split(', ');
         var y = '@yCurrency'.split(', ');
@@ -139,8 +223,8 @@
                 value: y[i]
             });
         }
-        chart5.dataProvider = chartData;
-        chart5.write("currency");
+        chart7.dataProvider = chartData;
+        chart7.write("currency");
 
         $('g').children('text').children('tspan').contents().filter(function () {
             return $(this).text() == 'chart by amcharts.com';

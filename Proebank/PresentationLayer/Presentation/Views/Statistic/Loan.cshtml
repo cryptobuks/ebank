@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Domain.Models.Loans.Loan>
+﻿@using Domain.Enums
+@model IEnumerable<Domain.Models.Loans.Loan>
 
 @{
     ViewBag.Title = "Statistic";
@@ -6,3 +7,230 @@
 }
 
 <h2>Loan information</h2>
+
+@{
+    var listStatus = Model.Where(x => DateTime.Now - x.Application.TimeContracted < TimeSpan.FromDays(30)).Select(x => x.IsClosed).GroupBy(y => y).ToList();
+    string yStatus = listStatus.Count() != 0 ? listStatus.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y) : "0";
+    var listTerm = Model.Select(x => x.Application.Term).GroupBy(y => y).ToList();
+    string xTerm = listTerm.Select(x => x.Key.ToString() + " months").Aggregate((x, y) => x + ", " + y);
+    string yTerm = listTerm.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    var listTariff = Model.Select(x => x.Application.Tariff.Name).GroupBy(y => y).ToList();
+    string xTariff = listTariff.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+    string yTariff = listTariff.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    var BYRAmount = Model.Where(x => x.Application.Currency == Currency.BYR).GroupBy(x => x.Application.LoanAmount);
+    var USDAmount = Model.Where(x => x.Application.Currency == Currency.USD).GroupBy(x => x.Application.LoanAmount);
+    var EURAmount = Model.Where(x => x.Application.Currency == Currency.EUR).GroupBy(x => x.Application.LoanAmount);
+    string xBYRAmount = "0";
+    string yBYRAmount = "0";
+    string xUSDAmount = "0";
+    string yUSDAmount = "0";
+    string xEURAmount = "0";
+    string yEURAmount = "0";
+    if (BYRAmount != null && BYRAmount.Count() != 0)
+    {
+        xBYRAmount = BYRAmount.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yBYRAmount = BYRAmount.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
+    if (USDAmount != null && USDAmount.Count() != 0)
+    {
+        xUSDAmount = USDAmount.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yUSDAmount = USDAmount.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
+    if (EURAmount != null && EURAmount.Count() != 0)
+    {
+        xEURAmount = EURAmount.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yEURAmount = EURAmount.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
+    var listCurrency = Model.Select(x => x.Application.Currency.ToString()).GroupBy(y => y).ToList();
+    string xCurrency = listCurrency.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+    string yCurrency = listCurrency.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+}
+<h4 id="statusa" align="center"></h4>
+<div id="status"></div>
+<h4 align="center">Requested loan terms information: </h4>
+<div id="term" style="width: 100%; height: 400px;"></div>
+<h4 align="center">Tariffs information: </h4>
+<div id="tariff" style="width: 100%; height: 400px;"></div>
+<h4 align="center">Amount of money information: </h4>
+<h4 id="amount1a" align="center"></h4>
+<div id="amount1"></div>
+<h4 id="amount2a" align="center"></h4>
+<div id="amount2"></div>
+<h4 id="amount3a" align="center"></h4>
+<div id="amount3"></div>
+<h4 align="center">Currencies information: </h4>
+<div id="currency" style="width: 100%; height: 400px;"></div>
+<script type="text/javascript">
+    AmCharts.ready(function () {
+        if (@yStatus != 0)
+        {
+            $("#status").css({ 'width': '100%', 'height': '400px' });
+            $("#statusa").text("Loan statuses information for last 30 days: ");
+        }
+        var chart1;
+        var chartData = new Array();
+        chart1 = new AmCharts.AmPieChart();
+        chart1.titleField = "title";
+        chart1.valueField = "value";
+        chart1.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart1.depth3D = 15;
+        chart1.angle = 30;
+
+        var x = 'Active, Closed'.split(', ');
+        var y = '@yStatus'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart1.dataProvider = chartData;
+        chart1.write("status");
+
+        var chart2;
+        chartData = new Array();
+        chart2 = new AmCharts.AmPieChart();
+        chart2.titleField = "title";
+        chart2.valueField = "value";
+        chart2.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart2.depth3D = 15;
+        chart2.angle = 30;
+
+        var x = '@xTerm'.split(', ');
+        var y = '@yTerm'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart2.dataProvider = chartData;
+        chart2.write("term");
+
+        var chart3;
+        chartData = new Array();
+        chart3 = new AmCharts.AmPieChart();
+        chart3.titleField = "title";
+        chart3.valueField = "value";
+        chart3.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart3.depth3D = 15;
+        chart3.angle = 30;
+
+        var x = '@xTariff'.split(', ');
+        var y = '@yTariff'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart3.dataProvider = chartData;
+        chart3.write("tariff");
+
+        if (@xBYRAmount != 0)
+        {
+            $("#amount1").css({ 'width': '100%', 'height': '400px' });
+            $("#amount1a").text("BYR");
+        }
+        var chart4;
+        chartData = new Array();
+        chart4 = new AmCharts.AmPieChart();
+        chart4.titleField = "title";
+        chart4.valueField = "value";
+        chart4.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart4.depth3D = 15;
+        chart4.angle = 30;
+
+        var x = '@xBYRAmount'.split(', ');
+        var y = '@yBYRAmount'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart4.dataProvider = chartData;
+        chart4.write("amount1");
+
+        if (@xUSDAmount != 0)
+        {
+            $("#amount2").css({ 'width': '100%', 'height': '400px' });
+            $("#amount2a").text("USD");
+        }
+        var chart5;
+        chartData = new Array();
+        chart5 = new AmCharts.AmPieChart();
+        chart5.titleField = "title";
+        chart5.valueField = "value";
+        chart5.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart5.depth3D = 15;
+        chart5.angle = 30;
+
+        var x = '@xUSDAmount'.split(', ');
+        var y = '@yUSDAmount'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart5.dataProvider = chartData;
+        chart5.write("amount2");
+
+        if (@xEURAmount != 0)
+        {
+            $("#amount3").css({ 'width': '100%', 'height': '400px' });
+            $("#amount3a").text("EUR");
+        }
+        var chart6;
+        chartData = new Array();
+        chart6 = new AmCharts.AmPieChart();
+        chart6.titleField = "title";
+        chart6.valueField = "value";
+        chart6.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart6.depth3D = 15;
+        chart6.angle = 30;
+
+        var x = '@xEURAmount'.split(', ');
+        var y = '@yEURAmount'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart6.dataProvider = chartData;
+        chart6.write("amount3");
+        
+        var chart7;
+        chartData = new Array();
+        chart7 = new AmCharts.AmPieChart();
+        chart7.titleField = "title";
+        chart7.valueField = "value";
+        chart7.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart7.depth3D = 15;
+        chart7.angle = 30;
+
+        var x = '@xCurrency'.split(', ');
+        var y = '@yCurrency'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart7.dataProvider = chartData;
+        chart7.write("currency");
+
+        $('g').children('text').children('tspan').contents().filter(function () {
+            return $(this).text() == 'chart by amcharts.com';
+        }).remove();
+    });
+</script>
