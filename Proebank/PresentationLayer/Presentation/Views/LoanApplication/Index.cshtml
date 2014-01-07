@@ -132,6 +132,7 @@
                 {
                     case LoanApplicationStatus.New:
                         <a href="@Url.Action("Fill", new { id = item.Id })" title="Fill docs" class="btn btn-primary btn-xs"><i class="fa fa-paperclip fa-lg"></i> Fill docs</a>
+                      <a href="@Url.Action("Delete", new { id = item.Id })" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
                         break;
                     case LoanApplicationStatus.Filled:
                         <a href="@Url.Action("SendToSecurity", new { id = item.Id })" title="to security service" class="btn btn-default btn-xs"><i class="fa fa-lock fa-lg"></i> To security</a>
