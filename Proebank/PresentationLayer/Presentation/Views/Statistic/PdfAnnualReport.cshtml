@@ -1,0 +1,84 @@
+﻿@model Domain.Models.ReportModel
+
+@{
+    Layout = "~/Views/Shared/_PdfLayout.cshtml";
+}
+
+<image url="@Context.Server.MapPath("~/Content/img/logo.png")"/>
+<newline />
+<newline />
+<newline />
+<paragraph>
+    <chunk style="font-family:Times;font-size:16px;font-weight:bold;">Annual PROebank loan department activity report</chunk>
+</paragraph>
+<paragraph>
+    <chunk style="font-family:Times;font-size:14px;">@Model.DateTo - @Model.DateFrom</chunk>
+</paragraph>
+ 
+<newline />
+<table width="80%" cellpadding="1.0" cellspacing="1.0" widths="20;10">
+    <row>
+        <cell>Loan applications processed:</cell>
+        <cell>@Model.LoanApplicationsProcessed</cell>
+    </row>
+    <row>
+        <cell>Loan applications approved:</cell>
+        <cell>@Model.LoanApplicationsApproved</cell>
+    </row>
+    <row>
+        <cell>Approval percentage:</cell>
+        <cell>@Model.LoanApplicationsApprovalPercentage%</cell>
+    </row>
+    <row>
+        <cell>Loans issued:</cell>
+        <cell>@Model.LoansSigned</cell>
+    </row>
+    <row>
+        <cell></cell>
+        <cell></cell>
+    </row>
+    <row>
+        <cell style="font-weight:bold;">Overall issued amount:</cell>
+        <cell></cell>
+    </row>
+    <row>
+        <cell>BYR:</cell>
+        <cell>@Model.OverallLoanAmountIssuedByr</cell>
+    </row>
+    <row>
+        <cell>EUR:</cell>
+        <cell>@Model.OverallLoanAmountIssuedEur</cell>
+    </row>
+    <row>
+        <cell>USD:</cell>
+        <cell>@Model.OverallLoanAmountIssuedUsd</cell>
+    </row>
+    <row>
+        <cell>The most popular tariff:</cell>
+        <cell>@Model.MostPopularTariff</cell>
+    </row>
+    <row>
+        <cell>The least popular tariff:</cell>
+        <cell>@Model.LeastPopularTariff</cell>
+    </row>
+    <row>
+        <cell></cell>
+        <cell></cell>
+    </row>
+    <row>
+        <cell style="font-weight:bold;">Annual department income:</cell>
+        <cell></cell>
+    </row>
+    <row>
+        <cell>BYR:</cell>
+        <cell>@Model.BankIncomeByr</cell>
+    </row>
+    <row>
+        <cell>EUR:</cell>
+        <cell>@Model.BankIncomeEur</cell>
+    </row>
+    <row>
+        <cell>USD:</cell>
+        <cell>@Model.BankIncomeUsd</cell>
+    </row>
+</table>

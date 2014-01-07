@@ -40,5 +40,12 @@ namespace Domain.Models.Accounts
         {
             get { return Entries.Sum(e => e.Amount); }
         }
+
+        public decimal GetBalanceForDate(DateTime date)
+        {
+            return Entries
+                .Where(en => en.Date <= date && en.SubType != EntrySubType.CharterCapital)
+                .Sum(e => e.Amount);
+        }
     }
 }

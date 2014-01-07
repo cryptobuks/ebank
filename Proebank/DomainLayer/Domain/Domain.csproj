@@ -81,6 +81,7 @@
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Loans\CommitteeVoting.cs" />
     <Compile Include="Models\Loans\LoanHistory.cs" />
+    <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Enums\AccountType.cs" />

@@ -10,6 +10,8 @@ using Domain.Models.Loans;
 using Domain;
 using Application;
 using Microsoft.Practices.Unity;
+using Presentation.Models;
+using RazorPDF;
 
 namespace Presentation.Controllers
 {
@@ -43,6 +45,24 @@ namespace Presentation.Controllers
         {
             var list = Service.GetLoans().ToList();
             return View(list);
+        }
+
+        [Authorize(Roles = "Department head")]
+        public ActionResult MonthlyReport()
+        {
+            var report = Service.GetMonthlyReport();
+            var pdfResult = new PdfResult(report, "PdfMonthlyReport");
+            pdfResult.ViewBag.Title = "Monthly Report";
+            return pdfResult;
+        }
+
+        [Authorize(Roles = "Department head")]
+        public ActionResult AnnualReport()
+        {
+            var report = Service.GetAnnualReport();
+            var pdfResult = new PdfResult(report, "PdfAnnualReport");
+            pdfResult.ViewBag.Title = "Annual Report";
+            return pdfResult;
         }
     }
 }

@@ -420,6 +420,8 @@
     <Content Include="Views\Atm\PdfBill.cshtml" />
     <Content Include="Views\Statistic\Tariff.cshtml" />
     <Content Include="Views\Statistic\Index.cshtml" />
+    <Content Include="Views\Statistic\PdfMonthlyReport.cshtml" />
+    <Content Include="Views\Statistic\PdfAnnualReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -784,5 +784,68 @@ namespace Application
             var cvs = _unitOfWork.GetDbSet<CommitteeVoting>();
             return cvs;
         }
+
+        public ReportModel GetAnnualReport()
+        {
+            var today = GetCurrentDate();
+            var yearAgo = today.Date.AddYears(-1);
+            return GetReportForDate(today, yearAgo);
+        }
+
+        public ReportModel GetMonthlyReport()
+        {
+            var today = GetCurrentDate();
+            var monthAgo = today.Date.AddMonths(-1);
+            return GetReportForDate(today, monthAgo);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dateFrom">dateFrom is after dateTo</param>
+        /// <param name="dateTo">dateTo is before dateFrom</param>
+        /// <returns></returns>
+        private ReportModel GetReportForDate(DateTime dateFrom, DateTime dateTo)
+        {
+            var report = new ReportModel(dateFrom, dateTo);
+            var accountSet = _unitOfWork.GetDbSet<Account>();
+            var bankAccounts = accountSet.Where(a => a.Type == AccountType.BankBalance);
+            var bankAccountByr = bankAccounts.Single(a => a.Currency == Currency.BYR);
+            var bankAccountEur = bankAccounts.Single(a => a.Currency == Currency.EUR);
+            var bankAccountUsd = bankAccounts.Single(a => a.Currency == Currency.USD);
+            report.BankIncomeByr = bankAccountByr.GetBalanceForDate(dateFrom) - bankAccountByr.GetBalanceForDate(dateTo);
+            report.BankIncomeEur = bankAccountEur.GetBalanceForDate(dateFrom) - bankAccountEur.GetBalanceForDate(dateTo);
+            report.BankIncomeUsd = bankAccountUsd.GetBalanceForDate(dateFrom) - bankAccountUsd.GetBalanceForDate(dateTo);
+
+            var loans = GetLoans().Where(l => l.Application.TimeContracted >= dateTo).ToList(); // !
+            report.LoansSigned = loans.Count();
+            var groupedByTariffLoans = loans.GroupBy(l => l.Application.Tariff.Name).OrderBy(l => l.Count()).ToList(); // !
+            report.LeastPopularTariff = groupedByTariffLoans.Any()
+                ? groupedByTariffLoans.First().Key
+                : "-";
+            report.MostPopularTariff = groupedByTariffLoans.Any()
+                ? groupedByTariffLoans.Last().Key
+                : "-";
+            var groupedByCurrencyLoans = loans.GroupBy(l => l.Application.Currency).ToList(); // !;
+            var byrLoans = groupedByCurrencyLoans.SingleOrDefault(gr => gr.Key == Currency.BYR);
+            var eurLoans = groupedByCurrencyLoans.SingleOrDefault(gr => gr.Key == Currency.EUR);
+            var usdLoans = groupedByCurrencyLoans.SingleOrDefault(gr => gr.Key == Currency.USD);
+            report.OverallLoanAmountIssuedByr = byrLoans != null
+                ? byrLoans.Sum(l => l.Application.LoanAmount)
+                : 0;
+            report.OverallLoanAmountIssuedUsd = eurLoans != null
+                ? eurLoans.Sum(l => l.Application.LoanAmount)
+                : 0;
+            report.OverallLoanAmountIssuedEur = usdLoans != null
+                ? usdLoans.Sum(l => l.Application.LoanAmount)
+                : 0;
+
+            var applications = GetLoanApplications();
+            var processedApplications = applications.Where(la => la.TimeCreated >= dateTo && la.Status != LoanApplicationStatus.New);
+            var approvedApplications = processedApplications.Where(la => la.Status != LoanApplicationStatus.Rejected);
+            report.LoanApplicationsProcessed = processedApplications.Count();
+            report.LoanApplicationsApproved = approvedApplications.Count();
+            return report;
+        }
     }
 }
