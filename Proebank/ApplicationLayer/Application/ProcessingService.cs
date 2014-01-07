@@ -203,27 +203,14 @@ namespace Application
                 var accruals = LoanProcessEndOfMonth(date);
                 foreach (var accrual in accruals)
                 {
-                    AddEntry(accrual.Key, accrual.Value);
+                    if (accrual.Value.Amount > 0)
+                    {
+                        AddEntry(accrual.Key, accrual.Value);
+                    }
                 }
                 UpdateMonthlyProcessingTime();
                 MonthSync = false;
             }
-            //
-            //var schedule = loan.PaymentSchedule;
-            //var pmt = schedule.Payments.SingleOrDefault(p =>
-            //    p.AccruedOn.HasValue && p.AccruedOn.Value.Year == date.Year &&
-            //    p.AccruedOn.Value.DayOfYear == date.DayOfYear);
-            //if (pmt != null)
-            //{
-            //    // TODO: fix with daily interest parts
-            //    var entry = repo.Create();
-            //    entry.Amount = pmt.AccruedInterestAmount;
-            //    entry.Currency = loan.Application.Currency;
-            //    entry.Date = date;
-            //    entry.Type = EntryType.Accrual;
-            //    entry.SubType = EntrySubType.Interest;
-            //    AddEntry(interestAccount, entry);
-            //}
         }
 
         private int CreateAccountNumber(AccountType accountType)
@@ -248,8 +235,8 @@ namespace Application
                 .Where(l => !l.IsClosed)
                 .ToList()
                 // doesn't work with IQueryable , so we need explicit ToList() call
-                .Where(l => l.PaymentSchedule.Payments.Any(p => p.AccruedOn.HasValue
-                    && p.AccruedOn.Value.Date == currentDate.Date))
+                .Where(l => l.PaymentSchedule.Payments
+                    .Any(p => p.AccruedOn.HasValue && p.AccruedOn.Value.Date == currentDate.Date))
                 .ToList();
             return loansToProcess.ToDictionary(
                     loan => loan.Accounts.Single(acc => acc.Type == AccountType.Interest),

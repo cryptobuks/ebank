@@ -20,6 +20,7 @@ namespace Presentation.Models
         public IEnumerable<Tuple<Account, Entry>> Entries { get; set; }
         public Customer Customer { get; set; }
         public bool CanBeClosed { get; set; }
+        public bool IsClosed { get; set; }
 
         public LoanDetailsViewModel(Loan loan)
         {
@@ -30,6 +31,7 @@ namespace Presentation.Models
             Currency = application.Currency;
             Term = application.Term;
             Accounts = loan.Accounts;
+            IsClosed = loan.IsClosed;
             Entries = loan.Accounts.SelectMany(acc => acc.Entries.Select(e => new Tuple<Account, Entry>(acc, e))).OrderBy(e => e.Item2.Date);
         }
     }
