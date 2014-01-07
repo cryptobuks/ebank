@@ -2,11 +2,12 @@
 @model IEnumerable<Domain.Models.Loans.Loan>
 
 @{
-    ViewBag.Title = "Statistic";
+    ViewBag.Title = "Loan Statistics";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Loan information</h2>
+<h2>Loan Statistics</h2>
+<hr/>
 
 @{
     var listStatus = Model.Where(x => DateTime.Now - x.Application.TimeContracted < TimeSpan.FromDays(30)).Select(x => x.IsClosed).GroupBy(y => y).ToList();

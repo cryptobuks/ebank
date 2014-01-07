@@ -3,14 +3,17 @@
 @model IEnumerable<Domain.Models.Loans.Loan>
 
 @{
-    ViewBag.Title = "Statistic";
+    ViewBag.Title = "Tariff Statistics";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<h2>Tariff Statistics</h2>
+<hr/>
 @{
     var listActiveTariff = Model.Where(x => x.IsClosed == false).Select(x => x.Application.Tariff.Name).GroupBy(y => y).ToList();
-    string xActiveTariff = listActiveTariff.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
-    string yActiveTariff = listActiveTariff.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    var xPreActiveTariff = listActiveTariff.Select(x => x.Key.ToString()).ToList();
+    string xActiveTariff = xPreActiveTariff.Any() ? xPreActiveTariff.Aggregate((x, y) => x + ", " + y) : "No active loans";
+    var yPreActiveTariff = listActiveTariff.Select(x => x.Count().ToString()).ToList();
+    string yActiveTariff = yPreActiveTariff.Any() ? yPreActiveTariff.Aggregate((x, y) => x + ", " + y) : "100";
 }
 <h4 align="center">Active tariffs information: </h4>
 <div id="activeTariff" style="width: 100%; height: 400px;"></div>

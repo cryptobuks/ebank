@@ -2,12 +2,12 @@
 @model IEnumerable<Domain.Models.Loans.LoanApplication>
 
 @{
-    ViewBag.Title = "Statistic";
+    ViewBag.Title = "Loan Application Statistics";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 align="center">Loan application information</h2>
-<br/>
+<h2>Loan Application Statistics</h2>
+<hr/>
 
 @{
     var listStatus = Model.Select(x => x.Status).GroupBy(y => y).ToList();

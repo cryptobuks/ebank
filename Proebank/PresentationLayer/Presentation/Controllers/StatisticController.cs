@@ -19,6 +19,12 @@ namespace Presentation.Controllers
         protected ProcessingService Service { get; set; }
 
         [Authorize(Roles = "Department head")]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Department head")]
         public ActionResult LoanApplication()
         {
             var list = Service.GetLoanApplications().ToList();
