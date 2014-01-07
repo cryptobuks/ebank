@@ -74,7 +74,7 @@ namespace Domain.Models.Loans
         [DisplayName("Home owner?")]
         public bool IsHomeowner { get; set; }
 
-        [DisplayName("Get money by card? ")]
+        [DisplayName("Get money by card?")]
         public bool ReceiveToCard { get; set; }
     }
 }
