@@ -15,7 +15,7 @@
     <fieldset class="form-horizontal">
         <legend>LoanCalculator</legend>
 
-        <table>
+        <table class="row">
             <tr class="form-group">
                 <td>@Html.LabelFor(model => model.LoanAmount)
 
@@ -36,7 +36,7 @@
                     </div>
                 </td>
             </tr>
-            <tr>
+            <tr class="form-group">
                 <td>@Html.LabelFor(model => model.Term)</td>
                 <td>
                     <div class="controls">
@@ -48,7 +48,7 @@
         </table>
         @Html.ValidationMessageFor(model => model.TariffId, null, new { @class = "help-inline" })
 
-        <table>
+        <table class="row">
             <tr>
                 <td>
                     <div class="form-actions no-color">

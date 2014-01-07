@@ -186,8 +186,8 @@ namespace Presentation.Controllers
                 return RedirectToAction("Fill");
             }
 
-            var tariffs = Service.GetTariffs();
-            ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name", tariffs.FirstOrDefault(t => t.Id == id));
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive);
+            ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name", id);
 
             if (TempData["loanApplication"] != null)
             {
