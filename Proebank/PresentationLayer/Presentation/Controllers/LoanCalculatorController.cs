@@ -64,8 +64,9 @@ namespace Presentation.Controllers
                     return RedirectToAction((User.IsInRole("Consultant") ? "Fill" : "Create"), "LoanApplication");
                 }
             }
-            
-            var tariffs = Service.GetTariffs();
+
+            var isHead = User.IsInRole("Department head");
+            var tariffs = Service.GetTariffs().Where(t => isHead || t.IsActive).ToList();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             var tariff = tariffs.FirstOrDefault(t => t.Id == loanCalculatorModel.TariffId);
 

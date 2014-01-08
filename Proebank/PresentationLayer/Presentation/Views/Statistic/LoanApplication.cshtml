@@ -10,24 +10,41 @@
 <hr/>
 
 @{
-    var listStatus = Model.Select(x => x.Status).GroupBy(y => y).ToList();
-    string xStatus = listStatus.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
-    string yStatus = listStatus.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
-    var listTerm = Model.Select(x => x.Term).GroupBy(y => y).ToList();
-    string xTerm = listTerm.Select(x => x.Key.ToString() + " months").Aggregate((x, y) => x + ", " + y);
-    string yTerm = listTerm.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
-    var listTariff = Model.Select(x => x.Tariff.Name).GroupBy(y => y).ToList();
-    string xTariff = listTariff.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
-    string yTariff = listTariff.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
     var BYRAmount = Model.Where(x => x.Currency == Currency.BYR).GroupBy(x => x.LoanAmount);
     var USDAmount = Model.Where(x => x.Currency == Currency.USD).GroupBy(x => x.LoanAmount);
     var EURAmount = Model.Where(x => x.Currency == Currency.EUR).GroupBy(x => x.LoanAmount);
+    string xStatus = "0";
+    string yStatus = "0";
+    string xTerm = "0";
+    string yTerm = "0";
+    string xTariff = "0";
+    string yTariff = "0";
     string xBYRAmount = "0";
     string yBYRAmount = "0";
     string xUSDAmount = "0";
     string yUSDAmount = "0";
     string xEURAmount = "0";
     string yEURAmount = "0";
+    string xCurrency = "0";
+    string yCurrency = "0";
+    var listStatus = Model.Select(x => x.Status).GroupBy(y => y).ToList();
+    if (listStatus != null && listStatus.Count() != 0)
+    {
+        xStatus = listStatus.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yStatus = listStatus.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
+    var listTerm = Model.Select(x => x.Term).GroupBy(y => y).ToList();
+    if (listTerm != null && listTerm.Count() != 0)
+    {
+        xTerm = listTerm.Select(x => x.Key.ToString() + " months").Aggregate((x, y) => x + ", " + y);
+        yTerm = listTerm.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
+    var listTariff = Model.Select(x => x.Tariff.Name).GroupBy(y => y).ToList();
+    if (listTariff != null && listTariff.Count() != 0)
+    {
+        xTariff = listTariff.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yTariff = listTariff.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
     if (BYRAmount != null && BYRAmount.Count() != 0)
     {
         xBYRAmount = BYRAmount.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
@@ -44,26 +61,33 @@
         yEURAmount = EURAmount.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
     }
     var listCurrency = Model.Select(x => x.Currency.ToString()).GroupBy(y => y).ToList();
-    string xCurrency = listCurrency.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
-    string yCurrency = listCurrency.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
-}   
-<h4 align="center">Loan application statuses information: </h4>
-<div id="status" style="width: 100%; height: 400px;"></div>
-<h4 align="center">Requested loan terms information: </h4>
-<div id="term" style="width: 100%; height: 400px;"></div>
-<h4 align="center">Tariffs information: </h4>
-<div id="tariff" style="width: 100%; height: 400px;"></div>
-<h4 align="center">Amount of money information: </h4>
+    if (listCurrency != null && listCurrency.Count() != 0)
+    {
+        xCurrency = listCurrency.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yCurrency = listCurrency.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
+}
+
+<h4 id="statusa" align="center"></h4>
+<div id="status"></div>
+<h4 id="terma" align="center"></h4>
+<div id="term"></div>
+<h4 id="tariffa" align="center"></h4>
+<div id="tariff"></div>
 <h4 id="amount1a" align="center"></h4>
 <div id="amount1"></div>
 <h4 id="amount2a" align="center"></h4>
 <div id="amount2"></div>
 <h4 id="amount3a" align="center"></h4>
 <div id="amount3"></div>
-<h4 align="center">Currencies information: </h4>
-<div id="currency" style="width: 100%; height: 400px;"></div>
+<h4 id="currencya" align="center"></h4>
+<div id="currency"></div>
 <script type="text/javascript">
     AmCharts.ready(function () {
+        if ('@xStatus' != 0) {
+            $("#status").css({ 'width': '100%', 'height': '400px' });
+            $("#statusa").text("Loan application statuses information: ");
+        }
         var chart1;
         var chartData = new Array();
         chart1 = new AmCharts.AmPieChart();
@@ -72,7 +96,7 @@
         chart1.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
         chart1.depth3D = 15;
         chart1.angle = 30;
-        
+
         var x = '@xStatus'.split(', ');
         var y = '@yStatus'.split(', ');
         chartData = new Array();
@@ -84,7 +108,12 @@
         }
         chart1.dataProvider = chartData;
         chart1.write("status");
-        
+
+        if ('@xTerm' != 0)
+        {
+            $("#term").css({ 'width': '100%', 'height': '400px' });
+            $("#terma").text("Requested loan terms information: ");
+        }
         var chart2;
         chartData = new Array();
         chart2 = new AmCharts.AmPieChart();
@@ -105,7 +134,12 @@
         }
         chart2.dataProvider = chartData;
         chart2.write("term");
-        
+
+        if ('@xTariff' != 0)
+        {
+            $("#tariff").css({ 'width': '100%', 'height': '400px' });
+            $("#tariffa").text("Tariffs information:");
+        }
         var chart3;
         chartData = new Array();
         chart3 = new AmCharts.AmPieChart();
@@ -127,10 +161,10 @@
         chart3.dataProvider = chartData;
         chart3.write("tariff");
 
-        if (@xBYRAmount != 0)
+        if ('@xBYRAmount' != 0)
         {
             $("#amount1").css({ 'width': '100%', 'height': '400px' });
-            $("#amount1a").text("BYR");
+            $("#amount1a").text("Amount of money information: BYR");
         }
         var chart4;
         chartData = new Array();
@@ -153,10 +187,10 @@
         chart4.dataProvider = chartData;
         chart4.write("amount1");
 
-        if (@xUSDAmount != 0)
+        if ('@xUSDAmount' != 0)
         {
             $("#amount2").css({ 'width': '100%', 'height': '400px' });
-            $("#amount2a").text("USD");
+            $("#amount2a").text("Amount of money information: USD");
         }
         var chart5;
         chartData = new Array();
@@ -179,10 +213,10 @@
         chart5.dataProvider = chartData;
         chart5.write("amount2");
 
-        if (@xEURAmount != 0)
+        if ('@xEURAmount' != 0)
         {
             $("#amount3").css({ 'width': '100%', 'height': '400px' });
-            $("#amount3a").text("EUR");
+            $("#amount3a").text("Amount of money information: EUR");
         }
         var chart6;
         chartData = new Array();
@@ -204,7 +238,11 @@
         }
         chart6.dataProvider = chartData;
         chart6.write("amount3");
-        
+
+        if ('@xCurrency' != 0) {
+            $("#currency").css({ 'width': '100%', 'height': '400px' });
+            $("#currencya").text("Currencies information: ");
+        }
         var chart7;
         chartData = new Array();
         chart7 = new AmCharts.AmPieChart();
