@@ -484,8 +484,8 @@ namespace Presentation.Controllers
             var tariffList = Service.GetTariffs();
             ViewBag.Tariff = new SelectList(tariffList, "Id", "Name");
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 // connect to db to refresh connection
                 // saving of loanApplication doesn't save docs
                 var applicationWithDbRef = Service.GetLoanApplications().FirstOrDefault(l => l.Id.Equals(loanApplication.Id));
@@ -515,7 +515,7 @@ namespace Presentation.Controllers
                         }
                     }
                 }
-            }
+            //}
             return RedirectToAction("Index");
         }
     }
