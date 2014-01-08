@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Practices.Unity;
 using Presentation.Models;
 using PagedList;
-using PagedList.Mvc;  
+using PagedList.Mvc;
 
 namespace Presentation.Controllers
 {
@@ -22,6 +22,17 @@ namespace Presentation.Controllers
         [Dependency]
         protected ProcessingService Service { get; set; }
         private const int PAGE_SIZE = 10;
+        //SearchBy
+        private const string SEARCHBY_TARIFF = "Tariff Name";
+        private const string SEARCHBY_CELLPHONE = "Cell Phone";
+        private const string SEARCHBY_IDENTIFICATIONNUMBER = "Identification Number";
+        private const string SEARCHBY_PASSPORT_NUMBER = "Passport number";
+        private const string SEARCHBY_FIRST_NAME = "First Name";
+        private const string SEARCHBY_LAST_NAME = "Last Name";
+        private const string SEARCHBY_STATUS = "Status";
+        //SortBy
+        private const string SORTBY_TARIFF_ASC = "Tariff ASC";
+        private const string SORTBY_TARIFF_DESC = "Tariff DESC";
 
         [Authorize(Roles = "Department head, Consultant, Security, Credit committee")]
         public ActionResult Index()
@@ -60,70 +71,181 @@ namespace Presentation.Controllers
         }
 
         [Authorize(Roles = "Department head")]
-        public ActionResult All(int? page)
+        public ActionResult All(int? page, string searchBy, string search, string sortBy)
         {
             var loanApplications = Service
                 .GetLoanApplications(true)
-                .ToList();
+                .AsQueryable();
+
+            loanApplications = Searching(searchBy, search, loanApplications);
+            loanApplications = Sorting(sortBy, loanApplications);
+
+            //for sortBy
+            ViewBag.NextSortTariffParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER},
+                    new SelectListItem() {Text = SEARCHBY_STATUS, Value = SEARCHBY_STATUS}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "All";
             ViewBag.AllCommitteeVotings = Service.GetCommitteeVotings().ToList();
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         [Authorize(Roles = "Consultant, Department head")]
-        public ActionResult New(int? page)
+        public ActionResult New(int? page, string searchBy, string search, string sortBy)
         {
             var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.New)
-                .ToList();
+                .AsQueryable();
+
+            loanApplications = Searching(searchBy, search, loanApplications);
+            loanApplications = Sorting(sortBy, loanApplications);
+
+            //for sortBy
+            ViewBag.NextSortTariffParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "New";
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         [Authorize(Roles = "Consultant, Department head")]
-        public ActionResult PreApproved(int? page)
+        public ActionResult PreApproved(int? page, string searchBy, string search, string sortBy)
         {
             var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Filled)
-                .ToList();
+                .AsQueryable();
+
+            loanApplications = Searching(searchBy, search, loanApplications);
+            loanApplications = Sorting(sortBy, loanApplications);
+
+            //for sortBy
+            ViewBag.NextSortTariffParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "PreApproved";
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         [Authorize(Roles = "Consultant, Department head")]
-        public ActionResult Reviewed(int? page)
+        public ActionResult Reviewed(int? page, string searchBy, string search, string sortBy)
         {
-            var loanApplications = Service
-                .GetLoanApplications()
+            var loanApplications = Service.GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Approved || a.Status == LoanApplicationStatus.Rejected)
-                .ToList();
+                .AsQueryable();
+
+            loanApplications = Searching(searchBy, search, loanApplications);
+            loanApplications = Sorting(sortBy, loanApplications);
+
+            //for sortBy
+            ViewBag.NextSortTariffParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "Reviewed";
-            return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
+            return View("Index", loanApplications.ToList().ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         [Authorize(Roles = "Security, Department head")]
-        public ActionResult Security(int? page)
+        public ActionResult Security(int? page, string searchBy, string search, string sortBy)
         {
             var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.UnderRiskConsideration)
-                .ToList();
+                .AsQueryable();
+
+            loanApplications = Searching(searchBy, search, loanApplications);
+            loanApplications = Sorting(sortBy, loanApplications);
+
+            //for sortBy
+            ViewBag.NextSortTariffParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "Security";
-            ViewBag.Scoring = loanApplications
+            ViewBag.Scoring = loanApplications.ToList()
                 .ToDictionary(la => la.Id,
                 la => ScoringSystem.CalculateRating(la, Service.GetHistoryFromNationalBank(la)));
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         [Authorize(Roles = "Credit committee, Department head")]
-        public ActionResult Committee(int? page)
+        public ActionResult Committee(int? page, string searchBy, string search, string sortBy)
         {
             var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.UnderCommitteeConsideration)
-                .ToList();
+                .AsQueryable();
+
+            loanApplications = Searching(searchBy, search, loanApplications);
+            loanApplications = Sorting(sortBy, loanApplications);
+
+            //for sortBy
+            ViewBag.NextSortTariffParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
+
             ViewBag.ActiveTab = "Committee";
             List<CommitteeVoting> cv = Service.GetCommitteeVotings().Where(x => x.EmployeeId == User.Identity.GetUserId()).ToList();
             ViewBag.CommiteeVotings = cv;
@@ -131,34 +253,91 @@ namespace Presentation.Controllers
         }
 
         [Authorize(Roles = "Department head")]
-        public ActionResult Contracted(int? page)
+        public ActionResult Contracted(int? page, string searchBy, string search, string sortBy)
         {
             var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Contracted)
-                .ToList();
+                .AsQueryable();
+
+            loanApplications = Searching(searchBy, search, loanApplications);
+            loanApplications = Sorting(sortBy, loanApplications);
+
+            //for sortBy
+            ViewBag.NextSortTariffParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "Contracted";
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         [Authorize(Roles = "Consultant, Department head")]
-        public ActionResult Approved(int? page)
+        public ActionResult Approved(int? page, string searchBy, string search, string sortBy)
         {
             var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Approved)
-                .ToList();
+                .AsQueryable();
+
+            loanApplications = Searching(searchBy, search, loanApplications);
+            loanApplications = Sorting(sortBy, loanApplications);
+
+            //for sortBy
+            ViewBag.NextSortTariffParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "Approved";
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         [Authorize(Roles = "Consultant, Department head")]
-        public ActionResult Rejected(int? page)
+        public ActionResult Rejected(int? page, string searchBy, string search, string sortBy)
         {
             var loanApplications = Service
                 .GetLoanApplications()
                 .Where(a => a.Status == LoanApplicationStatus.Rejected)
-                .ToList();
+                .AsQueryable();
+
+            loanApplications = Searching(searchBy, search, loanApplications);
+            loanApplications = Sorting(sortBy, loanApplications);
+
+            //for sortBy
+            ViewBag.NextSortTariffParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "Rejected";
             return View("Index", loanApplications.ToPagedList(page ?? 1, PAGE_SIZE));
         }
@@ -452,7 +631,7 @@ namespace Presentation.Controllers
         public ActionResult Fill(Guid? id)
         {
             var tariffs = Service.GetTariffs().ToList();
-            var tariffGuarantor = tariffs.Select(t => new {Id = t.Id, isGuarantorNeeded = t.IsGuarantorNeeded});
+            var tariffGuarantor = tariffs.Select(t => new { Id = t.Id, isGuarantorNeeded = t.IsGuarantorNeeded });
             ViewBag.tariffGuarantor = tariffGuarantor;
             LoanApplication loanApplication;
             if (id == null)
@@ -461,7 +640,7 @@ namespace Presentation.Controllers
                 loanApplication = new LoanApplication();
                 if (TempData["loanApplication"] != null) //if response from Calculator
                 {
-                    loanApplication = (LoanApplication) TempData["loanApplication"];
+                    loanApplication = (LoanApplication)TempData["loanApplication"];
                 }
                 ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
                 return View(loanApplication);
@@ -517,6 +696,62 @@ namespace Presentation.Controllers
                 }
             }
             return RedirectToAction("Index");
+        }
+
+
+        private static IQueryable<LoanApplication> Searching(string searchBy, string search, IQueryable<LoanApplication> loanApplications)
+        {
+            var loanApplicationsResults = loanApplications;
+
+            switch (searchBy)
+            {
+                case SEARCHBY_TARIFF:
+                    loanApplicationsResults = loanApplicationsResults.Where(la => la.Tariff.Name.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_CELLPHONE:
+                    loanApplicationsResults = loanApplicationsResults.Where(la => la.CellPhone.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_IDENTIFICATIONNUMBER:
+                    loanApplicationsResults =
+                        loanApplicationsResults.Where(la => la.PersonalData.Identification.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_FIRST_NAME:
+                    loanApplicationsResults = loanApplicationsResults.Where(la => la.PersonalData.FirstName.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_LAST_NAME:
+                    loanApplicationsResults = loanApplicationsResults.Where(la => la.PersonalData.LastName.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_PASSPORT_NUMBER:
+                    loanApplicationsResults = loanApplicationsResults.Where(la => la.PersonalData.Passport.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_STATUS:
+                    loanApplicationsResults =
+                        loanApplicationsResults.ToList()
+                        .Where(la => la.Status.ToString().Contains(search) || search == null)
+                        .AsQueryable();
+                    break;
+            }
+            return loanApplicationsResults;
+        }
+
+
+        private static IQueryable<LoanApplication> Sorting(string sortBy, IQueryable<LoanApplication> loanApplications)
+        {
+            var loanApplicationsResults = loanApplications;
+
+            switch (sortBy)
+            {
+                case SORTBY_TARIFF_ASC:
+                    loanApplicationsResults = loanApplicationsResults.OrderBy(la => la.Tariff.Name);
+                    break;
+                case SORTBY_TARIFF_DESC:
+                    loanApplicationsResults = loanApplicationsResults.OrderByDescending(la => la.Tariff.Name);
+                    break;
+                default: //if sortBy == empty = OrderByDefault => orderBy Tarif ASC
+                    loanApplicationsResults = loanApplicationsResults.OrderBy(la => la.Tariff.Name);
+                    break;
+            }
+            return loanApplicationsResults;
         }
     }
 }
