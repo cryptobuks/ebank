@@ -231,7 +231,7 @@ namespace Presentation.Controllers
                             {
                                 ModelState.AddModelError(result.Key, result.Value);
                             }
-                            var tariffList = Service.GetTariffs();
+                            var tariffList = Service.GetTariffs().Where(t => t.IsActive);
                             ViewBag.Tariffs = new SelectList(tariffList, "Id", "Name");
                             return View();
                         }
@@ -247,7 +247,7 @@ namespace Presentation.Controllers
                 }
             }
 
-            var tariffs = Service.GetTariffs();
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive);
             ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
@@ -264,7 +264,7 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            var tariffs = Service.GetTariffs().ToList();
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive).ToList();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             return View(loanapplication);
         }
@@ -278,7 +278,7 @@ namespace Presentation.Controllers
                 Service.UpsertLoanApplication(loanApplication);
                 return RedirectToAction("Index");
             }
-            var tariffs = Service.GetTariffs().ToList();
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive).ToList();
             ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
@@ -451,7 +451,7 @@ namespace Presentation.Controllers
 
         public ActionResult Fill(Guid? id)
         {
-            var tariffs = Service.GetTariffs().ToList();
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive).ToList();
             var tariffGuarantor = tariffs.Select(t => new {Id = t.Id, isGuarantorNeeded = t.IsGuarantorNeeded});
             ViewBag.tariffGuarantor = tariffGuarantor;
             LoanApplication loanApplication;
