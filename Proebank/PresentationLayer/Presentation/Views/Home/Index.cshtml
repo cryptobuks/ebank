@@ -88,7 +88,7 @@
             <p><a class="btn btn-default" href="@Url.Action("Index", "LoanCalculator")">View &raquo;</a></p>
         </div>
     }
-    @if (!User.IsInRole("Operator"))
+    @if (!User.IsInRole("Operator") && !User.IsInRole("Security") && !User.IsInRole("Credit committee"))
     {
         <div class="col-md-4">
             <h2>New application</h2>
