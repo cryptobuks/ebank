@@ -864,7 +864,8 @@ namespace Application
 
             var applications = GetLoanApplications();
             var processedApplications = applications.Where(la => la.TimeCreated >= dateTo && la.Status != LoanApplicationStatus.New);
-            var approvedApplications = processedApplications.Where(la => la.Status != LoanApplicationStatus.Rejected);
+            var approvedApplications = processedApplications
+                .Where(la => la.Status != LoanApplicationStatus.Rejected && la.Status != LoanApplicationStatus.New && la.Status != LoanApplicationStatus.Filled);
             report.LoanApplicationsProcessed = processedApplications.Count();
             report.LoanApplicationsApproved = approvedApplications.Count();
             return report;
