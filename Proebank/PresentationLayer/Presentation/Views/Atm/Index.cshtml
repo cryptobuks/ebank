@@ -1,6 +1,6 @@
 ﻿@model Presentation.Models.AtmViewModel
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!DOCTYPE html>
 <html>
@@ -21,14 +21,22 @@
             @Html.ValidationSummary(true)
 
             <fieldset class="form-horizontal">
-                <legend>Choose you loan id</legend>
+                <legend>Type loan id</legend>
                 <div class="form-group">
+                    @Html.LabelFor(model => model.LoanId, new {@class = "control-label"})
+                    <div class="controls">
+                        @Html.EditorFor(model => model.LoanId)
+                        @Html.ValidationMessageFor(model => model.LoanId, null, new {@class = "help-inline"})
+                    </div>
+                </div>
+
+                @*<div class="form-group">
                     @Html.LabelFor(model => model.LoanId, "TariffId", new {@class = "control-label"})
                     <div class="controls">
                         @Html.DropDownListFor(model => model.LoanId, (IEnumerable<SelectListItem>) ViewBag.LoanId, String.Empty)
                         @Html.ValidationMessageFor(model => model.LoanId, null, new {@class = "help-inline"})
                     </div>
-                </div>
+                </div>*@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Amount, new {@class = "control-label"})
