@@ -9,16 +9,33 @@
 <h2>Tariff Statistics</h2>
 <hr/>
 @{
-    var listActiveTariff = Model.Where(x => x.IsClosed == false).Select(x => x.Application.Tariff.Name).GroupBy(y => y).ToList();
-    var xPreActiveTariff = listActiveTariff.Select(x => x.Key.ToString()).ToList();
-    string xActiveTariff = xPreActiveTariff.Any() ? xPreActiveTariff.Aggregate((x, y) => x + ", " + y) : "No active loans";
-    var yPreActiveTariff = listActiveTariff.Select(x => x.Count().ToString()).ToList();
-    string yActiveTariff = yPreActiveTariff.Any() ? yPreActiveTariff.Aggregate((x, y) => x + ", " + y) : "100";
+    string xActiveTariff = "0";
+    string yActiveTariff = "0";
+    string xClosedTariff = "0";
+    string yClosedTariff = "0";
+    var listActiveTariff = Model.Where(x => !x.IsClosed).Select(x => x.Application.Tariff.Name).GroupBy(y => y).ToList();
+    if (listActiveTariff != null && listActiveTariff.Count() != 0)
+    {
+        xActiveTariff = listActiveTariff.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yActiveTariff = listActiveTariff.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
+    var listClosedTariff = Model.Where(x => x.IsClosed).Select(x => x.Application.Tariff.Name).GroupBy(y => y).ToList();
+    if (listClosedTariff != null && listClosedTariff.Count() != 0)
+    {
+        xClosedTariff = listClosedTariff.Select(x => x.Key.ToString()).Aggregate((x, y) => x + ", " + y);
+        yClosedTariff = listClosedTariff.Select(x => x.Count().ToString()).Aggregate((x, y) => x + ", " + y);
+    }
 }
-<h4 align="center">Active tariffs information: </h4>
-<div id="activeTariff" style="width: 100%; height: 400px;"></div>
+<h4 id="activeTariffa" align="center"></h4>
+<div id="activeTariff"></div>
+<h4 id="closedTariffa" align="center"></h4>
+<div id="closedTariff"></div>
 <script type="text/javascript">
     AmCharts.ready(function () {
+        if ('@xActiveTariff' != 0) {
+            $("#activeTariff").css({ 'width': '100%', 'height': '400px' });
+            $("#activeTariffa").text("Active loans tariffs information: ");
+        }
         var chart1;
         var chartData = new Array();
         chart1 = new AmCharts.AmPieChart();
@@ -39,6 +56,31 @@
         }
         chart1.dataProvider = chartData;
         chart1.write("activeTariff");
+        
+        if ('@xClosedTariff' != 0) {
+            $("#closedTariff").css({ 'width': '100%', 'height': '400px' });
+            $("#closedTariffa").text("Active loans tariffs information: ");
+        }
+        var chart2;
+        chartData = new Array();
+        chart2 = new AmCharts.AmPieChart();
+        chart2.titleField = "title";
+        chart2.valueField = "value";
+        chart2.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+        chart2.depth3D = 15;
+        chart2.angle = 30;
+
+        var x = '@xClosedTariff'.split(', ');
+        var y = '@yClosedTariff'.split(', ');
+        chartData = new Array();
+        for (var i = 0; i < x.length; i++) {
+            chartData.push({
+                title: x[i],
+                value: y[i]
+            });
+        }
+        chart2.dataProvider = chartData;
+        chart2.write("closedTariff");
 
         $('g').children('text').children('tspan').contents().filter(function () {
             return $(this).text() == 'chart by amcharts.com';
