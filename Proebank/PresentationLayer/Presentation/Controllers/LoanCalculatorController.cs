@@ -37,7 +37,7 @@ namespace Presentation.Controllers
                 _cellPhone = null;
             }
             
-            var tariffs = Service.GetTariffs();
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive);
             ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name");
             return View(loanCalculatorModel);
         }
@@ -65,8 +65,7 @@ namespace Presentation.Controllers
                 }
             }
 
-            var isHead = User.IsInRole("Department head");
-            var tariffs = Service.GetTariffs().Where(t => isHead || t.IsActive).ToList();
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive).ToList();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             var tariff = tariffs.FirstOrDefault(t => t.Id == loanCalculatorModel.TariffId);
 
