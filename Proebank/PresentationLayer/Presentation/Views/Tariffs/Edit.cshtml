@@ -42,6 +42,14 @@
                              @Html.ValidationMessageFor(model => model.InterestRate, null, new {@class = "help-inline"})
                          </div>
                      </div>
+                     
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.PmtType, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.PmtType)
+                             @Html.ValidationMessageFor(model => model.PmtType, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
 
                      <div class="form-group">
                          @Html.LabelFor(model => model.MinAmount, new {@class = "control-label"})
