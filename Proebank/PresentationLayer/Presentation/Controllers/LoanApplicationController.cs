@@ -183,7 +183,7 @@ namespace Presentation.Controllers
         {
             if (User.IsInRole("Consultant"))
             {
-                return RedirectToAction("Fill");
+                return RedirectToAction("Fill", new {tariffId = id});
             }
 
             var tariffs = Service.GetTariffs().Where(t => t.IsActive);
@@ -449,7 +449,7 @@ namespace Presentation.Controllers
         }
 
 
-        public ActionResult Fill(Guid? id)
+        public ActionResult Fill(Guid? id, Guid? tariffId)
         {
             var tariffs = Service.GetTariffs().Where(t => t.IsActive).ToList();
             var tariffGuarantor = tariffs.Select(t => new {Id = t.Id, isGuarantorNeeded = t.IsGuarantorNeeded});
@@ -463,7 +463,7 @@ namespace Presentation.Controllers
                 {
                     loanApplication = (LoanApplication) TempData["loanApplication"];
                 }
-                ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
+                ViewBag.Tariff = new SelectList(tariffs, "Id", "Name", tariffId);
                 return View(loanApplication);
             }
             loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
