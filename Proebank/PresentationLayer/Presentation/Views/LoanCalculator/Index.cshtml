@@ -6,14 +6,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<h2>Loan calculator</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset class="form-horizontal">
-        <legend>LoanCalculator</legend>
+        <legend>calculator</legend>
 
         <table class="row">
             <tr class="form-group">

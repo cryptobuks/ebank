@@ -31,6 +31,9 @@ else
             @Html.DisplayNameFor(model => model.First().InterestRate)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.First().PmtType)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.First().MinAmount)
         </th>
         <th>
@@ -75,6 +78,9 @@ else
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InterestRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PmtType)
             </td>
             <td>
                 @item.MinAmount

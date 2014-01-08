@@ -18,6 +18,7 @@
 
         <dd>
             @Html.DisplayFor(model => model.LoanAmount)
+            @Html.DisplayFor(model => model.Currency)
         </dd>
 
         <dt>
@@ -37,11 +38,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Tariff)
+            @Html.DisplayNameFor(model => model.Tariff.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Tariff)
+            @Html.DisplayFor(model => model.Tariff.Name)
         </dd>
 
     </dl>
@@ -51,7 +52,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)
-    if (Model.Status == LoanApplicationStatus.Approved)
+    if (Model.Status == LoanApplicationStatus.Approved || Model.Status == LoanApplicationStatus.ContractPrinted)
     {
     <div class="form-actions no-color">
         <input type="submit" value="Sign" class="btn btn-success" />

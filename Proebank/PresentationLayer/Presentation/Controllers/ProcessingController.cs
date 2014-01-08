@@ -35,7 +35,6 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Department head")]
         public ActionResult MoveNextDay()
         {
-            
             var newDate = Service.ProcessEndOfDay();
             return RedirectToAction("Index", newDate);
         }

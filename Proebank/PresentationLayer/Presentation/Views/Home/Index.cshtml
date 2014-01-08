@@ -47,7 +47,7 @@
                 <p>
                     View loan statistics
                 </p>
-                <p><a class="btn btn-default" href="@Url.Action("LoanApplication", "Statistic")">View &raquo;</a></p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "Statistic")">View &raquo;</a></p>
             </div>
         <div class="col-md-4">
             <h2>Customers</h2>
@@ -88,7 +88,7 @@
             <p><a class="btn btn-default" href="@Url.Action("Index", "LoanCalculator")">View &raquo;</a></p>
         </div>
     }
-    @if (!User.IsInRole("Operator"))
+    @if (!User.IsInRole("Operator") && !User.IsInRole("Security") && !User.IsInRole("Credit committee"))
     {
         <div class="col-md-4">
             <h2>New application</h2>

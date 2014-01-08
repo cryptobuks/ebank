@@ -167,8 +167,22 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         window.tariffGuarantor = @Html.Raw(Json.Encode(ViewBag.tariffGuarantor))
-        $('#TariffId').on('change', function (e) {
-            var value = e.target.value;
+        $('#TariffId').on('change', function () {
+            var value = $('#TariffId').val();
+            var isNeeded = false;
+            for (var i = 0; i < window.tariffGuarantor.length; i++) {
+                if (window.tariffGuarantor[i].Id == value) {
+                    isNeeded = window.tariffGuarantor[i].isGuarantorNeeded;
+                }
+            }
+            if (isNeeded) {
+                $('#guarantorInfo').show();
+            } else {
+                $('#guarantorInfo').hide();
+            }
+        });
+        $(document).ready(function () {
+            var value = $('#TariffId').val();
             var isNeeded = false;
             for (var i = 0; i < window.tariffGuarantor.length; i++) {
                 if (window.tariffGuarantor[i].Id == value) {
@@ -185,6 +199,7 @@
 
     <!--Random data filling-->
     <script type="text/javascript">
+
         function fillRandomData() {
             $('#LoanAmount').val(rand(1, 100) * 1000000);
             $('#Term').val(rand(2, 12) * 3);

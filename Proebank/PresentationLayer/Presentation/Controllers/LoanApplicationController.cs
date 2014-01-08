@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Practices.Unity;
 using Presentation.Models;
 using PagedList;
-using PagedList.Mvc;
+using PagedList.Mvc;  
 
 namespace Presentation.Controllers
 {
@@ -362,7 +362,7 @@ namespace Presentation.Controllers
         {
             if (User.IsInRole("Consultant"))
             {
-                return RedirectToAction("Fill");
+                return RedirectToAction("Fill", new {tariffId = id});
             }
 
             var tariffs = Service.GetTariffs().Where(t => t.IsActive);
@@ -410,7 +410,7 @@ namespace Presentation.Controllers
                             {
                                 ModelState.AddModelError(result.Key, result.Value);
                             }
-                            var tariffList = Service.GetTariffs();
+                            var tariffList = Service.GetTariffs().Where(t => t.IsActive);
                             ViewBag.Tariffs = new SelectList(tariffList, "Id", "Name");
                             return View();
                         }
@@ -426,7 +426,7 @@ namespace Presentation.Controllers
                 }
             }
 
-            var tariffs = Service.GetTariffs();
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive);
             ViewBag.Tariffs = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
@@ -443,7 +443,7 @@ namespace Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            var tariffs = Service.GetTariffs().ToList();
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive).ToList();
             ViewBag.TariffId = new SelectList(tariffs, "Id", "Name");
             return View(loanapplication);
         }
@@ -457,7 +457,7 @@ namespace Presentation.Controllers
                 Service.UpsertLoanApplication(loanApplication);
                 return RedirectToAction("Index");
             }
-            var tariffs = Service.GetTariffs().ToList();
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive).ToList();
             ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
             return View(loanApplication);
         }
@@ -628,10 +628,10 @@ namespace Presentation.Controllers
         }
 
 
-        public ActionResult Fill(Guid? id)
+        public ActionResult Fill(Guid? id, Guid? tariffId)
         {
-            var tariffs = Service.GetTariffs().ToList();
-            var tariffGuarantor = tariffs.Select(t => new { Id = t.Id, isGuarantorNeeded = t.IsGuarantorNeeded });
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive).ToList();
+            var tariffGuarantor = tariffs.Select(t => new {Id = t.Id, isGuarantorNeeded = t.IsGuarantorNeeded});
             ViewBag.tariffGuarantor = tariffGuarantor;
             LoanApplication loanApplication;
             if (id == null)
@@ -642,7 +642,7 @@ namespace Presentation.Controllers
                 {
                     loanApplication = (LoanApplication)TempData["loanApplication"];
                 }
-                ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
+                ViewBag.Tariff = new SelectList(tariffs, "Id", "Name", tariffId);
                 return View(loanApplication);
             }
             loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
@@ -663,8 +663,8 @@ namespace Presentation.Controllers
             var tariffList = Service.GetTariffs();
             ViewBag.Tariff = new SelectList(tariffList, "Id", "Name");
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 // connect to db to refresh connection
                 // saving of loanApplication doesn't save docs
                 var applicationWithDbRef = Service.GetLoanApplications().FirstOrDefault(l => l.Id.Equals(loanApplication.Id));
@@ -694,7 +694,7 @@ namespace Presentation.Controllers
                         }
                     }
                 }
-            }
+            //}
             return RedirectToAction("Index");
         }
 

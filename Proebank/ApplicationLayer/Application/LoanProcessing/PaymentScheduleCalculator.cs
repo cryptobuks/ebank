@@ -76,7 +76,7 @@ namespace Application.LoanProcessing
             {
                 var pmtInterest = remainMainDebt * rate;
                 var pmtMainDebt = monthlyPayment - pmtInterest;
-                var accruedDate = CalculatePaymentDate(startDate, i);
+                var accruedDate = CalculateAccrualDate(startDate, i + 1);
                 var payBefore = CalculatePaymentDate(startDate, i + 1);
                 if (startDate.HasValue && payBefore > startDate.Value.AddMonths(term))
                 {
@@ -130,7 +130,7 @@ namespace Application.LoanProcessing
                 {
                     MainDebtAmount = pmtMainDebt,
                     AccruedInterestAmount = pmtInterest,
-                    AccruedOn = CalculatePaymentDate(startDate, i),
+                    AccruedOn = CalculateAccrualDate(startDate, i),
                     ShouldBePaidBefore = payBefore
                 };
                 schedule.AddPayment(pmt);
@@ -143,15 +143,28 @@ namespace Application.LoanProcessing
         {
             if (startDate == null) return null;
             var date = startDate.Value;
-            var paymentDate = date.AddMonths(i);
+            var pmtDate = date.AddMonths(i);
             // This is for getting the first day of the month
-            paymentDate = new DateTime(paymentDate.Year, paymentDate.Month, DateTime.DaysInMonth(paymentDate.Year, paymentDate.Month)).AddDays(1).AddTicks(-1);
-            // TODO: error somewhere, returns 03.09.201 instead of 02.09.2013
-            if (paymentDate.DayOfWeek == DayOfWeek.Saturday || paymentDate.DayOfWeek == DayOfWeek.Sunday)
+            pmtDate = new DateTime(pmtDate.Year, pmtDate.Month, DateTime.DaysInMonth(pmtDate.Year, pmtDate.Month)).AddDays(1).AddTicks(-1);
+            if (pmtDate.DayOfWeek == DayOfWeek.Saturday || pmtDate.DayOfWeek == DayOfWeek.Sunday)
             {
-                paymentDate = paymentDate.AddDays(paymentDate.DayOfWeek == DayOfWeek.Saturday ? 2 : 1);
+                pmtDate = pmtDate.AddDays(pmtDate.DayOfWeek == DayOfWeek.Saturday ? 2 : 1);
             }
-            return paymentDate;
+            return pmtDate;
+        }
+
+        private static DateTime? CalculateAccrualDate(DateTime? startDate, int i)
+        {
+            if (startDate == null) return null;
+            var date = startDate.Value.Date;
+            var accrualDate = date.AddMonths(i);
+            // This is for getting the first day of the month
+            accrualDate = new DateTime(accrualDate.Year, accrualDate.Month, 1);
+            if (accrualDate.DayOfWeek == DayOfWeek.Saturday || accrualDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                accrualDate = accrualDate.AddDays(accrualDate.DayOfWeek == DayOfWeek.Saturday ? 2 : 1);
+            }
+            return accrualDate;
         }
 
         private static decimal PowDecimal(decimal x, int y)

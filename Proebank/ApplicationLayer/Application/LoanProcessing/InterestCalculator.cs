@@ -7,11 +7,16 @@ using Domain.Models.Loans;
 
 namespace Application.LoanProcessing
 {
-    static class InterestCalculator
+    public static class InterestCalculator
     {
         public static void CalculateInterestFor(Loan loan, DateTime date, Entry destinyEntry)
         {
-            UseBasicLogic(loan, date, destinyEntry);
+            //UseBasicLogic(loan, date, destinyEntry);
+            UseAdvancedLogic(loan, date, destinyEntry);
+            destinyEntry.Currency = loan.Application.Currency;
+            destinyEntry.Type = EntryType.Accrual;
+            destinyEntry.SubType = EntrySubType.Interest;
+            destinyEntry.Date = date;
         }
 
         private static void UseBasicLogic(Loan loan, DateTime date, Entry destinyEntry)
@@ -24,45 +29,31 @@ namespace Application.LoanProcessing
 
             destinyEntry.Amount = payments.Sum(p => p.AccruedInterestAmount);
             if (destinyEntry.Amount == 0) throw new Exception("zero-equal transfer");
-            destinyEntry.Currency = loan.Application.Currency;
-            destinyEntry.Type = EntryType.Accrual;
-            destinyEntry.SubType = EntrySubType.Interest;
-            destinyEntry.Date = date;
         }
 
         private static void UseAdvancedLogic(Loan loan, DateTime date, Entry destinyEntry)
         {
-            var payments = loan.PaymentSchedule.Payments.ToList();
+            var payments = loan.PaymentSchedule.Payments.OrderBy(p => p.AccruedOn).ToList();
             var currentPmtIndex = payments.FindIndex(p => p.AccruedOn.HasValue && p.AccruedOn.Value.Date == date.Date);
-            var accruedOn = payments[currentPmtIndex - 1].AccruedOn;
             DateTime startDate;
-            if (accruedOn != null)
+            if (currentPmtIndex == 0 && loan.Application.TimeContracted.HasValue)
             {
-                startDate = currentPmtIndex == 0 && loan.Application.TimeContracted.HasValue
-                    ? loan.Application.TimeContracted.Value.Date
-                    : (accruedOn.Value);
+                startDate = loan.Application.TimeContracted.Value.Date;
             }
             else
             {
-                startDate = date.AddMonths(-1);
+                var accruedOn = payments[currentPmtIndex - 1].AccruedOn;
+                startDate = accruedOn.HasValue ? accruedOn.Value : date.AddMonths(-1);
             }
             var endDate = date;
-            var dt = startDate;
 
             var mainDebtAccount = loan.Accounts.Single(a => a.Type == AccountType.GeneralDebt);
-            var startBalance = mainDebtAccount.GetBalanceForDate(startDate);
-            var endBalance = mainDebtAccount.GetBalanceForDate(endDate);
-            if (startBalance == endBalance)
+            var mainDebtMonthlySum = 0M;
+            for (var dt = startDate.AddDays(1).Date; dt <= endDate.Date; dt = dt.AddDays(1)) // TODO: check for dt < endDate.Date (or any bound values)
             {
-                // use basic logic
+                mainDebtMonthlySum += mainDebtAccount.GetBalanceForDate(dt) * loan.Application.Tariff.InterestRate / 360;
             }
-            else
-            {
-                while (dt.Date != endDate)
-                {
-                    // check balance for every day
-                }
-            }
+            destinyEntry.Amount = Math.Round(mainDebtMonthlySum, 2);
         }
     }
 }

@@ -52,6 +52,7 @@ namespace Application
 
                     // At first we transfer money from contract service accounts
                     ProcessContractServiceAccounts();
+                    MarkPaymentsAsPaid();
                     date = date.AddHours(1);
                     SetCurrentDate(date);
 
@@ -65,9 +66,8 @@ namespace Application
                     date = date.AddHours(1);
                     SetCurrentDate(date);
 
-                    // Finally, we process overdue this time
+                    // Finally, we process overdue
                     ProcessUnpaidPayments(date);
-
 
                     SetCurrentDate(date.AddHours(11));  // instead of MoveNextDay() call to have more realistic processing times
                     _unitOfWork.SaveChanges();
@@ -78,6 +78,40 @@ namespace Application
                 }
             }
             return GetCurrentDate();
+        }
+
+        private void MarkPaymentsAsPaid()
+        {
+            var today = GetCurrentDate();
+            var loans = GetLoans().Where(l => !l.IsClosed).ToList();
+            foreach (var loan in loans)
+            {
+                var mainDebtBalance = loan.Accounts.Single(acc => acc.Type == AccountType.GeneralDebt).Balance;
+                var interestBalance = loan.Accounts.Single(acc => acc.Type == AccountType.Interest).Balance;
+                var overdueInterestBalance = loan.Accounts.Single(acc => acc.Type == AccountType.OverdueInterest).Balance;
+                if (interestBalance == 0M && overdueInterestBalance == 0M)
+                {
+                    var pmtRepo = _unitOfWork.GetDbSet<Payment>();
+                    var pmts = loan.PaymentSchedule.Payments;
+                    var unpaidPmts = pmts.Where(p => !p.IsPaid).OrderBy(pmt => pmt.AccruedOn).ToArray();
+                    var mainDebtSums = new List<decimal>();
+                    for (var i = 0; i < unpaidPmts.Length; i++)
+                    {
+                        for (var j = 0; j < mainDebtSums.Count; j++)
+                        {
+                            mainDebtSums[j] += unpaidPmts[i].MainDebtAmount;
+                        }
+                        mainDebtSums.Add(unpaidPmts[i].MainDebtAmount);
+                    }
+                    mainDebtSums.Add(0M);
+                    mainDebtSums = mainDebtSums.Skip(1).ToList();
+                    for (var i = 0; i < mainDebtSums.Count && mainDebtBalance <= mainDebtSums[i]; i++)
+                    {
+                        unpaidPmts[i].IsPaid = true;
+                        pmtRepo.AddOrUpdate(unpaidPmts[i]);
+                    }
+                }
+            }
         }
 
         private void AccrueDailyFines()
@@ -359,6 +393,7 @@ namespace Application
             if (loan != null)
             {
                 loan.IsContractSigned = true;
+                loan.Application.Status = LoanApplicationStatus.Contracted;
                 UpsertLoan(loan);
                 var loanHistorySet = _unitOfWork.GetDbSet<LoanHistory>();
                 loanHistorySet.Add(new LoanHistory(loan));
@@ -829,7 +864,8 @@ namespace Application
 
             var applications = GetLoanApplications();
             var processedApplications = applications.Where(la => la.TimeCreated >= dateTo && la.Status != LoanApplicationStatus.New);
-            var approvedApplications = processedApplications.Where(la => la.Status != LoanApplicationStatus.Rejected);
+            var approvedApplications = processedApplications
+                .Where(la => la.Status != LoanApplicationStatus.Rejected && la.Status != LoanApplicationStatus.New && la.Status != LoanApplicationStatus.Filled);
             report.LoanApplicationsProcessed = processedApplications.Count();
             report.LoanApplicationsApproved = approvedApplications.Count();
             return report;

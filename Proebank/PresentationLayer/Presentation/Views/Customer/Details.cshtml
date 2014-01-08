@@ -25,7 +25,7 @@
             else
             {
                 var sumToClose = Model.Accounts.Where(a => a.Type != AccountType.ContractService).Sum(a => a.Balance);
-                <h4>For closing loan tomorrow you need to pay @Model.Currency @sumToClose today</h4>
+                <h4>For closing loan tomorrow you need to pay @Model.Currency @sumToClose (plus interest for this month as in your payments) today</h4>
             }
         </div>
         <div class="col-md-6">

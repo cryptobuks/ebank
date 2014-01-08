@@ -56,7 +56,7 @@ namespace Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if (loanApplication.Status != LoanApplicationStatus.Approved)
+            if (loanApplication.Status != LoanApplicationStatus.Approved && loanApplication.Status != LoanApplicationStatus.ContractPrinted)
             {
                 return RedirectToAction("Index", "LoanApplication");
             }
