@@ -11,5 +11,6 @@ namespace Presentation.Models
         public decimal Amount { get; set; }
         public Loan Loan { get; set; }
         public string Operator { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -15,13 +15,13 @@ namespace Presentation.Controllers
         [Authorize(Roles = "Operator")]
         public ActionResult Index()
         {
-            var loans = Service.GetLoans();
-            var nameLoan = loans.Select(l => new
-            {
-                Name = l.Application.PersonalData.FirstName + " " + l.Application.PersonalData.LastName + " (" + l.Application.Tariff.Name + ")",
-                Id = l.Id
-            }).ToList();
-            ViewBag.LoanId = new SelectList(nameLoan, "Id", "Name");
+            //var loans = Service.GetLoans();
+            //var nameLoan = loans.Select(l => new
+            //{
+            //    Name = l.Application.PersonalData.FirstName + " " + l.Application.PersonalData.LastName + " (" + l.Application.Tariff.Name + ")",
+            //    Id = l.Id
+            //}).ToList();
+            //ViewBag.LoanId = new SelectList(nameLoan, "Id", "Name");
             return View();
         }
 
@@ -35,9 +35,10 @@ namespace Presentation.Controllers
                 var loan = Service.GetLoans().FirstOrDefault(l => l.Id == model.LoanId);
                 if (loan != null)
                 {
+                    var name = string.Format("{0} {1}",loan.Application.PersonalData.FirstName,loan.Application.PersonalData.LastName);
                     Service.RegisterPayment(loan, model.Amount);
                     ViewBag.PaymentRegistered = true;
-                    var pdfBill = new PdfBill {Loan = loan, Amount = model.Amount, Operator = User.Identity.Name};
+                    var pdfBill = new PdfBill {Name = name,Loan = loan, Amount = model.Amount, Operator = User.Identity.Name};
                     return new PdfResult(pdfBill, "PdfBill");
                 }
                 else
