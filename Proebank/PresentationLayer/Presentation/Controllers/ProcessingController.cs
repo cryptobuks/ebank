@@ -16,7 +16,7 @@ namespace Presentation.Controllers
         public ActionResult Index()
         {
             var time = Service.GetCurrentDate();
-            return View(time);
+            return View(Service);
         }
 
         /// <summary>
@@ -29,14 +29,14 @@ namespace Presentation.Controllers
             var time = Service.GetCurrentDate();
             Service.SetCurrentDate(time.AddHours(1));
             UnitOfWork.SaveChanges();
-            return RedirectToAction("Index", time);
+            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Department head")]
         public ActionResult MoveNextDay()
         {
             var newDate = Service.ProcessEndOfDay();
-            return RedirectToAction("Index", newDate);
+            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Department head")]
@@ -48,7 +48,7 @@ namespace Presentation.Controllers
             {
                 newDate = Service.ProcessEndOfDay();
             }
-            return RedirectToAction("Index", newDate);
+            return RedirectToAction("Index");
         }
     }
 }

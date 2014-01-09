@@ -436,7 +436,7 @@ namespace Presentation.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
             }
             var loanapplication = Service.Find<LoanApplication>(id);
             if (loanapplication == null)
@@ -466,7 +466,7 @@ namespace Presentation.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
             }
             var loanApplication = Service.GetLoanApplications().Single(l => l.Id == id);
             if (loanApplication == null)

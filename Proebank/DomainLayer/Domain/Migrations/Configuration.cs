@@ -301,13 +301,13 @@ namespace Domain.Migrations
                     PmtFrequency = 1,
                     PmtType = PaymentCalculationType.Standard,
                 };
-                //if (context.Tariffs.SingleOrDefault(t => t.Id == tariff0.Id) == null)
+                if (context.Tariffs.SingleOrDefault(t => t.Id == tariff0.Id) == null)
                     context.Tariffs.AddOrUpdate(t => t.Id, tariff0);
-                //if (context.Tariffs.SingleOrDefault(t => t.Id == tariff1.Id) == null)
+                if (context.Tariffs.SingleOrDefault(t => t.Id == tariff1.Id) == null)
                     context.Tariffs.AddOrUpdate(t => t.Id, tariff1);
-                //if (context.Tariffs.SingleOrDefault(t => t.Id == tariff2.Id) == null)
+                if (context.Tariffs.SingleOrDefault(t => t.Id == tariff2.Id) == null)
                     context.Tariffs.AddOrUpdate(t => t.Id, tariff2);
-                //if (context.Tariffs.SingleOrDefault(t => t.Id == tariff3.Id) == null)
+                if (context.Tariffs.SingleOrDefault(t => t.Id == tariff3.Id) == null)
                     context.Tariffs.AddOrUpdate(t => t.Id, tariff3);
 
                 #endregion
