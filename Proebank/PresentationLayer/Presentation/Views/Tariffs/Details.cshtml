@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var width = Model.LoanApplicationApprovalPercentage + 90;
+    var width = Model.LoanApplicationApprovalPercentage;
 }
 <h2>Tariff Details</h2>
 <ul class="list-group">
@@ -18,11 +18,6 @@
     <li class="list-group-item">
         <span class="badge">@width%</span>
         @Html.DisplayNameFor(model => model.LoanApplicationApprovalPercentage)
-        @*<div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="@Model.LoanApplicationApprovalPercentage" aria-valuemin="0" aria-valuemax="100" style="width: @width%;">
-                <span class="sr-only">@Model.LoanApplicationApprovalPercentage% Complete</span>
-            </div>
-        </div>*@
     </li>
     <li class="list-group-item">
         <span class="badge">@Html.DisplayFor(model => model.LoansIssued)</span>
@@ -33,58 +28,6 @@
         @Html.DisplayNameFor(model => model.LoansActive)
     </li>
 </ul>
-@*
-<fieldset>
-    <legend></legend>
-    <dl>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LoanApplicationsCreated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LoanApplicationsCreated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LoanApplicationApprovalPercentage)
-        </dt>
-
-        <dd>
-            <div>
-                @width%
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="@Model.LoanApplicationApprovalPercentage" aria-valuemin="0" aria-valuemax="100" style="width: @width%;">
-                        <span class="sr-only">@Model.LoanApplicationApprovalPercentage% Complete</span>
-                    </div>
-                </div>
-            </div>
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LoansIssued)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LoansIssued)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LoansActive)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LoansActive)
-        </dd>
-    </dl>
-</fieldset>*@
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>
