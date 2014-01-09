@@ -7,6 +7,7 @@
 }
 
 <h2>Details</h2>
+<hr/>
 
 <fieldset>
     <legend>Tariff</legend>
@@ -101,13 +102,5 @@
     </dl>
 </fieldset>
 <p>
-    @if (isDepartmentHead)
-    {
-        @*@Html.ActionLink("Edit", "Edit", new { id=Model.Id });*@
-    }
-    else
-    {
-        @*@Html.ActionLink("Apply", "Create", "LoanApplication")*@
-    }
     @Html.ActionLink("Back to List", "Index")
 </p>

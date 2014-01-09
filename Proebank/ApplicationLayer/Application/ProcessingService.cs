@@ -167,10 +167,8 @@ namespace Application
                         {
                             var bankDebit = repo.Create();
                             var contractCredit = repo.Create();
-                            FillEntryValues(bankDebit, startAmount - amount, loan, today, EntryType.Transfer,
-                                EntrySubType.BankLoanFromContract);
-                            FillEntryValues(contractCredit, amount - startAmount, loan, today, EntryType.Transfer,
-                                EntrySubType.BankLoanFromContract);
+                            FillEntryValues(bankDebit, startAmount - amount, loan, today, EntryType.Transfer, EntrySubType.BankLoanFromContract);
+                            FillEntryValues(contractCredit, amount - startAmount, loan, today, EntryType.Transfer, EntrySubType.BankLoanFromContract);
                             AddEntry(bankAccount, bankDebit);
                             AddEntry(contractServiceAcc, contractCredit);
                         }
@@ -550,11 +548,11 @@ namespace Application
 
         private Dictionary<string, string> ValidateLoanApplication(LoanApplication loanApplication)
         {
-            //if (loanApplication == null || loanApplication.Tariff == null)
             if (loanApplication == null || loanApplication.TariffId.Equals(Guid.Empty))
             {
                 throw new ArgumentException("loanApplication");
             }
+            var today = GetCurrentDate();
             var validationResult = new Dictionary<string, string>();
             var isEnoughMoney = GetBankAccount(loanApplication.Currency).Balance >= loanApplication.LoanAmount;
             var tariff = _unitOfWork.GetDbSet<Tariff>().Find(loanApplication.TariffId);
@@ -562,6 +560,9 @@ namespace Application
             var term = loanApplication.Term;
             var isAmountValid = amount >= tariff.MinAmount && amount <= tariff.MaxAmount;
             var isTermValid = term >= tariff.MinTerm && term <= tariff.MaxTerm;
+            var debtorData = loanApplication.PersonalData;
+            var minValidDateOfBirth = today.Date.AddYears(-18);
+            var maxValidDateOfBirth = today.Date.AddYears(-65);
             if (!isEnoughMoney)
             {
                 validationResult.Add("LoanAmount", "Not enough money");
@@ -573,6 +574,54 @@ namespace Application
             if (!isTermValid)
             {
                 validationResult.Add("Term","Term is not valid");
+            }
+            if (debtorData == null)
+            {
+                validationResult.Add("PersonalData", "Is not filled");
+            }
+            else
+            {
+                if (debtorData.DateOfBirth.HasValue)
+                {
+                    if (debtorData.DateOfBirth.Value > minValidDateOfBirth)
+                    {
+                        validationResult.Add("PersonalData", "Debtor must be at least 18 years old");
+                    }
+                    if (debtorData.DateOfBirth.Value < maxValidDateOfBirth)
+                    {
+                        validationResult.Add("PersonalData", "Debtor must be at most 65 years old");
+                    }
+                }
+                else
+                {
+                    validationResult.Add("PersonalData", "Date of birth is not filled");
+                }
+            }
+            if (tariff.IsGuarantorNeeded)
+            {
+                var guarantorData = loanApplication.Guarantor;
+                if (guarantorData == null)
+                {
+                    validationResult.Add("Guarantor", "Guarantor must be filled");
+                }
+                else
+                {
+                    if (guarantorData.DateOfBirth.HasValue)
+                    {
+                        if (guarantorData.DateOfBirth.Value > minValidDateOfBirth)
+                        {
+                            validationResult.Add("Guarantor", "Guarantor must be at least 18 years old");
+                        }
+                        if (guarantorData.DateOfBirth.Value < maxValidDateOfBirth)
+                        {
+                            validationResult.Add("Guarantor", "Guarantor must be at most 65 years old");
+                        }
+                    }
+                    else
+                    {
+                        validationResult.Add("Guarantor", "Guarantor date of birth is not filled");
+                    }
+                }
             }
             return validationResult;
         }

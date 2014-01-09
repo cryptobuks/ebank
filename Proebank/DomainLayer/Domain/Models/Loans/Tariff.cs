@@ -11,16 +11,16 @@ namespace Domain.Models.Loans
         public string Name { get; set; }
         
         [DisplayName("Interest Rate")]
-        [DisplayFormat(DataFormatString = "{0:P}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:P}")]
         public decimal InterestRate { get; set; }
 
         [DisplayName("Min Amount")]
-        [Range(1, int.MaxValue, ErrorMessage = "Must be non negative")]
+        [Range(100, 100000000, ErrorMessage = "Amount value should be between 100 and 100000000")]
         [DataType(DataType.Currency)]
         public decimal MinAmount { get; set; }
 
         [DisplayName("Max Amount")]
-        [Range(1, int.MaxValue, ErrorMessage = "Must be non negative")]
+        [Range(100, 100000000, ErrorMessage = "Amount value should be between 100 and 100000000")]
         [DataType(DataType.Currency)]
         public decimal MaxAmount { get; set; }
 
@@ -31,9 +31,11 @@ namespace Domain.Models.Loans
         public bool IsActive { get; set; }
 
         [DisplayName("Min Term")]
+        [Range(1, 240, ErrorMessage = "Term value should be between 1 month and 20 years")]
         public int MinTerm { get; set; }
 
         [DisplayName("Max Term")]
+        [Range(1, 240, ErrorMessage = "Term value should be between 1 month and 20 years")]
         public int MaxTerm { get; set; }
 
         [DisplayName("Payment frequency, in months")]
@@ -43,11 +45,13 @@ namespace Domain.Models.Loans
         [DisplayName("Payment type")]
         public PaymentCalculationType PmtType { get; set; }
 
-        [DisplayName("Min Age")]
-        public ushort MinAge { get; set; }
+        [DisplayName("Minimal allowed age")]
+        [Range(18, 65, ErrorMessage = "Age value should be between 18 and 65 years")]
+        public int MinAge { get; set; }
 
-        [DisplayName("Max Age")]
-        public ushort? MaxAge { get; set; }
+        [DisplayName("Maximal allowed age")]
+        [Range(18, 65, ErrorMessage = "Age value should be between 18 and 65 years")]
+        public int MaxAge { get; set; }
 
         //[DisplayName("Initial Fee")]
         //public decimal InitialFee { get; set; }

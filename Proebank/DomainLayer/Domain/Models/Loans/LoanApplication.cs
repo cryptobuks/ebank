@@ -12,7 +12,7 @@ namespace Domain.Models.Loans
     public class LoanApplication : Entity
     {
         [DisplayName("Loan amount")]
-        [Range(0, 1000000000)]
+        [Range(100, 100000000)]
         public decimal LoanAmount { get; set; }
 
         [DisplayName("Time created")]
@@ -53,8 +53,8 @@ namespace Domain.Models.Loans
         [DisplayName("Currency")]
         public Currency Currency { get; set; }
 
-        [DisplayName("Middle income (last 6 month)")]
-        [Range(0, (double)decimal.MaxValue)]
+        [DisplayName("Middle income (for last 6 months)")]
+        [Range(0.0, 10000000000)]
         public decimal MiddleIncome { get; set; }
 
         [DisplayName("Children count")]

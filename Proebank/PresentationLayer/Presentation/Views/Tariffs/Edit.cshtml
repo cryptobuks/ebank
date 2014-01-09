@@ -1,18 +1,18 @@
-﻿@model Domain.Models.Loans.Tariff
+﻿@model Presentation.Models.TariffViewModel
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    bool canBeEdited = ViewBag.CanBeEdited;
+    bool canBeEdited = ViewBag.CanBeEdited ?? false;
 }
 
 <h2>Edit</h2>
-
+<hr/>
 <div class="container">
     @if (canBeEdited)
     {
         using (Html.BeginForm("Edit", "Tariffs", FormMethod.Post, new {@class = "form"}))
-         {
+        {
              @Html.AntiForgeryToken()
              @Html.ValidationSummary(true)
              <div class="row">
@@ -52,6 +52,14 @@
                      </div>
 
                      <div class="form-group">
+                         @Html.LabelFor(model => model.Currency, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.Currency)
+                             @Html.ValidationMessageFor(model => model.Currency, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
+
+                     <div class="form-group">
                          @Html.LabelFor(model => model.MinAmount, new {@class = "control-label"})
                          <div class="controls">
                              @Html.EditorFor(model => model.MinAmount)
@@ -67,6 +75,7 @@
                          </div>
                      </div>
                  </div>
+
                  <div class="col-md-4">
                      @Html.HiddenFor(model => model.CreationDate)
  
@@ -85,31 +94,30 @@
                              @Html.ValidationMessageFor(model => model.MaxTerm, null, new {@class = "help-inline"})
                          </div>
                      </div>
+                     
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.MinAge, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.MinAge)
+                             @Html.ValidationMessageFor(model => model.MinAge, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
+                     
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.MaxAge, new {@class = "control-label"})
+                         <div class="controls">
+                             @Html.EditorFor(model => model.MaxAge)
+                             @Html.ValidationMessageFor(model => model.MaxAge, null, new {@class = "help-inline"})
+                         </div>
+                     </div>
                  </div>
 
                  <div class="col-md-4">
-           
                      <div class="form-group">
                          @Html.LabelFor(model => model.LoanPurpose, new {@class = "control-label"})
                          <div class="controls">
                              @Html.EditorFor(model => model.LoanPurpose)
                              @Html.ValidationMessageFor(model => model.LoanPurpose, null, new {@class = "help-inline"})
-                         </div>
-                     </div>
-
-                     <div class="form-group">
-                         @Html.LabelFor(model => model.Currency, new {@class = "control-label"})
-                         <div class="controls">
-                             @Html.EditorFor(model => model.Currency)
-                             @Html.ValidationMessageFor(model => model.Currency, null, new {@class = "help-inline"})
-                         </div>
-                     </div>
-
-                     <div class="form-group">
-                         @Html.LabelFor(model => model.PmtType, new {@class = "control-label"})
-                         <div class="controls">
-                             @Html.EditorFor(model => model.PmtType)
-                             @Html.ValidationMessageFor(model => model.PmtType, null, new {@class = "help-inline"})
                          </div>
                      </div>
 
@@ -120,6 +128,7 @@
                              @Html.ValidationMessageFor(model => model.IsActive, null, new {@class = "help-inline"})
                          </div>
                      </div>
+
                      <div class="form-group">
                          @Html.LabelFor(model => model.IsGuarantorNeeded, new {@class = "control-label"})
                          <div class="controls">
@@ -127,9 +136,7 @@
                              @Html.ValidationMessageFor(model => model.IsGuarantorNeeded, null, new {@class = "help-inline"})
                          </div>
                      </div>
-                
                  </div>
-
              </div>
          }
     }
