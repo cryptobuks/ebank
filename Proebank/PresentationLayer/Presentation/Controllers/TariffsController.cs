@@ -8,6 +8,7 @@ using Application;
 using Microsoft.Practices.Unity;
 using PagedList;
 using PagedList.Mvc;
+using Presentation.Models;
 
 namespace Presentation.Controllers
 {
@@ -57,14 +58,29 @@ namespace Presentation.Controllers
         [HttpPost]
         [Authorize(Roles = "Department head")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Tariff tariff)
+        public ActionResult Create(TariffViewModel tariff)
         {
+            tariff.PmtFrequency = 1;
+            if (tariff.MinAge > tariff.MaxAge)
+            {
+                ModelState.AddModelError("MinAge", "Minimal age is greater than maximal");
+            }
+            if (tariff.MinAmount > tariff.MaxAmount)
+            {
+                ModelState.AddModelError("MinAmount", "Minimal loan amount is greater than maximal");
+            }
+            if (tariff.MinTerm > tariff.MaxTerm)
+            {
+                ModelState.AddModelError("MinTerm", "Minimal term is greater than maximal");
+            }
+            if (Service.GetTariffs().Any(t => t.Name.ToLower() == tariff.Name.ToLower()))
+            {
+                ModelState.AddModelError("Name", "There is already tariff with equal name");
+            }
             if (ModelState.IsValid)
             {
-                
-                tariff.Id = Guid.NewGuid();
                 tariff.CreationDate = Service.GetCurrentDate();
-                Service.UpsertTariff(tariff);
+                Service.UpsertTariff(tariff.Convert());
                 return RedirectToAction("Index");
             }
 
@@ -76,17 +92,17 @@ namespace Presentation.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
             }
             
             var tariff = Service.Find<Tariff>(id);
             if (tariff == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index");
             }
             ViewBag.CanBeEdited = !Service.GetLoans().Any(l => l.Application.TariffId == id) &&
                 !Service.GetLoanApplications().Any(la => la.TariffId == id);
-            return View(tariff);
+            return View(new TariffViewModel(tariff));
         }
 
         // POST: /Tariffs/Edit/5
@@ -97,14 +113,29 @@ namespace Presentation.Controllers
         [HttpPost]
         [Authorize(Roles = "Department head")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Tariff tariff)
+        public ActionResult Edit(TariffViewModel tariff)
         {
             tariff.PmtFrequency = 1;
+            if (tariff.MinAge > tariff.MaxAge)
+            {
+                ModelState.AddModelError("MinAge", "Minimal age is greater than maximal");
+            }
+            if (tariff.MinAmount > tariff.MaxAmount)
+            {
+                ModelState.AddModelError("MinAmount", "Minimal loan amount is greater than maximal");
+            }
+            if (tariff.MinTerm > tariff.MaxTerm)
+            {
+                ModelState.AddModelError("MinTerm", "Minimal term is greater than maximal");
+            }
             if (ModelState.IsValid)
             {
-                Service.UpsertTariff(tariff);
+                Service.UpsertTariff(tariff.Convert());
                 return RedirectToAction("Index");
             }
+            var id = tariff.Id;
+            ViewBag.CanBeEdited = !Service.GetLoans().Any(l => l.Application.TariffId == id) &&
+                !Service.GetLoanApplications().Any(la => la.TariffId == id);
             return View(tariff);
         }
 
@@ -114,7 +145,7 @@ namespace Presentation.Controllers
         {
             if (id == null)
             {
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
             }
             var tariff = Service.Find<Tariff>(id);
             if (tariff == null)

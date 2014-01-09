@@ -258,12 +258,14 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AtmViewModel.cs" />
     <Compile Include="Models\CreatedEmployeeViewModel.cs" />
+    <Compile Include="Models\EntityViewModel.cs" />
     <Compile Include="Models\LoanDetailsViewModel.cs" />
     <Compile Include="Models\LoanPdfViewModel.cs" />
     <Compile Include="Models\LoanWithCustomerViewModel.cs" />
     <Compile Include="Models\PdfBill.cs" />
     <Compile Include="Models\PersonalLoanHistoryViewModel.cs" />
     <Compile Include="Models\LoanCalculatorModel.cs" />
+    <Compile Include="Models\TariffViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
