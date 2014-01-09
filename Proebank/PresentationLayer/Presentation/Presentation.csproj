@@ -265,6 +265,7 @@
     <Compile Include="Models\PdfBill.cs" />
     <Compile Include="Models\PersonalLoanHistoryViewModel.cs" />
     <Compile Include="Models\LoanCalculatorModel.cs" />
+    <Compile Include="Models\TariffDetailsViewModel.cs" />
     <Compile Include="Models\TariffViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

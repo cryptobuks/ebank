@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Domain.Enums;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Application;
@@ -29,22 +30,37 @@ namespace Presentation.Controllers
             return View(tariffs.ToPagedList(page ?? 1,PAGE_SIZE));
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Department head")]
         public ActionResult Details(Guid? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
             }
             
             var tariff = Service.Find<Tariff>(id);
             if (tariff == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index");
             }
-            return View(tariff);
+            var tariffDetails = new TariffDetailsViewModel();
+            var loans = Service.GetLoans();
+            var loanApps = Service.GetLoanApplications();
+            tariffDetails.Name = tariff.Name;
+            tariffDetails.LoanApplicationsCreated = loanApps.Count(la => la.TariffId == id);
+            tariffDetails.LoanApplicationApprovalPercentage = tariffDetails.LoanApplicationsCreated != 0
+                ? Math.Round(
+                    loanApps.Count(
+                        la =>
+                            la.Status != LoanApplicationStatus.New && la.Status != LoanApplicationStatus.Filled &&
+                            la.Status != LoanApplicationStatus.Rejected)*100.0/tariffDetails.LoanApplicationsCreated, 2)
+                : 0;
+            tariffDetails.LoansIssued = loans.Count(l => l.Application.TariffId == id);
+            tariffDetails.LoansActive = loans.Count(l => !l.IsClosed && l.Application.TariffId == id);
+            return View(tariffDetails);
         }
 
+        [Authorize(Roles = "Department head")]
         public ActionResult Create()
         {
             return View();

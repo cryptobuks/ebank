@@ -1,16 +1,41 @@
-﻿@model Domain.Models.Loans.Tariff
+﻿@model Presentation.Models.TariffDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var isDepartmentHead = User.Identity.IsAuthenticated && User.IsInRole("Department head");
+    var width = Model.LoanApplicationApprovalPercentage + 90;
 }
-
-<h2>Details</h2>
-<hr/>
-
+<h2>Tariff Details</h2>
+<ul class="list-group">
+    <li class="list-group-item">
+        <span class="badge">@Html.DisplayFor(model => model.Name)</span>
+        @Html.DisplayNameFor(model => model.Name)
+    </li>
+    <li class="list-group-item">
+        <span class="badge">@Html.DisplayFor(model => model.LoanApplicationsCreated)</span>
+        @Html.DisplayNameFor(model => model.LoanApplicationsCreated)
+    </li>
+    <li class="list-group-item">
+        <span class="badge">@width%</span>
+        @Html.DisplayNameFor(model => model.LoanApplicationApprovalPercentage)
+        @*<div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="@Model.LoanApplicationApprovalPercentage" aria-valuemin="0" aria-valuemax="100" style="width: @width%;">
+                <span class="sr-only">@Model.LoanApplicationApprovalPercentage% Complete</span>
+            </div>
+        </div>*@
+    </li>
+    <li class="list-group-item">
+        <span class="badge">@Html.DisplayFor(model => model.LoansIssued)</span>
+        @Html.DisplayNameFor(model => model.LoansIssued)
+    </li>
+    <li class="list-group-item">
+        <span class="badge">@Html.DisplayFor(model => model.LoansActive)</span>
+        @Html.DisplayNameFor(model => model.LoansActive)
+    </li>
+</ul>
+@*
 <fieldset>
-    <legend>Tariff</legend>
+    <legend></legend>
     <dl>
         <dt>
             @Html.DisplayNameFor(model => model.Name)
@@ -21,86 +46,45 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.InterestRate)
+            @Html.DisplayNameFor(model => model.LoanApplicationsCreated)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.InterestRate)
+            @Html.DisplayFor(model => model.LoanApplicationsCreated)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MinAmount)
+            @Html.DisplayNameFor(model => model.LoanApplicationApprovalPercentage)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MinAmount)
+            <div>
+                @width%
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="@Model.LoanApplicationApprovalPercentage" aria-valuemin="0" aria-valuemax="100" style="width: @width%;">
+                        <span class="sr-only">@Model.LoanApplicationApprovalPercentage% Complete</span>
+                    </div>
+                </div>
+            </div>
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MaxAmount)
+            @Html.DisplayNameFor(model => model.LoansIssued)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MaxAmount)
-        </dd>
-        
-        @if (isDepartmentHead)
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </dt>
-        
-            <dd>
-                @Html.DisplayFor(model => model.CreationDate)
-            </dd>
-        }
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
+            @Html.DisplayFor(model => model.LoansIssued)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MinTerm)
+            @Html.DisplayNameFor(model => model.LoansActive)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MinTerm)
+            @Html.DisplayFor(model => model.LoansActive)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MaxTerm)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MaxTerm)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsGuarantorNeeded)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsGuarantorNeeded)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LoanPurpose)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LoanPurpose)
-        </dd>
-        
-        <dd>
-            @Html.DisplayNameFor(model => model.Currency)
-        </dd>
-
     </dl>
-</fieldset>
+</fieldset>*@
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>
