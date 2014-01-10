@@ -5,81 +5,68 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
-
-
+<h2>Create Loan Application</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset class="form-horizontal">
-        <legend>LoanApplication</legend>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LoanAmount, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.LoanAmount, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.LoanAmount, null, new { @class = "help-inline" })
+        <legend></legend>
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.LoanAmount, new {@class = "control-label"})
+                <div class="controls">
+                    @Html.EditorFor(model => model.LoanAmount, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.LoanAmount, null, new {@class = "help-inline"})
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Term, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.Term, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Term, null, new { @class = "help-inline" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Term, new {@class = "control-label"})
+                <div class="controls">
+                    @Html.EditorFor(model => model.Term, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Term, null, new {@class = "help-inline"})
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CellPhone, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.CellPhone, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CellPhone, null, new { @class = "help-inline" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.CellPhone, new {@class = "control-label"})
+                <div class="controls">
+                    @Html.EditorFor(model => model.CellPhone, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.CellPhone, null, new {@class = "help-inline"})
+                </div>
             </div>
-        </div>
         
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReceiveToCard, new { @class = "control-label" })
-            <div class="controls">
-                @Html.EditorFor(model => model.ReceiveToCard, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ReceiveToCard, null, new { @class = "help-inline" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReceiveToCard, new {@class = "control-label"})
+                <div class="controls">
+                    @Html.EditorFor(model => model.ReceiveToCard, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.ReceiveToCard, null, new {@class = "help-inline"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TariffId, "Tariff", new {@class = "control-label"})
+                <div class="controls">
+                    @*  @Html.DropDownList("TariffId", String.Empty)*@
+                    @Html.DropDownListFor(model => model.TariffId, (IEnumerable<SelectListItem>) ViewBag.Tariffs, "Please select...")
+                    @Html.ValidationMessageFor(model => model.TariffId, null, new {@class = "help-inline"})
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TariffId, "Tariff", new { @class = "control-label" })
-            <div class="controls">
-                @*  @Html.DropDownList("TariffId", String.Empty)*@
-                @Html.DropDownListFor(model => model.TariffId, (IEnumerable<SelectListItem>)ViewBag.Tariffs, "Please select...")
-                @Html.ValidationMessageFor(model => model.TariffId, null, new { @class = "help-inline" })
-            </div>
-        </div>
-
-        <br />
-        <table>
-            <tr>
-                <td>
-                    <div class="form-actions no-color">
-                        <input type="submit" value="Create" class="btn btn-success" />
-                    </div>
-                </td>
-                <td>
-@*                    <div class="form-actions no-color">
-                        <input type="submit" name="btnUseLoanCalculator" value="Use Loan Calculator" class="btn btn-success" />
-                    </div>*@
-                    <div class="form-actions no-color">
-                        <a class="btn btn-success" href="@Url.Action("Index","LoanCalculator")">Use Loan Calculator</a>
-                    </div>
-                </td>
-            </tr>
-        </table>
-
-        
-
-
-
+        <ul class="nav nav-pills">
+            <li>
+                <div class="form-actions no-color" style="padding-right: 20px;">
+                    <input type="submit" value="Create" class="btn btn-success"/>
+                </div>
+            </li>
+            <li>
+                <div class="form-actions no-color">
+                    <a href="@Url.Action("Index", "LoanCalculator")" class="btn btn-success">Use Loan Calculator</a>
+                </div>
+            </li>
+        </ul>
     </fieldset>
 }
 
