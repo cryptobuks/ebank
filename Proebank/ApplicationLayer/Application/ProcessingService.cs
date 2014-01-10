@@ -448,7 +448,9 @@ namespace Application
         public IQueryable<LoanApplication> GetLoanApplications(bool showRemoved = false)
         {
             var loanApplicationRepo = _unitOfWork.GetDbSet<LoanApplication>();
-            return loanApplicationRepo.Where(la => showRemoved || !la.IsRemoved);
+            return loanApplicationRepo
+                .Where(la => showRemoved || !la.IsRemoved)
+                .OrderBy(la => la.TimeCreated);
         }
 
         public void UpsertLoanApplication(LoanApplication loanApplication)
@@ -474,6 +476,10 @@ namespace Application
             loanApplication.Tariff = selectedTariff;
             loanApplication.LoanPurpose = selectedTariff.LoanPurpose;
             loanApplication.Currency = selectedTariff.Currency;
+            if (!selectedTariff.IsGuarantorNeeded)
+            {
+                loanApplication.Guarantor = null;
+            }
 
             var loanApplicationRepo = _unitOfWork.GetDbSet<LoanApplication>();
             var validationResult = ValidateLoanApplication(loanApplication, fromConsultant);

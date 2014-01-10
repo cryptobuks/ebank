@@ -46,6 +46,12 @@ else
             @Html.DisplayNameFor(model => model.First().MaxTerm)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.First().MinAge)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().MaxAge)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.First().IsGuarantorNeeded)
         </th>
         <th>
@@ -92,6 +98,12 @@ else
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MaxTerm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinAge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxAge)
             </td>
             <td>
                 @isGuarantorNeeded

@@ -6,7 +6,6 @@ using System.Data.Entity;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Presentation.Extensions;
 
 namespace Presentation
 {
@@ -25,27 +24,32 @@ namespace Presentation
         {
             var exception = Server.GetLastError();
             var httpException = exception as HttpException;
-            Response.StatusCode = httpException.GetHttpCode();
 
-            Response.Clear();
-            Server.ClearError();
+            // TODO: uncomment before release
+            //if (httpException != null)
+            //{
+            //    Response.StatusCode = httpException.GetHttpCode();
 
-            if (httpException != null)
-            {
-                var httpContext = HttpContext.Current;
-                httpContext.RewritePath("/Error/ServerError", false);
+            //    Response.Clear();
+            //    Server.ClearError();
 
-                // MVC3+ and IIS7+
-                switch (Response.StatusCode)
-                {
-                    case 404:
-                        httpContext.Server.TransferRequest("/Error/NotFound", true);
-                        break;
-                    default:
-                        httpContext.Server.TransferRequest("/Error/ServerError", true);
-                        break;
-                }
-            }
+            //    if (httpException != null)
+            //    {
+            //        var httpContext = HttpContext.Current;
+            //        httpContext.RewritePath("/Error/ServerError", false);
+
+            //        // MVC3+ and IIS7+
+            //        switch (Response.StatusCode)
+            //        {
+            //            case 404:
+            //                httpContext.Server.TransferRequest("/Error/NotFound", true);
+            //                break;
+            //            default:
+            //                httpContext.Server.TransferRequest("/Error/ServerError", true);
+            //                break;
+            //        }
+            //    }
+            //}
         }
     }
 }

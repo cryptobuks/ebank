@@ -31,11 +31,11 @@ namespace Domain.Models.Loans
         public bool IsActive { get; set; }
 
         [DisplayName("Min Term")]
-        [Range(1, 240, ErrorMessage = "Term value should be between 1 month and 20 years")]
+        [Range(1, 60, ErrorMessage = "Term value should be between 1 month and 5 years")]
         public int MinTerm { get; set; }
 
         [DisplayName("Max Term")]
-        [Range(1, 240, ErrorMessage = "Term value should be between 1 month and 20 years")]
+        [Range(1, 60, ErrorMessage = "Term value should be between 1 month and 5 years")]
         public int MaxTerm { get; set; }
 
         [DisplayName("Payment frequency, in months")]
@@ -45,11 +45,11 @@ namespace Domain.Models.Loans
         [DisplayName("Payment type")]
         public PaymentCalculationType PmtType { get; set; }
 
-        [DisplayName("Minimal allowed age")]
+        [DisplayName("Min. allowed age")]
         [Range(18, 65, ErrorMessage = "Age value should be between 18 and 65 years")]
         public int MinAge { get; set; }
 
-        [DisplayName("Maximal allowed age")]
+        [DisplayName("Max. allowed age")]
         [Range(18, 65, ErrorMessage = "Age value should be between 18 and 65 years")]
         public int MaxAge { get; set; }
 

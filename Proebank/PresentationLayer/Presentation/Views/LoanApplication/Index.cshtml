@@ -1,6 +1,7 @@
 ﻿@using Application
 @using Domain.Enums
 @using Glimpse.Core.Extensions
+@using Microsoft.Ajax.Utilities
 @using PagedList
 @using PagedList.Mvc
 @using Domain.Models.Loans
@@ -78,6 +79,9 @@
 <table class="table">
     <tr>
         <th>
+            Customer
+        </th>
+        <th>
             @Html.ActionLink("Tariff Name", action, new { page = Request.QueryString["page"], searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = ViewBag.NextSortTariffParameter })
             @*@Html.DisplayNameFor(model => model.First().Tariff.Name)*@
         </th>
@@ -107,7 +111,7 @@
         </th>
         @if (User.IsInRole("Security"))
         {
-           <th>@Html.Label("Scoring(Ok)")</th> 
+            <th>@Html.Label("Scoring(Ok)")</th> 
         }
     </tr>
     @if (!Model.Any() && Request.QueryString.HasKeys())
@@ -119,113 +123,117 @@
     else
     {
         foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tariff.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Currency)
-                @Html.DisplayFor(modelItem => item.LoanAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeCreated)
-            </td>
-            @if (isHead)
-            {
+        {
+            <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TimeContracted)
+                    @{ var lastname = item.PersonalData != null ? item.PersonalData.LastName : "-"; }
+                    @lastname
                 </td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.Term) month(s)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CellPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoanPurpose)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            @if (User.IsInRole("Security"))
-            {
                 <td>
-                    @scoringDictonary[item.Id].ToString("0.##%")
+                    @Html.DisplayFor(modelItem => item.Tariff.Name)
                 </td>
-            }
-
-            <td>
-                @switch (item.Status)
+                <td>
+                    @Html.DisplayFor(modelItem => item.Currency)
+                    @Html.DisplayFor(modelItem => item.LoanAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeCreated)
+                </td>
+                @if (isHead)
                 {
-                    case LoanApplicationStatus.New:
-                    <a href="@Url.Action("Fill", new { id = item.Id })" title="Fill docs" class="btn btn-primary btn-xs"><i class="fa fa-paperclip fa-lg"></i>Fill docs</a>
-                      <a href="@Url.Action("Delete", new { id = item.Id })" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
-                        break;
-                    case LoanApplicationStatus.Filled:
-                    <a href="@Url.Action("SendToSecurity", new { id = item.Id })" title="to security service" class="btn btn-default btn-xs"><i class="fa fa-lock fa-lg"></i>To security</a>
-                        <a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info fa-lg"></i></a>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TimeContracted)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Term) month(s)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CellPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoanPurpose)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                @if (User.IsInRole("Security"))
+                {
+                    <td>
+                        @scoringDictonary[item.Id].ToString("0.##%")
+                    </td>
+                }
+
+                <td>
+                    @switch (item.Status)
+                    {
+                        case LoanApplicationStatus.New:
+                            <a href="@Url.Action("Fill", new {id = item.Id})" title="Fill docs" class="btn btn-primary btn-xs"><i class="fa fa-paperclip fa-lg"></i>Fill docs</a>
+                            <a href="@Url.Action("Delete", new {id = item.Id})" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
+                            break;
+                        case LoanApplicationStatus.Filled:
+                            <a href="@Url.Action("SendToSecurity", new {id = item.Id})" title="to security service" class="btn btn-default btn-xs"><i class="fa fa-lock fa-lg"></i>To security</a>
+                            <a href="@Url.Action("Details", new {id = item.Id})" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info fa-lg"></i></a>
                         @*<a href="@Url.Action("Edit", new { id = item.Id })" title="Edit" class="btn btn-default btn-xs"><i class="fa fa-pencil fa-lg"></i></a>*@
-                        break;
-                    case LoanApplicationStatus.UnderCommitteeConsideration:
-                        if (ViewBag.ActiveTab == "Committee")
-                        {
-                            List<CommitteeVoting> list = ViewBag.CommiteeVotings;
-                            if (ViewBag.CommiteeVotings.Count == 0 || !list.Contains(list.Where(x => x.LoanApplicationId == item.Id).FirstOrDefault()))
+                            break;
+                        case LoanApplicationStatus.UnderCommitteeConsideration:
+                            if (ViewBag.ActiveTab == "Committee")
                             {
-                    <a href="@Url.Action("History", new { id = item.Id })" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i>History</a>
-                    <a href="@Url.Action("ApproveCommittee", new { id = item.Id })" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i>Approve</a>
-                    <a href="@Url.Action("RejectCommittee", new { id = item.Id })" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i>Reject</a>
-                    <a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info fa-lg"></i>Details</a>
-                            }
-                            else
-                            {
-                                CommitteeVoting cv = list.Where(x => x.LoanApplicationId == item.Id).FirstOrDefault();
-                                if (cv != null)
+                                List<CommitteeVoting> list = ViewBag.CommiteeVotings;
+                                if (ViewBag.CommiteeVotings.Count == 0 || !list.Contains(list.Where(x => x.LoanApplicationId == item.Id).FirstOrDefault()))
                                 {
-                                    if (cv.Status == LoanApplicationCommitteeMemberStatus.Approved)
+                                    <a href="@Url.Action("History", new {id = item.Id})" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i>History</a>
+                                    <a href="@Url.Action("ApproveCommittee", new {id = item.Id})" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i>Approve</a>
+                                    <a href="@Url.Action("RejectCommittee", new {id = item.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i>Reject</a>
+                                    <a href="@Url.Action("Details", new {id = item.Id})" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info fa-lg"></i>Details</a>
+                                }
+                                else
+                                {
+                                    CommitteeVoting cv = list.Where(x => x.LoanApplicationId == item.Id).FirstOrDefault();
+                                    if (cv != null)
                                     {
-                                        <div class="btn btn-primary btn-xs">Voted: Approved</div>
-                                    }
-                                    else if (cv.Status == LoanApplicationCommitteeMemberStatus.Rejected)
-                                    {
-                                        <div class="btn btn-danger btn-xs">Voted: Rejected</div>
+                                        if (cv.Status == LoanApplicationCommitteeMemberStatus.Approved)
+                                        {
+                                            <div class="btn btn-primary btn-xs">Voted: Approved</div>
+                                        }
+                                        else if (cv.Status == LoanApplicationCommitteeMemberStatus.Rejected)
+                                        {
+                                            <div class="btn btn-danger btn-xs">Voted: Rejected</div>
+                                        }
                                     }
                                 }
                             }
-                        }
-                        if (ViewBag.ActiveTab == "All")
-                        {
-                            List<CommitteeVoting> list = ViewBag.AllCommitteeVotings;
-                    <a href="#" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i>@list.Where(x => x.LoanApplicationId == item.Id && x.Status == LoanApplicationCommitteeMemberStatus.Approved).Count().ToString()</a>
-                    <a href="#" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i>@list.Where(x => x.LoanApplicationId == item.Id && x.Status == LoanApplicationCommitteeMemberStatus.Rejected).Count().ToString()</a>
-                    <a href="@Url.Action("History", new { id = item.Id })" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i>History</a>
-                    <a href="@Url.Action("Approve", new { id = item.Id })" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i>Approve</a>
-                    <a href="@Url.Action("Reject", new { id = item.Id })" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i>Reject</a>
-                        }
-                        break;
-                    case LoanApplicationStatus.UnderRiskConsideration:
-                    <a href="@Url.Action("History", new { id = item.Id })" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i>History</a>
-                    <a href="@Url.Action("SendToCommittee", new { id = item.Id })" title="to loan committуу" class="btn btn-default btn-xs"><i class="fa fa-users fa-lg"></i>To committee</a>
-                    <a href="@Url.Action("Approve", new { id = item.Id })" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-check fa-lg"></i>Approve</a>
-                    <a href="@Url.Action("Reject", new { id = item.Id })" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-times fa-lg"></i>Reject</a>
-                    <a href="@Url.Action("Details", new { id = item.Id })" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info fa-lg"></i>Details</a>
-                        break;
-                    case LoanApplicationStatus.Approved:
-                    case LoanApplicationStatus.ContractPrinted:
-                        <a href="@Url.Action("Contract", new { id = item.Id })" title="Contract" class="btn btn-success btn-xs"><i class="fa fa-pencil fa-lg"></i> Sign contract</a>
-                        break;
-                    case LoanApplicationStatus.Rejected:
-                    case LoanApplicationStatus.Annuled:
-                        <a href="@Url.Action("Delete", new { id = item.Id })" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
-                        break;
-                    case LoanApplicationStatus.Contracted:
-                        break;
-                }
-            </td>
-        </tr>
-    }
+                            if (ViewBag.ActiveTab == "All")
+                            {
+                                List<CommitteeVoting> list = ViewBag.AllCommitteeVotings;
+                                <a href="#" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i>@list.Where(x => x.LoanApplicationId == item.Id && x.Status == LoanApplicationCommitteeMemberStatus.Approved).Count().ToString()</a>
+                                <a href="#" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i>@list.Where(x => x.LoanApplicationId == item.Id && x.Status == LoanApplicationCommitteeMemberStatus.Rejected).Count().ToString()</a>
+                                <a href="@Url.Action("History", new {id = item.Id})" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i>History</a>
+                                <a href="@Url.Action("Approve", new {id = item.Id})" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i>Approve</a>
+                                <a href="@Url.Action("Reject", new {id = item.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i>Reject</a>
+                            }
+                            break;
+                        case LoanApplicationStatus.UnderRiskConsideration:
+                            <a href="@Url.Action("History", new {id = item.Id})" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i>History</a>
+                            <a href="@Url.Action("SendToCommittee", new {id = item.Id})" title="to loan committуу" class="btn btn-default btn-xs"><i class="fa fa-users fa-lg"></i>To committee</a>
+                            <a href="@Url.Action("Approve", new {id = item.Id})" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-check fa-lg"></i>Approve</a>
+                            <a href="@Url.Action("Reject", new {id = item.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-times fa-lg"></i>Reject</a>
+                            <a href="@Url.Action("Details", new {id = item.Id})" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info fa-lg"></i>Details</a>
+                            break;
+                        case LoanApplicationStatus.Approved:
+                        case LoanApplicationStatus.ContractPrinted:
+                            <a href="@Url.Action("Contract", new {id = item.Id})" title="Contract" class="btn btn-success btn-xs"><i class="fa fa-pencil fa-lg"></i> Sign contract</a>
+                            break;
+                        case LoanApplicationStatus.Rejected:
+                        case LoanApplicationStatus.Annuled:
+                            <a href="@Url.Action("Delete", new {id = item.Id})" title="Delete" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-lg"></i></a>
+                            break;
+                        case LoanApplicationStatus.Contracted:
+                            break;
+                    }
+                </td>
+            </tr>
+        }
     }
 </table>
 

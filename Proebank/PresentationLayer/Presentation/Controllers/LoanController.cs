@@ -15,6 +15,7 @@ using Presentation.Models;
 using RazorPDF;
 using PagedList;
 using PagedList.Mvc;
+using System.Collections.Generic;
 
 namespace Presentation.Controllers
 {
@@ -22,6 +23,22 @@ namespace Presentation.Controllers
     {
         //Amount of elements to display on one page of PagedList
         private const int PAGE_SIZE = 5;
+
+        //SearchBy
+        private const string SEARCHBY_TARIFF = "Tariff Name";
+        private const string SEARCHBY_CELLPHONE = "Cell Phone";
+        private const string SEARCHBY_IDENTIFICATIONNUMBER = "Identification Number";
+        private const string SEARCHBY_PASSPORT_NUMBER = "Passport number";
+        private const string SEARCHBY_FIRST_NAME = "First Name";
+        private const string SEARCHBY_LAST_NAME = "Last Name";
+        private const string SEARCHBY_STATUS = "Status";
+        //SortBy
+        private const string SORTBY_TARIFF_ASC = "Tariff ASC";
+        private const string SORTBY_TARIFF_DESC = "Tariff DESC";
+        private const string SORTBY_ISCLOSED_ASC = "IsClosed ASC";
+        private const string SORTBY_ISCLOSED_DESC = "IsClosed DESC";
+        private const string SORTBY_CUSTOMER_ASC = "Customer ASC";
+        private const string SORTBY_CUSTOMER_DESC = "Customer DESC";
 
         [Dependency]
         protected ProcessingService Service { get; set; }
@@ -175,49 +192,139 @@ namespace Presentation.Controllers
         }
 
         [Authorize(Roles = "Department head")]
-        public ActionResult All(int? page)
+        public ActionResult All(int? page, string searchBy, string search, string sortBy)
         {
             var customers = UnitOfWork.Context.Set<Customer>();
             var loans = Service.GetLoans()
-                .ToList()
-                .Select(l => CreateLoanViewModel(l, customers));
+                               .ToList()
+                               .Select(l => CreateLoanViewModel(l, customers))
+                               .AsQueryable();
+
+            loans = Searching(searchBy, search, loans);
+            loans = Sorting(sortBy, loans);
+
+            //for sortBy
+            ViewBag.NextSortCustomerParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_CUSTOMER_ASC)) ? SORTBY_CUSTOMER_DESC : SORTBY_CUSTOMER_ASC;
+            ViewBag.NextSortIsClosedParameter = (sortBy != null && sortBy.Equals(SORTBY_ISCLOSED_ASC)) ? SORTBY_ISCLOSED_DESC : SORTBY_ISCLOSED_ASC;
+            ViewBag.NextSortTariffParameter = (sortBy != null && sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "all";
             return View("Index", loans.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         [Authorize(Roles = "Department head, Consultant")]
-        public ActionResult Active(int? page)
+        public ActionResult Active(int? page, string searchBy, string search, string sortBy)
         {
             var customers = UnitOfWork.Context.Set<Customer>();
             var loans = Service.GetLoans()
                 .Where(l => !l.IsClosed)
                 .ToList()
-                .Select(l => CreateLoanViewModel(l, customers));
+                .Select(l => CreateLoanViewModel(l, customers))
+                .AsQueryable();
+
+            loans = Searching(searchBy, search, loans);
+            loans = Sorting(sortBy, loans);
+
+            //for sortBy
+            ViewBag.NextSortCustomerParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_CUSTOMER_ASC)) ? SORTBY_CUSTOMER_DESC : SORTBY_CUSTOMER_ASC;
+            ViewBag.NextSortTariffParameter = (sortBy != null && sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "active";
             return View("Index", loans.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         [Authorize(Roles = "Department head, Security")]
-        public ActionResult InTrouble(int? page)
+        public ActionResult InTrouble(int? page, string searchBy, string search, string sortBy)
         {
             var customers = UnitOfWork.Context.Set<Customer>();
             var today = Service.GetCurrentDate();
             var loans = Service.GetLoans()
                 .Where(l => !l.IsClosed && today.Date > l.PaymentSchedule.Payments.Max(p => p.ShouldBePaidBefore))
                 .ToList()
-                .Select(l => CreateLoanViewModel(l, customers));
+                .Select(l => CreateLoanViewModel(l, customers))
+                .AsQueryable();
+
+            loans = Searching(searchBy, search, loans);
+            loans = Sorting(sortBy, loans);
+
+            //for sortBy
+            ViewBag.NextSortCustomerParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_CUSTOMER_ASC)) ? SORTBY_CUSTOMER_DESC : SORTBY_CUSTOMER_ASC;
+            ViewBag.NextSortIsClosedParameter = (sortBy != null && sortBy.Equals(SORTBY_ISCLOSED_ASC)) ? SORTBY_ISCLOSED_DESC : SORTBY_ISCLOSED_ASC;
+            ViewBag.NextSortTariffParameter = (sortBy != null && sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "introuble";
             return View("Index", loans.ToPagedList(page ?? 1, PAGE_SIZE));
         }
 
         [Authorize(Roles = "Department head")]
-        public ActionResult Closed(int? page)
+        public ActionResult Closed(int? page, string searchBy, string search, string sortBy)
         {
             var customers = UnitOfWork.Context.Set<Customer>();
             var loans = Service.GetLoans()
                 .Where(l => l.IsClosed)
                 .ToList()
-                .Select(l => CreateLoanViewModel(l, customers));
+                .Select(l => CreateLoanViewModel(l, customers))
+                .AsQueryable();
+
+            loans = Searching(searchBy, search, loans);
+            loans = Sorting(sortBy, loans);
+
+            //for sortBy
+            ViewBag.NextSortCustomerParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_CUSTOMER_ASC)) ? SORTBY_CUSTOMER_DESC : SORTBY_CUSTOMER_ASC;
+            ViewBag.NextSortTariffParameter = (sortBy != null && sortBy.Equals(SORTBY_TARIFF_ASC)) ? SORTBY_TARIFF_DESC : SORTBY_TARIFF_ASC;
+
+
+            //for dropdownlist for searching Criteria
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_TARIFF, Value = SEARCHBY_TARIFF},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "closed";
             return View("Index", loans.ToPagedList(page ?? 1, PAGE_SIZE));
         }
@@ -225,6 +332,75 @@ namespace Presentation.Controllers
         private static LoanWithCustomerViewModel CreateLoanViewModel(Loan l, IQueryable<Customer> customers)
         {
             return new LoanWithCustomerViewModel { Loan = l, Customer = customers.FirstOrDefault(c => c.Id == l.CustomerId) };
+        }
+
+
+        private static IQueryable<LoanWithCustomerViewModel> Searching(string searchBy, string search, IQueryable<LoanWithCustomerViewModel> loansWithCustomers)
+        {
+            var loansWithCustomersResults = loansWithCustomers;
+
+            switch (searchBy)
+            {
+                case SEARCHBY_TARIFF:
+                    loansWithCustomersResults = loansWithCustomersResults.Where(lc => lc.Loan.Application.Tariff.Name.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_CELLPHONE:
+                    loansWithCustomersResults = loansWithCustomersResults.Where(lc => lc.Loan.Application.CellPhone.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_IDENTIFICATIONNUMBER:
+                    loansWithCustomersResults =
+                        loansWithCustomersResults.Where(lc => lc.Customer.PersonalData.Identification.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_FIRST_NAME:
+                    loansWithCustomersResults = loansWithCustomersResults.Where(lc => lc.Customer.PersonalData.FirstName.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_LAST_NAME:
+                    loansWithCustomersResults = loansWithCustomersResults.Where(lc => lc.Customer.PersonalData.LastName.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_PASSPORT_NUMBER:
+                    loansWithCustomersResults = loansWithCustomersResults.Where(lc => lc.Customer.PersonalData.Passport.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_STATUS:
+                    loansWithCustomersResults =
+                        loansWithCustomersResults.ToList()
+                        .Where(lc => lc.Loan.Application.Status.ToString().Contains(search) || search == null)
+                        .AsQueryable();
+                    break;
+            }
+            return loansWithCustomersResults;
+        }
+
+        private static IQueryable<LoanWithCustomerViewModel> Sorting(string sortBy, IQueryable<LoanWithCustomerViewModel> loansWithCustomers)
+        {
+            var loansWithCustomersResults = loansWithCustomers;
+
+            switch (sortBy)
+            {
+                case SORTBY_TARIFF_ASC:
+                    loansWithCustomersResults = loansWithCustomersResults.OrderBy(lc => lc.Loan.Application.Tariff.Name);
+                    break;
+                case SORTBY_TARIFF_DESC:
+                    loansWithCustomersResults = loansWithCustomersResults.OrderByDescending(lc => lc.Loan.Application.Tariff.Name);
+                    break;
+                case SORTBY_ISCLOSED_ASC:
+                    loansWithCustomersResults = loansWithCustomersResults.OrderBy(lc => lc.Loan.IsClosed);
+                    break;
+                case SORTBY_ISCLOSED_DESC:
+                    loansWithCustomersResults = loansWithCustomersResults.OrderByDescending(lc => lc.Loan.IsClosed);
+                    break;
+                case SORTBY_CUSTOMER_ASC:
+                    loansWithCustomersResults =
+                        loansWithCustomersResults.OrderBy(lc => lc.Customer.PersonalData.LastName);
+                    break;
+                case SORTBY_CUSTOMER_DESC:
+                    loansWithCustomersResults =
+                        loansWithCustomersResults.OrderByDescending(lc => lc.Customer.PersonalData.LastName);
+                    break;
+                default: //if sortBy == empty = OrderByDefault => orderBy Customer ASC
+                    loansWithCustomersResults = loansWithCustomersResults.OrderBy(lc => lc.Customer.PersonalData.LastName);
+                    break;
+            }
+            return loansWithCustomersResults;
         }
     }
 }

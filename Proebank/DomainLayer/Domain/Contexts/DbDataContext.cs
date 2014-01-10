@@ -100,7 +100,7 @@ namespace Domain.Contexts
                 foreach (var validationError in dbExc.EntityValidationErrors
                     .SelectMany(validationErrors => validationErrors.ValidationErrors))
                 {
-                    Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                    Debug.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
                 }
                 throw;
             }
