@@ -730,10 +730,7 @@ namespace Presentation.Controllers
                 dbApp.Tariff = selectedTariff;
                 dbApp.TariffId = loanApplication.TariffId;
                 dbApp.Term = loanApplication.Term;
-                if (selectedTariff.IsGuarantorNeeded)
-                {
-                    dbApp.Guarantor = loanApplication.Guarantor;
-                }
+                dbApp.Guarantor = selectedTariff.IsGuarantorNeeded ? loanApplication.Guarantor : null;
                 Service.UpsertLoanApplication(dbApp);
             }
             return RedirectToAction("Index");

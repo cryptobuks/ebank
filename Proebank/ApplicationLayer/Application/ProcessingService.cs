@@ -476,6 +476,10 @@ namespace Application
             loanApplication.Tariff = selectedTariff;
             loanApplication.LoanPurpose = selectedTariff.LoanPurpose;
             loanApplication.Currency = selectedTariff.Currency;
+            if (!selectedTariff.IsGuarantorNeeded)
+            {
+                loanApplication.Guarantor = null;
+            }
 
             var loanApplicationRepo = _unitOfWork.GetDbSet<LoanApplication>();
             var validationResult = ValidateLoanApplication(loanApplication, fromConsultant);

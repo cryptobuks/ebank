@@ -45,11 +45,11 @@ namespace Domain.Models.Loans
         [DisplayName("Payment type")]
         public PaymentCalculationType PmtType { get; set; }
 
-        [DisplayName("Minimal allowed age")]
+        [DisplayName("Min. allowed age")]
         [Range(18, 65, ErrorMessage = "Age value should be between 18 and 65 years")]
         public int MinAge { get; set; }
 
-        [DisplayName("Maximal allowed age")]
+        [DisplayName("Max. allowed age")]
         [Range(18, 65, ErrorMessage = "Age value should be between 18 and 65 years")]
         public int MaxAge { get; set; }
 
