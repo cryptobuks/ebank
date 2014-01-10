@@ -238,6 +238,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\LoanCalculatorController.cs" />
     <Compile Include="Controllers\ProcessingController.cs" />
     <Compile Include="Controllers\AtmController.cs" />
@@ -421,6 +422,8 @@
     <Content Include="Views\Statistic\Index.cshtml" />
     <Content Include="Views\Statistic\PdfMonthlyReport.cshtml" />
     <Content Include="Views\Statistic\PdfAnnualReport.cshtml" />
+    <Content Include="Views\Error\ServerError.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

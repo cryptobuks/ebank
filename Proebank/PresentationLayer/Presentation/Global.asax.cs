@@ -1,4 +1,6 @@
-﻿using Domain.Contexts;
+﻿using System;
+using System.Web;
+using Domain.Contexts;
 using Domain.Migrations;
 using System.Data.Entity;
 using System.Web.Mvc;
@@ -17,6 +19,33 @@ namespace Presentation
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        protected void Application_Error()
+        {
+            var exception = Server.GetLastError();
+            var httpException = exception as HttpException;
+            Response.StatusCode = httpException.GetHttpCode();
+
+            Response.Clear();
+            Server.ClearError();
+
+            if (httpException != null)
+            {
+                var httpContext = HttpContext.Current;
+                httpContext.RewritePath("/Error/ServerError", false);
+
+                // MVC3+ and IIS7+
+                switch (Response.StatusCode)
+                {
+                    case 404:
+                        httpContext.Server.TransferRequest("/Error/NotFound", true);
+                        break;
+                    default:
+                        httpContext.Server.TransferRequest("/Error/ServerError", true);
+                        break;
+                }
+            }
         }
     }
 }
