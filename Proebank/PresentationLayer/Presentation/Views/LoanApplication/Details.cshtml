@@ -3,13 +3,15 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var isGuarantorNeeded = Model.Guarantor != null;
+    var colClass = isGuarantorNeeded ? "col-md-3" : "col-md-4";
 }
 
 <h2>Details</h2>
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="@colClass">
             <h4>Application information</h4>
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.LoanAmount)
@@ -47,7 +49,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="@colClass">
             <h4>Debtor personal information</h4>
             <div class="form-group">
                 @Html.DisplayFor(model => model.PersonalData)
@@ -55,7 +57,7 @@
 
         </div>
 
-        <div class="col-md-3">
+        <div class="@colClass">
             <h4>Debtor personal information</h4>
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.MiddleIncome)
@@ -117,15 +119,18 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-3">
-            <div id="guarantorInfo">
-                <h4>Guarantor personal information</h4>
-                <div class="form-group">
-                    @Html.DisplayFor(model => model.Guarantor)
+        
+        @if (isGuarantorNeeded)
+        {
+            <div class="@colClass">
+                <div id="guarantorInfo">
+                    <h4>Guarantor personal information</h4>
+                    <div class="form-group">
+                        @Html.DisplayFor(model => model.Guarantor)
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 </div>
 <p>

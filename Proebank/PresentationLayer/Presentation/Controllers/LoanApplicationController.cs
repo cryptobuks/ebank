@@ -627,7 +627,6 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
-
         public ActionResult Fill(Guid? id, Guid? tariffId)
         {
             var tariffs = Service.GetTariffs().Where(t => t.IsActive).ToList();
@@ -660,44 +659,85 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Fill(LoanApplication loanApplication)
         {
-            var tariffList = Service.GetTariffs();
-            ViewBag.Tariff = new SelectList(tariffList, "Id", "Name");
-
-            //if (ModelState.IsValid)
-            //{
+            var tariffs = Service.GetTariffs().Where(t => t.IsActive);
+            ViewBag.Tariff = new SelectList(tariffs, "Id", "Name");
+            var tariffGuarantor = tariffs.Select(t => new { Id = t.Id, isGuarantorNeeded = t.IsGuarantorNeeded });
+            ViewBag.tariffGuarantor = tariffGuarantor;
+            if (ModelState.IsValidField("CellPhone"))
+            {
                 // connect to db to refresh connection
                 // saving of loanApplication doesn't save docs
-                var applicationWithDbRef = Service.GetLoanApplications().FirstOrDefault(l => l.Id.Equals(loanApplication.Id));
-                if (applicationWithDbRef != null)
+                var dbApp = Service.GetLoanApplications().FirstOrDefault(l => l.Id.Equals(loanApplication.Id));
+                return dbApp != null
+                    ? FillExistingLoanApplication(loanApplication, tariffs, dbApp)
+                    : FillNewLoanApplication(loanApplication);
+            }
+            return View(loanApplication);
+        }
+
+        private ActionResult FillNewLoanApplication(LoanApplication loanApplication)
+        {
+            loanApplication.Status = LoanApplicationStatus.Filled;
+            try
+            {
+                Service.CreateLoanApplication(loanApplication, true);
+            }
+            catch (ArgumentException e)
+            {
+                var validationResult = e.Data["validationResult"] as Dictionary<string, string>;
+                if (validationResult != null)
                 {
-                    applicationWithDbRef.Status = LoanApplicationStatus.Filled;
-                    applicationWithDbRef.PersonalData = loanApplication.PersonalData;
-                    Service.UpsertLoanApplication(applicationWithDbRef);
-                }
-                else
-                {
-                    loanApplication.Status = LoanApplicationStatus.Filled;
-                    try
+                    foreach (var result in validationResult)
                     {
-                        Service.CreateLoanApplication(loanApplication, true);
+                        ModelState.AddModelError(result.Key, result.Value);
                     }
-                    catch (ArgumentException e)
-                    {
-                        var validationResult = e.Data["validationResult"] as Dictionary<string, string>;
-                        if (validationResult != null)
-                        {
-                            foreach (var result in validationResult)
-                            {
-                                ModelState.AddModelError(result.Key, result.Value);
-                            }
-                            return View(loanApplication);
-                        }
-                    }
+                    return View(loanApplication);
                 }
-            //}
+            }
             return RedirectToAction("Index");
         }
 
+        private ActionResult FillExistingLoanApplication(LoanApplication loanApplication, IQueryable<Tariff> tariffList,
+            LoanApplication dbApp)
+        {
+            var selectedTariff = tariffList.SingleOrDefault(t => t.Id == loanApplication.TariffId);
+            var validationErrors = Service.ValidateLoanApplication(loanApplication, true);
+            if (validationErrors.Any())
+            {
+                foreach (var error in validationErrors)
+                {
+                    ModelState.AddModelError(error.Key, error.Value);
+                }
+                return View(loanApplication);
+            }
+            if (selectedTariff != null)
+            {
+                // too bad code, this is because we couldn't achieve data layer abstraction
+                dbApp.CellPhone = loanApplication.CellPhone;
+                dbApp.ChildrenCount = loanApplication.ChildrenCount;
+                dbApp.Currency = selectedTariff.Currency;
+                dbApp.Email = loanApplication.Email;
+                dbApp.HigherEducation = loanApplication.HigherEducation;
+                dbApp.IsHomeowner = loanApplication.IsHomeowner;
+                dbApp.IsMarried = loanApplication.IsMarried;
+                dbApp.LengthOfWork = loanApplication.LengthOfWork;
+                dbApp.LoanAmount = loanApplication.LoanAmount;
+                dbApp.LoanPurpose = selectedTariff.LoanPurpose;
+                dbApp.MiddleIncome = loanApplication.MiddleIncome;
+                dbApp.PersonalData = loanApplication.PersonalData;
+                dbApp.ReceiveToCard = loanApplication.ReceiveToCard;
+                dbApp.Status = LoanApplicationStatus.Filled;
+                dbApp.Tariff = selectedTariff;
+                dbApp.TariffId = loanApplication.TariffId;
+                dbApp.Term = loanApplication.Term;
+                if (selectedTariff.IsGuarantorNeeded)
+                {
+                    dbApp.Guarantor = loanApplication.Guarantor;
+                }
+                Service.UpsertLoanApplication(dbApp);
+            }
+            return RedirectToAction("Index");
+        }
 
         private static IQueryable<LoanApplication> Searching(string searchBy, string search, IQueryable<LoanApplication> loanApplications)
         {
@@ -733,7 +773,6 @@ namespace Presentation.Controllers
             }
             return loanApplicationsResults;
         }
-
 
         private static IQueryable<LoanApplication> Sorting(string sortBy, IQueryable<LoanApplication> loanApplications)
         {

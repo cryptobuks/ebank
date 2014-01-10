@@ -546,7 +546,7 @@ namespace Application
             _unitOfWork.SaveChanges();
         }
 
-        private Dictionary<string, string> ValidateLoanApplication(LoanApplication loanApplication, bool fromFill)
+        public Dictionary<string, string> ValidateLoanApplication(LoanApplication loanApplication, bool fromFill)
         {
             if (loanApplication == null || loanApplication.TariffId.Equals(Guid.Empty))
             {
@@ -561,11 +561,11 @@ namespace Application
             var isAmountValid = amount >= tariff.MinAmount && amount <= tariff.MaxAmount;
             var isTermValid = term >= tariff.MinTerm && term <= tariff.MaxTerm;
             var debtorData = loanApplication.PersonalData;
-            var minValidDateOfBirth = today.Date.AddYears(-18);
-            var maxValidDateOfBirth = today.Date.AddYears(-65);
+            var minValidDateOfBirth = today.Date.AddYears(-(Math.Max(18, tariff.MinAge)));
+            var maxValidDateOfBirth = today.Date.AddYears(-(Math.Min(65, tariff.MaxAge)));
             if (!isEnoughMoney)
             {
-                validationResult.Add("LoanAmount", "Not enough money");
+                validationResult.Add("LoanAmount", "Not enough money - try later");
             }
             if (!isAmountValid)
             {
@@ -585,13 +585,18 @@ namespace Application
                 {
                     if (debtorData.DateOfBirth.HasValue)
                     {
-                        if (debtorData.DateOfBirth.Value > minValidDateOfBirth)
+                        var dateOfBirth = debtorData.DateOfBirth.Value;
+                        if (dateOfBirth > minValidDateOfBirth)
                         {
                             validationResult.Add("PersonalData", "Debtor must be at least 18 years old");
                         }
-                        if (debtorData.DateOfBirth.Value < maxValidDateOfBirth)
+                        if (dateOfBirth < maxValidDateOfBirth)
                         {
                             validationResult.Add("PersonalData", "Debtor must be at most 65 years old");
+                        }
+                        if (dateOfBirth > today.AddYears(-loanApplication.LengthOfWork))
+                        {
+                            validationResult.Add("LengthOfWork", "This value seems to be incorrect");
                         }
                     }
                     else
@@ -611,11 +616,12 @@ namespace Application
                 {
                     if (guarantorData.DateOfBirth.HasValue)
                     {
-                        if (guarantorData.DateOfBirth.Value > minValidDateOfBirth)
+                        var dateOfBirth = guarantorData.DateOfBirth.Value;
+                        if (dateOfBirth > minValidDateOfBirth)
                         {
                             validationResult.Add("Guarantor", "Guarantor must be at least 18 years old");
                         }
-                        if (guarantorData.DateOfBirth.Value < maxValidDateOfBirth)
+                        if (dateOfBirth < maxValidDateOfBirth)
                         {
                             validationResult.Add("Guarantor", "Guarantor must be at most 65 years old");
                         }
