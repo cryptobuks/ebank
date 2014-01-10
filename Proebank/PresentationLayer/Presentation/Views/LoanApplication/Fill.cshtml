@@ -204,7 +204,7 @@
             $('#LoanAmount').val(rand(1, 100) * 1000000);
             $('#Term').val(rand(2, 12) * 3);
             $('#CellPhone').val(rand(1111111, 9999999));
-            $('#TariffId').val(randSelect($('#TariffId')));
+            $('#TariffId').val(randSelect($('#TariffId'))).trigger('change');
             $('#PersonalData_LastName').val(chance.last());
             $('#PersonalData_FirstName').val(chance.first());
             $('#PersonalData_MiddleName').val(chance.name({ middle: true }).split(" ")[1]);
