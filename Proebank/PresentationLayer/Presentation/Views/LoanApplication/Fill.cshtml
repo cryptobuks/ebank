@@ -219,14 +219,23 @@
             $('#LengthOfWork').val(rand(1, 10));
             $('#IsHomeowner').get(0).checked = rand(0, 1) === 0;
 
-            $('#Guarantor_LastName').val(chance.last());
-            $('#Guarantor_FirstName').val(chance.first());
-            $('#Guarantor_MiddleName').val(chance.name({ middle: true }).split(" ")[1]);
-            $('#Guarantor_DateOfBirth').val(chance.birthday().toISOString().substr(0, 10));
-            $('#Guarantor_Passport').val(randStr(2) + randNum(7));
-            $('#Guarantor_Identification').val("" + randNum(7) + randStr(1) + randNum(3) + randStr(2) + randNum());
-            $('#Guarantor_Address').val(chance.address());
-
+            if ($('#Guarantor_LastName').is(":visible")) {
+                $('#Guarantor_LastName').val(chance.last());
+                $('#Guarantor_FirstName').val(chance.first());
+                $('#Guarantor_MiddleName').val(chance.name({ middle: true }).split(" ")[1]);
+                $('#Guarantor_DateOfBirth').val(chance.birthday().toISOString().substr(0, 10));
+                $('#Guarantor_Passport').val(randStr(2) + randNum(7));
+                $('#Guarantor_Identification').val("" + randNum(7) + randStr(1) + randNum(3) + randStr(2) + randNum());
+                $('#Guarantor_Address').val(chance.address());
+            } else {
+                $('#Guarantor_LastName').val('');
+                $('#Guarantor_FirstName').val('');
+                $('#Guarantor_MiddleName').val('');
+                $('#Guarantor_DateOfBirth').val('');
+                $('#Guarantor_Passport').val('');
+                $('#Guarantor_Identification').val('');
+                $('#Guarantor_Address').val('');
+            }
 
         }
 

@@ -7,55 +7,68 @@
 }
 <h2>Signing</h2>
 
+<div class="container">
+    <div class="row">
+        <h4>Preview of loan contract</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.LoanAmount)
+            </dt>
 
-<div>
-    <h4>Preview of loan contract</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.LoanAmount)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LoanAmount)
+                @Html.DisplayFor(model => model.Currency)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.LoanAmount)
-            @Html.DisplayFor(model => model.Currency)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Term)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Term)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Term)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Term)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CellPhone)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CellPhone)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CellPhone)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CellPhone)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Tariff.Name)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Tariff.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Tariff.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Tariff.Name)
-        </dd>
-
-    </dl>
-</div>
-<a href="@Url.Action("PrintContract", Model)" target="blank">Print contract</a>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.Id)
-    if (Model.Status == LoanApplicationStatus.Approved || Model.Status == LoanApplicationStatus.ContractPrinted)
-    {
-    <div class="form-actions no-color">
-        <input type="submit" value="Sign" class="btn btn-success" />
+        </dl>
     </div>
-    }
+    <div class="row">
+        <div class="col-md-12">
+            <a href="@Url.Action("PrintContract", Model)" id="printContractButton" class="btn btn-default" target="blank"><i class="fa fa-print"></i> Print contract</a>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                if (Model.Status == LoanApplicationStatus.Approved || Model.Status == LoanApplicationStatus.ContractPrinted)
+                {
+                    <div class="form-actions no-color">
+                        <input type="submit" id="submittButton" value="Sign" class="btn btn-success disabled" />
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $('#printContractButton').click(function (e) {
+            $('#submittButton').removeClass('disabled');
+        });
+    </script>
 }

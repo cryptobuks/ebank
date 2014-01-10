@@ -8,7 +8,7 @@
 
 <h2>Loan details</h2>
 
-<div>
+<div class="row">
     <hr />
     @if (Model != null)
     {
@@ -41,7 +41,7 @@
             </table>
             <br/>
         </div>
-        <div>
+        <div class="col-md-12">
             <h4>Accrual/payment history</h4>
             <table class="table">
                 <tr>
@@ -63,6 +63,11 @@
                     </tr>
                 }
             </table>
+
+            <div class="col-md-12">
+                <h4>Documents</h4>
+                <a href="@Url.Action("PrintContract", Model)" class="btn btn-default" target="blank"><i class="fa fa-print"></i> Print contract</a>
+            </div>
         </div>
     }
 </div>
