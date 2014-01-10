@@ -31,11 +31,11 @@ namespace Domain.Models.Loans
         public bool IsActive { get; set; }
 
         [DisplayName("Min Term")]
-        [Range(1, 240, ErrorMessage = "Term value should be between 1 month and 20 years")]
+        [Range(1, 60, ErrorMessage = "Term value should be between 1 month and 5 years")]
         public int MinTerm { get; set; }
 
         [DisplayName("Max Term")]
-        [Range(1, 240, ErrorMessage = "Term value should be between 1 month and 20 years")]
+        [Range(1, 60, ErrorMessage = "Term value should be between 1 month and 5 years")]
         public int MaxTerm { get; set; }
 
         [DisplayName("Payment frequency, in months")]

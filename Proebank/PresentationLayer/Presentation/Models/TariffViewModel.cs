@@ -12,7 +12,7 @@ namespace Presentation.Models
         public string Name { get; set; }
 
         [DisplayName("Interest Rate")]
-        [Range(0.1, 100000, ErrorMessage = "Interest value should be between 0.1% and 100000%")]
+        [Range(0.1, 50000, ErrorMessage = "Interest value should be between 0.1% and 500%")]
         public decimal InterestRate { get; set; }
 
         [DisplayName("Min Amount")]
@@ -32,11 +32,11 @@ namespace Presentation.Models
         public bool IsActive { get; set; }
 
         [DisplayName("Minimal term")]
-        [Range(1, 240, ErrorMessage = "Term value should be between 1 month and 20 years")]
+        [Range(1, 60, ErrorMessage = "Term value should be between 1 month and 5 years")]
         public int MinTerm { get; set; }
 
         [DisplayName("Maximal term")]
-        [Range(1, 240, ErrorMessage = "Term value should be between 1 month and 20 years")]
+        [Range(1, 60, ErrorMessage = "Term value should be between 1 month and 5 years")]
         public int MaxTerm { get; set; }
 
         [DisplayName("Payment frequency, in months")]

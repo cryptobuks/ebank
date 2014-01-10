@@ -448,7 +448,9 @@ namespace Application
         public IQueryable<LoanApplication> GetLoanApplications(bool showRemoved = false)
         {
             var loanApplicationRepo = _unitOfWork.GetDbSet<LoanApplication>();
-            return loanApplicationRepo.Where(la => showRemoved || !la.IsRemoved);
+            return loanApplicationRepo
+                .Where(la => showRemoved || !la.IsRemoved)
+                .OrderBy(la => la.TimeCreated);
         }
 
         public void UpsertLoanApplication(LoanApplication loanApplication)
