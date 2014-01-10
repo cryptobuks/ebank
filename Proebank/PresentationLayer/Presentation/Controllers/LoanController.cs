@@ -132,12 +132,13 @@ namespace Presentation.Controllers
             var laId = loanApplication.Id;
             loanApplication = Service.Find<LoanApplication>(laId);
 
+            loanApplication.Status = LoanApplicationStatus.ContractPrinted;
             var pdfResult = new PdfResult(loanApplication, "PdfContract");
             pdfResult.ViewBag.Title = "PROebank loan contract";
             return pdfResult;
         }
 
-        [Authorize(Roles = "Department head, Consultant. Security")]
+        [Authorize(Roles = "Department head, Consultant, Security")]
         public ActionResult Details(Guid? id)
         {
             if (id == null)
