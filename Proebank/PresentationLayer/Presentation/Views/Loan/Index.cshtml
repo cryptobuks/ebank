@@ -91,7 +91,7 @@
                 {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Customer.PersonalData.LastName)
+                       <a href="@Url.Action("PersonalInfo", "Customer", new { id = item.Customer.Id })"> @Html.DisplayFor(modelItem => item.Customer.PersonalData.LastName)</a>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Customer.PersonalData.Identification)
