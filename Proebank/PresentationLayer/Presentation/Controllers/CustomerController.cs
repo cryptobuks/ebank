@@ -24,7 +24,7 @@ namespace Presentation.Controllers
         protected ProcessingService Service { get; set; }
 
         // GET: /Customer/
-        [Authorize(Roles = "Customer, Department head")]
+        [Authorize(Roles = "Consultant, Customer, Department head")]
         public ActionResult Index(string customerId, string firstName, string lastName, int? page)
         {
             var userId = string.Empty;
@@ -49,7 +49,7 @@ namespace Presentation.Controllers
         }
 
         // GET: /Customer/Details/5
-        [Authorize(Roles = "Customer, Department head")]
+        [Authorize(Roles = "Consultant, Customer, Department head")]
         public ActionResult Details(Guid? id)
         {
             if (id == null)
@@ -87,8 +87,24 @@ namespace Presentation.Controllers
             return null;
         }
 
-        // GET: /Customer/Details/5
-        [Authorize(Roles = "Customer,Department head")]
+
+        [Authorize(Roles = "Consultant, Customer, Department head")]
+        public ActionResult PersonalInfo(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var strId = id.ToString();
+            var customer = Context.Set<Customer>().SingleOrDefault(c => c.Id == strId);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+
+        [Authorize(Roles = "Consultant, Customer, Department head")]
         public ActionResult Schedule(Guid? id)
         {
             if (id == null)
@@ -146,7 +162,7 @@ namespace Presentation.Controllers
             return null;
         }
 
-        [Authorize(Roles = "Department head")]
+        [Authorize(Roles = "Consultant, Department head")]
         public ActionResult All(int? page)
         {
             var customers = Context.Set<Customer>().ToList();

@@ -49,7 +49,8 @@
             </td>
 
             <td>
-                <a href="@Url.Action("Index", new { customerId = item.Id,firstName = item.PersonalData.FirstName, lastName = item.PersonalData.LastName })" title="Details" class="btn btn-info btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
+                <a href="@Url.Action("Index", new { customerId = item.Id,firstName = item.PersonalData.FirstName, lastName = item.PersonalData.LastName })" title="Details" class="btn btn-info btn-xs"><i class="fa fa-list fa-lg"></i></a>
+                <a href="@Url.Action("PersonalInfo", new { id = item.Id})" title="Personal Info" class="btn btn-info btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
             </td>
         </tr>
     }
