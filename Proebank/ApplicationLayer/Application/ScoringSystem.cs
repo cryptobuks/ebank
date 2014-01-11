@@ -114,7 +114,7 @@ namespace Application
             const double w0 = -5;
             try
             {
-                return (w0
+                var result = (w0
                        + ConvertParamCashIncomeLevelToDouble(loanApplication.MiddleIncome)
                        + ConvertParamChildrenCountToDouble(loanApplication.ChildrenCount)
                        + ConvertParamHigherEducationToDouble(loanApplication.HigherEducation)
@@ -125,6 +125,7 @@ namespace Application
                        (loanApplication.PersonalData.DateOfBirth != null
                             ? ConvertParamAgeToDouble((DateTime)loanApplication.PersonalData.DateOfBirth)
                             : 0))/100;
+                return Math.Min(1.0, result);
             }
             catch
             {
@@ -145,7 +146,8 @@ namespace Application
             {
                 throw new Exception("Not creditworthy");
             }
-            return (double) (middleIncome*(decimal) W_MIDDLE_INCOME_MAX_VALUE/10000000);
+            var coeff = (double)(middleIncome * (decimal)W_MIDDLE_INCOME_MAX_VALUE / 10000000);
+            return Math.Min(W_MIDDLE_INCOME_MAX_VALUE, coeff);
         }
 
         private static double ConvertParamChildrenCountToDouble(int childrenCount)

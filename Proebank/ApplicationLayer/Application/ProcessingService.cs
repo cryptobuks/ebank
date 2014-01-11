@@ -838,28 +838,45 @@ namespace Application
             if (!history.Any())
             {
                 var gen = new Random();
+                GenerateLoanHistory(application.PersonalData, gen, history, nationalBank);
+                _unitOfWork.SaveChanges();
+            }
+            if (application.Guarantor != null)
+            {
+                var guarantorId = application.Guarantor.Identification;
+                var guarantorHistory = nationalBank.Where(l => l.Person.Identification == guarantorId).ToList();
+                if (!guarantorHistory.Any())
+                {
+                    var gen = new Random();
+                    GenerateLoanHistory(application.Guarantor, gen, guarantorHistory, nationalBank);
+                    _unitOfWork.SaveChanges();
+                }
+                history = history.Concat(guarantorHistory).ToList();
+            }
+            return history.Distinct().OrderBy(l => l.WhenOpened);
+        }
 
-                foreach (var histItem in 
-                    from i in Enumerable.Range(1, gen.Next(2, 6))
-                    select new DateTime(2013 - gen.Next(0, 5), gen.Next(1, 12), gen.Next(1, 25)) into started 
-                    let closed = started.AddMonths(gen.Next(3, 60))
-                    let isClosed = closed <= GetCurrentDate()
-                    select new LoanHistory
+        private void GenerateLoanHistory(PersonalData personData, Random gen, List<LoanHistory> history, IDbSet<LoanHistory> nationalBank)
+        {
+            foreach (var histItem in 
+                from i in Enumerable.Range(1, gen.Next(2, 6))
+                select new DateTime(2013 - gen.Next(0, 5), gen.Next(1, 12), gen.Next(1, 25))
+                into started
+                let closed = started.AddMonths(gen.Next(3, 60))
+                let isClosed = closed <= GetCurrentDate()
+                select new LoanHistory
                 {
                     Amount = gen.Next(1, 500)*10000,
                     Currency = Currency.BYR,
                     HadProblems = gen.NextDouble() > 0.85,
-                    Person = application.PersonalData,
+                    Person = personData,
                     WhenOpened = started,
                     WhenClosed = isClosed ? closed : (DateTime?) null,
                 })
-                {
-                    history.Add(histItem);
-                    nationalBank.AddOrUpdate(histItem);
-                }
-                _unitOfWork.SaveChanges();
+            {
+                history.Add(histItem);
+                nationalBank.AddOrUpdate(histItem);
             }
-            return history.OrderBy(l => l.WhenOpened);
         }
 
         public void AddCommitteeVoting(string EmployeeId, Guid LoanApplicationId, LoanApplicationCommitteeMemberStatus Status = LoanApplicationCommitteeMemberStatus.NotConsidered)
