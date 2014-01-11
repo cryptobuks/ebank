@@ -9,14 +9,29 @@
 
 <h2>All Customers</h2>
 
+@{ var action = (string)ViewBag.ActiveTab;}
+@using (Html.BeginForm(action, "Customer", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <div style="float: right;">
+        <div class="form-group">
+            @Html.DropDownList("searchBy", (IEnumerable<SelectListItem>)ViewBag.SearchByList, "Searching By...", new { @style = "background: #15B5C1;" })
+        </div>
+        <div class="form-group">
+            @Html.TextBox("search")
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+}
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.First().PersonalData.FirstName)
+            @Html.ActionLink("First name", action, new { page = Request.QueryString["page"], searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = ViewBag.NextSortFirstNameParameter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.First().PersonalData.LastName)
+            @Html.ActionLink("Last name", action, new { page = Request.QueryString["page"], searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = ViewBag.NextSortLastNameParameter })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.First().PersonalData.MiddleName)
@@ -28,34 +43,44 @@
             @Html.DisplayNameFor(model => model.First().PersonalData.Identification)
         </th>
     </tr>
-
-    @foreach (var item in Model)
+    
+    @if (!Model.Any() && Request.QueryString.HasKeys())
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalData.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalData.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalData.MiddleName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalData.Passport)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalData.Identification)
-            </td>
-
-            <td>
-                <a href="@Url.Action("Index", new { customerId = item.Id,firstName = item.PersonalData.FirstName, lastName = item.PersonalData.LastName })" title="Details" class="btn btn-info btn-xs"><i class="fa fa-list fa-lg"></i></a>
-                <a href="@Url.Action("PersonalInfo", new { id = item.Id})" title="Personal Info" class="btn btn-info btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
-            </td>
+            <td>No rows match</td>
         </tr>
     }
+    else
+    {
+
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonalData.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonalData.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonalData.MiddleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonalData.Passport)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonalData.Identification)
+                </td>
+
+                <td>
+                    <a href="@Url.Action("Index", new {customerId = item.Id, firstName = item.PersonalData.FirstName, lastName = item.PersonalData.LastName})" title="Details" class="btn btn-info btn-xs"><i class="fa fa-list fa-lg"></i></a>
+                    <a href="@Url.Action("PersonalInfo", new {id = item.Id})" title="Personal Info" class="btn btn-info btn-xs"><i class="fa fa-info-circle fa-lg"></i></a>
+                </td>
+            </tr>
+        }
+    }
 </table>
-@Html.PagedListPager(Model, page => Url.Action(ViewBag.ActiveTab, new { page }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+@Html.PagedListPager(Model, page => Url.Action(ViewBag.ActiveTab, new { page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
 
 
 
