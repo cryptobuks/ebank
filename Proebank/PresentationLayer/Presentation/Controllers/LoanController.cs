@@ -122,18 +122,19 @@ namespace Presentation.Controllers
             switch (loanApplication.Status)
             {
                 case LoanApplicationStatus.Approved:
+                case LoanApplicationStatus.ContractPrinted:
                     var loan = Service.CreateLoanContract(customer, loanApplication, User.Identity.GetUserId());
                     if (loan == null)
                     {
                         return HttpNotFound("Failed to create loan");
                     }
+                    Service.SignLoanContract(loanApplication.Id);
                     var pdfViewModel = new LoanPdfViewModel { UserName = customer.UserName, Password = password, Loan = loan };
                     var pdfResult = new PdfResult(pdfViewModel, "Pdf");
                     pdfResult.ViewBag.Title = "PROebank credentials";
                     return pdfResult;
-                case LoanApplicationStatus.ContractPrinted:
-                    Service.SignLoanContract(loanApplication.Id);
-                    return RedirectToAction("Index");   // TODO: maybe another page
+                //case LoanApplicationStatus.ContractPrinted:
+                //    return RedirectToAction("Index");   // TODO: maybe another page
                 default:
                     return RedirectToAction("Index");
             }

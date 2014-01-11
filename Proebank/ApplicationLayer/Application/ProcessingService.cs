@@ -395,6 +395,7 @@ namespace Application
                 UpsertLoan(loan);
                 var loanHistorySet = _unitOfWork.GetDbSet<LoanHistory>();
                 loanHistorySet.Add(new LoanHistory(loan));
+                _unitOfWork.SaveChanges();
             }
         }
 
@@ -415,8 +416,11 @@ namespace Application
                 var entryRepo = _unitOfWork.GetDbSet<Entry>();
                 loan.IsClosed = true;
                 // ?? is for contracts signed before saving loan id in history entry
-                var loanHistory = loanHistorySet.SingleOrDefault(lh => lh.LoanId == loan.Id) ?? loanHistorySet.First(
-                    lh => lh.Amount == loan.Application.LoanAmount && lh.Currency == loan.Application.Currency);
+                var loanHistory = loanHistorySet.SingleOrDefault(lh => lh.LoanId == loan.Id) ??
+                                  loanHistorySet.FirstOrDefault(
+                                      lh =>
+                                          lh.Amount == loan.Application.LoanAmount &&
+                                          lh.Currency == loan.Application.Currency);
                 if (loanHistory != null)
                 {
                     loanHistory.HadProblems =

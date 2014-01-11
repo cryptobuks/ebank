@@ -49,18 +49,22 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <a href="@Url.Action("PrintContract", Model.Id)" id="printContractButton" class="btn btn-default" target="blank"><i class="fa fa-print"></i> Print contract</a>
-            @using (Html.BeginForm())
+            <a href="@Url.Action("PrintContract", new {id = Model.Id})" id="printContractButton" class="btn btn-default" target="blank"><i class="fa fa-print"></i> Print contract</a>
+            @if (!Model.TimeContracted.HasValue)
             {
-                @Html.AntiForgeryToken()
-                @Html.HiddenFor(model => model.Id)
-                if (Model.Status == LoanApplicationStatus.Approved || Model.Status == LoanApplicationStatus.ContractPrinted)
-                {
-                    <div class="form-actions no-color">
-                        <input type="submit" id="submittButton" value="Sign" class="btn btn-success disabled" />
-                    </div>
-                }
+                using (Html.BeginForm())
+                 {
+                     @Html.AntiForgeryToken()
+                     @Html.HiddenFor(model => model.Id)
+                     if (Model.Status == LoanApplicationStatus.Approved || Model.Status == LoanApplicationStatus.ContractPrinted)
+                     {
+                         <div class="form-actions no-color">
+                             <input type="submit" id="submittButton" value="Sign" class="btn disabled" />
+                         </div>
+                     }
+                 }
             }
+            <a href="@Url.Action("Index")" id="backButton" class="btn btn-default disabled"><i class="fa fa-backward"></i> Return</a>
         </div>
     </div>
 </div>
@@ -68,7 +72,14 @@
 @section scripts{
     <script type="text/javascript">
         $('#printContractButton').click(function (e) {
+            $('#printContractButton').addClass('disabled');
             $('#submittButton').removeClass('disabled');
+            $('#submittButton').addClass('btn-success');
+        });
+        $('#submittButton').click(function (e) {
+            $('#submittButton').addClass('disabled');
+            $('#backButton').removeClass('disabled');
+            $('#backButton').addClass('btn-success');
         });
     </script>
 }

@@ -206,8 +206,8 @@
                             if (ViewBag.ActiveTab == "All")
                             {
                                 List<CommitteeVoting> list = ViewBag.AllCommitteeVotings;
-                                <a href="#" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i>@list.Where(x => x.LoanApplicationId == item.Id && x.Status == LoanApplicationCommitteeMemberStatus.Approved).Count().ToString()</a>
-                                <a href="#" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i>@list.Where(x => x.LoanApplicationId == item.Id && x.Status == LoanApplicationCommitteeMemberStatus.Rejected).Count().ToString()</a>
+                                <a href="#" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i>@list.Count(x => x.LoanApplicationId == item.Id && x.Status == LoanApplicationCommitteeMemberStatus.Approved).ToString()</a>
+                                <a href="#" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i>@list.Count(x => x.LoanApplicationId == item.Id && x.Status == LoanApplicationCommitteeMemberStatus.Rejected).ToString()</a>
                                 <a href="@Url.Action("History", new {id = item.Id})" title="History" class="btn btn-info btn-xs"><i class="fa fa-eye fa-lg"></i>History</a>
                                 <a href="@Url.Action("Approve", new {id = item.Id})" title="Approve" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up fa-lg"></i>Approve</a>
                                 <a href="@Url.Action("Reject", new {id = item.Id})" title="Reject" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-down fa-lg"></i>Reject</a>
