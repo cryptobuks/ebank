@@ -49,7 +49,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <a href="@Url.Action("PrintContract", Model)" id="printContractButton" class="btn btn-default" target="blank"><i class="fa fa-print"></i> Print contract</a>
+            <a href="@Url.Action("PrintContract", Model.Id)" id="printContractButton" class="btn btn-default" target="blank"><i class="fa fa-print"></i> Print contract</a>
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()

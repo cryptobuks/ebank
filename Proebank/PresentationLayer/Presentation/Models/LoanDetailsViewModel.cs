@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.ServiceModel.Channels;
 using Domain.Enums;
@@ -12,6 +13,7 @@ namespace Presentation.Models
     public class LoanDetailsViewModel
     {
         public Guid Id { get; set; }
+        public Guid ApplicationId { get; set; }
         public string TariffName { get; set; }
         public decimal Amount { get; set; }
         public Currency Currency { get; set; }
@@ -26,6 +28,7 @@ namespace Presentation.Models
         {
             Id = loan.Id;
             var application = loan.Application;
+            ApplicationId = application.Id;
             TariffName = application.Tariff.Name;
             Amount = application.LoanAmount;
             Currency = application.Currency;

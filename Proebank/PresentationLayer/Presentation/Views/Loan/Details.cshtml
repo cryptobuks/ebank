@@ -66,11 +66,11 @@
 
             <div class="col-md-12">
                 <h4>Documents</h4>
-                <a href="@Url.Action("PrintContract", Model)" class="btn btn-default" target="blank"><i class="fa fa-print"></i> Print contract</a>
+                <a href="@Url.Action("PrintContract", new {id = Model.ApplicationId})" class="btn btn-default" target="blank"><i class="fa fa-print"></i> Print contract</a>
             </div>
         </div>
     }
+    <div class="col-md-12">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>

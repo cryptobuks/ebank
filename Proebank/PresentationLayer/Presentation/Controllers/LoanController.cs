@@ -140,16 +140,18 @@ namespace Presentation.Controllers
         }
 
         [Authorize(Roles = "Department head, Consultant")]
-        public ActionResult PrintContract(LoanApplication loanApplication)
+        public ActionResult PrintContract(Guid? id)
         {
-            if (loanApplication == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var laId = loanApplication.Id;
-            loanApplication = Service.Find<LoanApplication>(laId);
 
-            loanApplication.Status = LoanApplicationStatus.ContractPrinted;
+            var loanApplication = Service.Find<LoanApplication>(id);
+            if (loanApplication.Status != LoanApplicationStatus.Contracted)
+            {
+                loanApplication.Status = LoanApplicationStatus.ContractPrinted;
+            }
             var pdfResult = new PdfResult(loanApplication, "PdfContract");
             pdfResult.ViewBag.Title = "PROebank loan contract";
             return pdfResult;
