@@ -15,6 +15,14 @@ namespace Presentation.Controllers
         [AllowAnonymous]
         public ActionResult NotFound()
         {
+            Response.StatusCode = 404;
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult BadRequest()
+        {
+            Response.StatusCode = 400;
             return View();
         }
 
