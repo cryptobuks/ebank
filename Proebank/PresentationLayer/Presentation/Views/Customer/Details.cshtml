@@ -18,10 +18,11 @@
             <h3>Term: @Model.Term month(s)</h3>
             <h3>Amount: @Model.Amount @Model.Currency</h3>
             <h3>Customer: @personalData.LastName @personalData.FirstName @personalData.MiddleName</h3>
+            <h4>Loan number: @Model.Id</h4>
             @if (Model.IsClosed)
             {
                 <h4>Loan is closed</h4>
-                }
+            }
             else
             {
                 var sumToClose = Model.Accounts.Where(a => a.Type != AccountType.ContractService).Sum(a => a.Balance);
