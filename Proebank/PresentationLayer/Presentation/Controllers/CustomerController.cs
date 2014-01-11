@@ -5,6 +5,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Application;
+using Application.LoanProcessing;
+using Domain.Models.Accounts;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Microsoft.AspNet.Identity;
@@ -93,6 +95,7 @@ namespace Presentation.Controllers
                 {
                     Customer = UnitOfWork.Context.Set<Customer>().Find(loan.CustomerId)
                 };
+                ViewBag.AdditionalSum = InterestCalculator.CalculateInterestForCustomerInformation(loan, Service.GetCurrentDate());
                 return View(viewModel);
             }
 
