@@ -18,20 +18,31 @@
             <h3>Term: @Model.Term month(s)</h3>
             <h3>Amount: @Model.Amount @Model.Currency</h3>
             <h3>Customer: @personalData.LastName @personalData.FirstName @personalData.MiddleName</h3>
+            <h4>Loan number: @Model.Id</h4>
             @if (Model.IsClosed)
             {
                 <h4>Loan is closed</h4>
-                }
+            }
             else
             {
-                var sumToClose = Model.Accounts.Where(a => a.Type != AccountType.ContractService).Sum(a => a.Balance);
+                decimal interest = ViewBag.AdditionalSum ?? 0M;
+                var sumToClose = Model.Accounts.Where(a => a.Type != AccountType.ContractService).Sum(a => a.Balance) + Math.Max(interest, 0M);
                 if (sumToClose == 0M)
                 {
                     <h4>You can close loan now</h4>
                 }
                 else
                 {
+                    if (interest < 0M)
+                    {
                     <h4>For closing loan tomorrow you need to pay @Model.Currency @sumToClose (plus interest for this month as in your payments) today</h4>
+                    }
+                    else
+                    {
+                        <h4>For closing loan tomorrow you need to pay @Model.Currency @sumToClose today</h4>
+                    }
+                    
+                 
                 }
             }
         </div>

@@ -5,6 +5,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Application;
+using Application.LoanProcessing;
+using Domain.Models.Accounts;
 using Domain.Models.Customers;
 using Domain.Models.Loans;
 using Microsoft.AspNet.Identity;
@@ -19,7 +21,19 @@ namespace Presentation.Controllers
     {
         //Amount of elements to display on one page of PagedList
         private const int PAGE_SIZE = 5;
-
+        //SearchBy
+        private const string SEARCHBY_TARIFF = "Tariff Name";
+        private const string SEARCHBY_CELLPHONE = "Cell Phone";
+        private const string SEARCHBY_IDENTIFICATIONNUMBER = "Identification Number";
+        private const string SEARCHBY_PASSPORT_NUMBER = "Passport number";
+        private const string SEARCHBY_FIRST_NAME = "First Name";
+        private const string SEARCHBY_LAST_NAME = "Last Name";
+        private const string SEARCHBY_STATUS = "Status";
+        //SortBy
+        private const string SORTBY_LASTNAME_ASC = "LastName ASC";
+        private const string SORTBY_LASTNAME_DESC = "LastName DESC";
+        private const string SORTBY_FIRSTNAME_ASC = "FirstName ASC";
+        private const string SORTBY_FIRSTNAME_DESC = "FirstName DESC";
         [Dependency]
         protected ProcessingService Service { get; set; }
 
@@ -81,6 +95,7 @@ namespace Presentation.Controllers
                 {
                     Customer = UnitOfWork.Context.Set<Customer>().Find(loan.CustomerId)
                 };
+                ViewBag.AdditionalSum = InterestCalculator.CalculateInterestForCustomerInformation(loan, Service.GetCurrentDate());
                 return View(viewModel);
             }
 
@@ -163,11 +178,87 @@ namespace Presentation.Controllers
         }
 
         [Authorize(Roles = "Consultant, Department head")]
-        public ActionResult All(int? page)
+        public ActionResult All(int? page, string searchBy, string search, string sortBy)
         {
-            var customers = Context.Set<Customer>().ToList();
+            var customers = Context.Set<Customer>().AsQueryable();
+
+            customers = Searching(searchBy, search, customers);
+            customers = Sorting(sortBy, customers);
+
+
+            ViewBag.NextSortLastNameParameter = (string.IsNullOrEmpty(sortBy) || sortBy.Equals(SORTBY_LASTNAME_ASC)) ? SORTBY_LASTNAME_DESC : SORTBY_LASTNAME_ASC;
+            ViewBag.NextSortFirstNameParameter = (sortBy != null && sortBy.Equals(SORTBY_FIRSTNAME_ASC)) ? SORTBY_FIRSTNAME_DESC : SORTBY_FIRSTNAME_ASC;
+
+            var items = new List<SelectListItem>
+                {
+                    new SelectListItem() {Text = SEARCHBY_LAST_NAME, Value = SEARCHBY_LAST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_FIRST_NAME, Value = SEARCHBY_FIRST_NAME},
+                    new SelectListItem() {Text = SEARCHBY_CELLPHONE, Value = SEARCHBY_CELLPHONE},
+                    new SelectListItem() {Text = SEARCHBY_PASSPORT_NUMBER, Value = SEARCHBY_PASSPORT_NUMBER},
+                    new SelectListItem() {Text = SEARCHBY_IDENTIFICATIONNUMBER, Value = SEARCHBY_IDENTIFICATIONNUMBER}
+                };
+            ViewBag.SearchByList = items;
+
             ViewBag.ActiveTab = "All";
             return View(customers.ToPagedList(page ?? 1, PAGE_SIZE));
+        }
+
+
+
+
+        private static IQueryable<Customer> Searching(string searchBy, string search, IQueryable<Customer> customers)
+        {
+            var customersResults = customers;
+
+            switch (searchBy)
+            {
+                case SEARCHBY_CELLPHONE:
+                    customersResults = customersResults.Where(c => c.Phone.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_IDENTIFICATIONNUMBER:
+                    customersResults =
+                        customersResults.Where(c => c.PersonalData.Identification.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_FIRST_NAME:
+                    customersResults = customersResults.Where(c => c.PersonalData.FirstName.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_LAST_NAME:
+                    customersResults = customersResults.Where(c => c.PersonalData.LastName.Contains(search) || search == null);
+                    break;
+                case SEARCHBY_PASSPORT_NUMBER:
+                    customersResults = customersResults.Where(c => c.PersonalData.Passport.Contains(search) || search == null);
+                    break;
+            }
+            return customersResults;
+        }
+
+        private static IQueryable<Customer> Sorting(string sortBy, IQueryable<Customer> customers)
+        {
+            var customersResults = customers;
+
+            switch (sortBy)
+            {
+                case SORTBY_LASTNAME_ASC:
+                    customersResults =
+                        customersResults.OrderBy(c => c.PersonalData.LastName);
+                    break;
+                case SORTBY_LASTNAME_DESC:
+                    customersResults =
+                        customersResults.OrderByDescending(c => c.PersonalData.LastName);
+                    break;
+                case SORTBY_FIRSTNAME_ASC:
+                    customersResults =
+                        customersResults.OrderBy(c => c.PersonalData.FirstName);
+                    break;
+                case SORTBY_FIRSTNAME_DESC:
+                    customersResults =
+                        customersResults.OrderByDescending(c => c.PersonalData.FirstName);
+                    break;
+                default: //if sortBy == empty = OrderByDefault => orderBy Tarif ASC
+                    customersResults = customersResults.OrderBy(c => c.PersonalData.LastName);
+                    break;
+            }
+            return customersResults;
         }
     }
 }

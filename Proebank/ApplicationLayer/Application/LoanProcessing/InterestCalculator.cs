@@ -19,6 +19,22 @@ namespace Application.LoanProcessing
             destinyEntry.Date = date;
         }
 
+        public static decimal CalculateInterestForCustomerInformation(Loan loan, DateTime date)
+        {
+            try
+            {
+                var mainDebtAccount = loan.Accounts.Single(a => a.Type == AccountType.GeneralDebt);
+                var result =
+                    Math.Round(
+                        mainDebtAccount.GetBalanceForDate(date)*loan.Application.Tariff.InterestRate/360 + 0.005M, 2);
+                return result;
+            }
+            catch (Exception)
+            {
+                return -1M;
+            }
+        }
+
         private static void UseBasicLogic(Loan loan, DateTime date, Entry destinyEntry)
         {
             // very basic logic

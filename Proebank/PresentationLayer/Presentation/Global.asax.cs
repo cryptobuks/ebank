@@ -25,31 +25,30 @@ namespace Presentation
             var exception = Server.GetLastError();
             var httpException = exception as HttpException;
 
-            // TODO: uncomment before release
-            //if (httpException != null)
-            //{
-            //    Response.StatusCode = httpException.GetHttpCode();
+            if (httpException != null)
+            {
+                Response.StatusCode = httpException.GetHttpCode();
 
-            //    Response.Clear();
-            //    Server.ClearError();
+                Response.Clear();
+                Server.ClearError();
 
-            //    if (httpException != null)
-            //    {
-            //        var httpContext = HttpContext.Current;
-            //        httpContext.RewritePath("/Error/ServerError", false);
+                if (httpException != null)
+                {
+                    var httpContext = HttpContext.Current;
+                    httpContext.RewritePath("/Error/ServerError", false);
 
-            //        // MVC3+ and IIS7+
-            //        switch (Response.StatusCode)
-            //        {
-            //            case 404:
-            //                httpContext.Server.TransferRequest("/Error/NotFound", true);
-            //                break;
-            //            default:
-            //                httpContext.Server.TransferRequest("/Error/ServerError", true);
-            //                break;
-            //        }
-            //    }
-            //}
+                    // MVC3+ and IIS7+
+                    switch (Response.StatusCode)
+                    {
+                        case 404:
+                            httpContext.Server.TransferRequest("/Error/NotFound", true);
+                            break;
+                        default:
+                            httpContext.Server.TransferRequest("/Error/ServerError", true);
+                            break;
+                    }
+                }
+            }
         }
     }
 }
