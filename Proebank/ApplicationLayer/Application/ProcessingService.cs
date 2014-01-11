@@ -571,8 +571,10 @@ namespace Application
             var isAmountValid = amount >= tariff.MinAmount && amount <= tariff.MaxAmount;
             var isTermValid = term >= tariff.MinTerm && term <= tariff.MaxTerm;
             var debtorData = loanApplication.PersonalData;
-            var minValidDateOfBirth = today.Date.AddYears(-(Math.Max(18, tariff.MinAge)));
-            var maxValidDateOfBirth = today.Date.AddYears(-(Math.Min(65, tariff.MaxAge)));
+            var minAge = Math.Max(18, tariff.MinAge);
+            var maxAge = Math.Min(65, tariff.MaxAge);
+            var minValidDateOfBirth = today.Date.AddYears(-minAge);
+            var maxValidDateOfBirth = today.Date.AddYears(-maxAge);
             if (!isEnoughMoney)
             {
                 validationResult.Add("LoanAmount", "Not enough money - try later");
@@ -598,11 +600,11 @@ namespace Application
                         var dateOfBirth = debtorData.DateOfBirth.Value;
                         if (dateOfBirth > minValidDateOfBirth)
                         {
-                            validationResult.Add("PersonalData", "Debtor must be at least 18 years old");
+                            validationResult.Add("PersonalData", "Debtor must be at least " + minAge + " years old");
                         }
                         if (dateOfBirth < maxValidDateOfBirth)
                         {
-                            validationResult.Add("PersonalData", "Debtor must be at most 65 years old");
+                            validationResult.Add("PersonalData", "Debtor must be at most " + maxAge +" years old");
                         }
                         if (dateOfBirth > today.AddYears(-loanApplication.LengthOfWork))
                         {
